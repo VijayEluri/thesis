@@ -1,14 +1,13 @@
 package layout;
 
-import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.Tree;
 
-import java.util.*;
-import java.util.List;
-import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.*;
 
-public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
+public class PolarDendrogram<V, E> extends CircleLayout<V, E> {
 
     public static final double PIdev180 = 0.017444;
 
@@ -17,13 +16,13 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
 
     private double radius;
 
-    protected int level;
+    protected int levels;
 
     Stack stack;
     Set visited;
     List result;
 
-    public RadialLayoutV2(Graph graph) {
+    public PolarDendrogram(Graph graph) {
         super(graph);
 
         node_angle = new HashMap<V, Double>();
@@ -48,9 +47,9 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
             setRadius(0.45 * (height < width ? height : width));
         }
 
-        V root = getRoot();
+        V root = ((Tree<V, E>) graph).getRoot();
         if (root == null) {
-            throw new IllegalArgumentException("No root node! Cannt draw unrooted draph..");
+            throw new IllegalArgumentException("No root node! Cannt draw unrooted graph..");
         }
 
         computeAngles(root, 0, 360);
@@ -81,12 +80,12 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
                 node_level.put(node, currentLevel);
             }
 
-            if (currentLevel > level) {
-                level = currentLevel;
+            if (currentLevel > levels) {
+                levels = currentLevel;
             }
         }
 
-        System.out.println("Graph level " + level);
+        System.out.println("Graph levels " + levels); // TODO use logger
     }
 
     public List<V> invertDfsNodes(V node) {
@@ -147,7 +146,7 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
 
     private void positRoot(V root) {
         Point2D coord = transform(root);
-        coord.setLocation(getSize().getWidth()  / 2, getSize().getHeight() / 2);
+        coord.setLocation(getSize().getWidth() / 2, getSize().getHeight() / 2);
     }
 
     protected void computeAngles(V node, double from, double to) {
@@ -159,7 +158,7 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
             System.out.print("*");
         }
 
-        System.out.println("'" + node + "' [" + from + " to " + to + "] ~" + (to-from) + " =" + node_angle.get(node));
+        System.out.println("'" + node + "' [" + from + " to " + to + "] ~" + (to-from) + " =" + node_angle.get(node));    // TODO use logger
 */
 
         double childCount = getGraph().getSuccessorCount(node);
@@ -167,17 +166,15 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
         if (childCount > 0) {
             double range = (to - from) / childCount;
 
-            int i=0;
+            int i = 0;
             for (V child : getGraph().getSuccessors(node)) {
 
                 double start = from + (range * i);
-                computeAngles(child, start, start+range);
+                computeAngles(child, start, start + range);
 
                 i++;
             }
         }
-
-
 
 
     }
@@ -196,18 +193,18 @@ public class RadialLayoutV2<V,E> extends CircleLayout<V,E> {
             double y = Math.sin(angle) * nodeRadius(node) + getSize().getHeight() / 2;
 */
 
-       //     System.out.println(angle + " [" + x + "," + y + "]");
+            //     System.out.println(angle + " [" + x + "," + y + "]");    // TODO use logger
 
-            coord.setLocation(x,y);
+            coord.setLocation(x, y);
         }
     }
 
     private double nodeRadius(V node) {
 //        if (getGraph().outDegree(node) == 0) {
-  //          return getRadius();
-    //    } else {
-            return getRadius() / level * node_level.get(node);
-      //  }
+        //          return getRadius();
+        //    } else {
+        return getRadius() / levels * node_level.get(node);
+        //  }
     }
 
     private double toRadians(double angle) {

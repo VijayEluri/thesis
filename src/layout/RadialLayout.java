@@ -1,14 +1,12 @@
 package layout;
 
-import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.graph.Graph;
 
-import java.util.*;
-import java.util.List;
-import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.*;
 
-public class RadialLayout<V,E> extends CircleLayout<V,E> {
+public class RadialLayout<V, E> extends CircleLayout<V, E> {
 
     public static final double PIdev180 = 0.017444;
 
@@ -59,7 +57,7 @@ public class RadialLayout<V,E> extends CircleLayout<V,E> {
 
         computePositions();
 
-        positRoot(root);          
+        positRoot(root);
 
     }
 
@@ -86,7 +84,7 @@ public class RadialLayout<V,E> extends CircleLayout<V,E> {
             }
         }
 
-        System.out.println("Graph level " + level);
+        System.out.println("Graph levels " + level);
     }
 
     public List<V> invertDfsNodes(V node) {
@@ -119,7 +117,7 @@ public class RadialLayout<V,E> extends CircleLayout<V,E> {
 
     private void positRoot(V root) {
         Point2D coord = transform(root);
-        coord.setLocation(getSize().getWidth()  / 2, getSize().getHeight() / 2);
+        coord.setLocation(getSize().getWidth() / 2, getSize().getHeight() / 2);
     }
 
     protected void computeAngles(V node, double from, double to) {
@@ -139,17 +137,15 @@ public class RadialLayout<V,E> extends CircleLayout<V,E> {
         if (childCount > 0) {
             double range = (to - from) / childCount;
 
-            int i=0;
+            int i = 0;
             for (V child : getGraph().getSuccessors(node)) {
 
                 double start = from + (range * i);
-                computeAngles(child, start, start+range);
+                computeAngles(child, start, start + range);
 
                 i++;
             }
         }
-
-
 
 
     }
@@ -168,18 +164,18 @@ public class RadialLayout<V,E> extends CircleLayout<V,E> {
             double y = Math.sin(angle) * nodeRadius(node) + getSize().getHeight() / 2;
 */
 
-       //     System.out.println(angle + " [" + x + "," + y + "]");
+            //     System.out.println(angle + " [" + x + "," + y + "]");
 
-            coord.setLocation(x,y);
+            coord.setLocation(x, y);
         }
     }
 
     private double nodeRadius(V node) {
 //        if (getGraph().outDegree(node) == 0) {
-  //          return getRadius();
-    //    } else {
-            return getRadius() / level * node_level.get(node);
-      //  }
+        //          return getRadius();
+        //    } else {
+        return getRadius() / level * node_level.get(node);
+        //  }
     }
 
     private double toRadians(double angle) {

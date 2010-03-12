@@ -1,7 +1,8 @@
+import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 import io.GraphMLParser;
-import io.JungYedHandler;
-import layout.RadialLayout;
+import io.JungTreeYedHandler;
+import layout.PolarDendrogram;
 import processing.core.PApplet;
 
 import java.awt.geom.Point2D;
@@ -13,25 +14,32 @@ public class ProcessingSketch extends PApplet {
     private static final String REAL_GRAPH = "RealClusterGraph.graphml";
     private static final String CLUSTER_GRAPH = "cluster.graphml";
 
-    private RadialLayout layout;
+    private AbstractLayout layout;
+
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{"--present", "ProcessingSketch"});
+        //PApplet.main(new String[]{"--present", "ProcessingSketch"}); --present - put the applet into full screen presentation mode. requires java 1.4 or later.
+        PApplet.main(new String[]{"ProcessingSketch"});
     }
 
-    public void setup() {
 
+    public void setup() {
         size(800, 800);
         background(0);
         stroke(255);
 
-        layout = new RadialLayout(loadGraph());
+        layout = createLayout();
+
         layout.setSize(getSize());
         layout.initialize();
     }
 
+    protected AbstractLayout createLayout() {
+        return new PolarDendrogram(loadGraph());
+    }
+
     private Graph loadGraph() {
-        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
+        GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
 
         return (Graph) parser.load(new File(CLUSTER_GRAPH)).get(0);
     }
@@ -43,7 +51,6 @@ public class ProcessingSketch extends PApplet {
         drawNodes();
 
         drawEdges();
-
     }
 
     private void drawEdges() {
@@ -66,15 +73,6 @@ public class ProcessingSketch extends PApplet {
 
             Float x = new Float(nodePosition.getX());
             Float y = new Float(nodePosition.getY());
-
-/*
-            pushMatrix();
-            rotate(radians(45.0f));
-            textFont(loadFont("Arial"));
-            text((String) node, x+6, y);
-            popMatrix();
-*/
-
 
             ellipse(x, y, 5, 5);
         }

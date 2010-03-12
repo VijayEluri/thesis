@@ -26,10 +26,6 @@ public abstract class AbstractHandler extends DefaultHandler {
     protected Object graph;
     protected List graphs;
 
-    public abstract void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException;
-
-    public abstract void endElement(String uri, String localName, String qName) throws SAXException;
-
     public void initGraphsList() {
         graphs = new LinkedList();
     }
@@ -37,5 +33,9 @@ public abstract class AbstractHandler extends DefaultHandler {
     public List getGraphs() {
         return graphs;
     }
+
+    public abstract void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException;
+
+    public abstract void endElement(String uri, String localName, String qName) throws SAXException;
 
 }
