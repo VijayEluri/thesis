@@ -2,9 +2,12 @@ package layout;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.Graph;
+import graph.GraphUtils;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RadialLayout<V, E> extends CircleLayout<V, E> {
 
@@ -17,19 +20,12 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
 
     protected int level;
 
-    Stack stack;
-    Set visited;
-    List result;
 
     public RadialLayout(Graph graph) {
         super(graph);
 
         node_angle = new HashMap<V, Double>();
         node_level = new HashMap<V, Integer>();
-
-        stack = new Stack();
-        visited = new HashSet();
-        result = new ArrayList();
     }
 
 
@@ -67,7 +63,7 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
         int currentLevel = 0;
 
         for (V node : getGraph().getVertices()) {
-            List<V> list = invertDfsNodes(node);
+            List<V> list = GraphUtils.getInstance().invertDfsNodes(getGraph(), node);
 
             currentLevel = list.size();
 
@@ -87,33 +83,6 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
         System.out.println("Graph levels " + level);
     }
 
-    public List<V> invertDfsNodes(V node) {
-
-        stack.clear();
-        visited.clear();
-        result.clear();
-
-
-        stack.push(node);
-
-        while (!stack.isEmpty()) {
-            V next = (V) stack.pop();
-
-            if (visited.add(next)) {
-
-                result.add(next);
-
-                for (V neighbor : getGraph().getPredecessors(next)) {
-                    if (!visited.contains(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
-
-            }
-        }
-
-        return result;
-    }
 
     private void positRoot(V root) {
         Point2D coord = transform(root);
@@ -123,14 +92,6 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
     protected void computeAngles(V node, double from, double to) {
 
         node_angle.put(node, from + ((to - from) / 2.0));
-
-/*
-        if (getGraph().outDegree(node) == 0) {
-            System.out.print("*");
-        }
-
-        System.out.println("'" + node + "' [" + from + " to " + to + "] ~" + (to-from) + " =" + node_angle.get(node));
-*/
 
         double childCount = getGraph().getSuccessorCount(node);
 

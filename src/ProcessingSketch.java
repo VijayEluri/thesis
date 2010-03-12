@@ -2,7 +2,7 @@ import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 import io.GraphMLParser;
 import io.JungTreeYedHandler;
-import layout.PolarDendrogram;
+import layout.RadialLayout;
 import processing.core.PApplet;
 
 import java.awt.geom.Point2D;
@@ -13,6 +13,8 @@ public class ProcessingSketch extends PApplet {
     private static final String TEST_GRAPH = "tree23.graphml";
     private static final String REAL_GRAPH = "RealClusterGraph.graphml";
     private static final String CLUSTER_GRAPH = "cluster.graphml";
+
+    private static final int NODE_SIZE = 7;
 
     private AbstractLayout layout;
 
@@ -26,7 +28,6 @@ public class ProcessingSketch extends PApplet {
     public void setup() {
         size(800, 800);
         background(0);
-        stroke(255);
 
         layout = createLayout();
 
@@ -35,7 +36,7 @@ public class ProcessingSketch extends PApplet {
     }
 
     protected AbstractLayout createLayout() {
-        return new PolarDendrogram(loadGraph());
+        return new RadialLayout(loadGraph());
     }
 
     private Graph loadGraph() {
@@ -46,19 +47,35 @@ public class ProcessingSketch extends PApplet {
 
     public void draw() {
 
-        fill(255);
+        drawGraphElements();
 
-        drawNodes();
-
-        drawEdges();
     }
 
-    private void drawEdges() {
+    private void drawGraphElements() {
         Graph graph = layout.getGraph();
 
         for (Object edge : graph.getEdges()) {
+
+            fill(255);
+            stroke(255);
+
+            // draw start node
             Point2D start = layout.transform(graph.getSource(edge));
+            ellipse(new Float(start.getX()), new Float(start.getY()), NODE_SIZE, NODE_SIZE);
+
+
+            if (layout.getGraph().outDegree(graph.getDest(edge)) == 0) {
+                stroke(255, 0, 0);
+                fill(255, 0, 0);
+            }
+
+            // draw end node
             Point2D end = layout.transform(graph.getDest(edge));
+            ellipse(new Float(end.getX()), new Float(end.getY()), NODE_SIZE, NODE_SIZE);
+
+
+            // draw line edge
+            stroke(255);
 
             line(new Float(start.getX()),
                     new Float(start.getY()),
@@ -67,14 +84,4 @@ public class ProcessingSketch extends PApplet {
         }
     }
 
-    private void drawNodes() {
-        for (Object node : layout.getGraph().getVertices()) {
-            Point2D nodePosition = layout.transform(node);
-
-            Float x = new Float(nodePosition.getX());
-            Float y = new Float(nodePosition.getY());
-
-            ellipse(x, y, 5, 5);
-        }
-    }
 }
