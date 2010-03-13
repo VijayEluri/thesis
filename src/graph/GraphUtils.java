@@ -105,4 +105,15 @@ public class GraphUtils<V, E> {
         return result;
     }
 
+    public V findRoot(Graph<V, E> graph) {
+        for (V v : graph.getVertices()) {
+            if (graph.inDegree(v) == 0) {
+                return v;
+            }
+        }
+
+        return null;
+    }
+
+
 }

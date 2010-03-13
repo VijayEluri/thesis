@@ -8,9 +8,12 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import io.GraphMLParser;
 import io.JungTreeYedHandler;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,8 +34,18 @@ public class TestJungTree {
 
     }
 
-    @Test
-    public void makeTree() {
+    /**
+     * Create simple tree
+     * <p/>
+     * 1
+     * /   \
+     * 2     3
+     * /  \
+     * 4    5
+     *
+     * @return Instance of the Delegate tree
+     */
+    private DelegateTree createSimpleTree() {
         DelegateTree tree = new DelegateTree();
 
         tree.addVertex(1); // root
@@ -41,10 +54,49 @@ public class TestJungTree {
         tree.addChild("1->3", 1, 3, EdgeType.DIRECTED);
         tree.addChild("3->4", 3, 4, EdgeType.DIRECTED);
         tree.addChild("3->5", 3, 5, EdgeType.DIRECTED);
+        return tree;
+    }
+
+    @Test
+    public void testSimpleTree() {
+        DelegateTree tree = createSimpleTree();
 
         assertEquals(5, tree.getVertexCount());
 
         assertEquals(2, tree.getHeight());
+
+
+        assertEquals(2, tree.getDepth(5));
+        assertEquals(0, tree.getDepth(1));
+
+    }
+
+    @Test
+    public void testTreePathOn5() {
+        DelegateTree tree = createSimpleTree();
+
+        assertEquals(5, tree.getVertexCount());
+        assertEquals(2, tree.getHeight());
+
+        List path = tree.getPath(5);
+        assertNotNull(path);
+        assertEquals(3, path.size());
+
+        assertEquals(new Object[]{1, 3, 5}, path.toArray());
+    }
+
+    @Test
+    public void testTreePathOn2() {
+        DelegateTree tree = createSimpleTree();
+
+        assertEquals(5, tree.getVertexCount());
+        assertEquals(2, tree.getHeight());
+
+        List path = tree.getPath(2);
+        assertNotNull(path);
+        assertEquals(2, path.size());
+
+        assertEquals(new Object[]{1, 2}, path.toArray());
     }
 
     @Test

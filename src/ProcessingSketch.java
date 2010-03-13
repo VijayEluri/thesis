@@ -2,7 +2,7 @@ import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 import io.GraphMLParser;
 import io.JungTreeYedHandler;
-import layout.RadialLayout;
+import layout.PolarDendrogramLayout;
 import processing.core.PApplet;
 
 import java.awt.geom.Point2D;
@@ -13,6 +13,7 @@ public class ProcessingSketch extends PApplet {
     private static final String TEST_GRAPH = "tree23.graphml";
     private static final String REAL_GRAPH = "RealClusterGraph.graphml";
     private static final String CLUSTER_GRAPH = "cluster.graphml";
+    private static final String PART_TREE_GRAPH = "partTree.graphml";
 
     private static final int NODE_SIZE = 7;
 
@@ -36,7 +37,7 @@ public class ProcessingSketch extends PApplet {
     }
 
     protected AbstractLayout createLayout() {
-        return new RadialLayout(loadGraph());
+        return new PolarDendrogramLayout(loadGraph());
     }
 
     private Graph loadGraph() {
@@ -49,6 +50,23 @@ public class ProcessingSketch extends PApplet {
 
         drawGraphElements();
 
+        //  drawLavels();
+    }
+
+    private void drawLavels() {
+        noFill();
+        stroke(255);
+
+        int levels = ((PolarDendrogramLayout) layout).getLevels();
+
+        double d = (((PolarDendrogramLayout) layout).getRadius() / levels) * 2;
+
+        for (int i = 1; i <= levels; i++) {
+            Float length = new Float(d * i);
+
+            ellipse(getWidth() / 2, getHeight() / 2, length, length);
+        }
+
     }
 
     private void drawGraphElements() {
@@ -58,7 +76,7 @@ public class ProcessingSketch extends PApplet {
 
             fill(255);
             stroke(255);
-
+            // TODO think how to optimize drawing: dont draw some nodes twise..
             // draw start node
             Point2D start = layout.transform(graph.getSource(edge));
             ellipse(new Float(start.getX()), new Float(start.getY()), NODE_SIZE, NODE_SIZE);

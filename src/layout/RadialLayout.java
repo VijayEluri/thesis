@@ -42,7 +42,7 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
             setRadius(0.45 * (height < width ? height : width));
         }
 
-        V root = getRoot();
+        V root = (V) GraphUtils.getInstance().findRoot(getGraph());
         if (root == null) {
             throw new IllegalArgumentException("No root node! Cannt draw unrooted draph..");
         }
@@ -143,22 +143,5 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
         return angle * PIdev180;
     }
 
-    protected V getRoot() {
-        for (V v : getGraph().getVertices()) {
-            if (getGraph().inDegree(v) == 0) {
-                return v;
-            }
-        }
-
-        return null;
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
 
 }
