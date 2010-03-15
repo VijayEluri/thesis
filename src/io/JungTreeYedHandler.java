@@ -19,7 +19,10 @@ public class JungTreeYedHandler extends JungYedHandler {
 
     @Override
     protected void endTagGraph() {
+
+
         graphs.add(new DelegateTree((DirectedGraph) graph));
+
         graph = null;
     }
 }

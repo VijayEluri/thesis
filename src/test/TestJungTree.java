@@ -118,6 +118,8 @@ public class TestJungTree {
         assertEquals(4, graph.getEdgeCount());
 
 
+        DelegateTree tree = new DelegateTree();
+
     }
 
 }

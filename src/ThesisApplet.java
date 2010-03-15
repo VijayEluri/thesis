@@ -8,27 +8,28 @@ import processing.core.PApplet;
 import java.awt.geom.Point2D;
 import java.io.File;
 
-public class ProcessingSketch extends PApplet {
+public class ThesisApplet extends PApplet {
 
-    private static final String TEST_GRAPH = "tree23.graphml";
-    private static final String REAL_GRAPH = "RealClusterGraph.graphml";
-    private static final String CLUSTER_GRAPH = "cluster.graphml";
-    private static final String PART_TREE_GRAPH = "partTree.graphml";
+    static final String TEST_GRAPH = "tree23.graphml";
+    static final String REAL_GRAPH = "RealClusterGraph.graphml";
+    static final String CLUSTER_GRAPH = "cluster.graphml";
+    static final String PART_TREE_GRAPH = "partTree.graphml";
 
     private static final int NODE_SIZE = 7;
 
     private AbstractLayout layout;
 
-
-    public static void main(String[] args) {
-        //PApplet.main(new String[]{"--present", "ProcessingSketch"}); --present - put the applet into full screen presentation mode. requires java 1.4 or later.
-        PApplet.main(new String[]{"ProcessingSketch"});
-    }
+    private Graph goGraph;
+    private Graph clusterGraph;
 
 
     public void setup() {
         size(800, 800);
         background(0);
+
+
+        clusterGraph = loadClusterGraph(CLUSTER_GRAPH, new JungTreeYedHandler());
+
 
         layout = createLayout();
 
@@ -37,13 +38,11 @@ public class ProcessingSketch extends PApplet {
     }
 
     protected AbstractLayout createLayout() {
-        return new PolarDendrogramLayout(loadGraph());
+        return new PolarDendrogramLayout(clusterGraph);
     }
 
-    private Graph loadGraph() {
-        GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
-
-        return (Graph) parser.load(new File(CLUSTER_GRAPH)).get(0);
+    private Graph loadClusterGraph(String path, JungTreeYedHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(new File(path)).get(0);
     }
 
     public void draw() {
@@ -51,13 +50,15 @@ public class ProcessingSketch extends PApplet {
         drawGraphElements();
 
         //  drawLavels();
+
+        //save("picture.PNG");
     }
 
     private void drawLavels() {
         noFill();
         stroke(255);
 
-        int levels = ((PolarDendrogramLayout) layout).getLevels();
+        int levels = ((PolarDendrogramLayout) layout).getGraphHeight();
 
         double d = (((PolarDendrogramLayout) layout).getRadius() / levels) * 2;
 
@@ -74,12 +75,15 @@ public class ProcessingSketch extends PApplet {
 
         for (Object edge : graph.getEdges()) {
 
+            Point2D start = layout.transform(graph.getSource(edge));
+            Point2D end = layout.transform(graph.getDest(edge));
+
             fill(255);
             stroke(255);
+
             // TODO think how to optimize drawing: dont draw some nodes twise..
             // draw start node
-            Point2D start = layout.transform(graph.getSource(edge));
-            ellipse(new Float(start.getX()), new Float(start.getY()), NODE_SIZE, NODE_SIZE);
+            drawNode(start);
 
 
             if (layout.getGraph().outDegree(graph.getDest(edge)) == 0) {
@@ -87,19 +91,26 @@ public class ProcessingSketch extends PApplet {
                 fill(255, 0, 0);
             }
 
-            // draw end node
-            Point2D end = layout.transform(graph.getDest(edge));
-            ellipse(new Float(end.getX()), new Float(end.getY()), NODE_SIZE, NODE_SIZE);
+            drawNode(end);
 
 
             // draw line edge
             stroke(255);
-
-            line(new Float(start.getX()),
-                    new Float(start.getY()),
-                    new Float(end.getX()),
-                    new Float(end.getY()));
+            drawEdge(start, end);
         }
+    }
+
+    private void drawNode(Point2D position) {
+        ellipse(new Float(position.getX()), new Float(position.getY()), NODE_SIZE, NODE_SIZE);
+    }
+
+    private void drawEdge(Point2D start, Point2D end) {
+
+
+        line(new Float(start.getX()),
+                new Float(start.getY()),
+                new Float(end.getX()),
+                new Float(end.getY()));
     }
 
 }

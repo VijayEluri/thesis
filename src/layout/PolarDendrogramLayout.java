@@ -15,7 +15,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
     protected Map<V, Double> node_angle;
     protected Map<V, Integer> node_level;
 
-    protected int levels;
+    protected int graphHeight;
 
 
     public PolarDendrogramLayout(Graph graph) {
@@ -46,7 +46,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
         computeLeafPositions(root);
 
-        computeLevels(); // TODO delete it when use Tree insteed of Graph
+        graphHeight = GraphUtils.computeLevels(getGraph(), node_level); // TODO delete it when use Tree insteed of Graph
 
         //node_angle.put(root, 0.0);
 
@@ -89,29 +89,6 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
         }
 
 
-    }
-
-    private void computeLevels() {
-
-        int currentLevel = 0;
-
-        for (V node : getGraph().getVertices()) {
-            List<V> list = GraphUtils.getInstance().invertDfsNodes(getGraph(), node);
-
-            currentLevel = list.size();
-
-            if (node_level.get(node) != null) {
-                if (currentLevel > node_level.get(node)) {
-                    node_level.put(node, currentLevel);
-                }
-            } else {
-                node_level.put(node, currentLevel);
-            }
-
-            if (currentLevel > levels) {
-                levels = currentLevel;
-            }
-        }
     }
 
     protected double computeAngles(V node) {
@@ -173,11 +150,27 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
         if (getGraph().outDegree(node) == 0) {
             return getRadius();
         } else {
-            return getRadius() / levels * node_level.get(node);
+            return getRadius() / graphHeight * node_level.get(node);
         }
     }
 
-    public int getLevels() {
-        return levels;
+    public int getGraphHeight() {
+        return graphHeight;
+    }
+
+    public Map<V, Double> getNode_angle() {
+        return node_angle;
+    }
+
+    public void setNode_angle(Map<V, Double> node_angle) {
+        this.node_angle = node_angle;
+    }
+
+    public Map<V, Integer> getNode_level() {
+        return node_level;
+    }
+
+    public void setNode_level(Map<V, Integer> node_level) {
+        this.node_level = node_level;
     }
 }

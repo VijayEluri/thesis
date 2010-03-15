@@ -80,7 +80,7 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
             }
         }
 
-        System.out.println("Graph levels " + level);
+        System.out.println("Graph graphHeight " + level);
     }
 
 
