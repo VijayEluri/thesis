@@ -3,6 +3,7 @@ package layout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.Graph;
 import graph.GraphUtils;
+import org.apache.log4j.Logger;
 import utils.Utils;
 
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
+
+    public static final Logger LOGGER = Logger.getLogger(PolarDendrogramLayout.class);
 
     protected Map<V, Double> node_angle;
     protected Map<V, Integer> node_level;
@@ -141,7 +144,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
         transform(node).setLocation(x, y);
 
-        System.out.println(node + " " + angle + "; " + x + ", " + y); // TODO add logger
+        LOGGER.debug(node + " " + angle + "; " + x + ", " + y);
     }
 
     private void setRootCoordinate(V root) {
