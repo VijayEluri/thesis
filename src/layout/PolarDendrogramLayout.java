@@ -141,7 +141,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
         transform(node).setLocation(x, y);
 
-        System.out.println(node + " " + angle);
+        System.out.println(node + " " + angle + "; " + x + ", " + y); // TODO add logger
     }
 
     private void setRootCoordinate(V root) {
