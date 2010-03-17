@@ -9,10 +9,10 @@ import edu.uci.ics.jung.graph.Graph;
  * Date: 15.03.2010
  * Time: 18:26:56
  */
-public class LogarithmLayout extends AbstractLayout {
+public class SpiralLayout extends AbstractLayout {
 
 
-    public LogarithmLayout(Graph graph) {
+    public SpiralLayout(Graph graph) {
         super(graph);
     }
 

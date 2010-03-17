@@ -27,6 +27,7 @@ public class GraphUtils<V, E> {
 
     private Stack stack;
     private Set visited;
+
     private List result;
 
 
@@ -115,29 +116,30 @@ public class GraphUtils<V, E> {
         return null;
     }
 
-
-    public static int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
+    public int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
 
         int graphHeight = 0;
+        int level;
 
         for (V node : graph.getVertices()) {
             List<V> list = getInstance().invertDfsNodes(graph, node);
 
-            graphHeight = list.size();
+            level = list.size();
 
             if (levels.get(node) != null) {
                 if (graphHeight > levels.get(node)) {
-                    levels.put(node, graphHeight);
+                    levels.put(node, level);
                 }
             } else {
-                levels.put(node, graphHeight);
+                levels.put(node, level);
             }
 
-            if (graphHeight > levels) {
-                levels = graphHeight;
+            if (level > graphHeight) {
+                graphHeight = level;
             }
         }
 
         return graphHeight;
     }
+
 }

@@ -121,8 +121,8 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
             double y = Math.sin(toRadians(angle)) * nodeRadius(node) + getSize().getHeight() / 2;
 
 /*
-            double x = Math.cos(angle) * nodeRadius(node) + getSize().getWidth() / 2;
-            double y = Math.sin(angle) * nodeRadius(node) + getSize().getHeight() / 2;
+            double x = Math.cos(angle) * getNodeRadius(node) + getSize().getWidth() / 2;
+            double y = Math.sin(angle) * getNodeRadius(node) + getSize().getHeight() / 2;
 */
 
             //     System.out.println(angle + " [" + x + "," + y + "]");

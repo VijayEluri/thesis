@@ -15,7 +15,12 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
     protected Map<V, Double> node_angle;
     protected Map<V, Integer> node_level;
 
+    protected List<V> leafs;
+
     protected int graphHeight;
+
+    protected float xCenter;
+    protected float yCenter;
 
 
     public PolarDendrogramLayout(Graph graph) {
@@ -32,23 +37,14 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
         node_angle.clear();
         node_level.clear();
 
-        double height = getSize().getHeight();
-        double width = getSize().getWidth();
-
-        if (getRadius() <= 0) {
-            setRadius(0.45 * (height < width ? height : width));
-        }
-
         V root = (V) GraphUtils.getInstance().findRoot(getGraph());
         if (root == null) {
             throw new IllegalArgumentException("No root node! Cannt draw unrooted graph..");
         }
 
-        computeLeafPositions(root);
+        computeLeafAngles(root);
 
-        graphHeight = GraphUtils.computeLevels(getGraph(), node_level); // TODO delete it when use Tree insteed of Graph
-
-        //node_angle.put(root, 0.0);
+        graphHeight = GraphUtils.getInstance().computeLevels(getGraph(), node_level); // TODO delete it when use Tree insteed of Graph
 
         computeAngles(root);
 
@@ -58,9 +54,13 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
     }
 
-    private void computeLeafPositions(V root) {
+    private void computeLeafAngles(V root) {
 
-        List<V> leafs = new LinkedList<V>();
+        if (leafs == null) {
+            leafs = new LinkedList<V>();
+        } else {
+            leafs.clear();
+        }
 
         /*
             TODO maybe use this way without dfs?
@@ -85,7 +85,6 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
             double angle = step * i;
 
             node_angle.put(leaf, angle);
-            //    setNodeCoordinate(leaf);
         }
 
 
@@ -132,10 +131,13 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
     private void setNodeCoordinate(V node) {
 
         double angle = node_angle.get(node);
-        double radius = nodeRadius(node);
+        double radius = getNodeRadius(node);
 
-        double x = Math.cos(Utils.inRadians(angle)) * radius + getSize().getWidth() / 2;
-        double y = Math.sin(Utils.inRadians(angle)) * radius + getSize().getHeight() / 2;
+        double xCenter = getSize().getWidth() / 2;
+        double yCenter = getSize().getHeight() / 2;
+
+        double x = Math.cos(Utils.inRadians(angle)) * radius + xCenter;
+        double y = Math.sin(Utils.inRadians(angle)) * radius + yCenter;
 
         transform(node).setLocation(x, y);
 
@@ -143,10 +145,10 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
     }
 
     private void setRootCoordinate(V root) {
-        transform(root).setLocation(getSize().getWidth() / 2, getSize().getHeight() / 2);
+        transform(root).setLocation(xCenter, yCenter);
     }
 
-    private double nodeRadius(V node) {
+    protected double getNodeRadius(V node) {
         if (getGraph().outDegree(node) == 0) {
             return getRadius();
         } else {
@@ -172,5 +174,29 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
     public void setNode_level(Map<V, Integer> node_level) {
         this.node_level = node_level;
+    }
+
+    public List<V> getLeafs() {
+        return leafs;
+    }
+
+    public void setLeafs(List<V> leafs) {
+        this.leafs = leafs;
+    }
+
+    public float getXCenter() {
+        return xCenter;
+    }
+
+    public void setXCenter(float xCenter) {
+        this.xCenter = xCenter;
+    }
+
+    public float getYCenter() {
+        return yCenter;
+    }
+
+    public void setYCenter(float yCenter) {
+        this.yCenter = yCenter;
     }
 }
