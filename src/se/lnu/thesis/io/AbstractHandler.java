@@ -1,4 +1,4 @@
-package io;
+package se.lnu.thesis.io;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

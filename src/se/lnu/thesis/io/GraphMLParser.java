@@ -1,11 +1,11 @@
-package io;
+package se.lnu.thesis.io;
 
 import org.apache.log4j.Logger;
 
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
-import java.util.List;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
+import java.util.List;
 
 public class GraphMLParser {
 

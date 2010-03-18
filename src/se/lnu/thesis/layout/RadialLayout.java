@@ -1,8 +1,8 @@
-package layout;
+package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.Graph;
-import graph.GraphUtils;
+import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package layout;
+package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;

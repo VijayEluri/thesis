@@ -1,15 +1,15 @@
-package test;
+package se.lnu.thesis.test;
 
 import edu.uci.ics.jung.graph.DelegateTree;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import io.GraphMLParser;
-import io.JungTreeYedHandler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+import se.lnu.thesis.io.GraphMLParser;
+import se.lnu.thesis.io.JungTreeYedHandler;
 
 import java.io.File;
 import java.util.List;

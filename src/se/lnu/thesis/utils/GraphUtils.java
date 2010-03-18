@@ -1,4 +1,4 @@
-package graph;
+package se.lnu.thesis.utils;
 
 import edu.uci.ics.jung.graph.Graph;
 

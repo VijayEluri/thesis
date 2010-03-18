@@ -1,4 +1,4 @@
-package io;
+package se.lnu.thesis.io;
 
 import edu.uci.ics.jung.graph.DelegateTree;
 import edu.uci.ics.jung.graph.DirectedGraph;

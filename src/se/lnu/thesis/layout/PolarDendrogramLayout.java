@@ -1,11 +1,12 @@
-package layout;
+package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.Graph;
-import graph.GraphUtils;
 import org.apache.log4j.Logger;
-import utils.Utils;
+import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.Utils;
 
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -133,25 +134,31 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
     private void setNodeCoordinate(V node) {
 
+        Point2D point = transform(node);
+
         double angle = node_angle.get(node);
         double radius = getNodeRadius(node);
 
-        double xCenter = getSize().getWidth() / 2;
-        double yCenter = getSize().getHeight() / 2;
+        Utils.computePosition(point, angle, radius, xCenter, yCenter);
 
-        double x = Math.cos(Utils.inRadians(angle)) * radius + xCenter;
-        double y = Math.sin(Utils.inRadians(angle)) * radius + yCenter;
+    }
 
-        transform(node).setLocation(x, y);
+    public Point2D.Float computeDummyNode(V startNode, V endNode) {
+        Point2D.Float result = new Point2D.Float();
 
-        LOGGER.debug(node + " " + angle + "; " + x + ", " + y);
+        double angle = node_angle.get(endNode);
+        double radius = getNodeRadius(startNode);
+
+        Utils.computePosition(result, angle, radius, xCenter, yCenter);
+
+        return result;
     }
 
     private void setRootCoordinate(V root) {
         transform(root).setLocation(xCenter, yCenter);
     }
 
-    protected double getNodeRadius(V node) {
+    public double getNodeRadius(V node) {
         if (getGraph().outDegree(node) == 0) {
             return getRadius();
         } else {

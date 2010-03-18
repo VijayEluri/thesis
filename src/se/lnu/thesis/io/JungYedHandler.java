@@ -1,4 +1,4 @@
-package io;
+package se.lnu.thesis.io;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
