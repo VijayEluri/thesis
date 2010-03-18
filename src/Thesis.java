@@ -1,5 +1,3 @@
-import processing.core.PApplet;
-
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -11,7 +9,6 @@ import processing.core.PApplet;
 public class Thesis {
 
     public static void main(String[] args) {
-        //PApplet.main(new String[]{"--present", "ThesisApplet"}); --present - put the applet into full screen presentation mode. requires java 1.4 or later.
-        PApplet.main(new String[]{"ThesisApplet"});
+        new MainWindow();
     }
 }
