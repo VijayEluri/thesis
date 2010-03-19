@@ -118,8 +118,8 @@ public class GraphUtils<V, E> {
 
     public int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
 
-        int graphHeight = 0;
-        int level;
+        Integer graphHeight = 0;
+        Integer level;
 
         for (V node : graph.getVertices()) {
             List<V> list = getInstance().invertDfsNodes(graph, node);

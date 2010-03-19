@@ -18,6 +18,7 @@ public class ThesisApplet extends PApplet {
     static final String REAL_GRAPH = "RealClusterGraph.graphml";
     static final String CLUSTER_GRAPH = "cluster.graphml";
     static final String PART_TREE_GRAPH = "partTree.graphml";
+    static final String BIG_GRAPH = "bigGraph.graphml";
 
     private static final int NODE_SIZE = 7;
 
@@ -29,11 +30,12 @@ public class ThesisApplet extends PApplet {
 
     public void setup() {
 
+        smooth();
         size(800, 800);
         background(0);
 
 
-        clusterGraph = loadClusterGraph(REAL_GRAPH, new JungYedHandler());
+        clusterGraph = loadGraph(new File(CLUSTER_GRAPH), new JungYedHandler());
 
 
         layout = initLayout();
@@ -63,8 +65,8 @@ public class ThesisApplet extends PApplet {
     }
 
 
-    private Graph loadClusterGraph(String path, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(new File(path)).get(0);
+    private Graph loadGraph(File file, AbstractHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(file).get(0);
     }
 
     public void draw() {
@@ -98,6 +100,12 @@ public class ThesisApplet extends PApplet {
             Point2D start = layout.transform(graph.getSource(edge));
             Point2D end = layout.transform(graph.getDest(edge));
 
+            // draw line edge
+            stroke(255);
+            //  drawEdge(start, end);
+            drawDendrogramEdge(start, end, edge);
+
+
             fill(255);
             stroke(255);
 
@@ -112,12 +120,6 @@ public class ThesisApplet extends PApplet {
             }
 
             drawNode(end);
-
-
-            // draw line edge
-            stroke(255);
-            //  drawEdge(start, end);
-            drawDendrogramEdge(start, end, edge);
 
         }
     }
@@ -156,7 +158,7 @@ public class ThesisApplet extends PApplet {
 
         //      } else {
 
-        Point2D dummyNode = polarDendrogramLayout.computeDummyNode(source, dest);
+        Point2D dummyNode = polarDendrogramLayout.getDummyNode(source, dest);
 
         line(new Float(dummyNode.getX()),
                 new Float(dummyNode.getY()),

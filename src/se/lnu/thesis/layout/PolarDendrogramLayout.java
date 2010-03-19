@@ -7,10 +7,7 @@ import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
 import java.awt.geom.Point2D;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
@@ -28,7 +25,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
 
     public PolarDendrogramLayout(Graph graph) {
-        super(graph);
+        super(graph);              // TODO maybe use Tree insteed of Graph??
 
         node_angle = new HashMap<V, Double>();
         node_level = new HashMap<V, Integer>();
@@ -46,9 +43,9 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
             throw new IllegalArgumentException("No root node! Cannt draw unrooted graph..");
         }
 
-        computeLeafAngles(root);
+        graphHeight = GraphUtils.getInstance().computeLevels(getGraph(), node_level);
 
-        graphHeight = GraphUtils.getInstance().computeLevels(getGraph(), node_level); // TODO delete it when use Tree insteed of Graph
+        computeLeafAngles();
 
         computeAngles(root);
 
@@ -58,40 +55,35 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
     }
 
-    private void computeLeafAngles(V root) {
+    private void computeLeafAngles() {
 
+        arrangeLeafs();
+
+        double step = 360.0 / leafs.size();
+
+        int i = 0;
+        for (V leaf : leafs) {
+            double angle = step * i++;
+
+            node_angle.put(leaf, angle);
+        }
+
+    }
+
+    private void arrangeLeafs() {
         if (leafs == null) {
             leafs = new LinkedList<V>();
         } else {
             leafs.clear();
         }
 
-        /*
-            TODO maybe use this way without dfs?
-            for (V node : getGraph().getVertices()) {
-         */
-
-        List<V> result = GraphUtils.getInstance().dfsNodes(getGraph(), root);
-        for (V node : result) {
-            if (getGraph().outDegree(node) == 0) { // is it leaf?
+        for (V node : getGraph().getVertices()) {
+            if (getGraph().outDegree(node) == 0) {
                 leafs.add(node);
-            } else {
-                transform(node).setLocation(0, 0);
             }
         }
 
-
-        double step = 360.0 / leafs.size();
-
-        for (int i = 0; i < leafs.size(); i++) {
-            V leaf = leafs.get(i);
-
-            double angle = step * i;
-
-            node_angle.put(leaf, angle);
-        }
-
-
+        Collections.sort(leafs, new LevelComparator<V>());
     }
 
     protected double computeAngles(V node) {
@@ -143,7 +135,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
 
     }
 
-    public Point2D.Float computeDummyNode(V startNode, V endNode) {
+    public Point2D.Float getDummyNode(V startNode, V endNode) {
         Point2D.Float result = new Point2D.Float();
 
         double angle = node_angle.get(endNode);
@@ -190,10 +182,6 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
         return leafs;
     }
 
-    public void setLeafs(List<V> leafs) {
-        this.leafs = leafs;
-    }
-
     public float getXCenter() {
         return xCenter;
     }
@@ -209,4 +197,25 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
     public void setYCenter(float yCenter) {
         this.yCenter = yCenter;
     }
+
+    private class LevelComparator<T> implements Comparator<T> {
+
+        public int compare(T node1, T node2) {
+
+            Integer levelNode1 = PolarDendrogramLayout.this.getNode_level().get(node1);
+            Integer levelNode2 = PolarDendrogramLayout.this.getNode_level().get(node2);
+
+            if (levelNode1 < levelNode2) {
+                return -1;
+            }
+
+            if (levelNode1 > levelNode2) {
+                return 1;
+            }
+
+            return 0;
+        }
+    }
+
 }
+
