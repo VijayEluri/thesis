@@ -38,44 +38,48 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
         Point2D start = getVisualizer().getLayout().transform(getVisualizer().getGraph().getSource(edge));
         Point2D end = getVisualizer().getLayout().transform(getVisualizer().getGraph().getDest(edge));
 
+        // from root draw simple line
         if (GraphUtils.getInstance().isRoot(getVisualizer().getGraph(), source)) {
 
-            getVisualizer().getApplet().line(
-                    new Float(start.getX()),
-                    new Float(start.getY()),
-                    new Float(end.getX()),
-                    new Float(end.getY()));
+            drawLine(start, end);
 
         } else {
 
-            Double sourceAngle = (Double) layout.getNode_angle().get(source);
-            Double destAngle = (Double) layout.getNode_angle().get(dest);
-
             Point2D dummyNode = layout.getDummyNode(source, dest);
 
-            getVisualizer().getApplet().line(
-                    new Float(dummyNode.getX()),
-                    new Float(dummyNode.getY()),
-                    new Float(end.getX()),
-                    new Float(end.getY()));
+            drawLine(dummyNode, end);
 
-
-            float radius = new Float(layout.getNodeRadius(source)) * 2;
-
-            double startAngle = Utils.min(sourceAngle, destAngle);
-            double endAngle = Utils.max(sourceAngle, destAngle);
-
-            getVisualizer().getApplet().arc(
-                    layout.getXCenter(),
-                    layout.getYCenter(),
-                    radius,
-                    radius,
-                    new Float(Utils.inRadians(startAngle)),
-                    new Float(Utils.inRadians(endAngle)));
+            drawArc(source, dest);
 
         }
 
 
+    }
+
+    private void drawLine(Point2D start, Point2D end) {
+        getVisualizer().getApplet().line(
+                new Float(start.getX()),
+                new Float(start.getY()),
+                new Float(end.getX()),
+                new Float(end.getY()));
+    }
+
+    private void drawArc(Object source, Object dest) {
+        Double sourceAngle = (Double) layout.getNode_angle().get(source);
+        Double destAngle = (Double) layout.getNode_angle().get(dest);
+
+        float radius = new Float(layout.getNodeRadius(source)) * 2;
+
+        double startAngle = Utils.min(sourceAngle, destAngle);
+        double endAngle = Utils.max(sourceAngle, destAngle);
+
+        getVisualizer().getApplet().arc(
+                layout.getXCenter(),
+                layout.getYCenter(),
+                radius,
+                radius,
+                new Float(Utils.inRadians(startAngle)),
+                new Float(Utils.inRadians(endAngle)));
     }
 
 }
