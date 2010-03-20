@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.JungTreeYedHandler;
+import se.lnu.thesis.io.JungYedHandler;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +25,7 @@ public class TestJungTree {
 
     @Test
     public void loadTree() {
-        GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler()); // TODO implement DelegateTree in the JungTreeYedHandler
+        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
         Tree tree = (Tree) parser.load(new File("cluster.graphml")).get(0);
 
         assertEquals(37, tree.getVertexCount());

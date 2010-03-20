@@ -19,7 +19,7 @@ public class GraphMLParser {
     }
 
     public GraphMLParser(AbstractHandler handler) {
-        this.handler = handler;
+        setHandler(handler);
     }
 
     public List load(File file) {

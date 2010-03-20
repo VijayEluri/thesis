@@ -142,4 +142,11 @@ public class GraphUtils<V, E> {
         return graphHeight;
     }
 
+    public boolean isLeaf(Graph graph, Object node) {
+        return graph.outDegree(node) == 0;
+    }
+
+    public boolean isRoot(Graph graph, Object node) {
+        return graph.inDegree(node) == 0;
+    }
 }

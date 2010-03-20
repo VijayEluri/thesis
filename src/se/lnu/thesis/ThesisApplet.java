@@ -7,9 +7,10 @@ import se.lnu.thesis.io.AbstractHandler;
 import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.utils.Utils;
+import se.lnu.thesis.paint.Visualizer;
+import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
+import se.lnu.thesis.paint.node.CircleNodeVisualizer;
 
-import java.awt.geom.Point2D;
 import java.io.File;
 
 public class ThesisApplet extends PApplet {
@@ -20,7 +21,7 @@ public class ThesisApplet extends PApplet {
     static final String PART_TREE_GRAPH = "partTree.graphml";
     static final String BIG_GRAPH = "bigGraph.graphml";
 
-    private static final int NODE_SIZE = 7;
+    private Visualizer clusterGraphVisualizer;
 
     private AbstractLayout layout;
 
@@ -30,48 +31,54 @@ public class ThesisApplet extends PApplet {
 
     public void setup() {
 
+        System.out.println("Starting initialization..."); // TODO use logger
+
         smooth();
         size(800, 800);
         background(0);
 
 
-        clusterGraph = loadGraph(new File(CLUSTER_GRAPH), new JungYedHandler());
+        clusterGraph = loadGraph(PART_TREE_GRAPH, new JungYedHandler());
 
+        clusterGraphVisualizer = new Visualizer(this);
+        clusterGraphVisualizer.setGraph(clusterGraph);
+        clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
+        clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
 
-        layout = initLayout();
+        System.out.println("Done."); // TODO use logger
+
+        noLoop();
     }
 
-    protected AbstractLayout initLayout() {
+    private Graph loadGraph(String path, AbstractHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(new File(path)).get(0);
+    }
+
+    protected AbstractLayout initPolarDendrogramLayout() {
         PolarDendrogramLayout result = new PolarDendrogramLayout(clusterGraph);
 
         double height = getSize().getHeight();
         double width = getSize().getWidth();
 
         result.setRadius(0.45 * (height < width ? height : width));
+
         result.setXCenter((float) (height / 2));
         result.setYCenter((float) (width / 2));
 
         result.setSize(getSize());
-        result.initialize();
 
-/*
-        FullSizePolarDendrogramLayout result = new FullSizePolarDendrogramLayout(clusterGraph);
 
-        result.setSize(getSize());
-        result.initialize();
-*/
+        result.initialize(); // compute nodes positions
+
 
         return result;
     }
 
 
-    private Graph loadGraph(File file, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(file).get(0);
-    }
-
     public void draw() {
 
-        drawGraphElements();
+        clusterGraphVisualizer.draw();
 
         //  drawLavels();
     }
@@ -89,103 +96,6 @@ public class ThesisApplet extends PApplet {
 
             ellipse(getWidth() / 2, getHeight() / 2, length, length);
         }
-
-    }
-
-    private void drawGraphElements() {
-        Graph graph = layout.getGraph();
-
-        for (Object edge : graph.getEdges()) {
-
-            Point2D start = layout.transform(graph.getSource(edge));
-            Point2D end = layout.transform(graph.getDest(edge));
-
-            // draw line edge
-            stroke(255);
-            //  drawEdge(start, end);
-            drawDendrogramEdge(start, end, edge);
-
-
-            fill(255);
-            stroke(255);
-
-            // TODO think how to optimize drawing: dont draw some nodes twise..
-            // draw start node
-            drawNode(start);
-
-
-            if (layout.getGraph().outDegree(graph.getDest(edge)) == 0) {
-                stroke(255, 0, 0);
-                fill(255, 0, 0);
-            }
-
-            drawNode(end);
-
-        }
-    }
-
-    private void drawNode(Point2D position) {
-        ellipse(new Float(position.getX()), new Float(position.getY()), NODE_SIZE, NODE_SIZE);
-    }
-
-    private void drawEdge(Point2D start, Point2D end) {
-
-
-        line(new Float(start.getX()),
-                new Float(start.getY()),
-                new Float(end.getX()),
-                new Float(end.getY()));
-    }
-
-    private void drawDendrogramEdge(Point2D start, Point2D end, Object edge) {
-
-        PolarDendrogramLayout polarDendrogramLayout = (PolarDendrogramLayout) layout;
-
-        noFill();
-
-        Object source = layout.getGraph().getSource(edge);
-        Object dest = layout.getGraph().getDest(edge);
-
-        Double sourceAngle = (Double) polarDendrogramLayout.getNode_angle().get(source);
-        Double destAngle = (Double) polarDendrogramLayout.getNode_angle().get(dest);
-
-        // if (sourceAngle.compareTo(destAngle) == 0) {
-
-        //    line(new Float(start.getX()),
-        //       new Float(start.getY()),
-        //           new Float(end.getX()),
-        //             new Float(end.getY()));
-
-        //      } else {
-
-        Point2D dummyNode = polarDendrogramLayout.getDummyNode(source, dest);
-
-        line(new Float(dummyNode.getX()),
-                new Float(dummyNode.getY()),
-                new Float(end.getX()),
-                new Float(end.getY()));
-
-
-        float radius = new Float(polarDendrogramLayout.getNodeRadius(source)) * 2;
-
-        double startAngle = Utils.min(sourceAngle, destAngle);
-        double endAngle = Utils.max(sourceAngle, destAngle);
-
-        arc(polarDendrogramLayout.getXCenter(),
-                polarDendrogramLayout.getYCenter(),
-                radius,
-                radius,
-                new Float(Utils.inRadians(startAngle)),
-                new Float(Utils.inRadians(endAngle)));
-
-//        }
-
-        /*     stroke(0,255,0);
-                line(new Float(start.getX()),
-                        new Float(start.getY()),
-                        new Float(end.getX()),
-                        new Float(end.getY()));
-        */
 
     }
 
