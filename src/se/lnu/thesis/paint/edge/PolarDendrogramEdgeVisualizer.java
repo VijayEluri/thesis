@@ -44,13 +44,11 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
             drawLine(start, end);
 
         } else {
-
             Point2D dummyNode = layout.getDummyNode(source, dest);
 
             drawLine(dummyNode, end);
 
             drawArc(source, dest);
-
         }
 
 

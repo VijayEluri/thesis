@@ -15,18 +15,11 @@ import java.io.File;
 
 public class ThesisApplet extends PApplet {
 
-    static final String TEST_GRAPH = "tree23.graphml";
-    static final String REAL_GRAPH = "RealClusterGraph.graphml";
-    static final String CLUSTER_GRAPH = "cluster.graphml";
-    static final String PART_TREE_GRAPH = "partTree.graphml";
-    static final String BIG_GRAPH = "bigGraph.graphml";
 
     private Visualizer clusterGraphVisualizer;
 
-    private AbstractLayout layout;
-
-    private Graph goGraph;
     private Graph clusterGraph;
+    private Graph goGraph;
 
 
     public void setup() {
@@ -37,9 +30,7 @@ public class ThesisApplet extends PApplet {
         size(800, 800);
         background(0);
 
-
-        clusterGraph = loadGraph(PART_TREE_GRAPH, new JungYedHandler());
-
+        loadClusterGraph();
         clusterGraphVisualizer = new Visualizer(this);
         clusterGraphVisualizer.setGraph(clusterGraph);
         clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
@@ -48,11 +39,21 @@ public class ThesisApplet extends PApplet {
 
         System.out.println("Done."); // TODO use logger
 
-        noLoop();
+        noLoop(); // TODO delete it?
     }
 
-    private Graph loadGraph(String path, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(new File(path)).get(0);
+    private void loadClusterGraph() {
+
+        try {
+            clusterGraph = loadGraph(new File(args[0]), new JungYedHandler()); // TODO use FileChooser to pick cluster graph file
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("No cluster graph file.");
+        }
+
+    }
+
+    private Graph loadGraph(File file, AbstractHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(file).get(0);
     }
 
     protected AbstractLayout initPolarDendrogramLayout() {
@@ -87,9 +88,9 @@ public class ThesisApplet extends PApplet {
         noFill();
         stroke(255);
 
-        int levels = ((PolarDendrogramLayout) layout).getGraphHeight();
+        int levels = ((PolarDendrogramLayout) clusterGraphVisualizer.getLayout()).getGraphHeight();
 
-        double d = (((PolarDendrogramLayout) layout).getRadius() / levels) * 2;
+        double d = (((PolarDendrogramLayout) clusterGraphVisualizer.getLayout()).getRadius() / levels) * 2;
 
         for (int i = 1; i <= levels; i++) {
             Float length = new Float(d * i);

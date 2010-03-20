@@ -30,16 +30,21 @@ public class CircleNodeVisualizer extends AbstractNodeVisualizer {
     }
 
     public void drawRoot(Object root) {
-        drawNode(root);
+        getVisualizer().getApplet().fill(255);
+        getVisualizer().getApplet().stroke(255);
+
+        drawCircle(root);
     }
 
     public void drawNode(Object node) {
 
         // set node color
+/*
         getVisualizer().getApplet().fill(255);
         getVisualizer().getApplet().stroke(255);
 
         drawCircle(node);
+*/
     }
 
     public void drawLeaf(Object leaf) {
