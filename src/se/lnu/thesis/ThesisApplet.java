@@ -23,12 +23,10 @@ public class ThesisApplet extends PApplet {
 
 
     public void setup() {
+        size(800, 800);
 
         System.out.println("Starting initialization..."); // TODO use logger
-
-        smooth();
-        size(800, 800);
-        background(0);
+        long start = System.currentTimeMillis();
 
         loadClusterGraph();
         clusterGraphVisualizer = new Visualizer(this);
@@ -37,7 +35,10 @@ public class ThesisApplet extends PApplet {
         clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
         clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
 
-        System.out.println("Done."); // TODO use logger
+        long end = System.currentTimeMillis();
+        double time = (end - start) / 1000;
+
+        System.out.println("Done in " + time + " seconds."); // TODO use logger
 
         noLoop(); // TODO delete it?
     }

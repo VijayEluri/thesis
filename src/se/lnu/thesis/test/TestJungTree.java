@@ -37,10 +37,10 @@ public class TestJungTree {
     /**
      * Create simple tree
      * <p/>
-     * 1
-     * /   \
-     * 2     3
-     * /  \
+     * ______1
+     * ____/   \
+     * ___2     3
+     * _/  \
      * 4    5
      *
      * @return Instance of the Delegate tree

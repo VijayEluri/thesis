@@ -142,6 +142,38 @@ public class GraphUtils<V, E> {
         return graphHeight;
     }
 
+    public int computeLevelsV2(Graph<V, E> graph, Map<V, Integer> levels) {
+
+        int graphHeight = 0;
+        Integer nodeLevel;
+
+        for (V node : graph.getVertices()) {
+            nodeLevel = getNodeHeight(graph, node, 0);
+
+            if (levels.get(node) != null) {
+                if (graphHeight > levels.get(node)) {
+                    levels.put(node, nodeLevel);
+                }
+            } else {
+                levels.put(node, nodeLevel);
+            }
+
+            if (nodeLevel > graphHeight) {
+                graphHeight = nodeLevel;
+            }
+        }
+
+        return graphHeight;
+    }
+
+    public int getNodeHeight(Graph<V, E> graph, V node, int start) {
+        if (graph.getPredecessorCount(node) > 0) {
+            start = getNodeHeight(graph, graph.getPredecessors(node).iterator().next(), ++start);
+        }
+
+        return start;
+    }
+
     public boolean isLeaf(Graph graph, Object node) {
         return graph.outDegree(node) == 0;
     }

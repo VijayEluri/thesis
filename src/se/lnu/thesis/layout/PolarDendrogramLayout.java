@@ -43,7 +43,7 @@ public class PolarDendrogramLayout<V, E> extends CircleLayout<V, E> {
             throw new IllegalArgumentException("No root node! Cannt draw unrooted graph..");
         }
 
-        graphHeight = GraphUtils.getInstance().computeLevels(getGraph(), node_level);
+        graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), node_level);
 
         computeLeafAngles();
 

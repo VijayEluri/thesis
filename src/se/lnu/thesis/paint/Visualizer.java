@@ -25,8 +25,11 @@ public class Visualizer {
         setApplet(applet);
     }
 
-    // TODO think how to optimize drawing: dont draw some nodes twise..
     public void draw() {
+
+        getApplet().smooth();
+        getApplet().background(0);
+
         for (Object edge : graph.getEdges()) { // first draw edges!
             edgeVisualizer.draw(edge);
         }
