@@ -8,8 +8,8 @@ import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.Visualizer;
-import se.lnu.thesis.paint.edge.HighLightedPolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
+import se.lnu.thesis.paint.edge.SelectedPolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.node.CircleNodeVisualizer;
 import se.lnu.thesis.paint.node.HighLightedNodeVisualizer;
 
@@ -91,7 +91,7 @@ public class ThesisApplet extends PApplet {
         clusterGraphVisualizer.setGraph(clusterGraph);
         clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
         clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
-        clusterGraphVisualizer.setHighLightedEdgeVisualizer(new HighLightedPolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setHighLightedEdgeVisualizer(new SelectedPolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
         clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
         clusterGraphVisualizer.setHighLightedNodeVisualizer(new HighLightedNodeVisualizer(clusterGraphVisualizer));
     }
