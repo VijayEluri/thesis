@@ -3,6 +3,11 @@ package se.lnu.thesis.paint;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 import processing.core.PApplet;
+import se.lnu.thesis.utils.Utils;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 public class Visualizer {
@@ -11,10 +16,16 @@ public class Visualizer {
 
     private Graph graph;
 
+    private Map<Object, String> graphIdLabel;
+    private Set<String> subgraphLabels;
+
+
     private AbstractLayout layout;
 
     private GraphElementVisualizer edgeVisualizer;
+    private GraphElementVisualizer highLightedEdgeVisualizer;
     private GraphElementVisualizer nodeVisualizer;
+    private GraphElementVisualizer highLightedNodeVisualizer;
 
 
     public Visualizer() {
@@ -23,6 +34,9 @@ public class Visualizer {
 
     public Visualizer(PApplet applet) {
         setApplet(applet);
+
+        subgraphLabels = new HashSet<String>();
+        Utils.loadSubtreeLabels(subgraphLabels);
     }
 
     public void draw() {
@@ -31,11 +45,24 @@ public class Visualizer {
         getApplet().background(0);
 
         for (Object edge : graph.getEdges()) { // first draw edges!
-            edgeVisualizer.draw(edge);
+
+            Object source = graph.getSource(edge);
+            Object dest = graph.getDest(edge);
+
+            if (subgraphLabels.contains(graphIdLabel.get(source)) && subgraphLabels.contains(graphIdLabel.get(dest))) {
+                highLightedEdgeVisualizer.draw(edge);
+            } else {
+                edgeVisualizer.draw(edge);
+            }
+
         }
 
         for (Object node : graph.getVertices()) { // draw nodes!!
-            nodeVisualizer.draw(node);
+            if (subgraphLabels.contains(graphIdLabel.get(node))) {
+                highLightedNodeVisualizer.draw(node);
+            } else {
+                nodeVisualizer.draw(node);
+            }
         }
     }
 
@@ -79,4 +106,23 @@ public class Visualizer {
         this.nodeVisualizer = nodeVisualizer;
     }
 
+    public void setGraphIdLabels(Map<Object, String> idLabel) {
+        this.graphIdLabel = idLabel;
+    }
+
+    public GraphElementVisualizer getHighLightedEdgeVisualizer() {
+        return highLightedEdgeVisualizer;
+    }
+
+    public void setHighLightedEdgeVisualizer(GraphElementVisualizer highLightedEdgeVisualizer) {
+        this.highLightedEdgeVisualizer = highLightedEdgeVisualizer;
+    }
+
+    public GraphElementVisualizer getHighLightedNodeVisualizer() {
+        return highLightedNodeVisualizer;
+    }
+
+    public void setHighLightedNodeVisualizer(GraphElementVisualizer highLightedNodeVisualizer) {
+        this.highLightedNodeVisualizer = highLightedNodeVisualizer;
+    }
 }

@@ -20,7 +20,7 @@ public class JungYedHandler extends AbstractHandler {
 
     private static final String TAG_YED_NODE_LABEL = "y:NodeLabel";
 
-    private Map<String, String> idLabel;
+    private Map<Object, String> idLabel;
     private String currentNodeIs;
     private Boolean labelTag;
 
@@ -28,7 +28,7 @@ public class JungYedHandler extends AbstractHandler {
 
         initGraphsList();
 
-        idLabel = new HashMap<String, String>();
+        idLabel = new HashMap<Object, String>();
     }
 
     // Event Handlers
@@ -140,7 +140,7 @@ public class JungYedHandler extends AbstractHandler {
         }
     }
 
-    public Map<String, String> getIdLabel() {
+    public Map<Object, String> getIdLabel() {
         return idLabel;
     }
 }

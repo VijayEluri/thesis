@@ -2,7 +2,11 @@ package se.lnu.thesis.utils;
 
 import org.apache.log4j.Logger;
 
+import javax.swing.*;
 import java.awt.geom.Point2D;
+import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class Utils {
@@ -30,5 +34,38 @@ public class Utils {
 
     public static double max(double value1, double value2) {
         return value1 > value2 ? value1 : value2;
+    }
+
+    public static void loadSubtreeLabels(Set<String> subgraphLabels) {
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(null);
+        File selectedFile = fileChooser.getSelectedFile();
+
+        if (selectedFile == null) {
+            LOGGER.warn("No file selected to load labels from!");
+
+            return;
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+
+            if (subgraphLabels == null) {
+                subgraphLabels = new HashSet<String>();
+            } else {
+                subgraphLabels.clear();
+            }
+
+            while (reader.ready()) {
+                subgraphLabels.add(reader.readLine());
+            }
+
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
+
     }
 }

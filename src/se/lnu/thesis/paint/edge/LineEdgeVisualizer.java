@@ -19,6 +19,11 @@ public class LineEdgeVisualizer extends AbstractGraphElementVisualizer {
         super(visualizer);
     }
 
+    @Deprecated
+    public void color() {
+
+    }
+
     public void draw(Object edge) {
 
         Point2D start = getVisualizer().getLayout().transform(getVisualizer().getGraph().getSource(edge));

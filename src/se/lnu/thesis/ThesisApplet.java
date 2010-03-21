@@ -8,11 +8,14 @@ import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.Visualizer;
+import se.lnu.thesis.paint.edge.HighLightedPolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.node.CircleNodeVisualizer;
+import se.lnu.thesis.paint.node.HighLightedNodeVisualizer;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Map;
 
 public class ThesisApplet extends PApplet {
 
@@ -36,12 +39,7 @@ public class ThesisApplet extends PApplet {
         System.out.println("Starting initialization..."); // TODO use logger
         long start = System.currentTimeMillis();
 
-        loadClusterGraph();
-        clusterGraphVisualizer = new Visualizer(this);
-        clusterGraphVisualizer.setGraph(clusterGraph);
-        clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
-        clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
-        clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
+        initClusterVisualizer();
 
         long end = System.currentTimeMillis();
         double time = (end - start) / 1000;
@@ -51,18 +49,20 @@ public class ThesisApplet extends PApplet {
         noLoop(); // TODO delete it?
     }
 
-    private void loadClusterGraph() {
+    private Graph loadGraph(File file, AbstractHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(file).get(0);
+    }
+
+    private Map<Object, String> loadClusterGraph() {
+        JungYedHandler yedHandler = new JungYedHandler();
 
         try {
-            clusterGraph = loadGraph(new File(args[0]), new JungYedHandler()); // TODO use FileChooser to pick cluster graph file
+            clusterGraph = loadGraph(new File(args[0]), yedHandler); // TODO use FileChooser to pick cluster graph file
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("No cluster graph file.");
         }
 
-    }
-
-    private Graph loadGraph(File file, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(file).get(0);
+        return yedHandler.getIdLabel();
     }
 
     protected AbstractLayout initPolarDendrogramLayout() {
@@ -83,6 +83,17 @@ public class ThesisApplet extends PApplet {
 
 
         return result;
+    }
+
+    private void initClusterVisualizer() {
+        clusterGraphVisualizer = new Visualizer(this);
+        clusterGraphVisualizer.setGraphIdLabels(loadClusterGraph());
+        clusterGraphVisualizer.setGraph(clusterGraph);
+        clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
+        clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setHighLightedEdgeVisualizer(new HighLightedPolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setHighLightedNodeVisualizer(new HighLightedNodeVisualizer(clusterGraphVisualizer));
     }
 
     @Override

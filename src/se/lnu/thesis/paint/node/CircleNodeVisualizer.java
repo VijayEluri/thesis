@@ -18,6 +18,11 @@ public class CircleNodeVisualizer extends AbstractNodeVisualizer {
         super(visualizer);
     }
 
+    public void color() {
+        getVisualizer().getApplet().fill(255);
+        getVisualizer().getApplet().stroke(255);
+    }
+
     private void drawCircle(Object node) {
         Point2D position = getVisualizer().getLayout().transform(node);
 
@@ -30,9 +35,7 @@ public class CircleNodeVisualizer extends AbstractNodeVisualizer {
     }
 
     public void drawRoot(Object root) {
-        getVisualizer().getApplet().fill(255);
-        getVisualizer().getApplet().stroke(255);
-
+        color();
         drawCircle(root);
     }
 

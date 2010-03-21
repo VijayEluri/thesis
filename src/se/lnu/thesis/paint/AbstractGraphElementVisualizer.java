@@ -16,8 +16,7 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
         setVisualizer(visualizer);
     }
 
-    //public abstract void draw(Object edge);
-
+    public abstract void color();
 
     public Visualizer getVisualizer() {
         return visualizer;

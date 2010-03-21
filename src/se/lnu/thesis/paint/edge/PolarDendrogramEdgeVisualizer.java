@@ -28,9 +28,7 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
 
     public void draw(Object edge) {
 
-        getVisualizer().getApplet().stroke(255); // set edge color to white
-        getVisualizer().getApplet().noFill();
-
+        color();
 
         Object source = getVisualizer().getGraph().getSource(edge);
         Object dest = getVisualizer().getGraph().getDest(edge);
@@ -54,7 +52,12 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
 
     }
 
-    private void drawLine(Point2D start, Point2D end) {
+    public void color() {
+        getVisualizer().getApplet().stroke(255); // set edge color to white
+        getVisualizer().getApplet().noFill();
+    }
+
+    public void drawLine(Point2D start, Point2D end) {
         getVisualizer().getApplet().line(
                 new Float(start.getX()),
                 new Float(start.getY()),
@@ -62,7 +65,7 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
                 new Float(end.getY()));
     }
 
-    private void drawArc(Object source, Object dest) {
+    public void drawArc(Object source, Object dest) {
         Double sourceAngle = (Double) layout.getNode_angle().get(source);
         Double destAngle = (Double) layout.getNode_angle().get(dest);
 
