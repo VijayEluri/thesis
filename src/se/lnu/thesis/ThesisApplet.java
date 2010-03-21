@@ -11,17 +11,25 @@ import se.lnu.thesis.paint.Visualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.node.CircleNodeVisualizer;
 
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class ThesisApplet extends PApplet {
 
+
+    private static final float ZOOM_STEP = 0.05f;
+    private static final float MOVE_STEP = 5.0f;
 
     private Visualizer clusterGraphVisualizer;
 
     private Graph clusterGraph;
     private Graph goGraph;
 
+    private float zoom = 1.0f;
+    private float sceneX = 0.0f;
+    private float sceneY = 0.0f;
 
+    @Override
     public void setup() {
         size(800, 800);
 
@@ -77,12 +85,54 @@ public class ThesisApplet extends PApplet {
         return result;
     }
 
-
+    @Override
     public void draw() {
+        pushMatrix();
+
+        scale(zoom);
+
+        translate(sceneX, sceneY);
 
         clusterGraphVisualizer.draw();
 
+        popMatrix();
         //  drawLavels();
+    }
+
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+        if (key == CODED) {
+            System.out.println(keyCode);// TODO use logger
+
+            if (keyCode == ALT) {
+                zoom -= ZOOM_STEP;
+            }
+            if (keyCode == SHIFT) {
+                zoom += ZOOM_STEP;
+            }
+
+            if (keyCode == UP) {
+                sceneY += MOVE_STEP;
+            }
+            if (keyCode == DOWN) {
+                sceneY -= MOVE_STEP;
+            }
+
+            if (keyCode == LEFT) {
+                sceneX -= MOVE_STEP;
+            }
+            if (keyCode == RIGHT) {
+                sceneX += MOVE_STEP;
+            }
+
+
+            redraw();
+        } else {
+
+        }
+
+
     }
 
     private void drawLavels() {

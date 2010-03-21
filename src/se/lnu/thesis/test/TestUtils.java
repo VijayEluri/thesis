@@ -5,9 +5,12 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import se.lnu.thesis.io.GraphMLParser;
+import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -139,6 +142,38 @@ public class TestUtils {
         end = System.currentTimeMillis();
 
         System.out.println((end - start) / 1000 + "s");
+
+
+        assertEquals(dfsGraphHeight, height + 1);
+        //assertEquals(dfsMap.entrySet(), height);
+    }
+
+    @Test
+    public void testPerfomanceOnRealData() {
+        long start, end;
+
+        start = System.currentTimeMillis();
+        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(new File("RealClusterGraph.graphml")).get(0);
+        end = System.currentTimeMillis();
+
+        System.out.println("Graph loaded in " + (end - start) / 1000 + "s");
+
+
+        Map<Object, Integer> dfsMap = new HashMap<Object, Integer>();
+        Map<Object, Integer> levelMap = new HashMap<Object, Integer>();
+
+        start = System.currentTimeMillis();
+        int dfsGraphHeight = GraphUtils.getInstance().computeLevels(graph, dfsMap);
+        end = System.currentTimeMillis();
+
+        System.out.println("Old version did in " + (end - start) / 1000 + "s");
+
+
+        start = System.currentTimeMillis();
+        int height = GraphUtils.getInstance().computeLevelsV2(graph, levelMap);
+        end = System.currentTimeMillis();
+
+        System.out.println("New version did in " + (end - start) / 1000 + "s");
 
 
         assertEquals(dfsGraphHeight, height + 1);
