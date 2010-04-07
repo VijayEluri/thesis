@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.edge;
 
-import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.Visualizer;
 import se.lnu.thesis.utils.GraphUtils;
@@ -18,12 +18,12 @@ import java.awt.geom.Point2D;
  */
 public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualizer {
 
-    private PolarDendrogramLayout layout;
+    private AbstractPolarDendrogramLayout layout;
 
     public PolarDendrogramEdgeVisualizer(Visualizer visualizer) {
         super(visualizer);
 
-        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
+        layout = (AbstractPolarDendrogramLayout) getVisualizer().getLayout();
     }
 
     public void draw(Object edge) {
@@ -63,8 +63,8 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
     }
 
     private void drawArc(Object source, Object dest) {
-        Double sourceAngle = (Double) layout.getNode_angle().get(source);
-        Double destAngle = (Double) layout.getNode_angle().get(dest);
+        Double sourceAngle = (Double) layout.getNodeAngle().get(source);
+        Double destAngle = (Double) layout.getNodeAngle().get(dest);
 
         float radius = new Float(layout.getNodeRadius(source)) * 2;
 

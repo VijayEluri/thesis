@@ -3,15 +3,11 @@ package se.lnu.thesis.test;
 import edu.uci.ics.jung.graph.DelegateTree;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.Tree;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
-import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.JungYedHandler;
 
-import java.io.File;
 import java.util.List;
 
 
@@ -23,16 +19,6 @@ import java.util.List;
  */
 public class TestJungTree {
 
-    @Test
-    public void loadTree() {
-        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
-        Tree tree = (Tree) parser.load(new File("cluster.graphml")).get(0);
-
-        assertEquals(37, tree.getVertexCount());
-
-        assertEquals(16, tree.getHeight());
-
-    }
 
     /**
      * Create simple tree

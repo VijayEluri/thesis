@@ -22,19 +22,19 @@ public class GraphMLParser {
         setHandler(handler);
     }
 
-    public List load(File file) {
+    public List load(String path) {
 
         List graphs = null;
 
-        if (file != null) {
-            LOGGER.info("Parsing graphml file " + file.getAbsolutePath());
+        if (path != null) {
+            LOGGER.info("Parsing graphml file " + path);
 
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             try {
                 SAXParser saxParser = saxParserFactory.newSAXParser();
 
                 // parse the graphml file and also register this class for call backs
-                saxParser.parse(file, handler);
+                saxParser.parse(path, handler);
 
             } catch (Exception e) {
                 LOGGER.error(e);
@@ -49,6 +49,10 @@ public class GraphMLParser {
         }
 
         return graphs;
+    }
+
+    public List load(File file) {
+        return load(file.getAbsolutePath());
     }
 
     public AbstractHandler getHandler() {

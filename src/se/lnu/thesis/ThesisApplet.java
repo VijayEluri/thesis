@@ -5,14 +5,15 @@ import edu.uci.ics.jung.graph.Graph;
 import processing.core.PApplet;
 import se.lnu.thesis.io.AbstractHandler;
 import se.lnu.thesis.io.GraphMLParser;
+import se.lnu.thesis.io.JungTreeYedHandler;
 import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.Visualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.node.CircleNodeVisualizer;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class ThesisApplet extends PApplet {
@@ -31,9 +32,9 @@ public class ThesisApplet extends PApplet {
 
         long start = System.currentTimeMillis();
 
-        loadClusterGraph();
         clusterGraphVisualizer = new Visualizer(this);
-        clusterGraphVisualizer.setGraph(clusterGraph);
+        clusterGraphVisualizer.setGraph(loadClusterGraph(new JungYedHandler()));
+        //clusterGraphVisualizer.setGraph(loadClusterGraph(new JungTreeYedHandler()));
         clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
         clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
         clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
@@ -43,26 +44,30 @@ public class ThesisApplet extends PApplet {
         long duration = TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS);
 
         System.out.println("Done in " + duration + " seconds."); // TODO use logger
-
-        //noLoop(); // TODO delete it?
     }
 
-    private void loadClusterGraph() {
+    private Graph loadClusterGraph(AbstractHandler handler) {
 
-        try {
-            clusterGraph = loadGraph(new File(args[0]), new JungYedHandler()); // TODO use FileChooser to pick cluster graph file
-        } catch (ArrayIndexOutOfBoundsException e) {
+        if (args.length == 0) {
             throw new IllegalArgumentException("No cluster graph file.");
         }
 
+        long start = System.currentTimeMillis();
+        clusterGraph = loadGraph(args[0], new JungTreeYedHandler());
+        long end = System.currentTimeMillis();
+
+        System.out.println("Loading graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+
+        return clusterGraph;
     }
 
-    private Graph loadGraph(File file, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(file).get(0);
+    private Graph loadGraph(String path, AbstractHandler handler) {
+        return (Graph) new GraphMLParser(handler).load(path).get(0);
     }
 
     protected AbstractLayout initPolarDendrogramLayout() {
-        PolarDendrogramLayout result = new PolarDendrogramLayout(clusterGraph);
+        AbstractPolarDendrogramLayout result = new PolarDendrogramLayout(clusterGraph);
+        //AbstractPolarDendrogramLayout result = new TreePolarDendrogramLayout((Tree) clusterGraph);
 
         double height = getSize().getHeight();
         double width = getSize().getWidth();
@@ -74,9 +79,11 @@ public class ThesisApplet extends PApplet {
 
         result.setSize(getSize());
 
-
+        long start = System.currentTimeMillis();
         result.initialize(); // compute nodes positions
+        long end = System.currentTimeMillis();
 
+        System.out.println("Layout computing done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s"); // TODO use logger
 
         return result;
     }
