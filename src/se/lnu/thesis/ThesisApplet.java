@@ -13,27 +13,22 @@ import se.lnu.thesis.paint.node.CircleNodeVisualizer;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class ThesisApplet extends PApplet {
 
-
-    private static final float ZOOM_STEP = 0.05f;
-    private static final float MOVE_STEP = 5.0f;
 
     private Visualizer clusterGraphVisualizer;
 
     private Graph clusterGraph;
     private Graph goGraph;
 
-    private float zoom = 1.0f;
-    private float sceneX = 0.0f;
-    private float sceneY = 0.0f;
-
     @Override
     public void setup() {
         size(800, 800);
 
         System.out.println("Starting initialization..."); // TODO use logger
+
         long start = System.currentTimeMillis();
 
         loadClusterGraph();
@@ -44,11 +39,12 @@ public class ThesisApplet extends PApplet {
         clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
 
         long end = System.currentTimeMillis();
-        double time = (end - start) / 1000;
 
-        System.out.println("Done in " + time + " seconds."); // TODO use logger
+        long duration = TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS);
 
-        noLoop(); // TODO delete it?
+        System.out.println("Done in " + duration + " seconds."); // TODO use logger
+
+        //noLoop(); // TODO delete it?
     }
 
     private void loadClusterGraph() {
@@ -87,16 +83,7 @@ public class ThesisApplet extends PApplet {
 
     @Override
     public void draw() {
-        pushMatrix();
-
-        scale(zoom);
-
-        translate(sceneX, sceneY);
-
         clusterGraphVisualizer.draw();
-
-        popMatrix();
-        //  drawLavels();
     }
 
 
@@ -106,32 +93,31 @@ public class ThesisApplet extends PApplet {
             System.out.println(keyCode);// TODO use logger
 
             if (keyCode == ALT) {
-                zoom -= ZOOM_STEP;
+                clusterGraphVisualizer.zoomOut();
             }
             if (keyCode == SHIFT) {
-                zoom += ZOOM_STEP;
+                clusterGraphVisualizer.zoomIn();
             }
 
             if (keyCode == UP) {
-                sceneY += MOVE_STEP;
+                clusterGraphVisualizer.down();
             }
             if (keyCode == DOWN) {
-                sceneY -= MOVE_STEP;
+                clusterGraphVisualizer.up();
             }
 
             if (keyCode == LEFT) {
-                sceneX -= MOVE_STEP;
+                clusterGraphVisualizer.left();
             }
             if (keyCode == RIGHT) {
-                sceneX += MOVE_STEP;
+                clusterGraphVisualizer.right();
             }
 
 
             redraw();
         } else {
-
+            System.out.println("No key code!");// TODO use logger
         }
-
 
     }
 

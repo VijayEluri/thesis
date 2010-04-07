@@ -7,14 +7,25 @@ import processing.core.PApplet;
 
 public class Visualizer {
 
+    public static final float DEFAULT_ZOOM_STEP = 0.05f;
+    public static final float DEFAULT_MOVE_STEP = 5.0f;
+
     private PApplet applet;
 
     private Graph graph;
 
     private AbstractLayout layout;
-
     private GraphElementVisualizer edgeVisualizer;
+
     private GraphElementVisualizer nodeVisualizer;
+
+    private float zoom = 1.0f;
+
+    private float sceneCenterX = 0.0f;
+    private float sceneCenterY = 0.0f;
+
+    private float zoomStep = DEFAULT_ZOOM_STEP;
+    private float moveStep = DEFAULT_MOVE_STEP;
 
 
     public Visualizer() {
@@ -26,6 +37,11 @@ public class Visualizer {
     }
 
     public void draw() {
+        getApplet().pushMatrix();
+
+        getApplet().scale(zoom);
+        getApplet().translate(sceneCenterX, sceneCenterY);
+
 
         getApplet().smooth();
         getApplet().background(0);
@@ -37,6 +53,8 @@ public class Visualizer {
         for (Object node : graph.getVertices()) { // draw nodes!!
             nodeVisualizer.draw(node);
         }
+
+        getApplet().popMatrix();
     }
 
     public PApplet getApplet() {
@@ -79,4 +97,48 @@ public class Visualizer {
         this.nodeVisualizer = nodeVisualizer;
     }
 
+    public void zoomOut() {
+        zoom -= zoomStep;
+    }
+
+    public void zoomIn() {
+        zoom += zoomStep;
+    }
+
+    public void up() {
+        sceneCenterY += moveStep;
+    }
+
+    public void down() {
+        sceneCenterY -= moveStep;
+    }
+
+    public void left() {
+        sceneCenterX -= moveStep;
+    }
+
+    public void right() {
+        sceneCenterX += moveStep;
+    }
+
+    public void move(float stepX, float stepY) {
+        sceneCenterX += stepX;
+        sceneCenterY += stepY;
+    }
+
+    public float getZoomStep() {
+        return zoomStep;
+    }
+
+    public void setZoomStep(float zoomStep) {
+        this.zoomStep = zoomStep;
+    }
+
+    public float getMoveStep() {
+        return moveStep;
+    }
+
+    public void setMoveStep(float moveStep) {
+        this.moveStep = moveStep;
+    }
 }

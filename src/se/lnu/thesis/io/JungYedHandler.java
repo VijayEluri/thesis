@@ -132,7 +132,14 @@ public class JungYedHandler extends AbstractHandler {
         if (key != null) {
             LOGGER.debug("Creating node with key: '" + key + "'");
 
-            ((edu.uci.ics.jung.graph.Graph) graph).addVertex(key);
+            try {
+                ((edu.uci.ics.jung.graph.Graph) graph).addVertex(Integer.parseInt((String) key));
+            } catch (Exception e) {
+
+                LOGGER.warn("Error creating int value for key '" + key + "'");
+
+                ((edu.uci.ics.jung.graph.Graph) graph).addVertex(key);
+            }
 
             LOGGER.debug("Done.");
         } else {
