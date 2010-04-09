@@ -28,9 +28,6 @@ public class GraphUtils<V, E> {
     private Stack stack;
     private Set visited;
 
-    private List result;
-
-
     private GraphUtils() {
     }
 
@@ -47,18 +44,12 @@ public class GraphUtils<V, E> {
             visited.clear();
         }
 
-
-        if (result == null) {
-            result = new LinkedList();
-        } else {
-            result.clear();
-        }
-
     }
 
     public List<V> invertDfsNodes(Graph<V, E> graph, V node) {
 
         init();
+        List result = new LinkedList();
 
         stack.push(node);
 
@@ -84,8 +75,10 @@ public class GraphUtils<V, E> {
     public List<V> dfsNodes(Graph<V, E> graph, V node) {
 
         init();
+        List result = new LinkedList();
 
         stack.push(node);
+
 
         while (!stack.isEmpty()) {
             V next = (V) stack.pop();
@@ -181,4 +174,35 @@ public class GraphUtils<V, E> {
     public boolean isRoot(Graph graph, Object node) {
         return graph.inDegree(node) == 0;
     }
+
+    public Set getNodeLeafs(Graph graph, Object root) {
+        init();
+
+        Set result = new HashSet();
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            V next = (V) stack.pop();
+
+            if (visited.add(next)) {
+
+                if (isLeaf(graph, next)) {
+                    result.add(next);
+                } else {
+                    for (Object neighbor : graph.getSuccessors(next)) {
+                        if (!visited.contains(neighbor)) {
+                            stack.push(neighbor);
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        return result;
+    }
+
+
 }

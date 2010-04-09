@@ -3,7 +3,7 @@ package se.lnu.thesis.test;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungYedHandler;
@@ -13,24 +13,61 @@ import se.lnu.thesis.utils.Utils;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public class TestUtils {
 
     @Test
     public void testMin() {
-        assertEquals(5.0f, Utils.min(9.0d, 5.0d));
+        assertEquals(5.0, Utils.min(9.0d, 5.0d));
     }
 
     @Test
     public void testMax() {
-        assertEquals(9.0f, Utils.max(9.0d, 5.0d));
+        assertEquals(9.0, Utils.max(9.0d, 5.0d));
+    }
+
+    @Test
+    public void graphHeight() {
+        Graph graph = createGraph();
+
+        assertEquals(11, graph.getVertexCount());
+        assertEquals(10, graph.getEdgeCount());
+
+        assertEquals(0, GraphUtils.getInstance().getNodeHeight(graph, 1, 0)); // root node
+        assertEquals(2, GraphUtils.getInstance().getNodeHeight(graph, 5, 0));
+        assertEquals(3, GraphUtils.getInstance().getNodeHeight(graph, 5, 1));
+        assertEquals(5, GraphUtils.getInstance().getNodeHeight(graph, 8, 0));
+        assertEquals(7, GraphUtils.getInstance().getNodeHeight(graph, 11, 0));
+        assertEquals(8, GraphUtils.getInstance().getNodeHeight(graph, 11, 1));
+    }
+
+    @Test
+    public void nodeLeafs() {
+        Graph graph = createGraph();
+
+        assertEquals(11, graph.getVertexCount());
+        assertEquals(10, graph.getEdgeCount());
+
+        assertTrue(graph.containsVertex(1));
+
+        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, 1);
+
+        assertEquals(4, leafs.size());
+
+        assertFalse("There are shouldn't be 3!!", leafs.contains(3));
+
+        assertTrue(leafs.contains(2));
+        assertTrue(leafs.contains(4));
+        assertTrue(leafs.contains(9));
+        assertTrue(leafs.contains(11));
     }
 
     /**
      * ______1
      * ____/   \
-     * ___2     3
+     * ___3     2
      * _/  \
      * 4    5
      * _____|
@@ -44,8 +81,7 @@ public class TestUtils {
      * ______|
      * ______11
      */
-    @Test
-    public void graphHeight() {
+    private Graph createGraph() {
         Graph graph = new DirectedSparseGraph();
 
         graph.addVertex(1);
@@ -71,15 +107,7 @@ public class TestUtils {
         graph.addEdge("8->10", 8, 10, EdgeType.DIRECTED);
         graph.addEdge("10->11", 10, 11, EdgeType.DIRECTED);
 
-        assertEquals(11, graph.getVertexCount());
-        assertEquals(10, graph.getEdgeCount());
-
-        assertEquals(0, GraphUtils.getInstance().getNodeHeight(graph, 1, 0)); // root node
-        assertEquals(2, GraphUtils.getInstance().getNodeHeight(graph, 5, 0));
-        assertEquals(3, GraphUtils.getInstance().getNodeHeight(graph, 5, 1));
-        assertEquals(5, GraphUtils.getInstance().getNodeHeight(graph, 8, 0));
-        assertEquals(7, GraphUtils.getInstance().getNodeHeight(graph, 11, 0));
-        assertEquals(8, GraphUtils.getInstance().getNodeHeight(graph, 11, 1));
+        return graph;
     }
 
     @Test

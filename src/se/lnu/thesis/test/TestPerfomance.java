@@ -3,17 +3,22 @@ package se.lnu.thesis.test;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungTreeYedHandler;
 import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.io.MyGraphYedHandler;
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.layout.TreePolarDendrogramLayout;
+import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,24 +27,50 @@ import java.util.concurrent.TimeUnit;
  * Date: 07.04.2010
  * Time: 16:58:02
  */
-public class TestJungTreeYedHandler {
+public class TestPerfomance {
 
     final int nodes = 14623;
     final int edges = 14622;
 
     @Test
-    public void loadTree() {
+    public void iterate() {
         GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
-        Tree tree = (Tree) parser.load(new File("cluster.graphml")).get(0);
 
-        assertEquals(23, tree.getVertexCount());
-        assertEquals(11, tree.getHeight());
+        Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
 
-        assertTrue(tree.containsVertex("n10"));
-        assertEquals(5, tree.getDepth("n10"));
+        assertEquals(nodes, graph.getVertexCount());
+        assertEquals(edges, graph.getEdgeCount());
 
-        assertTrue(tree.containsVertex("n0"));
-        assertEquals(0, tree.getDepth("n0"));
+
+        long start = System.currentTimeMillis();
+
+        Set visited = new HashSet();
+        Stack stack = new Stack();
+
+        Object root = GraphUtils.getInstance().findRoot((Graph) graph);
+
+        stack.push(root);
+        visited.add(root);
+
+        while (!stack.isEmpty()) {
+            Object parent = stack.pop();
+
+            for (Object child : ((Graph) graph).getSuccessors(parent)) {
+                if (!visited.contains(child)) {
+                    visited.add(child);
+                    stack.push(child);
+                }
+            }
+
+        }
+
+        long end = System.currentTimeMillis();
+
+        assertEquals(nodes, visited.size());
+
+        //System.out.println("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+        System.out.println("Done in " + (end - start) + "s");
+
     }
 
     @Test
@@ -74,6 +105,23 @@ public class TestJungTreeYedHandler {
 
         assertEquals(nodes, graph.getVertexCount());
         assertEquals(edges, graph.getEdgeCount());
+    }
+
+    @Test
+    public void loadMyGraph() {
+        GraphMLParser parser = new GraphMLParser(new MyGraphYedHandler());
+
+        long start = System.currentTimeMillis();
+        MyGraph graph = (MyGraph) parser.load(new File("RealClusterGraph.graphml")).get(0);
+        long end = System.currentTimeMillis();
+
+        System.out.println("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+
+        assertEquals(nodes, graph.getVertexCount());
+        assertEquals(edges, graph.getEdgeCount());
+
+        assertEquals("AFFX-HXB2_5_at", graph.getLabel("n8"));
+        assertEquals("n8", graph.getNodeByLabel("AFFX-HXB2_5_at"));
     }
 
 
