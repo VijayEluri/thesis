@@ -2,7 +2,7 @@ package se.lnu.thesis.paint.edge;
 
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
-import se.lnu.thesis.paint.Visualizer;
+import se.lnu.thesis.paint.GraphVisualizer;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
@@ -20,17 +20,13 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
 
     private AbstractPolarDendrogramLayout layout;
 
-    public PolarDendrogramEdgeVisualizer(Visualizer visualizer) {
+    public PolarDendrogramEdgeVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
 
         layout = (AbstractPolarDendrogramLayout) getVisualizer().getLayout();
     }
 
     public void draw(Object edge) {
-
-        getVisualizer().getApplet().stroke(255); // set edge color to white
-        getVisualizer().getApplet().noFill();
-
 
         Object source = getVisualizer().getGraph().getSource(edge);
         Object dest = getVisualizer().getGraph().getDest(edge);

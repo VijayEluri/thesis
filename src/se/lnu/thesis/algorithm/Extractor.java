@@ -24,7 +24,7 @@ import java.util.Set;
 public class Extractor {
 
     public Graph extractSubGraph(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
-
+        // TODO !!! add caching!
         Graph subGraph = new DirectedSparseGraph();
 
         Object subGraphRoot = null;
@@ -37,7 +37,7 @@ public class Extractor {
 
             if (leafs.size() > 1) {
                 String error = "Error! Found couple leafs with label '" + label + "'!!";
-                System.out.println(error);
+                System.out.println(error);                    // TODO use logger
                 throw new IllegalStateException(error);
             }
 
@@ -60,12 +60,12 @@ public class Extractor {
             subGraphRoot = connectedNodes.get(connectedNodes.size() - 1); // TODO maybe use clusterGraph.getRoot() ?
         }
 
-        optimize(subGraph, subGraphRoot);
+        removeRootChains(subGraph, subGraphRoot);
 
         return subGraph;
     }
 
-    public void optimize(Graph graph, Object root) {
+    public void removeRootChains(Graph graph, Object root) {
         if (graph.outDegree(root) == 0) {
             return;
         }
@@ -74,7 +74,7 @@ public class Extractor {
             Object next = graph.getSuccessors(root).iterator().next();
 
             graph.removeVertex(root);
-            optimize(graph, next);
+            removeRootChains(graph, next);
         }
     }
 

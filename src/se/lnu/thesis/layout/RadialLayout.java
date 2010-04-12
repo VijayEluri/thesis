@@ -44,7 +44,7 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
 
         V root = (V) GraphUtils.getInstance().findRoot(getGraph());
         if (root == null) {
-            throw new IllegalArgumentException("No root node! Cannt draw unrooted draph..");
+            throw new IllegalArgumentException("No root vertex! Cannt draw unrooted draph..");
         }
 
         computeAngles(root, 0, 360);
@@ -121,8 +121,8 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
             double y = Math.sin(toRadians(angle)) * nodeRadius(node) + getSize().getHeight() / 2;
 
 /*
-            double x = Math.cos(angle) * getNodeRadius(node) + getSize().getWidth() / 2;
-            double y = Math.sin(angle) * getNodeRadius(node) + getSize().getHeight() / 2;
+            double x = Math.cos(angle) * getNodeRadius(vertex) + getSize().getWidth() / 2;
+            double y = Math.sin(angle) * getNodeRadius(vertex) + getSize().getHeight() / 2;
 */
 
             //     System.out.println(angle + " [" + x + "," + y + "]");
@@ -132,7 +132,7 @@ public class RadialLayout<V, E> extends CircleLayout<V, E> {
     }
 
     private double nodeRadius(V node) {
-//        if (getGraph().outDegree(node) == 0) {
+//        if (getGraph().outDegree(vertex) == 0) {
         //          return getRadius();
         //    } else {
         return getRadius() / level * node_level.get(node);

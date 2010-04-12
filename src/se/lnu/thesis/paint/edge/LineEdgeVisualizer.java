@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.edge;
 
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
-import se.lnu.thesis.paint.Visualizer;
+import se.lnu.thesis.paint.GraphVisualizer;
 
 import java.awt.geom.Point2D;
 
@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  */
 public class LineEdgeVisualizer extends AbstractGraphElementVisualizer {
 
-    public LineEdgeVisualizer(Visualizer visualizer) {
+    public LineEdgeVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
     }
 

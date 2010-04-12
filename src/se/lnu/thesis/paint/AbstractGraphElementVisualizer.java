@@ -6,24 +6,24 @@ package se.lnu.thesis.paint;
  */
 public abstract class AbstractGraphElementVisualizer implements GraphElementVisualizer {
 
-    private Visualizer visualizer;
+    private GraphVisualizer visualizer;
 
     public AbstractGraphElementVisualizer() {
 
     }
 
-    public AbstractGraphElementVisualizer(Visualizer visualizer) {
+    public AbstractGraphElementVisualizer(GraphVisualizer visualizer) {
         setVisualizer(visualizer);
     }
 
     //public abstract void draw(Object edge);
 
 
-    public Visualizer getVisualizer() {
+    public GraphVisualizer getVisualizer() {
         return visualizer;
     }
 
-    public void setVisualizer(Visualizer visualizer) {
+    public void setVisualizer(GraphVisualizer visualizer) {
         this.visualizer = visualizer;
     }
 

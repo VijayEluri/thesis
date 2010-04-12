@@ -35,7 +35,7 @@ public class TestUtils {
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
 
-        assertEquals(0, GraphUtils.getInstance().getNodeHeight(graph, 1, 0)); // root node
+        assertEquals(0, GraphUtils.getInstance().getNodeHeight(graph, 1, 0)); // root vertex
         assertEquals(2, GraphUtils.getInstance().getNodeHeight(graph, 5, 0));
         assertEquals(3, GraphUtils.getInstance().getNodeHeight(graph, 5, 1));
         assertEquals(5, GraphUtils.getInstance().getNodeHeight(graph, 8, 0));

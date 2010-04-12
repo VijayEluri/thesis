@@ -1,68 +1,91 @@
-package se.lnu.thesis;
+package se.lnu.thesis.gui;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 import processing.core.PApplet;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.AbstractHandler;
 import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.JungTreeYedHandler;
-import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.io.MyGraphYedHandler;
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.Visualizer;
+import se.lnu.thesis.paint.ClusterGraphVisualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
-import se.lnu.thesis.paint.node.CircleNodeVisualizer;
+import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 
 import java.awt.event.KeyEvent;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
-public class ThesisApplet extends PApplet {
+public class ThesisApplet extends PApplet implements Observer {
 
 
-    private Visualizer clusterGraphVisualizer;
+    private static final int DEFAULT_APPLET_HEGIHT = 800;
+    private static final int DEFAULT_APPLET_WIDTH = 800;
 
-    private Graph clusterGraph;
-    private Graph goGraph;
+    private SelectionDialog selectionDialog;
+
+    private ClusterGraphVisualizer clusterGraphVisualizer;
+
+    private MyGraph clusterGraph;
+    private MyGraph goGraph;
 
     @Override
     public void setup() {
-        size(800, 800);
+        size(DEFAULT_APPLET_HEGIHT, DEFAULT_APPLET_WIDTH);
 
         System.out.println("Starting initialization..."); // TODO use logger
 
         long start = System.currentTimeMillis();
 
-        clusterGraphVisualizer = new Visualizer(this);
-        clusterGraphVisualizer.setGraph(loadClusterGraph(new JungYedHandler()));
-        //clusterGraphVisualizer.setGraph(loadClusterGraph(new JungTreeYedHandler()));
-        clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
-        clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
-        clusterGraphVisualizer.setNodeVisualizer(new CircleNodeVisualizer(clusterGraphVisualizer));
+        loadGoGraph();
+
+        setupClusterVisualizer();
+
 
         long end = System.currentTimeMillis();
-
         long duration = TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS);
 
-        System.out.println("Done in " + duration + " seconds."); // TODO use logger
+        System.out.println("Initializaton done in " + duration + " seconds."); // TODO use logger
+
+        if (goGraph != null) {   // TODO move it separete method 
+            selectionDialog = new SelectionDialog();
+            selectionDialog.init(goGraph.getNodeLabel());
+            selectionDialog.setObserver(this);
+            selectionDialog.setVisible(true);
+        }
     }
 
-    private Graph loadClusterGraph(AbstractHandler handler) {
+    private void setupClusterVisualizer() {
 
-        if (args.length == 0) {
-            throw new IllegalArgumentException("No cluster graph file.");
-        }
+        clusterGraphVisualizer = new ClusterGraphVisualizer(this);
 
-        long start = System.currentTimeMillis();
-        clusterGraph = loadGraph(args[0], new JungTreeYedHandler());
-        long end = System.currentTimeMillis();
+        clusterGraph = (MyGraph) loadGraph(args[1], new MyGraphYedHandler());
 
-        System.out.println("Loading graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+        clusterGraphVisualizer.setGoGraph(goGraph);
+        clusterGraphVisualizer.setGraph(clusterGraph);
+        clusterGraphVisualizer.setLayout(initPolarDendrogramLayout());
+        clusterGraphVisualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(clusterGraphVisualizer));
+        clusterGraphVisualizer.setVertexVisualizer(new CircleVertexVisualizer(clusterGraphVisualizer));
+    }
 
-        return clusterGraph;
+    private Graph loadGoGraph() {
+        goGraph = (MyGraph) loadGraph(args[0], new MyGraphYedHandler());
+
+        return goGraph;
     }
 
     private Graph loadGraph(String path, AbstractHandler handler) {
-        return (Graph) new GraphMLParser(handler).load(path).get(0);
+        Graph graph = null;
+
+        long start = System.currentTimeMillis();
+        graph = (Graph) new GraphMLParser(handler).load(path).get(0);
+        long end = System.currentTimeMillis();
+
+        System.out.println("Loading graph from file '" + path + "'.. Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s"); // TODO use logger
+
+        return graph;
     }
 
     protected AbstractLayout initPolarDendrogramLayout() {
@@ -128,21 +151,9 @@ public class ThesisApplet extends PApplet {
 
     }
 
-    private void drawLavels() {
-        noFill();
-        stroke(255);
-
-        int levels = ((PolarDendrogramLayout) clusterGraphVisualizer.getLayout()).getGraphHeight();
-
-        double d = (((PolarDendrogramLayout) clusterGraphVisualizer.getLayout()).getRadius() / levels) * 2;
-
-        for (int i = 1; i <= levels; i++) {
-            Float length = new Float(d * i);
-
-            ellipse(getWidth() / 2, getHeight() / 2, length, length);
-        }
-
+    public void update(Observable observable, Object o) {
+        // some vertex selected in the list
+        clusterGraphVisualizer.setSelectedGoNode(selectionDialog.getSelectedNode());
+        redraw();
     }
-
-
 }

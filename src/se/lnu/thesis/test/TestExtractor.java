@@ -77,7 +77,7 @@ public class TestExtractor {
         Assert.assertTrue(graph.containsVertex(6));
 
         Extractor extractor = new Extractor();
-        extractor.optimize(graph, 1);
+        extractor.removeRootChains(graph, 1);
 
         Assert.assertEquals(5, graph.getVertexCount());
         Assert.assertEquals(4, graph.getEdgeCount());
@@ -99,7 +99,7 @@ public class TestExtractor {
         Assert.assertTrue(graph.containsVertex(6));
 
         Extractor extractor = new Extractor();
-        extractor.optimize(graph, 4);
+        extractor.removeRootChains(graph, 4);
 
         Assert.assertEquals(8, graph.getVertexCount());
         Assert.assertEquals(6, graph.getEdgeCount());
@@ -145,6 +145,26 @@ public class TestExtractor {
         Assert.assertFalse(clusterGraph.containsVertex(4));
         Assert.assertFalse(clusterGraph.containsVertex(5));
 */
+    }
+
+    @Test
+    public void extractSmall() {
+
+        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallGO.graphml").get(0);
+        Assert.assertEquals(10, goGraph.getVertexCount());
+        Assert.assertEquals(12, goGraph.getEdgeCount());
+
+        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallCluster.graphml").get(0);
+        Assert.assertEquals(9, clusterGraph.getVertexCount());
+        Assert.assertEquals(8, clusterGraph.getEdgeCount());
+
+        Extractor extractor = new Extractor();
+
+        Graph subGraph = extractor.extractSubGraph(goGraph, clusterGraph, goGraph.getNodeByLabel("10"));
+        Assert.assertEquals(3, subGraph.getVertexCount());
+        Assert.assertTrue(subGraph.containsVertex("n0"));
+        Assert.assertTrue(subGraph.containsVertex("n1"));
+        Assert.assertTrue(subGraph.containsVertex("n2"));
     }
 
 }

@@ -1,40 +1,29 @@
 package se.lnu.thesis.paint;
 
-import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
-import edu.uci.ics.jung.graph.Graph;
 import processing.core.PApplet;
 
+import java.awt.*;
 
-public class Visualizer {
+/**
+ * Created by IntelliJ IDEA.
+ * User: vady
+ * Date: 12.04.2010
+ * Time: 1:18:20
+ * <p/>
+ * This class handles all drawing routine.
+ */
+public abstract class Visualizer {
 
     public static final float DEFAULT_ZOOM_STEP = 0.05f;
     public static final float DEFAULT_MOVE_STEP = 5.0f;
-
+    public static final Color DEFAULT_BACKGROUND = Color.BLACK;
     private PApplet applet;
-
-    private Graph graph;
-
-    private AbstractLayout layout;
-    private GraphElementVisualizer edgeVisualizer;
-
-    private GraphElementVisualizer nodeVisualizer;
-
     private float zoom = 1.0f;
-
     private float sceneCenterX = 0.0f;
     private float sceneCenterY = 0.0f;
-
     private float zoomStep = DEFAULT_ZOOM_STEP;
     private float moveStep = DEFAULT_MOVE_STEP;
-
-
-    public Visualizer() {
-
-    }
-
-    public Visualizer(PApplet applet) {
-        setApplet(applet);
-    }
+    private Color background = DEFAULT_BACKGROUND;
 
     public void draw() {
         getApplet().pushMatrix();
@@ -44,18 +33,14 @@ public class Visualizer {
 
 
         getApplet().smooth();
-        getApplet().background(0);
+        getApplet().background(background.getRed(), background.getGreen(), background.getBlue());
 
-        for (Object edge : graph.getEdges()) { // first draw edges!
-            edgeVisualizer.draw(edge);
-        }
-
-        for (Object node : graph.getVertices()) { // draw nodes!!
-            nodeVisualizer.draw(node);
-        }
+        drawScene();
 
         getApplet().popMatrix();
     }
+
+    protected abstract void drawScene();
 
     public PApplet getApplet() {
         return applet;
@@ -65,36 +50,12 @@ public class Visualizer {
         this.applet = applet;
     }
 
-    public Graph getGraph() {
-        return graph;
+    public Color getBackground() {
+        return background;
     }
 
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
-    public AbstractLayout getLayout() {
-        return layout;
-    }
-
-    public void setLayout(AbstractLayout layout) {
-        this.layout = layout;
-    }
-
-    public GraphElementVisualizer getEdgeVisualizer() {
-        return edgeVisualizer;
-    }
-
-    public void setEdgeVisualizer(GraphElementVisualizer edgeVisualizer) {
-        this.edgeVisualizer = edgeVisualizer;
-    }
-
-    public GraphElementVisualizer getNodeVisualizer() {
-        return nodeVisualizer;
-    }
-
-    public void setNodeVisualizer(GraphElementVisualizer nodeVisualizer) {
-        this.nodeVisualizer = nodeVisualizer;
+    public void setBackground(Color background) {
+        this.background = background;
     }
 
     public void zoomOut() {
