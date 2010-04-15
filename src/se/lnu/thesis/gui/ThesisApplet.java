@@ -51,7 +51,7 @@ public class ThesisApplet extends PApplet implements Observer {
 
         if (goGraph != null) {   // TODO move it separete method 
             selectionDialog = new SelectionDialog();
-            selectionDialog.init(goGraph.getNodeLabel());
+            selectionDialog.initListContent(goGraph.getNodeLabel());
             selectionDialog.setObserver(this);
             selectionDialog.setVisible(true);
         }

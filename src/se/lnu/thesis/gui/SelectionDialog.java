@@ -28,7 +28,7 @@ public class SelectionDialog extends JFrame {
 
     public SelectionDialog() {
         setSize(150, 300);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         labels = new DefaultListModel();
 
@@ -38,14 +38,14 @@ public class SelectionDialog extends JFrame {
         list.addListSelectionListener(new SelectionListener());
 
         JScrollPane scrollPane = new JScrollPane(list);
-        scrollPane.setWheelScrollingEnabled(true);                   // TODO fix scrollbars visualization
+        scrollPane.setWheelScrollingEnabled(true);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        this.add(list);
+        this.add(scrollPane);
     }
 
-    public void init(Map<Object, String> nodeLabel) {
+    public void initListContent(Map<Object, String> nodeLabel) {
         this.nodeLabel = nodeLabel;
 
         labels.clear();
@@ -92,6 +92,10 @@ public class SelectionDialog extends JFrame {
         }
     }
 
+    public void showIt() {
+        setVisible(true);
+    }
+
     private class SelectionListener implements ListSelectionListener {
 
         public void valueChanged(ListSelectionEvent event) {
@@ -127,10 +131,9 @@ public class SelectionDialog extends JFrame {
         }
 
         SelectionDialog selectionDialog = new SelectionDialog();
-        selectionDialog.init(nodeLabel);
+        selectionDialog.initListContent(nodeLabel);
         selectionDialog.setVisible(true);
 
     }
-
 
 }
