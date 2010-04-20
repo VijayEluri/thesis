@@ -130,8 +130,10 @@ public class TestExtractor {
         Extractor extractor = new Extractor();
 
         long start = System.currentTimeMillis();
-        Graph subGraph = extractor.extractSubGraph(goGraph, clusterGraph, "n7315");
+        extractor.extractSubGraphs(goGraph, clusterGraph, "n7315");
         long end = System.currentTimeMillis();
+
+        Graph subGraph = extractor.getClusterSubGraph();
 
         System.out.println("Extracting subgraph on real data. Done in " + (end - start) + "ms");
 
@@ -160,7 +162,9 @@ public class TestExtractor {
 
         Extractor extractor = new Extractor();
 
-        Graph subGraph = extractor.extractSubGraph(goGraph, clusterGraph, goGraph.getNodeByLabel("10"));
+        extractor.extractSubGraphs(goGraph, clusterGraph, goGraph.getNodeByLabel("10"));
+        Graph subGraph = extractor.getClusterSubGraph();
+
         Assert.assertEquals(3, subGraph.getVertexCount());
         Assert.assertTrue(subGraph.containsVertex("n0"));
         Assert.assertTrue(subGraph.containsVertex("n1"));

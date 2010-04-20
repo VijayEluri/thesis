@@ -1,11 +1,18 @@
 package se.lnu.thesis.gui;
 
+import se.lnu.thesis.Thesis;
+import se.lnu.thesis.algorithm.Extractor;
+import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.utils.myobserver.Observer;
+import se.lnu.thesis.utils.myobserver.Subject;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Observer;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,18 +20,20 @@ import java.util.Observer;
  * Date: 11.04.2010
  * Time: 15:59:56
  * <p/>
- * GO node selectable list
+ * Gene Ontology node selectable list
  */
-public class SelectionDialog extends JFrame {
+public class SelectionDialog extends JFrame implements ListSelectionListener, Subject {
 
     private JList list;
 
     private Map<Object, String> nodeLabel;
     private Map<Integer, Object> indexNode;
 
-    private Observer observer;
+    private Set<Observer> observers;
 
     private DefaultListModel labels;
+
+    private Extractor extractor;
 
     public SelectionDialog() {
         setSize(150, 300);
@@ -35,7 +44,7 @@ public class SelectionDialog extends JFrame {
         list = new JList();
         list.setModel(labels);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.addListSelectionListener(new SelectionListener());
+        list.addListSelectionListener(this);
 
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setWheelScrollingEnabled(true);
@@ -43,6 +52,10 @@ public class SelectionDialog extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         this.add(scrollPane);
+
+        observers = new HashSet<Observer>();
+
+        extractor = new Extractor();
     }
 
     public void initListContent(Map<Object, String> nodeLabel) {
@@ -65,9 +78,20 @@ public class SelectionDialog extends JFrame {
 
     }
 
-    public void setObserver(Observer observer) {
-        this.observer = observer;
+    public boolean registerObserver(se.lnu.thesis.utils.myobserver.Observer observer) {
+        return observers.add(observer);
     }
+
+    public boolean unregisterObserver(se.lnu.thesis.utils.myobserver.Observer observer) {
+        return observers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.notifyObserver(this, extractor);
+        }
+    }
+
 
     /**
      * Get selected node key object if selected otherwise null
@@ -96,25 +120,31 @@ public class SelectionDialog extends JFrame {
         setVisible(true);
     }
 
-    private class SelectionListener implements ListSelectionListener {
+    public void valueChanged(ListSelectionEvent event) {
+        // TODO if same element than unselect!
 
-        public void valueChanged(ListSelectionEvent event) {
-            // TODO if same element than unselect!
+        if (!event.getValueIsAdjusting()) {
 
-            if (!event.getValueIsAdjusting()) {
+            if (list.getSelectedIndex() > -1) {
 
-                if (list.getSelectedIndex() > -1) {
+                System.out.println(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel()); // TODO use logger
 
-                    System.out.println(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel()); // TODO use logger
+                if (getSelectedNode() != null) {
+                    System.out.println("Extracting subgraph.."); //TODO use logger
 
-                    if (SelectionDialog.this.observer != null) {
-                        SelectionDialog.this.observer.update(null, null);
-                    }
+                    extractor.extractSubGraphs((MyGraph) Thesis.getInstance().getGOGraph(), (MyGraph) Thesis.getInstance().getClusterGraph(), getSelectedNode());
+
+                    System.out.println("Done.");
+//                    System.out.println("GO subgraph [" + extractor.getGoSubGraph().getVertexCount() + ", " + extractor.getGoSubGraph().getEdgeCount() + "]"); //TODO use logger
+                    System.out.println("Cluster subgraph [" + extractor.getClusterSubGraph().getVertexCount() + ", " + extractor.getClusterSubGraph().getEdgeCount() + "]"); //TODO use logger
+
+                    notifyObservers();
                 }
 
             }
 
         }
+
     }
 
 

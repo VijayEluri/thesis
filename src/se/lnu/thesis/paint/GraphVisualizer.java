@@ -32,12 +32,12 @@ public class GraphVisualizer extends Visualizer {
         }
     }
 
-    public void drawVertex(Object node) {
-        vertexVisualizer.draw(node);
+    public void drawVertex(Object nodeId) {
+        vertexVisualizer.draw(nodeId);
     }
 
-    public void drawEdge(Object edge) {
-        edgeVisualizer.draw(edge);
+    public void drawEdge(Object edgeId) {
+        edgeVisualizer.draw(edgeId);
     }
 
     public Graph getGraph() {

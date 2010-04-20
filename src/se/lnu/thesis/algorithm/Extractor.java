@@ -23,9 +23,12 @@ import java.util.Set;
  */
 public class Extractor {
 
-    public Graph extractSubGraph(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
+    private Graph goSubGraph;     // TODO implement
+    private Graph clusterSubGraph;
+
+    public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
         // TODO !!! add caching!
-        Graph subGraph = new DirectedSparseGraph();
+        clusterSubGraph = new DirectedSparseGraph();
 
         Object subGraphRoot = null;
 
@@ -46,13 +49,13 @@ public class Extractor {
                 Object node1, node2 = null;
 
                 node1 = connectedNodes.get(i);
-                subGraph.addVertex(node1);
+                clusterSubGraph.addVertex(node1);
 
                 if (i + 1 <= connectedNodes.size() - 1) {
                     node2 = connectedNodes.get(i + 1);
 
-                    subGraph.addVertex(node2);
-                    subGraph.addEdge(node2 + "->" + node1, node2, node1);
+                    clusterSubGraph.addVertex(node2);
+                    clusterSubGraph.addEdge(node2 + "->" + node1, node2, node1);
                 }
 
             }
@@ -60,9 +63,7 @@ public class Extractor {
             subGraphRoot = connectedNodes.get(connectedNodes.size() - 1); // TODO maybe use clusterGraph.getRoot() ?
         }
 
-        removeRootChains(subGraph, subGraphRoot);
-
-        return subGraph;
+        removeRootChains(clusterSubGraph, subGraphRoot);
     }
 
     public void removeRootChains(Graph graph, Object root) {
@@ -76,6 +77,15 @@ public class Extractor {
             graph.removeVertex(root);
             removeRootChains(graph, next);
         }
+    }
+
+    @Deprecated
+    public Graph getGoSubGraph() {
+        return goSubGraph;
+    }
+
+    public Graph getClusterSubGraph() {
+        return clusterSubGraph;
     }
 
 }
