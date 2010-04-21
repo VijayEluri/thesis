@@ -9,6 +9,7 @@ import se.lnu.thesis.utils.myobserver.Subject;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,9 +30,9 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
     private Map<Object, String> nodeLabel;
     private Map<Integer, Object> indexNode;
 
-    private Set<Observer> observers;
-
     private DefaultListModel labels;
+
+    private Set<Observer> observers;
 
     private Extractor extractor;
 
@@ -129,20 +130,18 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
                 System.out.println(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel()); // TODO use logger
 
-                if (getSelectedNode() != null) {
-                    System.out.println("Extracting subgraph.."); //TODO use logger
+                System.out.println("Extracting subgraph.."); //TODO use logger
 
-                    extractor.extractSubGraphs((MyGraph) Thesis.getInstance().getGOGraph(), (MyGraph) Thesis.getInstance().getClusterGraph(), getSelectedNode());
+                list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                    System.out.println("Done.");
-//                    System.out.println("GO subgraph [" + extractor.getGoSubGraph().getVertexCount() + ", " + extractor.getGoSubGraph().getEdgeCount() + "]"); //TODO use logger
-                    System.out.println("Cluster subgraph [" + extractor.getClusterSubGraph().getVertexCount() + ", " + extractor.getClusterSubGraph().getEdgeCount() + "]"); //TODO use logger
+                extractor.extractSubGraphs((MyGraph) Thesis.getInstance().getGOGraph(), (MyGraph) Thesis.getInstance().getClusterGraph(), getSelectedNode());
 
-                    notifyObservers();
-                }
+                list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
+                System.out.println("Done."); //TODO use logger
             }
 
+            notifyObservers();
         }
 
     }

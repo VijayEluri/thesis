@@ -30,10 +30,15 @@ public class GOApplet extends PApplet implements Observer {
     }
 
     protected AbstractLayout initLayout() {
-        AbstractLayout result = new DAGLayout(Thesis.getInstance().getGOGraph());
+        DAGLayout result = new DAGLayout(Thesis.getInstance().getGOGraph());
 
         result.setSize(getSize());
-        result.initialize();
+
+/*
+        while (!result.done()) {
+            result.step();
+        }
+*/
 
         return result;
     }

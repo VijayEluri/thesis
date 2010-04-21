@@ -64,6 +64,50 @@ public class TestUtils {
         assertTrue(leafs.contains(11));
     }
 
+    @Test
+    public void subgraph() {
+        Graph graph = createGraph();
+
+        assertTrue(graph.containsVertex(6));
+
+        Graph subgraph = new DirectedSparseGraph();
+        Set leafs = GraphUtils.getInstance().getSubgraphAndLeafs(graph, subgraph, 6);
+
+        assertEquals(2, leafs.size());
+        assertTrue(leafs.contains(9));
+        assertTrue(leafs.contains(11));
+
+
+        assertEquals(6, subgraph.getVertexCount());
+        assertTrue(subgraph.containsVertex(6));
+        assertTrue(subgraph.containsVertex(7));
+        assertTrue(subgraph.containsVertex(8));
+        assertTrue(subgraph.containsVertex(9));
+        assertTrue(subgraph.containsVertex(10));
+        assertTrue(subgraph.containsVertex(11));
+    }
+
+    @Test
+    public void subgraph2() {
+        Graph graph = createGraph();
+
+        assertTrue(graph.containsVertex(8));
+
+        Graph subgraph = new DirectedSparseGraph();
+        Set leafs = GraphUtils.getInstance().getSubgraphAndLeafs(graph, subgraph, 8);
+
+        assertEquals(2, leafs.size());
+        assertTrue(leafs.contains(9));
+        assertTrue(leafs.contains(11));
+
+
+        assertEquals(4, subgraph.getVertexCount());
+        assertTrue(subgraph.containsVertex(8));
+        assertTrue(subgraph.containsVertex(9));
+        assertTrue(subgraph.containsVertex(10));
+        assertTrue(subgraph.containsVertex(11));
+    }
+
     /**
      * ______1
      * ____/   \

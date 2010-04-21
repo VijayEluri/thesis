@@ -1,5 +1,6 @@
 package se.lnu.thesis.test;
 
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
 import static org.junit.Assert.assertEquals;
@@ -183,6 +184,31 @@ public class TestPerfomance {
         end = System.currentTimeMillis();
 
         System.out.println("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+    }
+
+    @Test
+    public void DagLayoutPerfomance() {
+        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
+
+        long start = System.currentTimeMillis();
+        Graph graph = (Graph) parser.load("RealGOGraph.graphml").get(0);
+        long end = System.currentTimeMillis();
+
+        System.out.println("Loading graph from file done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+
+
+        KKLayout layout = new KKLayout(graph);
+        layout.setSize(new Dimension(1280, 1024));
+
+        System.gc();
+
+        start = System.currentTimeMillis();
+        while (!layout.done()) {
+            layout.step();
+        }
+        end = System.currentTimeMillis();
+
+        System.out.println("Computing layout done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
     }
 
 

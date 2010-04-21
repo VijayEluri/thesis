@@ -204,5 +204,37 @@ public class GraphUtils<V, E> {
         return result;
     }
 
+    public Set getSubgraphAndLeafs(Graph graph, Graph subGraph, Object root) {
+        init();
+
+        Set result = new HashSet();
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            V parent = (V) stack.pop();
+
+            if (visited.add(parent)) {
+
+                subGraph.addVertex(parent);
+
+                if (isLeaf(graph, parent)) {
+                    result.add(parent);
+                } else {
+                    for (Object child : graph.getSuccessors(parent)) {
+                        if (!visited.contains(child)) {
+                            stack.push(child);
+                            subGraph.addVertex(child);
+                            subGraph.addEdge(parent + "->" + child, parent, child);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return result;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint;
 
 import processing.core.PApplet;
+import se.lnu.thesis.utils.GraphUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,8 +17,14 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
 
     @Override
     protected void drawGraphVertex(Object nodeId) {
-        getApplet().fill(255);
-        getApplet().stroke(255); // set edge color to white
+        if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
+            getApplet().fill(255, 0, 0);
+            getApplet().stroke(255, 0, 0); // set edge color to white
+        } else {
+            getApplet().fill(255);
+            getApplet().stroke(255); // set edge color to white
+        }
+
         getVertexVisualizer().draw(nodeId);
     }
 
