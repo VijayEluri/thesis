@@ -33,7 +33,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     public Set<V> getNodesByLabel(String label) {
         Set result = new HashSet();
 
-        for (V v : nodeLabel.keySet()) { // TODO maybe use cache?
+        for (V v : nodeLabel.keySet()) {
             if (label.compareTo(nodeLabel.get(v)) == 0) {
                 result.add(v);
             }

@@ -31,12 +31,12 @@ public class PolarDendrogramLayout<V, E> extends AbstractPolarDendrogramLayout<V
             nodeLevel.clear();
         }
 
-        root = (V) GraphUtils.getInstance().findRoot(getGraph()); // TODO perfomance!
+        root = (V) GraphUtils.getInstance().findRoot(getGraph());
         if (root == null) {
             throw new IllegalArgumentException("No root vertex! Cannt draw unrooted graph..");
         }
 
-        graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), nodeLevel); // TODO perfomnce!!
+        graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), nodeLevel);
     }
 
     protected V getRoot() {

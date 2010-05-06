@@ -2,6 +2,7 @@ package se.lnu.thesis.gui;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
+import org.apache.log4j.Logger;
 import processing.core.PApplet;
 import se.lnu.thesis.Thesis;
 import se.lnu.thesis.algorithm.Extractor;
@@ -16,6 +17,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class GOApplet extends PApplet implements Observer {
+
+    public static final Logger LOGGER = Logger.getLogger(GOApplet.class);
 
     private static final int DEFAULT_APPLET_HEGIHT = 800;
     private static final int DEFAULT_APPLET_WIDTH = 800;
@@ -64,7 +67,7 @@ public class GOApplet extends PApplet implements Observer {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (key == CODED) {
-            System.out.println(keyCode);// TODO use logger
+            LOGGER.debug(keyCode);
 
             if (keyCode == ALT) {
                 visualizer.zoomOut();
@@ -89,7 +92,7 @@ public class GOApplet extends PApplet implements Observer {
 
             redraw();
         } else {
-            System.out.println("No key code!");// TODO use logger
+            LOGGER.error("No key code!");
         }
     }
 

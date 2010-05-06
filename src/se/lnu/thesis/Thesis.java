@@ -1,6 +1,7 @@
 package se.lnu.thesis;
 
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 import processing.core.PApplet;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.SelectionDialog;
@@ -22,6 +23,8 @@ import java.util.concurrent.TimeUnit;
  * java se.lnu.thesis.Thesis [processing params] start <<cluster_graphml_file_path>>
  */
 public class Thesis {
+
+    public static final Logger LOGGER = Logger.getLogger(Thesis.class);
 
     private static Thesis instance = new Thesis();
 
@@ -80,7 +83,7 @@ public class Thesis {
         result = (Graph) new GraphMLParser(handler).load(path).get(0);
         long end = System.currentTimeMillis();
 
-        System.out.println("Loading graph from file '" + path + "'.. Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s"); // TODO use logger
+        LOGGER.info("Loading graph from file '" + path + "'.. Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
 
         return result;
     }

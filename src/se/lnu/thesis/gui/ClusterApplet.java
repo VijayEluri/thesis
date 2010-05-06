@@ -1,13 +1,13 @@
 package se.lnu.thesis.gui;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
+import org.apache.log4j.Logger;
 import se.lnu.thesis.Thesis;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.ClusterGraphWithBundlingVisualizer;
+import se.lnu.thesis.paint.ClusterGraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
-import se.lnu.thesis.paint.edge.PolarDendrogramBundledEdgeVisualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.utils.myobserver.Subject;
@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ClusterApplet extends GOApplet {
 
+    public static final Logger LOGGER = Logger.getLogger(ClusterApplet.class);
 
     @Override
     protected AbstractLayout initLayout() {
@@ -36,24 +37,20 @@ public class ClusterApplet extends GOApplet {
         result.initialize(); // compute nodes positions
         long end = System.currentTimeMillis();
 
-        System.out.println("Layout computing done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s"); // TODO use logger
+        LOGGER.info("Layout computing done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
 
         return result;
     }
 
     @Override
     protected GraphWithSubgraphVisualizer initVisualizer() {
-        ClusterGraphWithBundlingVisualizer visualizer = new ClusterGraphWithBundlingVisualizer(this);
+        ClusterGraphVisualizer visualizer = new ClusterGraphVisualizer(this);
 
         visualizer.setGraph(Thesis.getInstance().getClusterGraph());
         visualizer.setLayout(initLayout());
 
-        visualizer.setEdgeVisualizer(new PolarDendrogramBundledEdgeVisualizer(visualizer));
-        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer));
-
-//        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
-        //      visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
-
+        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
 
         visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED));
         visualizer.setSubGraphVertexVizualizer(new CircleVertexVisualizer(visualizer, Color.YELLOW));

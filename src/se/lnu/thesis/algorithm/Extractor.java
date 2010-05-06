@@ -2,6 +2,7 @@ package se.lnu.thesis.algorithm;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -25,6 +26,8 @@ import java.util.Set;
  */
 public class Extractor {
 
+    public static final Logger LOGGER = Logger.getLogger(Extractor.class);
+
     private Graph goSubGraph;
     private Graph clusterSubGraph;
 
@@ -40,7 +43,7 @@ public class Extractor {
     public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
 
         if (goCache.containsKey(goNode) && clusterCache.containsKey(goNode)) {
-            System.out.println("Allready computed. Loading from cache.."); // TODO use logger
+            LOGGER.info("Allready computed. Loading from cache..");
 
             goSubGraph = goCache.get(goNode);
             clusterSubGraph = clusterCache.get(goNode);
@@ -58,7 +61,7 @@ public class Extractor {
 
                 if (leafs.size() > 1) {
                     String error = "Error! Found couple leafs with label '" + label + "'!!";
-                    System.out.println(error);                    // TODO use logger
+                    LOGGER.error(error);
                     throw new IllegalStateException(error);
                 }
 
@@ -78,13 +81,13 @@ public class Extractor {
 
                 }
 
-                clusterSubGraphRoot = connectedNodes.get(connectedNodes.size() - 1); // TODO maybe use clusterGraph.getRoot() ?
+                clusterSubGraphRoot = connectedNodes.get(connectedNodes.size() - 1);
             }
 
             removeRootChains(clusterSubGraph, clusterSubGraphRoot);
 
-            System.out.println("GO subgraph [" + getGoSubGraph().getVertexCount() + ", " + getGoSubGraph().getEdgeCount() + "]"); //TODO use logger
-            System.out.println("Cluster subgraph [" + getClusterSubGraph().getVertexCount() + ", " + getClusterSubGraph().getEdgeCount() + "]"); //TODO use logger
+            LOGGER.info("GO subgraph [" + getGoSubGraph().getVertexCount() + ", " + getGoSubGraph().getEdgeCount() + "]");
+            LOGGER.info("Cluster subgraph [" + getClusterSubGraph().getVertexCount() + ", " + getClusterSubGraph().getEdgeCount() + "]");
 
             goCache.put(goNode, goSubGraph);
             clusterCache.put(goNode, clusterSubGraph);

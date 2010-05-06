@@ -26,8 +26,6 @@ public class PolarDendrogramBundledEdgeVisualizer extends PolarDendrogramEdgeVis
         Object sourceNode = source(edge);
         Object destNode = dest(edge);
 
-        // TODO from root?
-
         if (GraphUtils.getInstance().isRoot(getVisualizer().getGraph(), sourceNode) || GraphUtils.getInstance().isLeaf(getVisualizer().getGraph(), destNode)) {
             //     drawArc(sourceNode, destNode);
 

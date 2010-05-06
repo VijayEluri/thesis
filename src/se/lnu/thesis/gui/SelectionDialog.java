@@ -1,5 +1,6 @@
 package se.lnu.thesis.gui;
 
+import org.apache.log4j.Logger;
 import se.lnu.thesis.Thesis;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
@@ -24,6 +25,8 @@ import java.util.Set;
  * Gene Ontology node selectable list
  */
 public class SelectionDialog extends JFrame implements ListSelectionListener, Subject {
+
+    public static final Logger LOGGER = Logger.getLogger(SelectionDialog.class);
 
     private JList list;
 
@@ -128,9 +131,9 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
             if (list.getSelectedIndex() > -1) {
 
-                System.out.println(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel()); // TODO use logger
+                LOGGER.debug(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel());
 
-                System.out.println("Extracting subgraph.."); //TODO use logger
+                LOGGER.debug("Extracting subgraph..");
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
@@ -138,7 +141,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-                System.out.println("Done."); //TODO use logger
+                LOGGER.debug("Done.");
             }
 
             notifyObservers();
