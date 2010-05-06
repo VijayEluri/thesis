@@ -11,8 +11,8 @@ public class GraphVisualizer extends Visualizer {
 
     private AbstractLayout layout;
 
-    private GraphElementVisualizer edgeVisualizer;
-    private GraphElementVisualizer vertexVisualizer;
+    private AbstractGraphElementVisualizer edgeVisualizer;
+    private AbstractGraphElementVisualizer vertexVisualizer;
 
 
     private GraphVisualizer() {
@@ -60,15 +60,15 @@ public class GraphVisualizer extends Visualizer {
         return edgeVisualizer;
     }
 
-    public void setEdgeVisualizer(GraphElementVisualizer edgeVisualizer) {
+    public void setEdgeVisualizer(AbstractGraphElementVisualizer edgeVisualizer) {
         this.edgeVisualizer = edgeVisualizer;
     }
 
-    public GraphElementVisualizer getVertexVisualizer() {
+    public AbstractGraphElementVisualizer getVertexVisualizer() {
         return vertexVisualizer;
     }
 
-    public void setVertexVisualizer(GraphElementVisualizer vertexVisualizer) {
+    public void setVertexVisualizer(AbstractGraphElementVisualizer vertexVisualizer) {
         this.vertexVisualizer = vertexVisualizer;
     }
 

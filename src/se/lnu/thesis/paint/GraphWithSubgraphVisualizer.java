@@ -12,9 +12,10 @@ import processing.core.PApplet;
 public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     private Graph subGraph;
+    private boolean drawSubgraph;
 
-    private GraphElementVisualizer subGraphVertexVizualizer;
-    private GraphElementVisualizer subGraphEdgeVizualizer;
+    private AbstractGraphElementVisualizer subGraphVertexVizualizer;
+    private AbstractGraphElementVisualizer subGraphEdgeVizualizer;
 
     public GraphWithSubgraphVisualizer(PApplet applet) {
         super(applet);
@@ -22,7 +23,7 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     @Override
     public void drawVertex(Object nodeId) {
-        if (subGraph != null && subGraph.containsVertex(nodeId)) { // if part of the subtree - draw yellow
+        if (isDrawSubgraph() && subGraph.containsVertex(nodeId)) { // is it part of the subgraph?
             drawSubgraphVertex(nodeId);
         } else {
             drawGraphVertex(nodeId);
@@ -42,7 +43,7 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
         Object source = getGraph().getSource(edgeId);
         Object dest = getGraph().getDest(edgeId);
 
-        if (subGraph != null && subGraph.containsVertex(source) && subGraph.containsVertex(dest)) { // if part of the subtree - draw yellow
+        if (isDrawSubgraph() && subGraph.containsVertex(source) && subGraph.containsVertex(dest)) { // is it part of the subgraph?
             drawSubgraphEdge(edgeId);
         } else {
             drawGraphEdge(edgeId);
@@ -57,19 +58,19 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
         getEdgeVisualizer().draw(edgeId);
     }
 
-    public GraphElementVisualizer getSubGraphVertexVizualizer() {
+    public AbstractGraphElementVisualizer getSubGraphVertexVizualizer() {
         return subGraphVertexVizualizer;
     }
 
-    public void setSubGraphVertexVizualizer(GraphElementVisualizer subGraphVertexVizualizer) {
+    public void setSubGraphVertexVizualizer(AbstractGraphElementVisualizer subGraphVertexVizualizer) {
         this.subGraphVertexVizualizer = subGraphVertexVizualizer;
     }
 
-    public GraphElementVisualizer getSubGraphEdgeVizualizer() {
+    public AbstractGraphElementVisualizer getSubGraphEdgeVizualizer() {
         return subGraphEdgeVizualizer;
     }
 
-    public void setSubGraphEdgeVizualizer(GraphElementVisualizer subGraphEdgeVizualizer) {
+    public void setSubGraphEdgeVizualizer(AbstractGraphElementVisualizer subGraphEdgeVizualizer) {
         this.subGraphEdgeVizualizer = subGraphEdgeVizualizer;
     }
 
@@ -81,4 +82,17 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
         this.subGraph = subGraph;
     }
 
+    public boolean isDrawSubgraph() {
+        return drawSubgraph;
+    }
+
+    public void drawSubgraph() {
+        if (subGraph != null) {
+            setDrawSubgraph(true);
+        }
+    }
+
+    public void setDrawSubgraph(boolean drawSubgraph) {
+        this.drawSubgraph = drawSubgraph;
+    }
 }

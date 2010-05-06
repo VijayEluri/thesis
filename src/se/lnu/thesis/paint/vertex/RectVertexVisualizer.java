@@ -16,17 +16,17 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
         super(visualizer);
     }
 
-    public void draw(Object vertex) {
+    @Override
+    protected void drawShape(Object vertex) {
         Point2D position = getVisualizer().getLayout().transform(vertex);
 
-        getVisualizer().getApplet().rectMode(getVisualizer().getApplet().CENTER);
+        canvas().rectMode(getVisualizer().getApplet().CENTER);
 
-        getVisualizer().getApplet().rect(
+        canvas().rect(
                 new Float(position.getX()),
                 new Float(position.getY()),
                 getRadius(),
                 getRadius());
 
     }
-
 }

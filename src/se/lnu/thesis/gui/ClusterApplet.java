@@ -11,6 +11,7 @@ import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.utils.myobserver.Subject;
 
+import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 public class ClusterApplet extends GOApplet {
@@ -42,17 +43,25 @@ public class ClusterApplet extends GOApplet {
     @Override
     protected GraphWithSubgraphVisualizer initVisualizer() {
         ClusterGraphVisualizer visualizer = new ClusterGraphVisualizer(this);
+        //ClusterGraphWithBundlingVisualizer visualizer = new ClusterGraphWithBundlingVisualizer(this);
 
         visualizer.setGraph(Thesis.getInstance().getClusterGraph());
         visualizer.setLayout(initLayout());
 
-        PolarDendrogramEdgeVisualizer edgeVisualizer = new PolarDendrogramEdgeVisualizer(visualizer);
-        visualizer.setEdgeVisualizer(edgeVisualizer);
-        visualizer.setSubGraphEdgeVizualizer(edgeVisualizer);
+//        visualizer.setEdgeVisualizer(new PolarDendrogramBundledEdgeVisualizer(visualizer));
+        //      visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer));
 
-        CircleVertexVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer);
-        visualizer.setVertexVisualizer(vertexVisualizer);
-        visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
+        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
+
+
+        //      visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
+//        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
+
+
+        visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED));
+        visualizer.setSubGraphVertexVizualizer(new CircleVertexVisualizer(visualizer, Color.YELLOW));
+
 
         return visualizer;
     }
@@ -60,6 +69,8 @@ public class ClusterApplet extends GOApplet {
     @Override
     public void notifyObserver(Subject subject, Object params) {
         visualizer.setSubGraph(((Extractor) params).getClusterSubGraph());
+        visualizer.drawSubgraph();
+
         redraw();
     }
 }

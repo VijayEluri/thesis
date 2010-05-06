@@ -12,6 +12,7 @@ import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.utils.myobserver.Observer;
 import se.lnu.thesis.utils.myobserver.Subject;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class GOApplet extends PApplet implements Observer {
@@ -24,6 +25,7 @@ public class GOApplet extends PApplet implements Observer {
     @Override
     public void setup() {
         size(DEFAULT_APPLET_HEGIHT, DEFAULT_APPLET_WIDTH);
+
         Thesis.getInstance().getSelectionDialog().registerObserver(this);
 
         visualizer = initVisualizer();
@@ -34,12 +36,6 @@ public class GOApplet extends PApplet implements Observer {
 
         result.setSize(getSize());
 
-/*
-        while (!result.done()) {
-            result.step();
-        }
-*/
-
         return result;
     }
 
@@ -49,9 +45,8 @@ public class GOApplet extends PApplet implements Observer {
         visualizer.setGraph(Thesis.getInstance().getGOGraph());
         visualizer.setLayout(initLayout());
 
-        LineEdgeVisualizer edgeVisualizer = new LineEdgeVisualizer(visualizer);
-        visualizer.setEdgeVisualizer(edgeVisualizer);
-        visualizer.setSubGraphEdgeVizualizer(edgeVisualizer);
+        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
         CircleVertexVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer);
         visualizer.setVertexVisualizer(vertexVisualizer);
@@ -100,6 +95,8 @@ public class GOApplet extends PApplet implements Observer {
 
     public void notifyObserver(Subject subject, Object params) {
         visualizer.setSubGraph(((Extractor) params).getGoSubGraph());
+        visualizer.drawSubgraph();
+
         redraw();
     }
 }

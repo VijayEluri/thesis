@@ -3,6 +3,7 @@ package se.lnu.thesis.test;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
@@ -186,7 +187,7 @@ public class TestPerfomance {
         System.out.println("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
     }
 
-    @Test
+
     public void DagLayoutPerfomance() {
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
@@ -207,6 +208,44 @@ public class TestPerfomance {
             layout.step();
         }
         end = System.currentTimeMillis();
+
+        System.out.println("Computing layout done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+    }
+
+    @Test
+    public void dag() {
+        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
+
+        long start = System.currentTimeMillis();
+        Graph graph = (Graph) parser.load("RealGOGraph.graphml").get(0);
+        long end = System.currentTimeMillis();
+
+        System.out.println("Loading graph from file done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+
+        int leafs = 0;
+        int nodes = 0;
+        int roots = 0;
+
+        for (Object nodeId : graph.getVertices()) {
+            if (graph.outDegree(nodeId) == 0) {
+                leafs++;
+            } else {
+                if (graph.inDegree(nodeId) == 0) {
+                    roots++;
+                } else {
+                    nodes++;
+                }
+            }
+        }
+
+        Assert.assertEquals(leafs + roots + nodes, graph.getVertexCount());
+
+        System.out.println("Vertex count:" + graph.getVertexCount());
+        System.out.println("Edge count:" + graph.getEdgeCount());
+        System.out.println("Leafs:" + leafs);
+        System.out.println("Nodes:" + nodes);
+        System.out.println("Roots:" + roots);
+
 
         System.out.println("Computing layout done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
     }

@@ -2,7 +2,9 @@ package se.lnu.thesis.paint.vertex;
 
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.GraphVisualizer;
+import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -19,21 +21,19 @@ public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
         super(visualizer);
     }
 
-    public void draw(Object node) {
-        drawCircle(node);
+    public CircleVertexVisualizer(GraphWithSubgraphVisualizer visualizer, Color color) {
+        super(visualizer, color);
     }
 
-    private void drawCircle(Object node) {
+    protected void drawShape(Object node) {
         Point2D position = getVisualizer().getLayout().transform(node);
 
-        getVisualizer().getApplet().ellipse(
+        canvas().ellipse(
                 new Float(position.getX()),
                 new Float(position.getY()),
                 radius,
                 radius);
-
     }
-
 
     public int getRadius() {
         return radius;

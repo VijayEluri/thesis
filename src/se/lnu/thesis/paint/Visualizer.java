@@ -17,12 +17,17 @@ public abstract class Visualizer {
     public static final float DEFAULT_ZOOM_STEP = 0.05f;
     public static final float DEFAULT_MOVE_STEP = 5.0f;
     public static final Color DEFAULT_BACKGROUND = Color.BLACK;
+
     private PApplet applet;
+
     private float zoom = 1.0f;
+
     private float sceneCenterX = 0.0f;
     private float sceneCenterY = 0.0f;
+
     private float zoomStep = DEFAULT_ZOOM_STEP;
     private float moveStep = DEFAULT_MOVE_STEP;
+
     private Color background = DEFAULT_BACKGROUND;
 
     public void draw() {

@@ -1,7 +1,10 @@
 package se.lnu.thesis.paint;
 
 import processing.core.PApplet;
+import se.lnu.thesis.Thesis;
 import se.lnu.thesis.utils.GraphUtils;
+
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,12 +20,16 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
 
     @Override
     protected void drawGraphVertex(Object nodeId) {
-        if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
-            getApplet().fill(255, 0, 0);
-            getApplet().stroke(255, 0, 0); // set edge color to white
+
+        if (Thesis.getInstance().getSelectionDialog().getSelectedNode() == nodeId) { // selected node is blue
+            getVertexVisualizer().setColor(Color.CYAN);
         } else {
-            getApplet().fill(255);
-            getApplet().stroke(255); // set edge color to white
+
+            if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
+                getVertexVisualizer().setColor(Color.RED); // leafs are red
+            } else {
+                getVertexVisualizer().setColor(Color.WHITE); // all the rest is white
+            }
         }
 
         getVertexVisualizer().draw(nodeId);
@@ -30,11 +37,22 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
 
     @Override
     protected void drawSubgraphVertex(Object nodeId) {
-        getApplet().fill(255, 255, 0);  // color yellow
-        getApplet().stroke(255, 255, 0);
+
+        if (Thesis.getInstance().getSelectionDialog().getSelectedNode() == nodeId) { // selected node is blue
+            getVertexVisualizer().setColor(Color.CYAN);
+        } else {
+
+            if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
+                getVertexVisualizer().setColor(Color.YELLOW); // leafs are yellow
+            } else {
+                getVertexVisualizer().setColor(Color.GREEN); // all the rest is white
+            }
+        }
+
         getVertexVisualizer().draw(nodeId);
     }
 
+/*
     @Override
     protected void drawGraphEdge(Object edgeId) {
         getApplet().noFill();
@@ -48,5 +66,6 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
         getApplet().stroke(255, 255, 0); // color yellow
         getSubGraphEdgeVizualizer().draw(edgeId);
     }
+*/
 
 }

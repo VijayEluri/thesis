@@ -1,11 +1,11 @@
 package se.lnu.thesis.paint.edge;
 
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
-import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.GraphVisualizer;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -16,9 +16,9 @@ import java.awt.geom.Point2D;
  * <p/>
  * Simple implementation of the edge visualisation as line
  */
-public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualizer {
+public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
 
-    private AbstractPolarDendrogramLayout layout;
+    protected AbstractPolarDendrogramLayout layout;
 
     public PolarDendrogramEdgeVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
@@ -26,48 +26,49 @@ public class PolarDendrogramEdgeVisualizer extends AbstractGraphElementVisualize
         layout = (AbstractPolarDendrogramLayout) getVisualizer().getLayout();
     }
 
-    public void draw(Object edge) {
+    public PolarDendrogramEdgeVisualizer(GraphVisualizer visualizer, Color color) {
+        super(visualizer, color);
 
-        Object source = getVisualizer().getGraph().getSource(edge);
-        Object dest = getVisualizer().getGraph().getDest(edge);
-
-        Point2D start = getVisualizer().getLayout().transform(getVisualizer().getGraph().getSource(edge));
-        Point2D end = getVisualizer().getLayout().transform(getVisualizer().getGraph().getDest(edge));
-
-        // from root draw simple line
-        if (GraphUtils.getInstance().isRoot(getVisualizer().getGraph(), source)) {
-
-            drawLine(start, end);
-
-        } else {
-            Point2D dummyNode = layout.getDummyNode(source, dest);
-
-            drawLine(dummyNode, end);
-
-            drawArc(source, dest);
-        }
-
-
+        layout = (AbstractPolarDendrogramLayout) getVisualizer().getLayout();
     }
 
-    private void drawLine(Point2D start, Point2D end) {
-        getVisualizer().getApplet().line(
+    protected void drawShape(Object edge) {
+        Object sourceNode = source(edge);
+        Object destNode = dest(edge);
+
+        if (GraphUtils.getInstance().isRoot(getVisualizer().getGraph(), sourceNode)) { // from root draw simple line
+
+            drawLine(p(sourceNode), p(destNode));
+
+        } else {
+            Point2D dummyNode = layout.getDummyNode(sourceNode, destNode);
+
+            drawArc(sourceNode, destNode);
+
+            drawLine(dummyNode, p(destNode));
+        }
+    }
+
+    protected void drawLine(Point2D start, Point2D end) {
+        canvas().line(
                 new Float(start.getX()),
                 new Float(start.getY()),
                 new Float(end.getX()),
                 new Float(end.getY()));
     }
 
-    private void drawArc(Object source, Object dest) {
-        Double sourceAngle = (Double) layout.getNodeAngle().get(source);
-        Double destAngle = (Double) layout.getNodeAngle().get(dest);
+    protected void drawArc(Object sourceNode, Object destNode) {
+        Double sourceAngle = (Double) layout.getNodeAngle().get(sourceNode);
+        Double destAngle = (Double) layout.getNodeAngle().get(destNode);
 
-        float radius = new Float(layout.getNodeRadius(source)) * 2;
+        Float radius = new Float(layout.getNodeRadius(sourceNode)) * 2;
 
         double startAngle = Utils.min(sourceAngle, destAngle);
         double endAngle = Utils.max(sourceAngle, destAngle);
 
-        getVisualizer().getApplet().arc(
+
+        canvas().noFill();
+        canvas().arc(
                 layout.getXCenter(),
                 layout.getYCenter(),
                 radius,

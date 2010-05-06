@@ -1,8 +1,9 @@
 package se.lnu.thesis.paint.edge;
 
-import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.GraphVisualizer;
+import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -13,24 +14,25 @@ import java.awt.geom.Point2D;
  * <p/>
  * Simple implementation of the edge visualisation as line
  */
-public class LineEdgeVisualizer extends AbstractGraphElementVisualizer {
+public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 
     public LineEdgeVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
     }
 
-    public void draw(Object edge) {
+    public LineEdgeVisualizer(GraphWithSubgraphVisualizer visualizer, Color color) {
+        super(visualizer, color);
+    }
 
-        Point2D start = getVisualizer().getLayout().transform(getVisualizer().getGraph().getSource(edge));
-        Point2D end = getVisualizer().getLayout().transform(getVisualizer().getGraph().getDest(edge));
+    protected void drawShape(Object edge) {
+        Point2D start = p(source(edge));
+        Point2D end = p(dest(edge));
 
-        getVisualizer().getApplet().line(
-
+        canvas().line(
                 new Float(start.getX()),
                 new Float(start.getY()),
                 new Float(end.getX()),
                 new Float(end.getY()));
-
     }
 
 }

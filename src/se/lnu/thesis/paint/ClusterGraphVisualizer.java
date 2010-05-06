@@ -11,7 +11,7 @@ import se.lnu.thesis.utils.GraphUtils;
  * <p/>
  * Visualizer for cluster graph.
  */
-public class ClusterGraphVisualizer extends GOGraphVisualizer {
+public class ClusterGraphVisualizer extends GraphWithSubgraphVisualizer {
 
     public ClusterGraphVisualizer(PApplet applet) {
         super(applet);
@@ -19,18 +19,14 @@ public class ClusterGraphVisualizer extends GOGraphVisualizer {
 
     @Override
     protected void drawGraphVertex(Object nodeId) {
-        if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
-            getApplet().fill(255, 0, 0); // draw red leafs
-            getApplet().stroke(255, 0, 0);
+        if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
             getVertexVisualizer().draw(nodeId);
         }
     }
 
     @Override
     protected void drawSubgraphVertex(Object nodeId) {
-        if (GraphUtils.getInstance().isLeaf(getSubGraph(), nodeId)) {
-            getApplet().fill(255, 255, 0);     // draw yellow
-            getApplet().stroke(255, 255, 0);
+        if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
             getSubGraphVertexVizualizer().draw(nodeId);
         }
     }

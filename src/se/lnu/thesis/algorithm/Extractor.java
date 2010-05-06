@@ -109,10 +109,6 @@ public class Extractor {
         return goSubGraph;
     }
 
-    public void setGoSubGraph(Graph goSubGraph) {
-        this.goSubGraph = goSubGraph;
-    }
-
     public Graph getClusterSubGraph() {
         return clusterSubGraph;
     }
