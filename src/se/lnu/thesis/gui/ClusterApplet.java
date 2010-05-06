@@ -5,8 +5,9 @@ import se.lnu.thesis.Thesis;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.ClusterGraphVisualizer;
+import se.lnu.thesis.paint.ClusterGraphWithBundlingVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
+import se.lnu.thesis.paint.edge.PolarDendrogramBundledEdgeVisualizer;
 import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.utils.myobserver.Subject;
@@ -42,21 +43,16 @@ public class ClusterApplet extends GOApplet {
 
     @Override
     protected GraphWithSubgraphVisualizer initVisualizer() {
-        ClusterGraphVisualizer visualizer = new ClusterGraphVisualizer(this);
-        //ClusterGraphWithBundlingVisualizer visualizer = new ClusterGraphWithBundlingVisualizer(this);
+        ClusterGraphWithBundlingVisualizer visualizer = new ClusterGraphWithBundlingVisualizer(this);
 
         visualizer.setGraph(Thesis.getInstance().getClusterGraph());
         visualizer.setLayout(initLayout());
 
-//        visualizer.setEdgeVisualizer(new PolarDendrogramBundledEdgeVisualizer(visualizer));
-        //      visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer));
+        visualizer.setEdgeVisualizer(new PolarDendrogramBundledEdgeVisualizer(visualizer));
+        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer));
 
-        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
-        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
-
-
-        //      visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
-//        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
+//        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
+        //      visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
 
 
         visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED));
