@@ -16,8 +16,8 @@ public class Utils {
     }
 
     public static void computePosition(Point2D point, double angle, double radius, double xCenter, double yCenter) {
-        double x = Math.cos(Utils.inRadians(angle)) * radius + xCenter;
-        double y = Math.sin(Utils.inRadians(angle)) * radius + yCenter;
+        double x = Math.cos(inRadians(angle)) * radius + xCenter;
+        double y = Math.sin(inRadians(angle)) * radius + yCenter;
 
         point.setLocation(x, y);
 

@@ -1,7 +1,8 @@
 package se.lnu.thesis.paint;
 
-import processing.core.PApplet;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 
 /**
@@ -18,8 +19,6 @@ public abstract class Visualizer {
     public static final float DEFAULT_MOVE_STEP = 5.0f;
     public static final Color DEFAULT_BACKGROUND = Color.BLACK;
 
-    private PApplet applet;
-
     private float zoom = 1.0f;
 
     private float sceneCenterX = 0.0f;
@@ -30,30 +29,30 @@ public abstract class Visualizer {
 
     private Color background = DEFAULT_BACKGROUND;
 
-    public void draw() {
-        getApplet().pushMatrix();
+    public void draw(GLAutoDrawable drawable) {
+        GL gl = drawable.getGL();
 
-        getApplet().scale(zoom);
-        getApplet().translate(sceneCenterX, sceneCenterY);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
 
+        gl.glEnable(GL.GL_LINE_SMOOTH);
 
-        getApplet().smooth();
-        getApplet().background(background.getRed(), background.getGreen(), background.getBlue());
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
 
-        drawScene();
+        gl.glPushMatrix();
 
-        getApplet().popMatrix();
+        gl.glScalef(1.0f, 1.0f, zoom);
+        gl.glTranslatef(sceneCenterX, sceneCenterY, 0.0f);
+
+        drawScene(drawable);
+
+        gl.glPopMatrix();
+
+        drawable.swapBuffers();
     }
 
-    protected abstract void drawScene();
-
-    public PApplet getApplet() {
-        return applet;
-    }
-
-    public void setApplet(PApplet applet) {
-        this.applet = applet;
-    }
+    protected abstract void drawScene(GLAutoDrawable drawable);
 
     public Color getBackground() {
         return background;

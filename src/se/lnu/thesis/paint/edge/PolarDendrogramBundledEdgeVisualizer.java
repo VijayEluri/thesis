@@ -21,7 +21,7 @@ public class PolarDendrogramBundledEdgeVisualizer extends PolarDendrogramEdgeVis
     }
 
 
-    protected void drawShape(Object edge) {
+    protected void drawShape(Object edge, Object o) {
 
         Object sourceNode = source(edge);
         Object destNode = dest(edge);
@@ -50,6 +50,7 @@ public class PolarDendrogramBundledEdgeVisualizer extends PolarDendrogramEdgeVis
 
         computeAnchores(dest(edge), anchor1, anchor2);
 
+/*
 
         getVisualizer().getApplet().noFill();
         getVisualizer().getApplet().beginShape();
@@ -61,6 +62,7 @@ public class PolarDendrogramBundledEdgeVisualizer extends PolarDendrogramEdgeVis
 
                 new Float(end.getX()), new Float(end.getY()));
         getVisualizer().getApplet().endShape();
+*/
 
     }
 

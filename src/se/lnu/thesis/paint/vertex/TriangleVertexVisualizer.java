@@ -1,6 +1,5 @@
 package se.lnu.thesis.paint.vertex;
 
-import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.GraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
@@ -14,17 +13,13 @@ import java.awt.*;
  * Date: 20.03.2010
  * Time: 1:20:56
  */
-public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
+public class TriangleVertexVisualizer extends CircleVertexVisualizer {
 
-    public static int SEGMENT_COUNT = 8;
-
-    private double radius = 0.01;
-
-    public CircleVertexVisualizer(GraphVisualizer visualizer) {
+    public TriangleVertexVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
     }
 
-    public CircleVertexVisualizer(GraphWithSubgraphVisualizer visualizer, Color color) {
+    public TriangleVertexVisualizer(GraphWithSubgraphVisualizer visualizer, Color color) {
         super(visualizer, color);
     }
 
@@ -34,18 +29,8 @@ public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
         gl().glTranslated(getVisualizer().getLayout().getX(node), getVisualizer().getLayout().getY(node), 0.0);
 
         gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
-
-        DrawingUtils.circle(gl(), getRadius(), SEGMENT_COUNT);
-        //DrawingUtils.arc(gl(),90, 180,  0.5, 3);
-
+        DrawingUtils.circle(gl(), getRadius(), 3);
         gl().glPopMatrix();
     }
 
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
 }

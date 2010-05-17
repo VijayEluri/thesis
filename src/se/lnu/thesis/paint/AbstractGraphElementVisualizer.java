@@ -1,7 +1,8 @@
 package se.lnu.thesis.paint;
 
-import processing.core.PApplet;
-
+import javax.media.opengl.GL;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.glu.GLU;
 import java.awt.*;
 
 /**
@@ -11,9 +12,12 @@ import java.awt.*;
 public abstract class AbstractGraphElementVisualizer implements GraphElementVisualizer {
 
     public static final Color DEFAULT_COLOR = Color.WHITE; // default color for graph elements visualisation
+    private static final double COLOR_MAX = 256.0;
 
     private GraphVisualizer visualizer;
+    private GLAutoDrawable drawable; // OpenGL drawing context
 
+    private GLU glu;
     private Color color = DEFAULT_COLOR;
 
     public AbstractGraphElementVisualizer() {
@@ -33,16 +37,17 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
         setColor(color);
     }
 
-    public void draw(Object element) {
-        colorProperty();
-        drawShape(element);
+    public void draw(GLAutoDrawable drawable, Object element) {
+        setDrawable(drawable); // update OpenGL drawing contex
+
+        colorProperty(); // set element color
+        drawShape(element); // draw object
     }
 
     protected abstract void drawShape(Object element);
 
     protected void colorProperty() {
-        canvas().fill(getColor().getRed(), getColor().getGreen(), getColor().getBlue(), getColor().getAlpha());
-        canvas().stroke(getColor().getRed(), getColor().getGreen(), getColor().getBlue(), getColor().getAlpha());
+        gl().glColor3d(getRed(), getGreen(), getBlue());
     }
 
     public GraphVisualizer getVisualizer() {
@@ -61,7 +66,37 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
         this.color = color;
     }
 
-    public PApplet canvas() {
-        return getVisualizer().getApplet();
+    public double getRed() {
+        return getColor().getRed() / COLOR_MAX;
     }
+
+    public double getGreen() {
+        return getColor().getGreen() / COLOR_MAX;
+    }
+
+    public double getBlue() {
+        return getColor().getBlue() / COLOR_MAX;
+    }
+
+    protected GLAutoDrawable getDrawable() {
+        return drawable;
+    }
+
+    protected void setDrawable(GLAutoDrawable drawable) {
+        this.drawable = drawable;
+    }
+
+    protected GL gl() {
+        return getDrawable().getGL();
+    }
+
+    protected GLU glu() {
+        if (glu == null) {
+            glu = new GLU();
+        }
+
+        return glu;
+    }
+
+
 }

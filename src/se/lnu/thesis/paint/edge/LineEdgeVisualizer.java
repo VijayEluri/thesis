@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.edge;
 import se.lnu.thesis.paint.GraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 
+import javax.media.opengl.GL;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -28,11 +29,11 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
         Point2D start = p(source(edge));
         Point2D end = p(dest(edge));
 
-        canvas().line(
-                new Float(start.getX()),
-                new Float(start.getY()),
-                new Float(end.getX()),
-                new Float(end.getY()));
+        gl().glBegin(GL.GL_LINES);
+        gl().glVertex2d(start.getX(), start.getY());
+        gl().glVertex2d(end.getX(), end.getY());
+        gl().glEnd();
+
     }
 
 }

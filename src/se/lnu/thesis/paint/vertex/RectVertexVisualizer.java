@@ -2,7 +2,7 @@ package se.lnu.thesis.paint.vertex;
 
 import se.lnu.thesis.paint.GraphVisualizer;
 
-import java.awt.geom.Point2D;
+import javax.media.opengl.GL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,16 +17,19 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
     }
 
     @Override
-    protected void drawShape(Object vertex) {
-        Point2D position = getVisualizer().getLayout().transform(vertex);
+    protected void drawShape(Object node) {
+        gl().glPushMatrix();
 
-        canvas().rectMode(getVisualizer().getApplet().CENTER);
+        gl().glTranslated(getVisualizer().getLayout().getX(node), getVisualizer().getLayout().getY(node), 0.0);
 
-        canvas().rect(
-                new Float(position.getX()),
-                new Float(position.getY()),
-                getRadius(),
-                getRadius());
+        gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
+        gl().glBegin(GL.GL_QUADS);
+        gl().glVertex2d(-getRadius(), getRadius());
+        gl().glVertex2d(getRadius(), getRadius());
+        gl().glVertex2d(getRadius(), -getRadius());
+        gl().glVertex2d(-getRadius(), -getRadius());
+        gl().glEnd();
 
+        gl().glPopMatrix();
     }
 }

@@ -3,9 +3,8 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Thesis;
 import se.lnu.thesis.algorithm.Extractor;
-import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.utils.myobserver.Observer;
-import se.lnu.thesis.utils.myobserver.Subject;
+import se.lnu.thesis.myobserver.Observer;
+import se.lnu.thesis.myobserver.Subject;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -82,11 +81,11 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
     }
 
-    public boolean registerObserver(se.lnu.thesis.utils.myobserver.Observer observer) {
+    public boolean registerObserver(se.lnu.thesis.myobserver.Observer observer) {
         return observers.add(observer);
     }
 
-    public boolean unregisterObserver(se.lnu.thesis.utils.myobserver.Observer observer) {
+    public boolean unregisterObserver(se.lnu.thesis.myobserver.Observer observer) {
         return observers.remove(observer);
     }
 
@@ -137,7 +136,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                extractor.extractSubGraphs((MyGraph) Thesis.getInstance().getGOGraph(), (MyGraph) Thesis.getInstance().getClusterGraph(), getSelectedNode());
+                extractor.extractSubGraphs(Thesis.getInstance().getGOGraph(), Thesis.getInstance().getClusterGraph(), getSelectedNode());
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 

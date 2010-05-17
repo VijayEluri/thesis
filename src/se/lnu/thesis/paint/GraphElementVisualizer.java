@@ -1,5 +1,7 @@
 package se.lnu.thesis.paint;
 
+import javax.media.opengl.GLAutoDrawable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -8,6 +10,6 @@ package se.lnu.thesis.paint;
  */
 public interface GraphElementVisualizer {
 
-    public void draw(Object element);
+    public void draw(GLAutoDrawable drawable, Object element);
 
 }

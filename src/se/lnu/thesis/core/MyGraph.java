@@ -17,6 +17,10 @@ import java.util.Set;
  */
 public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
 
+    /*TODO improve this implementation by making my own, where leafs and nodes should be stored separatedly;
+    also maybe make my own tree implementation with getRoot() and node levels
+    * */
+
     private Map<V, String> nodeLabel = new HashMap<V, String>();
 
     public Map<V, String> getNodeLabel() {

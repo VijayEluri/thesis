@@ -2,7 +2,6 @@ package se.lnu.thesis.test;
 
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.Tree;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -11,9 +10,7 @@ import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungTreeYedHandler;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.io.MyGraphYedHandler;
-import se.lnu.thesis.layout.AbstractPolarDendrogramLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.layout.TreePolarDendrogramLayout;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
@@ -128,37 +125,6 @@ public class TestPerfomance {
 
 
     @Test
-    public void treeLayoutPerfomance() {
-
-
-        GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
-
-        long start = System.currentTimeMillis();
-        Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
-        long end = System.currentTimeMillis();
-
-        System.out.println("'JungTreeYedHandler' done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
-
-        assertEquals(nodes, graph.getVertexCount());
-        assertEquals(edges, graph.getEdgeCount());
-
-
-        AbstractPolarDendrogramLayout layout = new TreePolarDendrogramLayout((Tree) graph);
-        layout.setRadius(0.45 * 800);
-        layout.setXCenter(400);
-        layout.setYCenter(400);
-        layout.setSize(new Dimension(800, 800));
-
-        System.gc();
-
-        start = System.currentTimeMillis();
-        layout.initialize();
-        end = System.currentTimeMillis();
-
-        System.out.println("Initialize layout using JUNG Tree done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
-    }
-
-    @Test
     public void graphLayoutPerfomance() {
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
@@ -172,10 +138,10 @@ public class TestPerfomance {
         assertEquals(edges, graph.getEdgeCount());
 
 
-        AbstractPolarDendrogramLayout layout = new PolarDendrogramLayout(graph);
-        layout.setRadius(0.45 * 800);
-        layout.setXCenter(400);
-        layout.setYCenter(400);
+        PolarDendrogramLayout layout = new PolarDendrogramLayout(graph);
+        layout.setRadius(0.9);
+        layout.setXCenter(0);
+        layout.setYCenter(0);
         layout.setSize(new Dimension(800, 800));
 
         System.gc();

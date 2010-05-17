@@ -1,9 +1,8 @@
 package se.lnu.thesis.paint;
 
-import processing.core.PApplet;
-import se.lnu.thesis.Thesis;
 import se.lnu.thesis.utils.GraphUtils;
 
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 
 /**
@@ -14,14 +13,10 @@ import java.awt.*;
  */
 public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
 
-    public GOGraphVisualizer(PApplet applet) {
-        super(applet);
-    }
-
     @Override
-    protected void drawGraphVertex(Object nodeId) {
+    protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
 
-        if (Thesis.getInstance().getSelectionDialog().getSelectedNode() == nodeId) { // selected node is blue
+        if (getSelectedNode() != null && getSelectedNode() == nodeId) { // selected node is blue
             getVertexVisualizer().setColor(Color.CYAN);
         } else {
 
@@ -32,13 +27,13 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
             }
         }
 
-        getVertexVisualizer().draw(nodeId);
+        getVertexVisualizer().draw(drawable, nodeId);
     }
 
     @Override
-    protected void drawSubgraphVertex(Object nodeId) {
+    protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
 
-        if (Thesis.getInstance().getSelectionDialog().getSelectedNode() == nodeId) { // selected node is blue
+        if (getSelectedNode() != null && getSelectedNode() == nodeId) { // selected node is blue
             getVertexVisualizer().setColor(Color.CYAN);
         } else {
 
@@ -49,23 +44,7 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
             }
         }
 
-        getVertexVisualizer().draw(nodeId);
+        getVertexVisualizer().draw(drawable, nodeId);
     }
-
-/*
-    @Override
-    protected void drawGraphEdge(Object edgeId) {
-        getApplet().noFill();
-        getApplet().stroke(255); // set edge color to white
-        getEdgeVisualizer().draw(edgeId);
-    }
-
-    @Override
-    protected void drawSubgraphEdge(Object edgeId) {
-        getApplet().noFill();
-        getApplet().stroke(255, 255, 0); // color yellow
-        getSubGraphEdgeVizualizer().draw(edgeId);
-    }
-*/
 
 }

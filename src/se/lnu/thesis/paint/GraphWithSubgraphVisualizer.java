@@ -1,7 +1,8 @@
 package se.lnu.thesis.paint;
 
 import edu.uci.ics.jung.graph.Graph;
-import processing.core.PApplet;
+
+import javax.media.opengl.GLAutoDrawable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,50 +13,47 @@ import processing.core.PApplet;
 public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     private Graph subGraph;
-    private boolean drawSubgraph;
+    private boolean drawSubgraph = false;
+    private Object selectedNode;
 
     private AbstractGraphElementVisualizer subGraphVertexVizualizer;
     private AbstractGraphElementVisualizer subGraphEdgeVizualizer;
 
-    public GraphWithSubgraphVisualizer(PApplet applet) {
-        super(applet);
-    }
-
     @Override
-    public void drawVertex(Object nodeId) {
+    public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
         if (isDrawSubgraph() && subGraph.containsVertex(nodeId)) { // is it part of the subgraph?
-            drawSubgraphVertex(nodeId);
+            drawSubgraphVertex(drawable, nodeId);
         } else {
-            drawGraphVertex(nodeId);
+            drawGraphVertex(drawable, nodeId);
         }
     }
 
-    protected void drawGraphVertex(Object nodeId) {
-        getVertexVisualizer().draw(nodeId);
+    protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
+        getVertexVisualizer().draw(drawable, nodeId);
     }
 
-    protected void drawSubgraphVertex(Object nodeId) {
-        getSubGraphVertexVizualizer().draw(nodeId);
+    protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
+        getSubGraphVertexVizualizer().draw(drawable, nodeId);
     }
 
     @Override
-    public void drawEdge(Object edgeId) {
+    public void drawEdge(GLAutoDrawable drawable, Object edgeId) {
         Object source = getGraph().getSource(edgeId);
         Object dest = getGraph().getDest(edgeId);
 
         if (isDrawSubgraph() && subGraph.containsVertex(source) && subGraph.containsVertex(dest)) { // is it part of the subgraph?
-            drawSubgraphEdge(edgeId);
+            drawSubgraphEdge(drawable, edgeId);
         } else {
-            drawGraphEdge(edgeId);
+            drawGraphEdge(drawable, edgeId);
         }
     }
 
-    protected void drawSubgraphEdge(Object edgeId) {
-        getSubGraphEdgeVizualizer().draw(edgeId);
+    protected void drawSubgraphEdge(GLAutoDrawable drawable, Object edgeId) {
+        getSubGraphEdgeVizualizer().draw(drawable, edgeId);
     }
 
-    protected void drawGraphEdge(Object edgeId) {
-        getEdgeVisualizer().draw(edgeId);
+    protected void drawGraphEdge(GLAutoDrawable drawable, Object edgeId) {
+        getEdgeVisualizer().draw(drawable, edgeId);
     }
 
     public AbstractGraphElementVisualizer getSubGraphVertexVizualizer() {
@@ -94,5 +92,13 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     public void setDrawSubgraph(boolean drawSubgraph) {
         this.drawSubgraph = drawSubgraph;
+    }
+
+    public Object getSelectedNode() {
+        return selectedNode;
+    }
+
+    public void setSelectedNode(Object selectedNode) {
+        this.selectedNode = selectedNode;
     }
 }

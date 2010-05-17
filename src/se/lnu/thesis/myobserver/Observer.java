@@ -1,4 +1,4 @@
-package se.lnu.thesis.utils.myobserver;
+package se.lnu.thesis.myobserver;
 
 /**
  * Created by IntelliJ IDEA.

@@ -2,7 +2,8 @@ package se.lnu.thesis.paint;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
-import processing.core.PApplet;
+
+import javax.media.opengl.GLAutoDrawable;
 
 
 public class GraphVisualizer extends Visualizer {
@@ -15,29 +16,22 @@ public class GraphVisualizer extends Visualizer {
     private AbstractGraphElementVisualizer vertexVisualizer;
 
 
-    private GraphVisualizer() {
-    }
-
-    public GraphVisualizer(PApplet applet) {
-        setApplet(applet);
-    }
-
-    protected void drawScene() {
+    protected void drawScene(GLAutoDrawable drawable) {
         for (Object edge : graph.getEdges()) { // first draw edge
-            drawEdge(edge);
+            drawEdge(drawable, edge);
         }
 
         for (Object node : graph.getVertices()) { // draw vertex
-            drawVertex(node);
+            drawVertex(drawable, node);
         }
     }
 
-    public void drawVertex(Object nodeId) {
-        vertexVisualizer.draw(nodeId);
+    public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
+        vertexVisualizer.draw(drawable, nodeId);
     }
 
-    public void drawEdge(Object edgeId) {
-        edgeVisualizer.draw(edgeId);
+    public void drawEdge(GLAutoDrawable drawable, Object edgeId) {
+        edgeVisualizer.draw(drawable, edgeId);
     }
 
     public Graph getGraph() {

@@ -1,15 +1,23 @@
 package se.lnu.thesis;
 
-import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import processing.core.PApplet;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.gui.ClusterWindow;
+import se.lnu.thesis.gui.GoWindow;
+import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
-import se.lnu.thesis.io.AbstractHandler;
-import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.MyGraphYedHandler;
+import se.lnu.thesis.io.IOFacade;
+import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.layout.RadialLayout;
+import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.ClusterGraphVisualizer;
+import se.lnu.thesis.paint.GOGraphVisualizer;
+import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
+import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
+import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
+import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 
-import java.util.concurrent.TimeUnit;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,12 +40,11 @@ public class Thesis {
         return instance;
     }
 
-    public static final String GO_APPLET_CLASS = "se.lnu.thesis.gui.GOApplet";
-    public static final String CLUSTER_APPLET_CLASS = "se.lnu.thesis.gui.ClusterApplet";
+    private MyGraph clusterGraph;
+    private MyGraph goGraph;
 
-    private Graph clusterGraph;
-    private Graph goGraph;
-
+    private JoglWindow goWindow;
+    private JoglWindow clusterWindow;
     private SelectionDialog selectionDialog;
 
     private Thesis() {
@@ -46,10 +53,14 @@ public class Thesis {
 
     public void init(String[] args) {
         if (args.length == 2) {
-            initSelectionDialog(args[0], new MyGraphYedHandler());
+            IOFacade ioFacade = new IOFacade();
 
-            initGOApplet();
-            initClusterApplet(args[1], new MyGraphYedHandler());
+            goGraph = ioFacade.loadFromYedGraphml(args[0]);
+            clusterGraph = ioFacade.loadFromYedGraphml(args[1]);
+
+            initSelectionDialog();
+            initGOWindow();
+            initClusterWindow();
 
         } else {
             System.out.println("Error starting program.");
@@ -59,45 +70,72 @@ public class Thesis {
         }
     }
 
-    protected void initGOApplet() {
-        PApplet.main(new String[]{GO_APPLET_CLASS});
+    protected void initGOWindow() {
+        goWindow = new GoWindow();
+
+        GraphWithSubgraphVisualizer visualizer = new GOGraphVisualizer();
+
+        visualizer.setGraph(goGraph);
+
+        RadialLayout layout = new RadialLayout(goGraph);
+        layout.initialize();
+        visualizer.setLayout(layout);
+
+        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
+
+        AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
+        visualizer.setVertexVisualizer(vertexVisualizer);
+        visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
+
+        goWindow.setVisualizer(visualizer);
+
+        selectionDialog.registerObserver(goWindow);
+
+        goWindow.setVisible(true);
     }
 
-    protected void initClusterApplet(String graphFilePath, AbstractHandler handler) {
-        clusterGraph = loadGraph(graphFilePath, handler);
-        PApplet.main(new String[]{CLUSTER_APPLET_CLASS});
+    protected void initClusterWindow() {
+        clusterWindow = new ClusterWindow();
+
+        GraphWithSubgraphVisualizer visualizer = new ClusterGraphVisualizer();
+
+        visualizer.setGraph(clusterGraph);
+
+        PolarDendrogramLayout layout = new PolarDendrogramLayout(clusterGraph);
+        layout.setCenter(0, 0);
+        layout.setRadius(0.9);
+        layout.initialize();
+
+        visualizer.setLayout(layout);
+
+        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
+
+        AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
+        visualizer.setVertexVisualizer(vertexVisualizer);
+        visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
+
+        clusterWindow.setVisualizer(visualizer);
+
+        selectionDialog.registerObserver(clusterWindow);
+
+        clusterWindow.setVisible(true);
+
     }
 
-    private void initSelectionDialog(String goGraphFilePath, AbstractHandler handler) {
-        goGraph = loadGraph(goGraphFilePath, handler);
-
+    protected void initSelectionDialog() {
         selectionDialog = new SelectionDialog();
-        selectionDialog.initListContent(((MyGraph) getGOGraph()).getNodeLabel());
+        selectionDialog.initListContent(getGOGraph().getNodeLabel());
         selectionDialog.setVisible(true);
     }
 
-    protected Graph loadGraph(String path, AbstractHandler handler) {
-        Graph result = null;
-
-        long start = System.currentTimeMillis();
-        result = (Graph) new GraphMLParser(handler).load(path).get(0);
-        long end = System.currentTimeMillis();
-
-        LOGGER.info("Loading graph from file '" + path + "'.. Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
-
-        return result;
-    }
-
-    public Graph getClusterGraph() {
+    public MyGraph getClusterGraph() {
         return this.clusterGraph;
     }
 
-    public Graph getGOGraph() {
+    public MyGraph getGOGraph() {
         return this.goGraph;
-    }
-
-    public SelectionDialog getSelectionDialog() {
-        return selectionDialog;
     }
 
 

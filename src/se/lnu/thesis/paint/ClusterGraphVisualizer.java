@@ -1,7 +1,8 @@
 package se.lnu.thesis.paint;
 
-import processing.core.PApplet;
 import se.lnu.thesis.utils.GraphUtils;
+
+import javax.media.opengl.GLAutoDrawable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,21 +14,17 @@ import se.lnu.thesis.utils.GraphUtils;
  */
 public class ClusterGraphVisualizer extends GraphWithSubgraphVisualizer {
 
-    public ClusterGraphVisualizer(PApplet applet) {
-        super(applet);
-    }
-
     @Override
-    protected void drawGraphVertex(Object nodeId) {
+    protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
-            getVertexVisualizer().draw(nodeId);
+            getVertexVisualizer().draw(drawable, nodeId);
         }
     }
 
     @Override
-    protected void drawSubgraphVertex(Object nodeId) {
+    protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
-            getSubGraphVertexVizualizer().draw(nodeId);
+            getSubGraphVertexVizualizer().draw(drawable, nodeId);
         }
     }
 }

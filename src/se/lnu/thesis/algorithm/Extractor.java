@@ -31,6 +31,8 @@ public class Extractor {
     private Graph goSubGraph;
     private Graph clusterSubGraph;
 
+    private Object selectedNode;
+
     // TODO make smarter cache!
     private Map<Object, Graph> goCache;
     private Map<Object, Graph> clusterCache;
@@ -41,6 +43,8 @@ public class Extractor {
     }
 
     public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
+
+        setSelectedNode(goNode);
 
         if (goCache.containsKey(goNode) && clusterCache.containsKey(goNode)) {
             LOGGER.info("Allready computed. Loading from cache..");
@@ -120,4 +124,11 @@ public class Extractor {
         this.clusterSubGraph = clusterSubGraph;
     }
 
+    public Object getSelectedNode() {
+        return selectedNode;
+    }
+
+    public void setSelectedNode(Object selectedNode) {
+        this.selectedNode = selectedNode;
+    }
 }
