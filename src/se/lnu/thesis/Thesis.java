@@ -7,14 +7,13 @@ import se.lnu.thesis.gui.GoWindow;
 import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.layout.RadialLayout;
+import se.lnu.thesis.layout.SpiralLayout;
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.ClusterGraphVisualizer;
 import se.lnu.thesis.paint.GOGraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
-import se.lnu.thesis.paint.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
 
 import java.awt.*;
@@ -92,7 +91,7 @@ public class Thesis {
 
         selectionDialog.registerObserver(goWindow);
 
-        goWindow.setVisible(true);
+        goWindow.setVisible(false); // TODO for testing only
     }
 
     protected void initClusterWindow() {
@@ -102,15 +101,23 @@ public class Thesis {
 
         visualizer.setGraph(clusterGraph);
 
+/*
         PolarDendrogramLayout layout = new PolarDendrogramLayout(clusterGraph);
         layout.setCenter(0, 0);
         layout.setRadius(0.9);
         layout.initialize();
+*/
+        SpiralLayout layout = new SpiralLayout(clusterGraph);
+        layout.initialize();
 
         visualizer.setLayout(layout);
 
+/*
         visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
         visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
+*/
+        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
         AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
         visualizer.setVertexVisualizer(vertexVisualizer);
