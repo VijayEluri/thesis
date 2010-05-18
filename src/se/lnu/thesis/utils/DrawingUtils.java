@@ -53,4 +53,23 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
+    public static void spiral(GL gl, double step, int elements) {
+
+        final double a = 1.0;
+
+        double angle;
+
+        gl.glBegin(GL.GL_LINE_STRIP);
+        //gl.glBegin(GL.GL_POINTS);
+        for (int i = 0; i < elements; i++) {
+            angle = Utils.inRadians(i * step);
+
+            double x = a * angle * Math.cos(angle);
+            double y = a * angle * Math.sin(angle);
+
+            gl.glVertex2d(x, y);
+        }
+        gl.glEnd();
+    }
+
 }
