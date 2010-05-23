@@ -11,6 +11,8 @@ import javax.media.opengl.GLJPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +22,7 @@ import java.awt.event.KeyListener;
  * <p/>
  * JOGL window
  */
-public abstract class JoglWindow extends JFrame implements KeyListener, GLEventListener, Observer {
+public abstract class JoglWindow extends JFrame implements KeyListener, GLEventListener, Observer, MouseWheelListener {
 
     private static final int DEFAULT_WINDOW_HEGIHT = 800;
     private static final int DEFAULT_WINDOW_WIDTH = 800;
@@ -41,6 +43,9 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         drawablePanel = new GLJPanel();
 
         drawablePanel.addGLEventListener(this);
+        drawablePanel.addMouseWheelListener(this);
+        drawablePanel.addKeyListener(this);
+
         drawablePanel.setVisible(true);
 
         add(drawablePanel);
@@ -52,7 +57,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         }
     }
 
-    public void keyTyped(KeyEvent keyEvent) {
+    public void keyPressed(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
 
         LOGGER.info("Key code:" + keyCode);
@@ -81,6 +86,20 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         repaint();
     }
 
+    public void mouseWheelMoved(MouseWheelEvent mouseWheelEvent) {
+        int i = mouseWheelEvent.getWheelRotation();
+
+        LOGGER.debug("Mouse wheel event. " + i);
+
+        if (i > 0) {
+            visualizer.zoomOut();
+        } else {
+            visualizer.zoomIn();
+        }
+
+        repaint();
+    }
+
     public GraphWithSubgraphVisualizer getVisualizer() {
         return visualizer;
     }
@@ -89,7 +108,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         this.visualizer = visualizer;
     }
 
-    public void keyPressed(KeyEvent keyEvent) {
+    public void keyTyped(KeyEvent keyEvent) {
     }
 
     public void keyReleased(KeyEvent keyEvent) {
