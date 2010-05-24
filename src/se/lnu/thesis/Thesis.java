@@ -10,11 +10,12 @@ import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.RadialLayout;
 import se.lnu.thesis.layout.SpiralLayout;
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
-import se.lnu.thesis.paint.ClusterGraphVisualizer;
 import se.lnu.thesis.paint.GOGraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
+import se.lnu.thesis.paint.SpiralClusterVisualizer;
 import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
+import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
 
 import java.awt.*;
 
@@ -97,7 +98,7 @@ public class Thesis {
     protected void initClusterWindow() {
         clusterWindow = new ClusterWindow();
 
-        GraphWithSubgraphVisualizer visualizer = new ClusterGraphVisualizer();
+        SpiralClusterVisualizer visualizer = new SpiralClusterVisualizer();
 
         visualizer.setGraph(clusterGraph);
 
@@ -119,9 +120,9 @@ public class Thesis {
         visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
         visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
-        AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
-        visualizer.setVertexVisualizer(vertexVisualizer);
-        visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
+        visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
+        visualizer.setSubGraphVertexVizualizer(new CircleVertexVisualizer(visualizer, Color.YELLOW, 0.01));
+        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer((GraphWithSubgraphVisualizer) visualizer, Color.RED));
 
         clusterWindow.setVisualizer(visualizer);
 

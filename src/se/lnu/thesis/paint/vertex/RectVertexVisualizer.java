@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.vertex;
 import se.lnu.thesis.paint.GraphVisualizer;
 
 import javax.media.opengl.GL;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,6 +15,10 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
 
     public RectVertexVisualizer(GraphVisualizer visualizer) {
         super(visualizer);
+    }
+
+    public RectVertexVisualizer(GraphVisualizer visualizer, Color color) {
+        super(visualizer, color);
     }
 
     @Override

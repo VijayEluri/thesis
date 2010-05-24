@@ -27,4 +27,5 @@ public class ClusterGraphVisualizer extends GraphWithSubgraphVisualizer {
             getSubGraphVertexVizualizer().draw(drawable, nodeId);
         }
     }
+
 }
