@@ -117,12 +117,12 @@ public class Thesis {
         visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
         visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
 */
-        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
+        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.BLACK));
         visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
         visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
         visualizer.setSubGraphVertexVizualizer(new CircleVertexVisualizer(visualizer, Color.YELLOW, 0.01));
-        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer((GraphWithSubgraphVisualizer) visualizer, Color.RED));
+        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer(visualizer, Color.WHITE));
 
         clusterWindow.setVisualizer(visualizer);
 

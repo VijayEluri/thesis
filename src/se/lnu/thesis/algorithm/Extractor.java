@@ -53,7 +53,7 @@ public class Extractor {
             clusterSubGraph = clusterCache.get(goNode);
         } else {
             goSubGraph = new DirectedSparseGraph();
-            Set goSubGraphLeafs = GraphUtils.getInstance().getSubgraphAndLeafs(goGraph, goSubGraph, goNode);
+            Set goSubGraphLeafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(goGraph, goSubGraph, goNode);
 
             clusterSubGraph = new DirectedSparseGraph();
             Object clusterSubGraphRoot = null;

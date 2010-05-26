@@ -20,6 +20,7 @@ public class SpiralClusterVisualizer extends GraphWithSubgraphVisualizer {
                 if (getGraph().outDegree(nodeId) == 0) {
                     super.drawVertex(drawable, nodeId);
                 }
+                //     getVertexVisualizer().draw(drawable, nodeId);
             }
         }
     }

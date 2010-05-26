@@ -31,30 +31,17 @@ public class SpiralLayout<V, E> extends AbstractLayout<V, E> {
 
 
     public void initialize() {
-        V longestNode = null;
-        int nodeHeight = 0;
 
-        for (V node : getGraph().getVertices()) {
-            if (getGraph().outDegree(node) > 0) { // is node?
-                int height = GraphUtils.getInstance().getNodeHeight(getGraph(), node, 0);
-                if (height > nodeHeight) {
-                    nodeHeight = height;
-                    longestNode = node;
-                }
-            }
-        }
+        List<V> path = GraphUtils.getInstance().longestPath(getGraph());
 
-        List nodes = GraphUtils.getInstance().invertDfsNodes(getGraph(), longestNode);
-
-        vertices = new HashSet(nodes);
+        vertices = new HashSet(path);
         groupVertices = new HashSet();
 
         double angle;
         double x, y;
-        for (int i = nodes.size() - 1; i >= 0; i--) {
-            V node = (V) nodes.get(i);
+        for (V node : path) {
 
-            angle = Utils.inRadians(i * ANGLE_STEP);
+            angle = Utils.inRadians(path.indexOf(node) * ANGLE_STEP);
 
             x = NODE_K * angle * Math.cos(angle);
             y = NODE_K * angle * Math.sin(angle);
@@ -63,16 +50,25 @@ public class SpiralLayout<V, E> extends AbstractLayout<V, E> {
 
 
             for (V successor : getGraph().getSuccessors(node)) {
-                if (vertices.add(successor) && groupVertices.add(successor)) {
+                if (!path.contains(successor)) {
                     x = x / NODE_K * LEAF_K; // x = LEAF_K * angle * Math.cos(angle);
                     y = y / NODE_K * LEAF_K; // y = LEAF_K * angle * Math.sin(angle);
 
                     setLocation(successor, x, y);
+
+                    if (GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
+                        vertices.add(successor);
+                    } else {
+                        groupVertices.add(successor);
+                    }
+
                 }
 
 
             }
         }
+
+        vertices.addAll(groupVertices);
 
 
     }
