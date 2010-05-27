@@ -287,39 +287,38 @@ public class TestGraphUtils {
 
         assertEquals(GraphUtils.getInstance().findRoot(graph), path.get(0));
 
-
-/*        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, path.get(0));
+/*
+        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, path.get(0));
         System.out.println(leafs.size());
-        
+
         for (Object leaf: leafs) {
             System.out.println(GraphUtils.getInstance().getNodeHeight(graph, leaf, 0));
         }
-//        System.out.println(graph.getVertexCount());
-        System.out.println(path.size());*/
+*/
 
-/*
         for (Object node : path) {
 
             for (Object successor : graph.getSuccessors(node)) {
                 if (!path.contains(successor)) {
-*/
-/*
-                    if (GraphUtils.getInstance().isLeaf(graph, successor)) {
-                        System.out.println("Leaf!");
-                    } else {
-                        System.out.println("Node");
-                    }
-*/
-/*
 
-                    System.out.println(GraphUtils.getInstance().dfsNodes(graph, successor).size());
+                    System.out.print(successor + " => [ ");
+                    List list = GraphUtils.getInstance().dfsNodes(graph, successor);
+                    for (Object o : list) {
+                        System.out.print(o);
+                        if (graph.outDegree(o) == 0) {
+                            System.out.print("*");
+                        }
+                        System.out.print(" , ");
+                    }
+                    System.out.print("]");
+                    System.out.println();
+
                 }
 
 
             }
 
         }
-*/
 
     }
 
