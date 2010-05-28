@@ -15,40 +15,23 @@ import java.util.*;
  */
 public class GraphUtils<V, E> {
 
-    private static GraphUtils instance = new GraphUtils();
+    private static GraphUtils instance;
 
     public static GraphUtils getInstance() {
         if (instance == null) {
             instance = new GraphUtils();
         }
-
         return instance;
     }
 
-    private Stack stack;
-    private Set visited;
 
     private GraphUtils() {
     }
 
-    protected void init() {
-        if (stack == null) {
-            stack = new Stack();
-        } else {
-            stack.clear();
-        }
-
-        if (visited == null) {
-            visited = new HashSet();
-        } else {
-            visited.clear();
-        }
-
-    }
-
     public List<V> invertDfsNodes(Graph<V, E> graph, V node) {
 
-        init();
+        Stack stack = new Stack();
+        Set visited = new HashSet();
         List result = new LinkedList();
 
         stack.push(node);
@@ -74,7 +57,8 @@ public class GraphUtils<V, E> {
 
     public List<V> dfsNodes(Graph<V, E> graph, V node) {
 
-        init();
+        Stack stack = new Stack();
+        Set visited = new HashSet();
         List result = new LinkedList();
 
         stack.push(node);
@@ -167,20 +151,20 @@ public class GraphUtils<V, E> {
         return start;
     }
 
-    public boolean isLeaf(Graph graph, Object node) {
+    public boolean isLeaf(Graph<V, E> graph, V node) {
         return graph.outDegree(node) == 0;
     }
 
-    public boolean isRoot(Graph graph, Object node) {
+    public boolean isRoot(Graph<V, E> graph, V node) {
         return graph.inDegree(node) == 0;
     }
 
-    public Set getNodeLeafs(Graph graph, Object root) {
-        init();
-
+    public Set<V> getNodeLeafs(Graph<V, E> graph, V node) {
+        Stack stack = new Stack();
+        Set visited = new HashSet();
         Set result = new HashSet();
 
-        stack.push(root);
+        stack.push(node);
 
         while (!stack.isEmpty()) {
             V next = (V) stack.pop();
@@ -204,12 +188,20 @@ public class GraphUtils<V, E> {
         return result;
     }
 
-    public Set getSubgraphAndLeafs(Graph graph, Graph subGraph, Object root) {
-        init();
+    /**
+     * Extract subgraph from @graph starting root node @node
+     *
+     * @param graph    Graph from which to extract subgraph
+     * @param subGraph Extracted subgraph
+     * @param node     Root node for subgraph
+     * @return Leafs from subgraph
+     */
+    public Set getSubgraphAndItsLeafs(Graph<V, E> graph, Graph<V, E> subGraph, V node) {
+        Stack stack = new Stack();
+        Set visited = new HashSet();
+        Set subGraphLeafs = new HashSet();
 
-        Set result = new HashSet();
-
-        stack.push(root);
+        stack.push(node);
 
         while (!stack.isEmpty()) {
             V parent = (V) stack.pop();
@@ -219,13 +211,13 @@ public class GraphUtils<V, E> {
                 subGraph.addVertex(parent);
 
                 if (isLeaf(graph, parent)) {
-                    result.add(parent);
+                    subGraphLeafs.add(parent);
                 } else {
-                    for (Object child : graph.getSuccessors(parent)) {
+                    for (V child : graph.getSuccessors(parent)) {
                         if (!visited.contains(child)) {
                             stack.push(child);
                             subGraph.addVertex(child);
-                            subGraph.addEdge(parent + "->" + child, parent, child);
+                            subGraph.addEdge((E) (parent + "->" + child), parent, child);
                         }
                     }
                 }
@@ -233,7 +225,35 @@ public class GraphUtils<V, E> {
             }
         }
 
-        return result;
+        return subGraphLeafs;
+    }
+
+    /**
+     * Get longest path for current tree graph
+     *
+     * @param graph Directed acyclic graph
+     * @return List of elements from root to longest leaf
+     */
+    public List<V> longestPath(Graph<V, E> graph) {
+        V longestNode = null;
+        int nodeHeight = 0;
+
+        int height;
+
+        for (V node : graph.getVertices()) {
+            height = getNodeHeight(graph, node, 0);
+            if (height > nodeHeight) {
+                nodeHeight = height;
+                longestNode = node;
+            }
+        }
+
+        List<V> path = invertDfsNodes(graph, longestNode);
+
+        Collections.reverse(path);
+
+        return path;
+
     }
 
 

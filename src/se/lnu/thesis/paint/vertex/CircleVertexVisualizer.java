@@ -28,6 +28,15 @@ public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
         super(visualizer, color);
     }
 
+    public CircleVertexVisualizer(GraphWithSubgraphVisualizer visualizer, Color color, double radius) {
+        super(visualizer, color);
+        setRadius(radius);
+    }
+
+    public CircleVertexVisualizer(GraphVisualizer visualizer, Color color) {
+        super(visualizer, color);
+    }
+
     protected void drawShape(Object node) {
         gl().glPushMatrix();
 
@@ -36,7 +45,6 @@ public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
         gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
 
         DrawingUtils.circle(gl(), getRadius(), SEGMENT_COUNT);
-        //DrawingUtils.arc(gl(),90, 180,  0.5, 3);
 
         gl().glPopMatrix();
     }

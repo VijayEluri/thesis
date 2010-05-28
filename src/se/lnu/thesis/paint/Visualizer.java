@@ -42,7 +42,7 @@ public abstract class Visualizer {
 
         gl.glPushMatrix();
 
-        gl.glScalef(1.0f, 1.0f, zoom);
+        gl.glScalef(zoom, zoom, 1.0f);
         gl.glTranslatef(sceneCenterX, sceneCenterY, 0.0f);
 
         drawScene(drawable);

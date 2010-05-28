@@ -30,6 +30,7 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
         Point2D end = p(dest(edge));
 
         gl().glBegin(GL.GL_LINES);
+        gl().glLineWidth(0.1f);
         gl().glVertex2d(start.getX(), start.getY());
         gl().glVertex2d(end.getX(), end.getY());
         gl().glEnd();

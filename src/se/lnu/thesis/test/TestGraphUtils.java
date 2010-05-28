@@ -6,17 +6,19 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import se.lnu.thesis.io.GraphMLParser;
+import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
-public class TestUtils {
+public class TestGraphUtils {
 
     @Test
     public void testMin() {
@@ -71,7 +73,7 @@ public class TestUtils {
         assertTrue(graph.containsVertex(6));
 
         Graph subgraph = new DirectedSparseGraph();
-        Set leafs = GraphUtils.getInstance().getSubgraphAndLeafs(graph, subgraph, 6);
+        Set leafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(graph, subgraph, 6);
 
         assertEquals(2, leafs.size());
         assertTrue(leafs.contains(9));
@@ -94,7 +96,7 @@ public class TestUtils {
         assertTrue(graph.containsVertex(8));
 
         Graph subgraph = new DirectedSparseGraph();
-        Set leafs = GraphUtils.getInstance().getSubgraphAndLeafs(graph, subgraph, 8);
+        Set leafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(graph, subgraph, 8);
 
         assertEquals(2, leafs.size());
         assertTrue(leafs.contains(9));
@@ -250,6 +252,74 @@ public class TestUtils {
 
         assertEquals(dfsGraphHeight, height + 1);
         //assertEquals(dfsMap.entrySet(), height);
+    }
+
+
+    @Test
+    public void longestPath() {
+        Graph graph = createGraph();
+
+        List path = GraphUtils.getInstance().longestPath(graph);
+
+        assertEquals(8, path.size());
+
+        assertEquals(1, path.get(0));
+        assertEquals(11, path.get(path.size() - 1));
+
+        assertTrue(path.contains(1));
+        assertTrue(path.contains(3));
+        assertTrue(path.contains(5));
+        assertTrue(path.contains(6));
+        assertTrue(path.contains(7));
+        assertTrue(path.contains(8));
+        assertTrue(path.contains(10));
+        assertTrue(path.contains(11));
+
+    }
+
+    @Test
+    public void longestPathOnRealData() {
+        IOFacade ioFacade = new IOFacade();
+
+        Graph graph = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+
+        List path = GraphUtils.getInstance().longestPath(graph);
+
+        assertEquals(GraphUtils.getInstance().findRoot(graph), path.get(0));
+
+/*
+        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, path.get(0));
+        System.out.println(leafs.size());
+
+        for (Object leaf: leafs) {
+            System.out.println(GraphUtils.getInstance().getNodeHeight(graph, leaf, 0));
+        }
+*/
+
+        for (Object node : path) {
+
+            for (Object successor : graph.getSuccessors(node)) {
+                if (!path.contains(successor)) {
+
+                    System.out.print(successor + " => [ ");
+                    List list = GraphUtils.getInstance().dfsNodes(graph, successor);
+                    for (Object o : list) {
+                        System.out.print(o);
+                        if (graph.outDegree(o) == 0) {
+                            System.out.print("*");
+                        }
+                        System.out.print(" , ");
+                    }
+                    System.out.print("]");
+                    System.out.println();
+
+                }
+
+
+            }
+
+        }
+
     }
 
 
