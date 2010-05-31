@@ -12,6 +12,8 @@ public class GraphMLParser {
     private static final Logger LOGGER = Logger.getLogger(GraphMLParser.class);
 
 
+    private static final int READ_BUFFER = 4096;
+
     private AbstractHandler handler;
 
     protected GraphMLParser() {
@@ -32,6 +34,7 @@ public class GraphMLParser {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             try {
                 SAXParser saxParser = saxParserFactory.newSAXParser();
+                saxParser.setProperty("http://apache.org/xml/properties/input-buffer-size", new Integer(READ_BUFFER));
 
                 // parse the graphml file and also register this class for call backs
                 saxParser.parse(path, handler);

@@ -34,11 +34,11 @@ public class MyGraphYedHandler extends AbstractYedHandler {
      * Deprecated!
      * Use MyGraph.getNodeLabel() insteed.
      *
-     * @return Allways returns null!
+     * @return Returns node id - label map.
      */
     @Deprecated
     public Map getIdLabel() {
-        return null;
+        return ((MyGraph) graph).getNodeLabel();
     }
 
 }

@@ -1,8 +1,10 @@
 package se.lnu.thesis.utils;
 
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 
 import java.util.*;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,6 +16,8 @@ import java.util.*;
  * Graph utility class.
  */
 public class GraphUtils<V, E> {
+
+    public static final Logger LOGGER = Logger.getLogger(GraphUtils.class);
 
     private static GraphUtils instance;
 
@@ -254,6 +258,33 @@ public class GraphUtils<V, E> {
 
         return path;
 
+    }
+
+    public void printGraphInfo(Graph<V, E> graph) {
+        int nodes = 0;
+        int roots = 0;
+        int leafs = 0;
+
+        for (V node : graph.getVertices()) {
+            if (graph.outDegree(node) == 0) {
+                leafs++;
+            } else {
+                if (graph.inDegree(node) == 0) {
+                    roots++;
+                } else {
+                    nodes++;
+                }
+            }
+        }
+
+        LOGGER.info("***********************************");
+        LOGGER.info("   Gene Ontology graph information:");
+        LOGGER.info("       Edge count: " + graph.getEdgeCount());
+        LOGGER.info("       Vertex count: " + graph.getVertexCount());
+        LOGGER.info("           Roots: " + roots);
+        LOGGER.info("           Nodes: " + nodes);
+        LOGGER.info("           Leafs: " + leafs);
+        LOGGER.info("***********************************");
     }
 
 

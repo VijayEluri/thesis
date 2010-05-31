@@ -19,7 +19,8 @@ public abstract class AbstractYedHandler extends AbstractHandler {
     private static final String TAG_YED_NODE_LABEL = "y:NodeLabel";
 
     protected Object currentNode;
-    protected Boolean labelTag;
+    protected boolean labelTag = false;
+    protected String labelValue = null;
 
     // Event Handlers
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -72,9 +73,14 @@ public abstract class AbstractYedHandler extends AbstractHandler {
 
     @Override
     public void characters(char[] chars, int i, int length) throws SAXException {
-        if (labelTag != null && labelTag) {
-            labelTagValue(new String(chars, i, length));
+        if (labelTag) {
+            if (labelValue == null) {
+                labelValue = new String(chars, i, length);
+            } else {
+                labelValue = new String(labelValue + new String(chars, i, length));
+            }
         }
+
     }
 
     protected abstract void labelTagValue(String label);
@@ -107,12 +113,14 @@ public abstract class AbstractYedHandler extends AbstractHandler {
         currentNode = id;
     }
 
-    protected void endTagYedNodeLabel() {
-        labelTag = false;
-    }
-
     protected void startTagYedNodeLabel() {
         labelTag = true;
+    }
+
+    protected void endTagYedNodeLabel() {
+        labelTagValue(labelValue);
+        labelTag = false;
+        labelValue = null;
     }
 
     protected void createNode(Object key) {

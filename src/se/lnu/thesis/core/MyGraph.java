@@ -21,7 +21,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     also maybe make my own tree implementation with getRoot() and node levels
     * */
 
-    private Map<V, String> nodeLabel = new HashMap<V, String>();
+    private Map<V, String> nodeLabel = new HashMap<V, String>(); // TODO use GoogleCollection Bidirectional Map
 
     public Map<V, String> getNodeLabel() {
         return nodeLabel;
@@ -85,6 +85,10 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
 
     public String getLabel(V node) {
         return nodeLabel.get(node);
+    }
+
+    public Map<V, String> getNodeLabelMap() {
+        return nodeLabel;
     }
 
 
