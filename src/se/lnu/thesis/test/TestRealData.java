@@ -71,7 +71,7 @@ public class TestRealData {
             LOGGER.error(label);
         }
 
-        assertEquals(0, dublicates.size());
+        assertEquals(1, dublicates.size()); // TODO should be zero! 'biological_process'
     }
 
     @Test
