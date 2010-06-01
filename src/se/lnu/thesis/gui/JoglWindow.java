@@ -5,6 +5,7 @@ import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLJPanel;
@@ -100,6 +101,29 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         repaint();
     }
 
+    public void init(GLAutoDrawable drawable) {
+    }
+
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int heigh) {
+        GL gl = drawable.getGL();
+
+        int length;
+        int shift = 0;
+        if (heigh < width) {
+            length = heigh;
+            shift = (width - heigh) / 2;
+        } else {
+            length = width;
+        }
+
+        gl.glViewport(shift, 0, length, length);
+
+        repaint();
+    }
+
+    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
+    }
+
     public GraphWithSubgraphVisualizer getVisualizer() {
         return visualizer;
     }
@@ -112,16 +136,6 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
     }
 
     public void keyReleased(KeyEvent keyEvent) {
-    }
-
-    public void init(GLAutoDrawable drawable) {
-    }
-
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int heigh) {
-        repaint();
-    }
-
-    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
     }
 
     public abstract void notifyObserver(Subject subject, Object params);
