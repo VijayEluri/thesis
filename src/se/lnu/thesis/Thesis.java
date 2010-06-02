@@ -8,13 +8,14 @@ import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.RadialLayout;
-import se.lnu.thesis.layout.SpiralLayout;
+import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
 import se.lnu.thesis.paint.GOGraphVisualizer;
 import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
-import se.lnu.thesis.paint.SpiralClusterVisualizer;
+import se.lnu.thesis.paint.RectangularSpiralClusterVisualizer;
 import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
+import se.lnu.thesis.paint.vertex.PointVertexVisualizer;
 import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
 
 import java.awt.*;
@@ -98,31 +99,21 @@ public class Thesis {
     protected void initClusterWindow() {
         clusterWindow = new ClusterWindow();
 
-        SpiralClusterVisualizer visualizer = new SpiralClusterVisualizer();
+        RectangularSpiralClusterVisualizer visualizer = new RectangularSpiralClusterVisualizer();
 
         visualizer.setGraph(clusterGraph);
 
-/*
-        PolarDendrogramLayout layout = new PolarDendrogramLayout(clusterGraph);
-        layout.setCenter(0, 0);
-        layout.setRadius(0.9);
-        layout.initialize();
-*/
-        SpiralLayout layout = new SpiralLayout(clusterGraph);
+        RectangularSpiralLayout layout = new RectangularSpiralLayout(clusterGraph);
         layout.initialize();
 
         visualizer.setLayout(layout);
 
-/*
-        visualizer.setEdgeVisualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.WHITE));
-        visualizer.setSubGraphEdgeVizualizer(new PolarDendrogramEdgeVisualizer(visualizer, Color.YELLOW));
-*/
-        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.BLACK));
+//        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.BLACK));
         visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
-        visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
-        visualizer.setSubGraphVertexVizualizer(new CircleVertexVisualizer(visualizer, Color.YELLOW, 0.01));
-        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer(visualizer, Color.WHITE));
+        //visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
+        visualizer.setSubGraphVertexVizualizer(new PointVertexVisualizer(visualizer, Color.YELLOW));
+        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer(visualizer, new Color(100, 100, 100, 100)));
 
         clusterWindow.setVisualizer(visualizer);
 

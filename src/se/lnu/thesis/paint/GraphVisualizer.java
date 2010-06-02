@@ -27,11 +27,15 @@ public class GraphVisualizer extends Visualizer {
     }
 
     public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
-        vertexVisualizer.draw(drawable, nodeId);
+        if (getVertexVisualizer() != null) {
+            vertexVisualizer.draw(drawable, nodeId);
+        }
     }
 
     public void drawEdge(GLAutoDrawable drawable, Object edgeId) {
-        edgeVisualizer.draw(drawable, edgeId);
+        if (getEdgeVisualizer() != null) {
+            edgeVisualizer.draw(drawable, edgeId);
+        }
     }
 
     public Graph getGraph() {

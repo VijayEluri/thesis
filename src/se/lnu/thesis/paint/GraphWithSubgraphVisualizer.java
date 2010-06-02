@@ -29,11 +29,15 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
     }
 
     protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
-        getVertexVisualizer().draw(drawable, nodeId);
+        if (getVertexVisualizer() != null) {
+            getVertexVisualizer().draw(drawable, nodeId);
+        }
     }
 
     protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
-        getSubGraphVertexVizualizer().draw(drawable, nodeId);
+        if (getSubGraphVertexVizualizer() != null) {
+            getSubGraphVertexVizualizer().draw(drawable, nodeId);
+        }
     }
 
     @Override
@@ -49,11 +53,15 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
     }
 
     protected void drawSubgraphEdge(GLAutoDrawable drawable, Object edgeId) {
-        getSubGraphEdgeVizualizer().draw(drawable, edgeId);
+        if (getSubGraphEdgeVizualizer() != null) {
+            getSubGraphEdgeVizualizer().draw(drawable, edgeId);
+        }
     }
 
     protected void drawGraphEdge(GLAutoDrawable drawable, Object edgeId) {
-        getEdgeVisualizer().draw(drawable, edgeId);
+        if (getEdgeVisualizer() != null) {
+            getEdgeVisualizer().draw(drawable, edgeId);
+        }
     }
 
     public AbstractGraphElementVisualizer getSubGraphVertexVizualizer() {
