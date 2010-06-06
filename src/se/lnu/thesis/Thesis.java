@@ -15,7 +15,6 @@ import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
 import se.lnu.thesis.paint.RectangularSpiralClusterVisualizer;
 import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
-import se.lnu.thesis.paint.vertex.PointVertexVisualizer;
 import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
 
 import java.awt.*;
@@ -108,12 +107,14 @@ public class Thesis {
 
         visualizer.setLayout(layout);
 
-//        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.BLACK));
+        //visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
         visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
-        //visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
-        visualizer.setSubGraphVertexVizualizer(new PointVertexVisualizer(visualizer, Color.YELLOW));
+//        visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
+        //      visualizer.setSubGraphVertexVizualizer(new PointVertexVisualizer(visualizer, Color.YELLOW));
+
         visualizer.setGroupVertexVisualizer(new RectVertexVisualizer(visualizer, new Color(100, 100, 100, 100)));
+        visualizer.setSelectedGroupVertexVisualizer(new RectVertexVisualizer(visualizer, Color.YELLOW));
 
         clusterWindow.setVisualizer(visualizer);
 

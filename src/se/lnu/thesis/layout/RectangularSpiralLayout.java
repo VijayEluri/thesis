@@ -6,9 +6,8 @@ import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,12 +24,15 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
     public static final double DEFAULT_Y_POSITION = 0;
 
     protected double pathDistance = DEFAULT_PATH_DISTANCE;
-    protected double nodeDistance = DEFAULT_NODE_DISTANCE;
+    protected double nodeDistance = DEFAULT_PATH_DISTANCE / 2;
 
     protected Point2D pathStartPosition;
 
-    protected Set groupVertices;
     protected Set vertices;
+    protected Set groupVertices;
+
+    protected Map<V, Integer> groupSize;
+    protected int maxGroupSize = 1;
 
     protected enum Direction {
         RIGHT, UP, LEFT, DOWN
@@ -71,6 +73,12 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
 
                         if (!GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
                             groupVertices.add(successor);
+                            int groupSize = GraphUtils.getInstance().dfsNodes(getGraph(), successor).size();
+                            this.groupSize.put(successor, groupSize);
+
+                            if (groupSize > maxGroupSize) {
+                                maxGroupSize = groupSize;
+                            }
                         }
                     }
                 }
@@ -145,6 +153,12 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
         } else {
             groupVertices = new HashSet();
         }
+
+        if (groupSize != null) {
+            groupSize.clear();
+        } else {
+            groupSize = new HashMap<V, Integer>();
+        }
     }
 
     public double getPathDistance() {
@@ -179,4 +193,11 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
         this.vertices = vertices;
     }
 
+    public Map<V, Integer> getGroupSize() {
+        return groupSize;
+    }
+
+    public int getMaxGroupSize() {
+        return maxGroupSize;
+    }
 }

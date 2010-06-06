@@ -1,26 +1,39 @@
 package se.lnu.thesis.paint;
 
 import se.lnu.thesis.layout.RectangularSpiralLayout;
+import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 
 
 public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisualizer {
 
-    private AbstractGraphElementVisualizer groupVertexVisualizer;
+    private static final double MAX_GROUP_VERTEX_SIZE = 0.028;
+
+    private RectVertexVisualizer groupVertexVisualizer;
+    private RectVertexVisualizer selectedGroupVertexVisualizer;
 
     @Override
     public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
-        RectangularSpiralLayout spiralLayout = (RectangularSpiralLayout) getLayout();
+        RectangularSpiralLayout rectangularSpiralLayout = (RectangularSpiralLayout) getLayout();
 
-        if (spiralLayout.getVertices().contains(nodeId)) {
-            if (spiralLayout.getGroupVertices().contains(nodeId)) {
-                groupVertexVisualizer.draw(drawable, nodeId);
+        if (rectangularSpiralLayout.getVertices().contains(nodeId)) {
+            if (rectangularSpiralLayout.getGroupVertices().contains(nodeId)) {
+
+                double thisGroupSize = (MAX_GROUP_VERTEX_SIZE / rectangularSpiralLayout.getMaxGroupSize()) * (Integer) rectangularSpiralLayout.getGroupSize().get(nodeId);
+
+                if (isDrawSubgraph() && getSubGraph().containsVertex(nodeId)) { // is it part of the subgraph?
+                    selectedGroupVertexVisualizer.setRadius(thisGroupSize);
+                    selectedGroupVertexVisualizer.draw(drawable, nodeId);
+                } else {
+                    groupVertexVisualizer.setRadius(thisGroupSize);
+                    groupVertexVisualizer.draw(drawable, nodeId);
+                }
+
             } else {
-                //         if (getGraph().outDegree(nodeId) == 0) {
+//                if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
                 super.drawVertex(drawable, nodeId);
-                //       }
-                //  getVertexVisualizer().draw(drawable, nodeId);
+                //              }
             }
         }
     }
@@ -37,11 +50,19 @@ public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisuali
         }
     }
 
-    public AbstractGraphElementVisualizer getGroupVertexVisualizer() {
+    public RectVertexVisualizer getGroupVertexVisualizer() {
         return groupVertexVisualizer;
     }
 
-    public void setGroupVertexVisualizer(AbstractGraphElementVisualizer groupVertexVisualizer) {
+    public void setGroupVertexVisualizer(RectVertexVisualizer groupVertexVisualizer) {
         this.groupVertexVisualizer = groupVertexVisualizer;
+    }
+
+    public RectVertexVisualizer getSelectedGroupVertexVisualizer() {
+        return selectedGroupVertexVisualizer;
+    }
+
+    public void setSelectedGroupVertexVisualizer(RectVertexVisualizer selectedGroupVertexVisualizer) {
+        this.selectedGroupVertexVisualizer = selectedGroupVertexVisualizer;
     }
 }
