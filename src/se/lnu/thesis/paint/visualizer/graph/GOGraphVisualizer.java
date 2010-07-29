@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -17,34 +17,34 @@ public class GOGraphVisualizer extends GraphWithSubgraphVisualizer {
     protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
 
         if (getSelectedNode() != null && getSelectedNode() == nodeId) { // selected node is blue
-            getVertexVisualizer().setColor(Color.CYAN);
+            getVertexVisualizer().setMainColor(Color.CYAN);
         } else {
 
             if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
-                getVertexVisualizer().setColor(Color.RED); // leafs are red
+                getVertexVisualizer().setMainColor(Color.RED); // leafs are red
             } else {
-                getVertexVisualizer().setColor(Color.WHITE); // all the rest is white
+                getVertexVisualizer().setMainColor(Color.WHITE); // all the rest is white
             }
         }
 
-        getVertexVisualizer().draw(drawable, nodeId);
+        //    getVertexVisualizer().draw(drawable, nodeId);
     }
 
     @Override
     protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
 
         if (getSelectedNode() != null && getSelectedNode() == nodeId) { // selected node is blue
-            getVertexVisualizer().setColor(Color.CYAN);
+            getVertexVisualizer().setMainColor(Color.CYAN);
         } else {
 
             if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) {
-                getVertexVisualizer().setColor(Color.YELLOW); // leafs are yellow
+                getVertexVisualizer().setMainColor(Color.YELLOW); // leafs are yellow
             } else {
-                getVertexVisualizer().setColor(Color.GREEN); // all the rest is white
+                getVertexVisualizer().setMainColor(Color.GREEN); // all the rest is white
             }
         }
 
-        getVertexVisualizer().draw(drawable, nodeId);
+        //       getVertexVisualizer().draw(drawable, nodeId);
     }
 
 }

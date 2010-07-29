@@ -14,8 +14,8 @@ public class ClusterWindow extends JoglWindow {
         Extractor extractor = (Extractor) params;
 
         visualizer.setSubGraph(extractor.getClusterSubGraph());
-        visualizer.setSelectedNode(extractor.getSelectedNode());
-        visualizer.drawSubgraph();
+//        visualizer.setSelectedNode(extractor.getSelectedNode());
+        //      visualizer.drawSubgraph();
 
         repaint();
     }

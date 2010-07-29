@@ -10,7 +10,6 @@ import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.JungTreeYedHandler;
 import se.lnu.thesis.io.JungYedHandler;
 import se.lnu.thesis.io.MyGraphYedHandler;
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
@@ -126,6 +125,7 @@ public class TestPerfomance {
 
     @Test
     public void graphLayoutPerfomance() {
+/*
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
         long start = System.currentTimeMillis();
@@ -140,9 +140,13 @@ public class TestPerfomance {
 
         PolarDendrogramLayout layout = new PolarDendrogramLayout(graph);
         layout.setRadius(0.9);
+*/
+/*
         layout.setXCenter(0);
         layout.setYCenter(0);
         layout.setSize(new Dimension(800, 800));
+*/
+/*
 
         System.gc();
 
@@ -151,6 +155,7 @@ public class TestPerfomance {
         end = System.currentTimeMillis();
 
         System.out.println("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+*/
     }
 
 

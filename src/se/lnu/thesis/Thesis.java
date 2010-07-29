@@ -7,17 +7,9 @@ import se.lnu.thesis.gui.GoWindow;
 import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.layout.RadialLayout;
-import se.lnu.thesis.layout.RectangularSpiralLayout;
-import se.lnu.thesis.paint.AbstractGraphElementVisualizer;
-import se.lnu.thesis.paint.GOGraphVisualizer;
-import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
-import se.lnu.thesis.paint.RectangularSpiralClusterVisualizer;
-import se.lnu.thesis.paint.edge.LineEdgeVisualizer;
-import se.lnu.thesis.paint.vertex.CircleVertexVisualizer;
-import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
-
-import java.awt.*;
+import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
+import se.lnu.thesis.paint.visualizer.graph.GOGraphVisualizer;
+import se.lnu.thesis.paint.visualizer.graph.GraphWithSubgraphVisualizer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -77,18 +69,22 @@ public class Thesis {
 
         visualizer.setGraph(goGraph);
 
+/*
         RadialLayout layout = new RadialLayout(goGraph);
         layout.initialize();
         visualizer.setLayout(layout);
+*/
 
+/*
         visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
         visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
 
         AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
         visualizer.setVertexVisualizer(vertexVisualizer);
         visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
+*/
 
-        goWindow.setVisualizer(visualizer);
+        //      goWindow.setVisualizer(visualizer);
 
         selectionDialog.registerObserver(goWindow);
 
@@ -96,32 +92,17 @@ public class Thesis {
     }
 
     protected void initClusterWindow() {
-        clusterWindow = new ClusterWindow();
 
-        RectangularSpiralClusterVisualizer visualizer = new RectangularSpiralClusterVisualizer();
-
+        ClusterVisualizer visualizer = new ClusterVisualizer();
         visualizer.setGraph(clusterGraph);
+        visualizer.init();
 
-        RectangularSpiralLayout layout = new RectangularSpiralLayout(clusterGraph);
-        layout.initialize();
-
-        visualizer.setLayout(layout);
-
-        //visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
-        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
-
-//        visualizer.setVertexVisualizer(new CircleVertexVisualizer(visualizer, Color.RED, 0.01));
-        //      visualizer.setSubGraphVertexVizualizer(new PointVertexVisualizer(visualizer, Color.YELLOW));
-
-        visualizer.setGroupVertexVisualizer(new RectVertexVisualizer(visualizer, new Color(100, 100, 100, 100)));
-        visualizer.setSelectedGroupVertexVisualizer(new RectVertexVisualizer(visualizer, Color.YELLOW));
-
+        clusterWindow = new ClusterWindow();
         clusterWindow.setVisualizer(visualizer);
 
         selectionDialog.registerObserver(clusterWindow);
 
         clusterWindow.setVisible(true);
-
     }
 
     protected void initSelectionDialog() {

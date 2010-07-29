@@ -1,16 +1,19 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 
 
-public class GraphVisualizer extends Visualizer {
+public class GraphVisualizer2 {
 
     private Graph graph;
+    private Graph subGraph;
 
-    private AbstractLayout layout;
+    private AbstractLayout graphLayout;
 
     private AbstractGraphElementVisualizer edgeVisualizer;
     private AbstractGraphElementVisualizer vertexVisualizer;
@@ -28,13 +31,13 @@ public class GraphVisualizer extends Visualizer {
 
     public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
         if (getVertexVisualizer() != null) {
-            vertexVisualizer.draw(drawable, nodeId);
+            //vertexVisualizer.draw(drawable, nodeId);
         }
     }
 
     public void drawEdge(GLAutoDrawable drawable, Object edgeId) {
         if (getEdgeVisualizer() != null) {
-            edgeVisualizer.draw(drawable, edgeId);
+            //edgeVisualizer.draw(drawable, edgeId);
         }
     }
 
@@ -47,11 +50,11 @@ public class GraphVisualizer extends Visualizer {
     }
 
     public AbstractLayout getLayout() {
-        return layout;
+        return graphLayout;
     }
 
     public void setLayout(AbstractLayout layout) {
-        this.layout = layout;
+        this.graphLayout = layout;
     }
 
     public GraphElementVisualizer getEdgeVisualizer() {

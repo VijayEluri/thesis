@@ -1,6 +1,7 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
 import se.lnu.thesis.layout.SpiralLayout;
+import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 
@@ -15,7 +16,7 @@ public class SpiralClusterVisualizer extends GraphWithSubgraphVisualizer {
 
         if (spiralLayout.getVertices().contains(nodeId)) {
             if (spiralLayout.getGroupVertices().contains(nodeId)) {
-                groupVertexVisualizer.draw(drawable, nodeId);
+                //   groupVertexVisualizer.draw(drawable, nodeId);
             } else {
                 if (getGraph().outDegree(nodeId) == 0) {
                     super.drawVertex(drawable, nodeId);

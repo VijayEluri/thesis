@@ -15,9 +15,11 @@ public class GoWindow extends JoglWindow implements Observer {
     public void notifyObserver(Subject subject, Object params) {
         Extractor extractor = (Extractor) params;
 
+/*
         visualizer.setSubGraph(extractor.getGoSubGraph());
         visualizer.setSelectedNode(extractor.getSelectedNode());
         visualizer.drawSubgraph();
+*/
 
         repaint();
     }

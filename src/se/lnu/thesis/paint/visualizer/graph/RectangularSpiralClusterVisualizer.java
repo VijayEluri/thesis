@@ -1,7 +1,6 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
-import se.lnu.thesis.layout.RectangularSpiralLayout;
-import se.lnu.thesis.paint.vertex.RectVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.element.vertex.RectVertexVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 
@@ -15,7 +14,7 @@ public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisuali
 
     @Override
     public void drawVertex(GLAutoDrawable drawable, Object nodeId) {
-        RectangularSpiralLayout rectangularSpiralLayout = (RectangularSpiralLayout) getLayout();
+/*        RectangularSpiralLayout rectangularSpiralLayout = (RectangularSpiralLayout) getLayout();
 
         if (rectangularSpiralLayout.getVertices().contains(nodeId)) {
             if (rectangularSpiralLayout.getGroupVertices().contains(nodeId)) {
@@ -24,10 +23,10 @@ public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisuali
 
                 if (isDrawSubgraph() && getSubGraph().containsVertex(nodeId)) { // is it part of the subgraph?
                     selectedGroupVertexVisualizer.setRadius(thisGroupSize);
-                    selectedGroupVertexVisualizer.draw(drawable, nodeId);
+              //      selectedGroupVertexVisualizer.draw(drawable, nodeId);
                 } else {
                     groupVertexVisualizer.setRadius(thisGroupSize);
-                    groupVertexVisualizer.draw(drawable, nodeId);
+                //    groupVertexVisualizer.draw(drawable, nodeId);
                 }
 
             } else {
@@ -35,11 +34,12 @@ public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisuali
                 super.drawVertex(drawable, nodeId);
                 //              }
             }
-        }
+        }*/
     }
 
     @Override
     public void drawEdge(GLAutoDrawable drawable, Object edgeId) {
+/*
         RectangularSpiralLayout spiralLayout = (RectangularSpiralLayout) getLayout();
 
         Object source = getGraph().getSource(edgeId);
@@ -48,6 +48,7 @@ public class RectangularSpiralClusterVisualizer extends GraphWithSubgraphVisuali
         if (spiralLayout.getVertices().contains(source) && spiralLayout.getVertices().contains(dest)) {
             super.drawEdge(drawable, edgeId);
         }
+*/
     }
 
     public RectVertexVisualizer getGroupVertexVisualizer() {

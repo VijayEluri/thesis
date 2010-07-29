@@ -1,12 +1,15 @@
 package se.lnu.thesis.layout;
 
-import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.element.EdgeElement;
+import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.Utils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -15,7 +18,8 @@ import java.util.List;
  * Date: 15.03.2010
  * Time: 18:26:56
  */
-public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
+public class RectangularSpiralLayout extends AbstractLayout {
+
 
     public static final double DEFAULT_PATH_DISTANCE = 0.045;
     public static final double DEFAULT_NODE_DISTANCE = 0.02;
@@ -26,31 +30,49 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
     protected double pathDistance = DEFAULT_PATH_DISTANCE;
     protected double nodeDistance = DEFAULT_PATH_DISTANCE / 2;
 
-    protected Point2D pathStartPosition;
+    protected Point2D pathStartPosition = new Point2D.Double(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
 
-    protected Set vertices;
-    protected Set groupVertices;
-
-    protected Map<V, Integer> groupSize;
     protected int maxGroupSize = 1;
 
     protected enum Direction {
         RIGHT, UP, LEFT, DOWN
+
     }
 
-
-    public RectangularSpiralLayout(Graph graph) {
-        super(graph);
-
-        pathStartPosition = new Point2D.Double(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
+    public RectangularSpiralLayout(Graph graph, GroupElement root) {
+        super(graph, root);
     }
 
+    public void compute() {
+        computeVertexPosition();
 
-    public void initialize() {
+        computeEdgePositions();
+    }
 
-        List<V> path = GraphUtils.getInstance().longestPath(getGraph());
+    private void computeEdgePositions() {
+        for (Object edge : getGraph().getEdges()) {
+            Object source = graph.getSource(edge);
+            Object dest = graph.getDest(edge);
 
-        initVertices();
+            if (root.has(source) && root.has(dest)) {
+
+                EdgeElement edgeElement = new EdgeElement();
+                edgeElement.setId(Utils.nextId());
+                edgeElement.setObject(edge);
+                edgeElement.setFrom(source);
+                edgeElement.setTo(dest);
+                edgeElement.setDraw(false);
+                edgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
+                edgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+                edgeElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+
+                root.addElement(edgeElement);
+            }
+        }
+    }
+
+    private void computeVertexPosition() {
+        List<Object> path = GraphUtils.getInstance().longestPath(getGraph());
 
         int elements = 3;
         int current = 0;
@@ -61,23 +83,25 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
         Point2D pathPosition = new Point.Double(pathStartPosition.getX(), pathStartPosition.getY());
         Point2D nodePosition = new Point.Double(pathStartPosition.getX() + nodeDistance, pathStartPosition.getY() - nodeDistance);
 
-        for (V node : path) {
-            setLocation(node, pathPosition);
-            vertices.add(node);
+        for (Object node : path) {
 
-            if (!GraphUtils.getInstance().isLeaf(getGraph(), node)) {
-                for (V successor : getGraph().getSuccessors(node)) {
+            if (GraphUtils.getInstance().isLeaf(getGraph(), node)) {
+                root.addElement(new VertexElement(getGraph(), node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+            } else {
+                root.addElement(new VertexElement(getGraph(), node, pathPosition, ElementVisualizerFactory.getInstance().getPointVisualizer()));
+
+                for (Object successor : getGraph().getSuccessors(node)) {
                     if (!path.contains(successor)) {
-                        setLocation(successor, nodePosition);
-                        vertices.add(successor);
+                        if (GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
+                            root.addElement(new VertexElement(getGraph(), successor, nodePosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+                        } else {
+                            GroupElement groupElement = new GroupElement(getGraph(), successor, nodePosition, null);
+                            root.addElement(groupElement);
 
-                        if (!GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
-                            groupVertices.add(successor);
-                            int groupSize = GraphUtils.getInstance().dfsNodes(getGraph(), successor).size();
-                            this.groupSize.put(successor, groupSize);
+                            int groupSize = groupElement.getSize();
 
-                            if (groupSize > maxGroupSize) {
-                                maxGroupSize = groupSize;
+                            if (groupSize > this.maxGroupSize) {
+                                this.maxGroupSize = groupSize;
                             }
                         }
                     }
@@ -99,7 +123,6 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
                 direction = changeDirection(vector, direction);
             }
         }
-
     }
 
     protected boolean isChangeDirection(int current, int groupSize) {
@@ -134,33 +157,6 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
         return null;
     }
 
-    public void reset() {
-        initVertices();
-
-        setPathStartPosition(new Point2D.Double(DEFAULT_X_POSITION, DEFAULT_Y_POSITION));
-        setPathDistance(DEFAULT_PATH_DISTANCE);
-    }
-
-    private void initVertices() {
-        if (vertices != null) {
-            vertices.clear();
-        } else {
-            vertices = new HashSet();
-        }
-
-        if (groupVertices != null) {
-            groupVertices.clear();
-        } else {
-            groupVertices = new HashSet();
-        }
-
-        if (groupSize != null) {
-            groupSize.clear();
-        } else {
-            groupSize = new HashMap<V, Integer>();
-        }
-    }
-
     public double getPathDistance() {
         return pathDistance;
     }
@@ -177,27 +173,7 @@ public class RectangularSpiralLayout<V, E> extends AbstractLayout<V, E> {
         this.pathStartPosition = pathStartPosition;
     }
 
-    public Set getGroupVertices() {
-        return groupVertices;
-    }
-
-    public void setGroupVertices(Set groupVertices) {
-        this.groupVertices = groupVertices;
-    }
-
-    public Set getVertices() {
-        return vertices;
-    }
-
-    public void setVertices(Set vertices) {
-        this.vertices = vertices;
-    }
-
-    public Map<V, Integer> getGroupSize() {
-        return groupSize;
-    }
-
     public int getMaxGroupSize() {
-        return maxGroupSize;
+        return this.maxGroupSize;
     }
 }

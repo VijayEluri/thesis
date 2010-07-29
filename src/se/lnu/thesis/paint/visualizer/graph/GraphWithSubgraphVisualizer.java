@@ -1,6 +1,7 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 
@@ -30,13 +31,13 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (getVertexVisualizer() != null) {
-            getVertexVisualizer().draw(drawable, nodeId);
+            //       getVertexVisualizer().draw(drawable, nodeId);
         }
     }
 
     protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (getSubGraphVertexVizualizer() != null) {
-            getSubGraphVertexVizualizer().draw(drawable, nodeId);
+            //getSubGraphVertexVizualizer().draw(drawable, nodeId);
         }
     }
 
@@ -54,13 +55,13 @@ public class GraphWithSubgraphVisualizer extends GraphVisualizer {
 
     protected void drawSubgraphEdge(GLAutoDrawable drawable, Object edgeId) {
         if (getSubGraphEdgeVizualizer() != null) {
-            getSubGraphEdgeVizualizer().draw(drawable, edgeId);
+            //       getSubGraphEdgeVizualizer().draw(drawable, edgeId);
         }
     }
 
     protected void drawGraphEdge(GLAutoDrawable drawable, Object edgeId) {
         if (getEdgeVisualizer() != null) {
-            getEdgeVisualizer().draw(drawable, edgeId);
+            //       getEdgeVisualizer().draw(drawable, edgeId);
         }
     }
 

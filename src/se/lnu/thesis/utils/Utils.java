@@ -11,6 +11,10 @@ public class Utils {
 
     public static final double PIdev180 = 0.017444;
 
+    public static final double COLOR_MAX = 256.0;
+
+    private static int CURRENT_ID = Integer.MIN_VALUE;
+
     public static double inRadians(double angle) {
         return angle * PIdev180;
     }
@@ -30,5 +34,13 @@ public class Utils {
 
     public static double max(double value1, double value2) {
         return value1 > value2 ? value1 : value2;
+    }
+
+    public static double asDouble(int color) {
+        return color / COLOR_MAX;
+    }
+
+    public static int nextId() {
+        return CURRENT_ID++;
     }
 }

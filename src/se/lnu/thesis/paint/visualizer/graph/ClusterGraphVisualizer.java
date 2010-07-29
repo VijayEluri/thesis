@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.visualizer.graph;
 
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -17,14 +17,14 @@ public class ClusterGraphVisualizer extends GraphWithSubgraphVisualizer {
     @Override
     protected void drawGraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
-            getVertexVisualizer().draw(drawable, nodeId);
+            //        getVertexVisualizer().draw(drawable, nodeId);
         }
     }
 
     @Override
     protected void drawSubgraphVertex(GLAutoDrawable drawable, Object nodeId) {
         if (GraphUtils.getInstance().isLeaf(getGraph(), nodeId)) { // draw only leafs
-            getSubGraphVertexVizualizer().draw(drawable, nodeId);
+            //      getSubGraphVertexVizualizer().draw(drawable, nodeId);
         }
     }
 

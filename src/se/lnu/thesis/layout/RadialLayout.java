@@ -1,37 +1,36 @@
 package se.lnu.thesis.layout;
 
-import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 
-public class RadialLayout<V, E> extends AbstractLayout<V, E> {
+public class RadialLayout extends AbstractLayout {
 
     private double radius = 0.9;
 
-    public RadialLayout(Graph graph) {
-        super(graph);
+    public RadialLayout() {
     }
 
+    public RadialLayout(Graph graph, GroupElement root) {
+        super(graph, root);
+    }
 
-    public void initialize() {
+    public void compute() {
         //main work here
         double step = 360.0 / getGraph().getVertices().size();
 
         double angle;
         int i = 0;
-        for (V node : getGraph().getVertices()) {
+        for (Object node : getGraph().getVertices()) {
             angle = step * i++;
 
             double x = Math.cos(Utils.inRadians(angle)) * getRadius();
             double y = Math.sin(Utils.inRadians(angle)) * getRadius();
 
-            setLocation(node, x, y);
+            root.addElement(new VertexElement(getGraph(), node, x, y));
         }
-    }
 
-    public void reset() {
-        setGraph(null);
-        locations.clear();
     }
 
     public double getRadius() {

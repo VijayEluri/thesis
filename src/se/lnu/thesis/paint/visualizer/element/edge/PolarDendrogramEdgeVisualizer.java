@@ -1,14 +1,9 @@
-package se.lnu.thesis.paint.edge;
+package se.lnu.thesis.paint.visualizer.element.edge;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.GraphVisualizer;
-import se.lnu.thesis.utils.DrawingUtils;
-import se.lnu.thesis.utils.GraphUtils;
-import se.lnu.thesis.utils.Utils;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
 
-import javax.media.opengl.GL;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,19 +17,17 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
 
     protected PolarDendrogramLayout layout;
 
-    public PolarDendrogramEdgeVisualizer(GraphVisualizer visualizer) {
-        super(visualizer);
+    //      layout = (PolarDendrogramLayout) getVisualizer().getLayout();
 
-        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
+
+    public PolarDendrogramEdgeVisualizer(Color color) {
+        super(color);
+
+//        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
     }
 
-    public PolarDendrogramEdgeVisualizer(GraphVisualizer visualizer, Color color) {
-        super(visualizer, color);
-
-        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
-    }
-
-    protected void drawShape(Object edge) {
+    protected void drawShape(AbstractGraphElement element) {
+/*
         Object sourceNode = source(edge);
         Object destNode = dest(edge);
 
@@ -49,9 +42,10 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
 
             drawLine(dummyNode, p(destNode));
         }
+*/
     }
 
-    protected void drawLine(Point2D start, Point2D end) {
+    /*  protected void drawLine(Point2D start, Point2D end) {
         gl().glBegin(GL.GL_LINES);
         gl().glVertex2d(start.getX(), start.getY());
         gl().glVertex2d(end.getX(), end.getY());
@@ -71,6 +65,6 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
         DrawingUtils.arc(gl(), startAngle, endAngle, layout.getNodeRadius(sourceNode), 10);
 
         gl().glPopMatrix();
-    }
+    }*/
 
 }

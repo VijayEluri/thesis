@@ -3,17 +3,14 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.GraphWithSubgraphVisualizer;
+import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLJPanel;
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,14 +20,14 @@ import java.awt.event.MouseWheelListener;
  * <p/>
  * JOGL window
  */
-public abstract class JoglWindow extends JFrame implements KeyListener, GLEventListener, Observer, MouseWheelListener {
+public abstract class JoglWindow extends JFrame implements KeyListener, GLEventListener, Observer, MouseWheelListener, MouseListener {
 
     private static final int DEFAULT_WINDOW_HEGIHT = 800;
     private static final int DEFAULT_WINDOW_WIDTH = 800;
 
     public static final Logger LOGGER = Logger.getLogger(JoglWindow.class);
 
-    protected GraphWithSubgraphVisualizer visualizer;
+    protected ClusterVisualizer visualizer;
 
     private GLJPanel drawablePanel;
 
@@ -46,6 +43,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         drawablePanel.addGLEventListener(this);
         drawablePanel.addMouseWheelListener(this);
         drawablePanel.addKeyListener(this);
+        drawablePanel.addMouseListener(this);
 
         drawablePanel.setVisible(true);
 
@@ -63,6 +61,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
 
         LOGGER.info("Key code:" + keyCode);
 
+/*
         if (keyCode == KeyEvent.VK_ALT) {
             visualizer.zoomOut();
         }
@@ -83,6 +82,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
         if (keyCode == KeyEvent.VK_RIGHT) {
             visualizer.right();
         }
+*/
 
         repaint();
     }
@@ -92,12 +92,12 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
 
         LOGGER.debug("Mouse wheel event. " + i);
 
-        if (i > 0) {
-            visualizer.zoomOut();
-        } else {
-            visualizer.zoomIn();
-        }
-
+        /*       if (i > 0) {
+                    visualizer.zoomOut();
+                } else {
+                    visualizer.zoomIn();
+                }
+        */
         repaint();
     }
 
@@ -109,6 +109,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
 
         int length;
         int shift = 0;
+
         if (heigh < width) {
             length = heigh;
             shift = (width - heigh) / 2;
@@ -124,11 +125,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
     }
 
-    public GraphWithSubgraphVisualizer getVisualizer() {
-        return visualizer;
-    }
-
-    public void setVisualizer(GraphWithSubgraphVisualizer visualizer) {
+    public void setVisualizer(ClusterVisualizer visualizer) {
         this.visualizer = visualizer;
     }
 
@@ -138,5 +135,34 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
     public void keyReleased(KeyEvent keyEvent) {
     }
 
+    public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+        visualizer.setCursor(mouseEvent.getPoint());
+
+        repaint();
+    }
+
+    public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
+        visualizer.setCursor(mouseEvent.getPoint());
+
+        repaint();
+    }
+
+    public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public void mouseEntered(java.awt.event.MouseEvent mouseEvent) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+
     public abstract void notifyObserver(Subject subject, Object params);
+
+    public ClusterVisualizer getVisualizer() {
+        return visualizer;
+    }
 }

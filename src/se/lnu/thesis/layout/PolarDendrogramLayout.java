@@ -2,68 +2,85 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
 
 import java.awt.geom.Point2D;
 import java.util.*;
 
-public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
+public class PolarDendrogramLayout extends RadialLayout {
 
     public static final Logger LOGGER = Logger.getLogger(PolarDendrogramLayout.class);
 
-    protected Map<V, Integer> nodeLevel;
+    protected Map<Object, Integer> nodeLevel;
 
     protected int graphHeight;
 
-    protected V root;
+    protected List<Object> leafs;
+    private List<Object> nodes;
 
-    protected List<V> leafs;
-
-    protected Map<V, Double> nodeAngle;
+    protected Map<Object, Double> nodeAngle;
+    protected Map<Object, Point2D> nodePosition;
 
     protected float xCenter;
     protected float yCenter;
 
-    public PolarDendrogramLayout(Graph graph) {
-        super(graph);
+
+    public PolarDendrogramLayout(Graph graph, GroupElement root) {
+        super(graph, root);
     }
 
 
-    public void initialize() {
+    public void compute() {
         //main work here
 
         init();
 
         extractLeafs();
 
-        arrangeLeafs(new NodeLevelComparator<V>());
+        arrangeLeafs(new NodeLevelComparator());
 
         computeLeafAngles();
 
-        computeNodeAngles(getRoot());
+        computeNodeAngles(root.getObject());
 
         computePositions();
 
-        setRootCoordinate(getRoot());
+        setRootCoordinate();
+
+        computeEdges();
+    }
+
+    // TODO implement it!
+    private void computeEdges() {
     }
 
     protected void init() {
         if (nodeAngle == null) {
-            nodeAngle = new HashMap<V, Double>();
+            nodeAngle = new HashMap<Object, Double>();
         } else {
             nodeAngle.clear();
         }
 
         if (nodeLevel == null) {
-            nodeLevel = new HashMap<V, Integer>();
+            nodeLevel = new HashMap<Object, Integer>();
         } else {
             nodeLevel.clear();
         }
 
-        root = (V) GraphUtils.getInstance().findRoot(getGraph());
+        if (nodes == null) {
+            nodes = new LinkedList<Object>();
+        } else {
+            nodeLevel.clear();
+        }
+
+
         if (root == null) {
-            throw new IllegalArgumentException("No root vertex! Cannt draw unrooted graph..");
+            throw new IllegalStateException("No root set for computing layout!");
+//            root = GraphUtils.getInstance().findRoot(getGraph());
         }
 
         graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), nodeLevel);
@@ -71,19 +88,21 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
 
     protected void extractLeafs() {
         if (leafs == null) {
-            leafs = new LinkedList<V>();
+            leafs = new LinkedList<Object>();
         } else {
             leafs.clear();
         }
 
-        for (V node : getGraph().getVertices()) {
+        nodes = GraphUtils.getInstance().dfsNodes(graph, root.getObject());
+
+        for (Object node : nodes) {
             if (getGraph().outDegree(node) == 0) {
                 leafs.add(node);
             }
         }
     }
 
-    protected void arrangeLeafs(Comparator<V> leafsComparator) {
+    protected void arrangeLeafs(Comparator<Object> leafsComparator) {
         Collections.sort(leafs, leafsComparator);
     }
 
@@ -92,14 +111,14 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         double step = 360.0 / leafs.size();
 
         int i = 0;
-        for (V leaf : leafs) {
+        for (Object leaf : leafs) {
             double angle = step * i++;
 
             nodeAngle.put(leaf, angle);
         }
     }
 
-    protected double computeNodeAngles(V node) {
+    protected double computeNodeAngles(Object node) {
         if (nodeAngle.containsKey(node)) {
             return nodeAngle.get(node);
         } else {
@@ -108,7 +127,7 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
             double max = 0.0;
 
             double angle;
-            for (V child : getGraph().getSuccessors(node)) {
+            for (Object child : getGraph().getSuccessors(node)) {
                 angle = computeNodeAngles(child);
 
                 if (angle > max) {
@@ -130,17 +149,32 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
 
 
     protected void computePositions() {
-        for (V node : getGraph().getVertices()) {
+        for (Object node : nodes) {
             setNodeCoordinate(node);
         }
 
     }
 
-    protected void setRootCoordinate(V root) {
-        transform(root).setLocation(xCenter, yCenter);
+    protected void setNodeCoordinate(Object node) {
+
+        double angle = nodeAngle.get(node);
+        double radius = getNodeRadius(node);
+
+        Point2D position = new Point2D.Double();
+        Utils.computePosition(position, angle, radius, xCenter, yCenter);
+
+        //nodePosition.put(node, position);
+        root.addElement(new VertexElement(graph, node, position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
-    public double getNodeRadius(V node) {
+    protected void setRootCoordinate() {
+        Point2D position = new Point2D.Double(xCenter, yCenter);
+
+        //nodePosition.put(root, position);
+        root.addElement(new VertexElement(graph, root.getObject(), position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+    }
+
+    public double getNodeRadius(Object node) {
         if (getGraph().outDegree(node) == 0) {
             return getRadius();
         } else {
@@ -148,17 +182,7 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         }
     }
 
-    protected void setNodeCoordinate(V node) {
-
-        Point2D point = transform(node);
-
-        double angle = nodeAngle.get(node);
-        double radius = getNodeRadius(node);
-
-        Utils.computePosition(point, angle, radius, xCenter, yCenter);
-    }
-
-    public Point2D getDummyNode(V startNode, V endNode) {
+    public Point2D getDummyNode(Object startNode, Object endNode) {
         Point2D result = new Point2D.Double();
 
         double angle = nodeAngle.get(endNode);
@@ -169,15 +193,15 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         return result;
     }
 
-    public List<V> getLeafs() {
+    public List<Object> getLeafs() {
         return leafs;
     }
 
-    public Map<V, Double> getNodeAngle() {
+    public Map<Object, Double> getNodeAngle() {
         return nodeAngle;
     }
 
-    public void setNodeAngle(Map<V, Double> nodeAngle) {
+    public void setNodeAngle(Map<Object, Double> nodeAngle) {
         this.nodeAngle = nodeAngle;
     }
 
@@ -197,11 +221,8 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         this.yCenter = yCenter;
     }
 
-    protected V getRoot() {
-        return root;
-    }
 
-    public int getNodeLevel(V node) {
+    public int getNodeLevel(Object node) {
         return nodeLevel.get(node);
     }
 
@@ -210,7 +231,7 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         return graphHeight;
     }
 
-    public Map<V, Integer> getNodeLevel() {
+    public Map<Object, Integer> getNodeLevel() {
         return nodeLevel;
     }
 
@@ -219,12 +240,12 @@ public class PolarDendrogramLayout<V, E> extends RadialLayout<V, E> {
         setYCenter(y);
     }
 
-    private class NodeLevelComparator<T> implements Comparator<T> {
+    private class NodeLevelComparator implements Comparator {
 
-        public int compare(T node1, T node2) {
+        public int compare(Object node1, Object node2) {
 
-            Integer levelNode1 = PolarDendrogramLayout.this.getNodeLevel((V) node1);
-            Integer levelNode2 = PolarDendrogramLayout.this.getNodeLevel((V) node2);
+            Integer levelNode1 = PolarDendrogramLayout.this.getNodeLevel(node1);
+            Integer levelNode2 = PolarDendrogramLayout.this.getNodeLevel(node2);
 
             if (levelNode1 < levelNode2) {
                 return -1;
