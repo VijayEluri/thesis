@@ -1,11 +1,11 @@
 package se.lnu.thesis.paint.element;
 
-import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,29 +16,31 @@ import java.util.Map;
  */
 public class GroupElement extends VertexElement {
 
+    private List<Object> nodes;
+
     private Map<Object, AbstractGraphElement> objElementMap;
     private Map<Integer, AbstractGraphElement> idElementMap;
 
     public GroupElement() {
-
+        super();
     }
 
-    public GroupElement(Graph graph, Object o, Point2D position) {
-        super(graph, o, position);
-    }
-
-    public GroupElement(Graph graph, Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
-        super(graph, o, position, visualizer);
+    public GroupElement(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
+        init(o, position, visualizer, nodes);
     }
 
     @Override
-    public void init(Graph graph, Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
-        super.init(graph, o, position, visualizer);
+    public void init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
+        init(o, position, visualizer, null);
+    }
 
-        setType(GraphElementType.GROUP);
+    public void init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
+        super.init(o, position, visualizer);
 
         objElementMap = new HashMap<Object, AbstractGraphElement>();
         idElementMap = new HashMap<Integer, AbstractGraphElement>();
+
+        this.nodes = nodes;
     }
 
 
@@ -47,9 +49,13 @@ public class GroupElement extends VertexElement {
         return objElementMap.containsKey(o) || (getObject() != null && getObject().equals(o));
     }
 
+    public GraphElementType getType() {
+        return GraphElementType.GROUP;
+    }
+
     public int getSize() {
-        if (getElements() != null) {
-            return getElements().size();
+        if (getNodes() != null) {
+            return getNodes().size();
         }
 
         return 0;
@@ -83,4 +89,11 @@ public class GroupElement extends VertexElement {
         return objElementMap.get(obj);
     }
 
+    public List<Object> getNodes() {
+        return nodes;
+    }
+
+    public boolean isInnerLayoutComputed() {
+        return nodes.size() == objElementMap.size();
+    }
 }

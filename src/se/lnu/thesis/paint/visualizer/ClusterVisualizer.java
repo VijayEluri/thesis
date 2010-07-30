@@ -5,18 +5,15 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.paint.element.AbstractGraphElement;
 import se.lnu.thesis.paint.element.GraphElementType;
 import se.lnu.thesis.paint.element.GroupElement;
-import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.paint.visualizer.graph.State;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import java.awt.*;
 import java.nio.IntBuffer;
 
@@ -44,8 +41,8 @@ public class ClusterVisualizer {
     private GroupElement root;
 
     private GLU glu = new GLU();
-    private static final double LENS_RADIUS = 0.3;
 
+    private Lens lens;
 
     public void init() {
         root = new GroupElement();
@@ -53,52 +50,8 @@ public class ClusterVisualizer {
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
         layout.compute();
 
-//        computeGroupElementsPositions();
-
-        normalizeGroupSize();
-    }
-
-    private void computeGroupElementsPositions() {
-        PolarDendrogramLayout layout = new PolarDendrogramLayout(graph, null);
-        layout.setRadius(LENS_RADIUS);
-
-        for (AbstractGraphElement element : root.getElements()) {
-            if (element.getType() == GraphElementType.GROUP) {
-                GroupElement groupElement = (GroupElement) element;
-
-                layout.setRoot(groupElement);
-                layout.compute();
-            }
-        }
-
-    }
-
-    private void normalizeGroupSize() {
-        int maxGroupSize = 1;
-        int currentGroupSize = 1;
-
-/*
-        for (AbstractGraphElement element : root.getElements()) {
-            if (element.getType() == GraphElementType.GROUP) {
-                GroupElement groupElement = (GroupElement) element;
-
-                currentGroupSize = groupElement.getSize();
-                if (currentGroupSize > maxGroupSize) {
-                    maxGroupSize = currentGroupSize;
-                }
-
-            }
-        }
-*/
-
-        for (AbstractGraphElement element : root.getElements()) {
-            if (element.getType() == GraphElementType.GROUP) {
-                GroupElement groupElement = (GroupElement) element;
-
-                groupElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer());
-
-            }
-        }
+        lens = new Lens();
+        lens.setGraph(graph);
     }
 
     public void draw(GLAutoDrawable drawable) {
@@ -118,29 +71,17 @@ public class ClusterVisualizer {
 
         drawElements(drawable, root);
 
-        if (vertexState == State.SELECTED) {
-            drawLens(drawable);
+        if (vertexState == State.SELECTED && selectedElement.getType() == GraphElementType.GROUP) {
+            lens.draw(drawable);
         }
 
         drawable.swapBuffers();
     }
 
+    // TODO move this to GroupElemnt class
     private void drawElements(GLAutoDrawable drawable, GroupElement groupElement) {
         for (AbstractGraphElement element : groupElement.getElements()) {
             element.draw(drawable);
-        }
-    }
-
-    protected void drawLens(GLAutoDrawable drawable) {
-        if (selectedElement.getType() == GraphElementType.GROUP) {
-            GL gl = drawable.getGL();
-
-            gl.glColor3d(1, 0, 0);
-            GLUquadric glUquadric = glu.gluNewQuadric();
-
-            glu.gluDisk(glUquadric, 0, LENS_RADIUS, 50, 50);
-
-            drawElements(drawable, (GroupElement) selectedElement);
         }
     }
 
@@ -198,16 +139,8 @@ public class ClusterVisualizer {
             LOGGER.info("Selected vertex '" + element.getObject() + "'");
 
             if (selectedElement.getType() == GraphElementType.GROUP) {
-                LOGGER.info("Computing lens..");
-
-                PolarDendrogramLayout layout = new PolarDendrogramLayout(graph, (GroupElement) selectedElement);
-                layout.setRadius(LENS_RADIUS);
-                layout.compute();
-
-                LOGGER.info("Done.");
+                lens.setGroupElement((GroupElement) selectedElement);
             }
-
-
         }
     }
 

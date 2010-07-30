@@ -28,7 +28,7 @@ public class RadialLayout extends AbstractLayout {
             double x = Math.cos(Utils.inRadians(angle)) * getRadius();
             double y = Math.sin(Utils.inRadians(angle)) * getRadius();
 
-            root.addElement(new VertexElement(getGraph(), node, x, y));
+            root.addElement(new VertexElement(node, x, y));
         }
 
     }

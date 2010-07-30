@@ -29,8 +29,16 @@ public class PolarDendrogramLayout extends RadialLayout {
     protected float yCenter;
 
 
+    public PolarDendrogramLayout() {
+
+    }
+
     public PolarDendrogramLayout(Graph graph, GroupElement root) {
         super(graph, root);
+    }
+
+    public PolarDendrogramLayout(double radius) {
+        setRadius(radius);
     }
 
 
@@ -59,6 +67,15 @@ public class PolarDendrogramLayout extends RadialLayout {
     }
 
     protected void init() {
+        if (graph == null) {
+            throw new IllegalStateException("No graph!");
+        }
+
+        if (root == null) {
+            throw new IllegalStateException("No root set for computing layout!");
+        }
+
+
         if (nodeAngle == null) {
             nodeAngle = new HashMap<Object, Double>();
         } else {
@@ -77,12 +94,6 @@ public class PolarDendrogramLayout extends RadialLayout {
             nodeLevel.clear();
         }
 
-
-        if (root == null) {
-            throw new IllegalStateException("No root set for computing layout!");
-//            root = GraphUtils.getInstance().findRoot(getGraph());
-        }
-
         graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), nodeLevel);
     }
 
@@ -93,7 +104,8 @@ public class PolarDendrogramLayout extends RadialLayout {
             leafs.clear();
         }
 
-        nodes = GraphUtils.getInstance().dfsNodes(graph, root.getObject());
+//        nodes = GraphUtils.getInstance().dfsNodes(graph, root.getObject());
+        nodes = root.getNodes();
 
         for (Object node : nodes) {
             if (getGraph().outDegree(node) == 0) {
@@ -164,14 +176,14 @@ public class PolarDendrogramLayout extends RadialLayout {
         Utils.computePosition(position, angle, radius, xCenter, yCenter);
 
         //nodePosition.put(node, position);
-        root.addElement(new VertexElement(graph, node, position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+        root.addElement(new VertexElement(node, position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
     protected void setRootCoordinate() {
         Point2D position = new Point2D.Double(xCenter, yCenter);
 
         //nodePosition.put(root, position);
-        root.addElement(new VertexElement(graph, root.getObject(), position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+        root.addElement(new VertexElement(root.getObject(), position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
     public double getNodeRadius(Object node) {

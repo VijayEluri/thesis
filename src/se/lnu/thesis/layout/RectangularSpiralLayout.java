@@ -1,9 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.EdgeElement;
-import se.lnu.thesis.paint.element.GroupElement;
-import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.paint.element.*;
 import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.Utils;
@@ -45,30 +43,9 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     public void compute() {
         computeVertexPosition();
+        normalizeVertexSize();
 
         computeEdgePositions();
-    }
-
-    private void computeEdgePositions() {
-        for (Object edge : getGraph().getEdges()) {
-            Object source = graph.getSource(edge);
-            Object dest = graph.getDest(edge);
-
-            if (root.has(source) && root.has(dest)) {
-
-                EdgeElement edgeElement = new EdgeElement();
-                edgeElement.setId(Utils.nextId());
-                edgeElement.setObject(edge);
-                edgeElement.setFrom(source);
-                edgeElement.setTo(dest);
-                edgeElement.setDraw(false);
-                edgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
-                edgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
-                edgeElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
-
-                root.addElement(edgeElement);
-            }
-        }
     }
 
     private void computeVertexPosition() {
@@ -86,16 +63,16 @@ public class RectangularSpiralLayout extends AbstractLayout {
         for (Object node : path) {
 
             if (GraphUtils.getInstance().isLeaf(getGraph(), node)) {
-                root.addElement(new VertexElement(getGraph(), node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+                root.addElement(new VertexElement(node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
             } else {
-                root.addElement(new VertexElement(getGraph(), node, pathPosition, ElementVisualizerFactory.getInstance().getPointVisualizer()));
+                root.addElement(new VertexElement(node, pathPosition, ElementVisualizerFactory.getInstance().getPointVisualizer()));
 
                 for (Object successor : getGraph().getSuccessors(node)) {
                     if (!path.contains(successor)) {
                         if (GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
-                            root.addElement(new VertexElement(getGraph(), successor, nodePosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+                            root.addElement(new VertexElement(successor, nodePosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
                         } else {
-                            GroupElement groupElement = new GroupElement(getGraph(), successor, nodePosition, null);
+                            GroupElement groupElement = new GroupElement(successor, nodePosition, null, GraphUtils.getInstance().dfsNodes(graph, successor));
                             root.addElement(groupElement);
 
                             int groupSize = groupElement.getSize();
@@ -121,6 +98,36 @@ public class RectangularSpiralLayout extends AbstractLayout {
                 elements += 2;
                 current = 0;
                 direction = changeDirection(vector, direction);
+            }
+        }
+    }
+
+    private void normalizeVertexSize() {
+        for (AbstractGraphElement element : root.getElements()) {
+            if (element.getType() == GraphElementType.GROUP) {
+                element.setElementVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((GroupElement) element).getSize()));
+            }
+        }
+    }
+
+    private void computeEdgePositions() {
+        for (Object edge : getGraph().getEdges()) {
+            Object source = graph.getSource(edge);
+            Object dest = graph.getDest(edge);
+
+            if (root.has(source) && root.has(dest)) {
+
+                EdgeElement edgeElement = new EdgeElement();
+                edgeElement.setId(Utils.nextId());
+                edgeElement.setObject(edge);
+                edgeElement.setFrom(source);
+                edgeElement.setTo(dest);
+                edgeElement.setDraw(false);
+                edgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
+                edgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+                edgeElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+
+                root.addElement(edgeElement);
             }
         }
     }

@@ -17,7 +17,11 @@ public class VertexElement extends AbstractGraphElement {
     private Point2D position;
 
     public VertexElement() {
-        init(null, null, null, null);
+        init(null, null, null);
+    }
+
+    public VertexElement(Object o) {
+        init(o, null, null);
     }
 
     public VertexElement(Object o, double x, double y) {
@@ -25,38 +29,29 @@ public class VertexElement extends AbstractGraphElement {
         setPosition(x, y);
     }
 
-    public VertexElement(Graph graph, Object o) {
-        init(graph, o, null, null);
+    public VertexElement(Object o, Point2D position) {
+        init(o, position, null);
     }
 
-    public VertexElement(Graph graph, Object o, double x, double y) {
-        init(graph, o, null, null);
-        setPosition(x, y);
-    }
-
-    public VertexElement(Graph graph, Object o, Point2D position) {
-        init(graph, o, position, null);
+    public VertexElement(Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
+        init(o, position, visualizer);
     }
 
 
-    public VertexElement(Graph graph, Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
-        init(graph, o, position, visualizer);
-    }
-
-    public void init(Graph graph, Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
+    public void init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
         setObject(o);
 
         setId(Utils.nextId());
-
-        if (graph != null) {
-            setType(checkType(graph, o));
-        }
 
         if (position != null) {
             setPosition(position);
         }
 
         setElementVisualizer(visualizer);
+    }
+
+    public GraphElementType getType() {
+        return GraphElementType.NODE;
     }
 
     public GraphElementType checkType(Graph graph, Object o) {

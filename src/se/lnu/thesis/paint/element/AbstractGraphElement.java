@@ -16,8 +16,6 @@ public abstract class AbstractGraphElement implements Drawable {
     private Integer id;
     private Object object;
 
-    private GraphElementType type;
-
     private Boolean isSelected = false;
     private Boolean isSubgraph = false;
 
@@ -78,13 +76,7 @@ public abstract class AbstractGraphElement implements Drawable {
         return object.equals(o);
     }
 
-    public GraphElementType getType() {
-        return type;
-    }
-
-    public void setType(GraphElementType type) {
-        this.type = type;
-    }
+    public abstract GraphElementType getType();
 
     public Boolean isSelected() {
         return isSelected;
