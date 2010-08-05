@@ -2,7 +2,6 @@ package se.lnu.thesis.test;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import se.lnu.thesis.io.GraphMLParser;
@@ -18,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class TestGraphUtils {
+public class TestGraphUtils extends TestGraph {
 
     @Test
     public void testMin() {
@@ -30,20 +29,6 @@ public class TestGraphUtils {
         assertEquals(9.0, Utils.max(9.0d, 5.0d));
     }
 
-    @Test
-    public void graphHeight() {
-        Graph graph = createGraph();
-
-        assertEquals(11, graph.getVertexCount());
-        assertEquals(10, graph.getEdgeCount());
-
-        assertEquals(0, GraphUtils.getInstance().getNodeHeight(graph, 1, 0)); // root vertex
-        assertEquals(2, GraphUtils.getInstance().getNodeHeight(graph, 5, 0));
-        assertEquals(3, GraphUtils.getInstance().getNodeHeight(graph, 5, 1));
-        assertEquals(5, GraphUtils.getInstance().getNodeHeight(graph, 8, 0));
-        assertEquals(7, GraphUtils.getInstance().getNodeHeight(graph, 11, 0));
-        assertEquals(8, GraphUtils.getInstance().getNodeHeight(graph, 11, 1));
-    }
 
     @Test
     public void nodeLeafs() {
@@ -108,52 +93,6 @@ public class TestGraphUtils {
         assertTrue(subgraph.containsVertex(9));
         assertTrue(subgraph.containsVertex(10));
         assertTrue(subgraph.containsVertex(11));
-    }
-
-    /**
-     * ______1
-     * ____/   \
-     * ___3     2
-     * _/  \
-     * 4    5
-     * _____|
-     * _____6
-     * _____|
-     * _____7
-     * _____|
-     * _____8
-     * ____/ \
-     * ___9__10
-     * ______|
-     * ______11
-     */
-    private Graph createGraph() {
-        Graph graph = new DirectedSparseGraph();
-
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-        graph.addVertex(10);
-
-        graph.addEdge("1->2", 1, 2, EdgeType.DIRECTED);
-        graph.addEdge("1->3", 1, 3, EdgeType.DIRECTED);
-        graph.addEdge("3->4", 3, 4, EdgeType.DIRECTED);
-        graph.addEdge("3->5", 3, 5, EdgeType.DIRECTED);
-        graph.addEdge("5->6", 5, 6, EdgeType.DIRECTED);
-        graph.addEdge("6->7", 6, 7, EdgeType.DIRECTED);
-        graph.addEdge("7->8", 7, 8, EdgeType.DIRECTED);
-        graph.addEdge("8->9", 8, 9, EdgeType.DIRECTED);
-        graph.addEdge("8->10", 8, 10, EdgeType.DIRECTED);
-        graph.addEdge("10->11", 10, 11, EdgeType.DIRECTED);
-
-        return graph;
     }
 
     @Test

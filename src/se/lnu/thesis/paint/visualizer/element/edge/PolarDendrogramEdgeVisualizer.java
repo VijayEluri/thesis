@@ -2,8 +2,13 @@ package se.lnu.thesis.paint.visualizer.element.edge;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.PolarDendrogramEdgeElement;
+import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.Utils;
 
+import javax.media.opengl.GL;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,44 +32,39 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
     }
 
     protected void drawShape(AbstractGraphElement element) {
-/*
-        Object sourceNode = source(edge);
-        Object destNode = dest(edge);
+        PolarDendrogramEdgeElement edgeElement = (PolarDendrogramEdgeElement) element;
 
-        if (GraphUtils.getInstance().isRoot(getVisualizer().getGraph(), sourceNode)) { // from root draw simple line
+        if (edgeElement.isFromRoot()) { // from root draw simple line
 
-            drawLine(p(sourceNode), p(destNode));
+            drawLine(edgeElement.getStartPosition(), edgeElement.getEndPosition());
 
         } else {
-            Point2D dummyNode = layout.getDummyNode(sourceNode, destNode);
+            drawArc(edgeElement);
 
-            drawArc(sourceNode, destNode);
-
-            drawLine(dummyNode, p(destNode));
+            drawLine(edgeElement.getDummyNode(), edgeElement.getEndPosition());
         }
-*/
     }
 
-    /*  protected void drawLine(Point2D start, Point2D end) {
+    protected void drawLine(Point2D start, Point2D end) {
         gl().glBegin(GL.GL_LINES);
         gl().glVertex2d(start.getX(), start.getY());
         gl().glVertex2d(end.getX(), end.getY());
         gl().glEnd();
     }
 
-    protected void drawArc(Object sourceNode, Object destNode) {
-        Double sourceAngle = (Double) layout.getNodeAngle().get(sourceNode);
-        Double destAngle = (Double) layout.getNodeAngle().get(destNode);
+    protected void drawArc(PolarDendrogramEdgeElement edgeElement) {
+        Double sourceAngle = edgeElement.getSourceAngle();
+        Double destAngle = edgeElement.getDestAngle();
 
         double startAngle = Utils.min(sourceAngle, destAngle);
         double endAngle = Utils.max(sourceAngle, destAngle);
 
         gl().glPushMatrix();
-        gl().glTranslated(layout.getXCenter(), layout.getYCenter(), 0.0);
+        gl().glTranslated(edgeElement.getXCenter(), edgeElement.getYCenter(), 0.0);
 
-        DrawingUtils.arc(gl(), startAngle, endAngle, layout.getNodeRadius(sourceNode), 10);
+        DrawingUtils.arc(gl(), startAngle, endAngle, edgeElement.getSourceRadius(), 10);
 
         gl().glPopMatrix();
-    }*/
+    }
 
 }

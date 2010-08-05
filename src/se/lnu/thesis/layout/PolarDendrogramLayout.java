@@ -2,7 +2,9 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.paint.element.EdgeElement;
 import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.PolarDendrogramEdgeElement;
 import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
@@ -17,7 +19,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
     protected Map<Object, Integer> nodeLevel;
 
-    protected int graphHeight;
+    protected int maxDepth = 0;
 
     protected List<Object> leafs;
     private List<Object> nodes;
@@ -47,6 +49,8 @@ public class PolarDendrogramLayout extends RadialLayout {
 
         init();
 
+        computeLevels();
+
         extractLeafs();
 
         arrangeLeafs(new NodeLevelComparator());
@@ -60,10 +64,6 @@ public class PolarDendrogramLayout extends RadialLayout {
         setRootCoordinate();
 
         computeEdges();
-    }
-
-    // TODO implement it!
-    private void computeEdges() {
     }
 
     protected void init() {
@@ -93,8 +93,18 @@ public class PolarDendrogramLayout extends RadialLayout {
         } else {
             nodeLevel.clear();
         }
+    }
 
-        graphHeight = GraphUtils.getInstance().computeLevelsV2(getGraph(), nodeLevel);
+
+    private void computeLevels() {
+        for (Object node : root.getNodes()) {
+            int height = GraphUtils.getInstance().getNodeHeight(graph, node, root.getObject(), 0);
+            nodeLevel.put(node, height);
+
+            if (height > maxDepth) {
+                maxDepth = height;
+            }
+        }
     }
 
     protected void extractLeafs() {
@@ -186,11 +196,69 @@ public class PolarDendrogramLayout extends RadialLayout {
         root.addElement(new VertexElement(root.getObject(), position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
+    // TODO implement it!
+    private void computeEdges() {
+        for (Object edge : getGraph().getEdges()) {
+            Object source = graph.getSource(edge);
+            Object dest = graph.getDest(edge);
+
+            if (root.has(source) && root.has(dest)) {
+                root.addElement(createEdge(edge, source, dest));
+                //root.addElement(createPolarEdge(edge, source, dest));
+            }
+        }
+    }
+
+    private PolarDendrogramEdgeElement createPolarEdge(Object edge, Object source, Object dest) {
+        PolarDendrogramEdgeElement resultEdgeElement = new PolarDendrogramEdgeElement();
+
+        resultEdgeElement.setId(Utils.nextId());
+        resultEdgeElement.setObject(edge);
+
+        resultEdgeElement.setFrom(source);
+        resultEdgeElement.setTo(dest);
+
+        resultEdgeElement.setFromRoot(GraphUtils.getInstance().isRoot(graph, source));
+        resultEdgeElement.setDraw(true);
+
+        resultEdgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
+        resultEdgeElement.setDummyNode(getDummyNode(source, dest));
+        resultEdgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+
+        resultEdgeElement.setSourceRadius(getNodeRadius(source));
+
+        resultEdgeElement.setSourceAngle(getNodeAngle().get(source));
+        resultEdgeElement.setDestAngle(getNodeAngle().get(dest));
+
+        resultEdgeElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getPolarDendrogramEdgeVisializer());
+
+        return resultEdgeElement;
+    }
+
+    private EdgeElement createEdge(Object edge, Object source, Object dest) {
+        EdgeElement resultEdgeElement = new EdgeElement();
+
+        resultEdgeElement.setId(Utils.nextId());
+        resultEdgeElement.setObject(edge);
+
+        resultEdgeElement.setFrom(source);
+        resultEdgeElement.setTo(dest);
+
+        resultEdgeElement.setDraw(true);
+
+        resultEdgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
+        resultEdgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+
+        resultEdgeElement.setElementVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+
+        return resultEdgeElement;
+    }
+
     public double getNodeRadius(Object node) {
         if (getGraph().outDegree(node) == 0) {
             return getRadius();
         } else {
-            return getRadius() / getGraphHeight() * getNodeLevel(node);
+            return getRadius() / getMaxDepth() * getNodeLevel(node);
         }
     }
 
@@ -239,8 +307,8 @@ public class PolarDendrogramLayout extends RadialLayout {
     }
 
 
-    public int getGraphHeight() {
-        return graphHeight;
+    public int getMaxDepth() {
+        return maxDepth;
     }
 
     public Map<Object, Integer> getNodeLevel() {

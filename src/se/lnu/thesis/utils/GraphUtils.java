@@ -155,6 +155,14 @@ public class GraphUtils<V, E> {
         return start;
     }
 
+    public int getNodeHeight(Graph<V, E> graph, V node, V root, int start) {
+        if (graph.getPredecessorCount(node) > 0 && !root.equals(node)) {
+            start = getNodeHeight(graph, graph.getPredecessors(node).iterator().next(), root, ++start);
+        }
+
+        return start;
+    }
+
     public boolean isLeaf(Graph<V, E> graph, V node) {
         return graph.outDegree(node) == 0;
     }

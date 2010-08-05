@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.visualizer.element;
 
 import se.lnu.thesis.paint.visualizer.element.edge.LineEdgeVisualizer;
+import se.lnu.thesis.paint.visualizer.element.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.element.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.paint.visualizer.element.vertex.PointVertexVisualizer;
 import se.lnu.thesis.paint.visualizer.element.vertex.RectVertexVisualizer;
@@ -23,10 +24,12 @@ public class ElementVisualizerFactory {
     private static final int RECT_VERTEX_VISUALIZER = -2;
     private static final int POINT_VERTEX_VISUALIZER = -3;
     private static final int LINE_EDGE_VISUALIZER = -4;
+    private static final int POLAR_DENDROGRAM_EDGE_VISUALIZER = -5;
 
-    private static final Color DEFAULT_VERTEX_COLOR = new Color(100, 100, 100, 100);
+    private static final Color DEFAULT_ELEMENT_COLOR = new Color(100, 100, 100, 100);
 
     private static final ElementVisualizerFactory instance = new ElementVisualizerFactory();
+
 
     public static ElementVisualizerFactory getInstance() {
         return instance;
@@ -41,10 +44,11 @@ public class ElementVisualizerFactory {
     private void init() {
         visualizers = new HashMap<Object, AbstractGraphElementVisualizer>();
 
-        visualizers.put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_VERTEX_COLOR));
-        visualizers.put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_VERTEX_COLOR));
-        visualizers.put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_VERTEX_COLOR));
-        visualizers.put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_VERTEX_COLOR));
+        visualizers.put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR));
+        visualizers.put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR));
+        visualizers.put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_ELEMENT_COLOR));
+        visualizers.put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_ELEMENT_COLOR));
+        visualizers.put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(DEFAULT_ELEMENT_COLOR));
     }
 
     protected AbstractGraphElementVisualizer getVisualizer(int id) {
@@ -67,13 +71,17 @@ public class ElementVisualizerFactory {
         return getVisualizer(LINE_EDGE_VISUALIZER);
     }
 
+    public GraphElementVisualizer getPolarDendrogramEdgeVisializer() {
+        return getVisualizer(POLAR_DENDROGRAM_EDGE_VISUALIZER);
+    }
+
     public GraphElementVisualizer getRectVisualizer(int maxGroupSize, int thisGroupSize) {
 
         if (visualizers.containsKey(thisGroupSize)) {
             return getVisualizer(thisGroupSize);
         } else {
             double size = (MAX_GROUP_VERTEX_SIZE / maxGroupSize) * thisGroupSize;
-            visualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_VERTEX_COLOR, size));
+            visualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR, size));
 
             return getVisualizer(thisGroupSize);
         }

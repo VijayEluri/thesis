@@ -22,9 +22,10 @@ public class Lens implements Drawable {
 
     public static final Logger LOGGER = Logger.getLogger(Lens.class);
 
-    private static final double LENS_RADIUS = 0.3;
+    private static final double LENS_RADIUS = 0.4;
+    private static final double LAYOUT_RADIUS = 0.3;
 
-    private AbstractLayout layout = new PolarDendrogramLayout(LENS_RADIUS);
+    private AbstractLayout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
 
     private GroupElement groupElement = null;
 
