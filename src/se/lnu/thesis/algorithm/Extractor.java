@@ -4,6 +4,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class Extractor {
             clusterSubGraph = clusterCache.get(goNode);
         } else {
             goSubGraph = new DirectedSparseGraph();
-            Set goSubGraphLeafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(goGraph, goSubGraph, goNode);
+            Set goSubGraphLeafs = GraphUtils.extractSubgraph(goGraph, goSubGraph, goNode);
 
             clusterSubGraph = new DirectedSparseGraph();
             Object clusterSubGraphRoot = null;
@@ -69,7 +70,7 @@ public class Extractor {
                     throw new IllegalStateException(error);
                 }
 
-                List connectedNodes = GraphUtils.getInstance().invertDfsNodes(clusterGraph, leafs.iterator().next());
+                List connectedNodes = GraphTraversalUtils.invertDfs(clusterGraph, leafs.iterator().next());
                 for (int i = 0; i <= connectedNodes.size() - 1; i++) {
                     Object node1, node2 = null;
 

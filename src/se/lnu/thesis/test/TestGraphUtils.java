@@ -7,8 +7,8 @@ import org.junit.Test;
 import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
-import se.lnu.thesis.utils.Utils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -17,29 +17,19 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class TestGraphUtils extends TestGraph {
-
-    @Test
-    public void testMin() {
-        assertEquals(5.0, Utils.min(9.0d, 5.0d));
-    }
-
-    @Test
-    public void testMax() {
-        assertEquals(9.0, Utils.max(9.0d, 5.0d));
-    }
+public class TestGraphUtils {
 
 
     @Test
     public void nodeLeafs() {
-        Graph graph = createGraph();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
 
         assertTrue(graph.containsVertex(1));
 
-        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, 1);
+        Set leafs = GraphUtils.getLeafs(graph, 1);
 
         assertEquals(4, leafs.size());
 
@@ -53,12 +43,12 @@ public class TestGraphUtils extends TestGraph {
 
     @Test
     public void subgraph() {
-        Graph graph = createGraph();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(6));
 
         Graph subgraph = new DirectedSparseGraph();
-        Set leafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(graph, subgraph, 6);
+        Set leafs = GraphUtils.extractSubgraph(graph, subgraph, 6);
 
         assertEquals(2, leafs.size());
         assertTrue(leafs.contains(9));
@@ -76,12 +66,12 @@ public class TestGraphUtils extends TestGraph {
 
     @Test
     public void subgraph2() {
-        Graph graph = createGraph();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
         Graph subgraph = new DirectedSparseGraph();
-        Set leafs = GraphUtils.getInstance().getSubgraphAndItsLeafs(graph, subgraph, 8);
+        Set leafs = GraphUtils.extractSubgraph(graph, subgraph, 8);
 
         assertEquals(2, leafs.size());
         assertTrue(leafs.contains(9));
@@ -99,7 +89,7 @@ public class TestGraphUtils extends TestGraph {
     public void heightPerfomance() {
         Graph graph = new DirectedSparseGraph();
 
-        final int size = 10000;
+        final int size = 1000;
 
         graph.addVertex(0); // <-- root
         for (int i = 1; i < size; i++) {
@@ -109,22 +99,14 @@ public class TestGraphUtils extends TestGraph {
 
         long start, end;
 
-
         start = System.currentTimeMillis();
-        int dfsRes = GraphUtils.getInstance().invertDfsNodes(graph, size - 1).size();
+        int height = GraphUtils.getNodeHeight(graph, size - 1, 0);
         end = System.currentTimeMillis();
 
         System.out.println(end - start + "ms");
 
 
-        start = System.currentTimeMillis();
-        int height = GraphUtils.getInstance().getNodeHeight(graph, size - 1, 1);
-        end = System.currentTimeMillis();
-
-        System.out.println(end - start + "ms");
-
-
-        assertEquals(dfsRes, height);
+        assertEquals(size - 1, height);
     }
 
     @Test
@@ -144,14 +126,14 @@ public class TestGraphUtils extends TestGraph {
 
         long start, end;
         start = System.currentTimeMillis();
-        int dfsGraphHeight = GraphUtils.getInstance().computeLevels(graph, dfsMap);
+        int dfsGraphHeight = GraphUtils.computeLevels(graph, dfsMap);
         end = System.currentTimeMillis();
 
         System.out.println((end - start) / 1000 + "s");
 
 
         start = System.currentTimeMillis();
-        int height = GraphUtils.getInstance().computeLevelsV2(graph, levelMap);
+        int height = GraphUtils.computeLevelsV2(graph, levelMap);
         end = System.currentTimeMillis();
 
         System.out.println((end - start) / 1000 + "s");
@@ -176,14 +158,14 @@ public class TestGraphUtils extends TestGraph {
         Map<Object, Integer> levelMap = new HashMap<Object, Integer>();
 
         start = System.currentTimeMillis();
-        int dfsGraphHeight = GraphUtils.getInstance().computeLevels(graph, dfsMap);
+        int dfsGraphHeight = GraphUtils.computeLevels(graph, dfsMap);
         end = System.currentTimeMillis();
 
         System.out.println("Old version did in " + (end - start) / 1000 + "s");
 
 
         start = System.currentTimeMillis();
-        int height = GraphUtils.getInstance().computeLevelsV2(graph, levelMap);
+        int height = GraphUtils.computeLevelsV2(graph, levelMap);
         end = System.currentTimeMillis();
 
         System.out.println("New version did in " + (end - start) / 1000 + "s");
@@ -196,9 +178,9 @@ public class TestGraphUtils extends TestGraph {
 
     @Test
     public void longestPath() {
-        Graph graph = createGraph();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
-        List path = GraphUtils.getInstance().longestPath(graph);
+        List path = GraphUtils.getLongestPath(graph);
 
         assertEquals(8, path.size());
 
@@ -222,18 +204,9 @@ public class TestGraphUtils extends TestGraph {
 
         Graph graph = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
 
-        List path = GraphUtils.getInstance().longestPath(graph);
+        List path = GraphUtils.getLongestPath(graph);
 
-        assertEquals(GraphUtils.getInstance().findRoot(graph), path.get(0));
-
-/*
-        Set leafs = GraphUtils.getInstance().getNodeLeafs(graph, path.get(0));
-        System.out.println(leafs.size());
-
-        for (Object leaf: leafs) {
-            System.out.println(GraphUtils.getInstance().getNodeHeight(graph, leaf, 0));
-        }
-*/
+        assertEquals(GraphUtils.getRoot(graph), path.get(0));
 
         for (Object node : path) {
 
@@ -241,7 +214,7 @@ public class TestGraphUtils extends TestGraph {
                 if (!path.contains(successor)) {
 
                     System.out.print(successor + " => [ ");
-                    List list = GraphUtils.getInstance().dfsNodes(graph, successor);
+                    List list = GraphTraversalUtils.dfs(graph, successor);
                     for (Object o : list) {
                         System.out.print(o);
                         if (graph.outDegree(o) == 0) {

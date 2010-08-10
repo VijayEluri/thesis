@@ -1,8 +1,8 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.GroupElement;
-import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.element.GroupElement;
+import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 
 public class RadialLayout extends AbstractLayout {
@@ -28,7 +28,7 @@ public class RadialLayout extends AbstractLayout {
             double x = Math.cos(Utils.inRadians(angle)) * getRadius();
             double y = Math.sin(Utils.inRadians(angle)) * getRadius();
 
-            root.addElement(new VertexElement(node, x, y));
+            root.addElement(VertexElement.init(node, x, y));
         }
 
     }

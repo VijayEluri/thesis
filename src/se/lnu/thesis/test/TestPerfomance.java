@@ -45,7 +45,7 @@ public class TestPerfomance {
         Set visited = new HashSet();
         Stack stack = new Stack();
 
-        Object root = GraphUtils.getInstance().findRoot((Graph) graph);
+        Object root = GraphUtils.getRoot((Graph) graph);
 
         stack.push(root);
         visited.add(root);

@@ -5,11 +5,10 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.AbstractGraphElement;
+import se.lnu.thesis.element.GraphElementType;
+import se.lnu.thesis.element.GroupElement;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.GraphElementType;
-import se.lnu.thesis.paint.element.GroupElement;
-import se.lnu.thesis.paint.visualizer.graph.State;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import java.awt.geom.Point2D;
 
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
  * Date: 02.07.2010
  * Time: 17:44:55
  */
-public class PolarDendrogramEdgeElement extends EdgeElement {
+public class PolarEdge extends EdgeElement {
 
     private boolean isFromRoot = false;
 
@@ -20,7 +20,7 @@ public class PolarDendrogramEdgeElement extends EdgeElement {
     private double xCenter;
     private double yCenter;
 
-    public PolarDendrogramEdgeElement() {
+    public PolarEdge() {
 
     }
 

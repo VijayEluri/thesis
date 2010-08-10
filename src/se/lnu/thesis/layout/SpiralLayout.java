@@ -32,7 +32,7 @@ public class SpiralLayout<V, E> extends AbstractLayout<V, E> {
 
     public void initialize() {
 
-        List<V> path = GraphUtils.getInstance().longestPath(getGraph());
+        List<V> path = GraphUtils.getLongestPath(getGraph());
 
         vertices = new HashSet(path);
         groupVertices = new HashSet();
@@ -56,7 +56,7 @@ public class SpiralLayout<V, E> extends AbstractLayout<V, E> {
 
                     setLocation(successor, x, y);
 
-                    if (GraphUtils.getInstance().isLeaf(getGraph(), successor)) {
+                    if (GraphUtils.isLeaf(getGraph(), successor)) {
                         vertices.add(successor);
                     } else {
                         groupVertices.add(successor);

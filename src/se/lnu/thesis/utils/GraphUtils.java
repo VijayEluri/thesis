@@ -1,6 +1,8 @@
 package se.lnu.thesis.utils;
 
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -15,95 +17,40 @@ import java.util.*;
  * <p/>
  * Graph utility class.
  */
-public class GraphUtils<V, E> {
+public class GraphUtils {
 
     public static final Logger LOGGER = Logger.getLogger(GraphUtils.class);
 
-    private static GraphUtils instance;
 
-    public static GraphUtils getInstance() {
-        if (instance == null) {
-            instance = new GraphUtils();
-        }
-        return instance;
-    }
-
-
-    private GraphUtils() {
-    }
-
-    public List<V> invertDfsNodes(Graph<V, E> graph, V node) {
-
-        Stack stack = new Stack();
-        Set visited = new HashSet();
-        List result = new LinkedList();
-
-        stack.push(node);
-
-        while (!stack.isEmpty()) {
-            V next = (V) stack.pop();
-
-            if (visited.add(next)) {
-
-                result.add(next);
-
-                for (V neighbor : graph.getPredecessors(next)) {
-                    if (!visited.contains(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
-
-            }
-        }
-
-        return result;
-    }
-
-    public List<V> dfsNodes(Graph<V, E> graph, V node) {
-
-        Stack stack = new Stack();
-        Set visited = new HashSet();
-        List result = new LinkedList();
-
-        stack.push(node);
-
-
-        while (!stack.isEmpty()) {
-            V next = (V) stack.pop();
-
-            if (visited.add(next)) {
-
-                result.add(next);
-
-                for (V neighbor : graph.getSuccessors(next)) {
-                    if (!visited.contains(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
-
-            }
-        }
-
-        return result;
-    }
-
-    public V findRoot(Graph<V, E> graph) {
-        for (V v : graph.getVertices()) {
-            if (graph.inDegree(v) == 0) {
-                return v;
+    public static <V, E> V getRoot(Graph<V, E> graph) {
+        for (V vertex : graph.getVertices()) {
+            if (isRoot(graph, vertex)) {
+                return vertex;
             }
         }
 
         return null;
     }
 
-    public int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
+    public static <V, E> Set<V> getRoots(Graph<V, E> graph) {
+        Set<V> result = new HashSet<V>();
+
+        for (V vertex : graph.getVertices()) {
+            if (isRoot(graph, vertex)) {
+                result.add(vertex);
+            }
+        }
+
+        return result;
+    }
+
+    public static <V, E> int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
 
         Integer graphHeight = 0;
         Integer level;
 
         for (V node : graph.getVertices()) {
-            List<V> list = getInstance().invertDfsNodes(graph, node);
+            List<V> list = GraphTraversalUtils.invertDfs(graph, node);
 
             level = list.size();
 
@@ -123,13 +70,13 @@ public class GraphUtils<V, E> {
         return graphHeight;
     }
 
-    public int computeLevelsV2(Graph<V, E> graph, Map<V, Integer> levels) {
+    public static <V, E> int computeLevelsV2(Graph<V, E> graph, Map<V, Integer> levels) {
 
         int graphHeight = 0;
         Integer nodeLevel;
 
         for (V node : graph.getVertices()) {
-            nodeLevel = getNodeHeight(graph, node, 0);
+            nodeLevel = GraphUtils.getNodeHeight(graph, node, 0);
 
             if (levels.get(node) != null) {
                 if (graphHeight > levels.get(node)) {
@@ -144,10 +91,14 @@ public class GraphUtils<V, E> {
             }
         }
 
-        return graphHeight;
+        return graphHeight; // TODO +1 to the heighest node!!!!
     }
 
-    public int getNodeHeight(Graph<V, E> graph, V node, int start) {
+    public static <V, E> int getNodeHeight(Graph<V, E> graph, V node) {
+        return getNodeHeight(graph, node, 0);
+    }
+
+    public static <V, E> int getNodeHeight(Graph<V, E> graph, V node, int start) {
         if (graph.getPredecessorCount(node) > 0) {
             start = getNodeHeight(graph, graph.getPredecessors(node).iterator().next(), ++start);
         }
@@ -155,23 +106,27 @@ public class GraphUtils<V, E> {
         return start;
     }
 
-    public int getNodeHeight(Graph<V, E> graph, V node, V root, int start) {
-        if (graph.getPredecessorCount(node) > 0 && !root.equals(node)) {
-            start = getNodeHeight(graph, graph.getPredecessors(node).iterator().next(), root, ++start);
+    public static <V, E> int getDistance(Graph<V, E> graph, V node1, V node2) {
+        return getDistance(graph, node1, node2, 0);
+    }
+
+    public static <V, E> int getDistance(Graph<V, E> graph, V node1, V node2, int start) {
+        if (graph.getPredecessorCount(node1) > 0 && !node2.equals(node1)) {
+            start = getDistance(graph, graph.getPredecessors(node1).iterator().next(), node2, ++start);
         }
 
         return start;
     }
 
-    public boolean isLeaf(Graph<V, E> graph, V node) {
+    public static <V, E> boolean isLeaf(Graph<V, E> graph, V node) {
         return graph.outDegree(node) == 0;
     }
 
-    public boolean isRoot(Graph<V, E> graph, V node) {
+    public static <V, E> boolean isRoot(Graph<V, E> graph, V node) {
         return graph.inDegree(node) == 0;
     }
 
-    public Set<V> getNodeLeafs(Graph<V, E> graph, V node) {
+    public static <V, E> Set<V> getLeafs(Graph<V, E> graph, V node) {
         Stack stack = new Stack();
         Set visited = new HashSet();
         Set result = new HashSet();
@@ -200,6 +155,38 @@ public class GraphUtils<V, E> {
         return result;
     }
 
+    public static <V, E> int getLeafs(Graph<V, E> graph, V node, Collection<V> leafs) {
+        if (leafs == null) {
+            throw new IllegalArgumentException("Argument 'leafs' cannt be null! Initialize it before method start.");
+        }
+
+        Stack stack = new Stack();
+        Set visited = new HashSet();
+
+        stack.push(node);
+
+        while (!stack.isEmpty()) {
+            V next = (V) stack.pop();
+
+            if (visited.add(next)) {
+
+                if (isLeaf(graph, next)) {
+                    leafs.add(next);
+                } else {
+                    for (Object neighbor : graph.getSuccessors(next)) {
+                        if (!visited.contains(neighbor)) {
+                            stack.push(neighbor);
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        return leafs.size();
+    }
+
     /**
      * Extract subgraph from @graph starting root node @node
      *
@@ -208,10 +195,10 @@ public class GraphUtils<V, E> {
      * @param node     Root node for subgraph
      * @return Leafs from subgraph
      */
-    public Set getSubgraphAndItsLeafs(Graph<V, E> graph, Graph<V, E> subGraph, V node) {
+    public static <V, E> Set<V> extractSubgraph(Graph<V, E> graph, Graph<V, E> subGraph, V node) {
         Stack stack = new Stack();
         Set visited = new HashSet();
-        Set subGraphLeafs = new HashSet();
+        Set<V> subGraphLeafs = new HashSet<V>();
 
         stack.push(node);
 
@@ -246,7 +233,7 @@ public class GraphUtils<V, E> {
      * @param graph Directed acyclic graph
      * @return List of elements from root to longest leaf
      */
-    public List<V> longestPath(Graph<V, E> graph) {
+    public static <V, E> List<V> getLongestPath(Graph<V, E> graph) {
         V longestNode = null;
         int nodeHeight = 0;
 
@@ -260,7 +247,7 @@ public class GraphUtils<V, E> {
             }
         }
 
-        List<V> path = invertDfsNodes(graph, longestNode);
+        List<V> path = GraphTraversalUtils.invertDfs(graph, longestNode);
 
         Collections.reverse(path);
 
@@ -268,7 +255,7 @@ public class GraphUtils<V, E> {
 
     }
 
-    public void printGraphInfo(Graph<V, E> graph) {
+    public static <V, E> void printGraphInfo(Graph<V, E> graph) {
         int nodes = 0;
         int roots = 0;
         int leafs = 0;
@@ -293,6 +280,52 @@ public class GraphUtils<V, E> {
         LOGGER.info("           Nodes: " + nodes);
         LOGGER.info("           Leafs: " + leafs);
         LOGGER.info("***********************************");
+    }
+
+    /**
+     * ______1
+     * ____/   \
+     * ___3     2
+     * _/  \
+     * 4    5
+     * _____|
+     * _____6
+     * _____|
+     * _____7
+     * _____|
+     * _____8
+     * ____/ \
+     * ___9__10
+     * ______|
+     * ______11
+     */
+    public static Graph<Integer, String> createTestBinaryTree() {
+        Graph<Integer, String> graph = new DirectedSparseGraph();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addVertex(5);
+        graph.addVertex(6);
+        graph.addVertex(7);
+        graph.addVertex(8);
+        graph.addVertex(9);
+        graph.addVertex(10);
+        graph.addVertex(10);
+
+        graph.addEdge("1->2", 1, 2, EdgeType.DIRECTED);
+        graph.addEdge("1->3", 1, 3, EdgeType.DIRECTED);
+        graph.addEdge("3->4", 3, 4, EdgeType.DIRECTED);
+        graph.addEdge("3->5", 3, 5, EdgeType.DIRECTED);
+        graph.addEdge("5->6", 5, 6, EdgeType.DIRECTED);
+        graph.addEdge("6->7", 6, 7, EdgeType.DIRECTED);
+        graph.addEdge("7->8", 7, 8, EdgeType.DIRECTED);
+        graph.addEdge("8->9", 8, 9, EdgeType.DIRECTED);
+        graph.addEdge("8->10", 8, 10, EdgeType.DIRECTED);
+        graph.addEdge("10->11", 10, 11, EdgeType.DIRECTED);
+
+        return graph;
     }
 
 }

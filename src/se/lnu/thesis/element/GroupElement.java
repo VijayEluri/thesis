@@ -1,6 +1,7 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -16,33 +17,35 @@ import java.util.Map;
  */
 public class GroupElement extends VertexElement {
 
+    private boolean isInnerLayoutComputed = false;
+
+    public static GroupElement init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
+        GroupElement result = new GroupElement();
+
+        result.objElementMap = new HashMap<Object, AbstractGraphElement>();
+        result.idElementMap = new HashMap<Integer, AbstractGraphElement>();
+
+        result.nodes = nodes;
+
+        result.setId(IdUtils.next());
+
+        result.setObject(o);
+        result.setPosition(position);
+        result.setVisualizer(visualizer);
+
+        return result;
+    }
+
     private List<Object> nodes;
 
     private Map<Object, AbstractGraphElement> objElementMap;
     private Map<Integer, AbstractGraphElement> idElementMap;
 
+    @Deprecated
     public GroupElement() {
-        super();
+        this.objElementMap = new HashMap<Object, AbstractGraphElement>();
+        this.idElementMap = new HashMap<Integer, AbstractGraphElement>();
     }
-
-    public GroupElement(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
-        init(o, position, visualizer, nodes);
-    }
-
-    @Override
-    public void init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
-        init(o, position, visualizer, null);
-    }
-
-    public void init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
-        super.init(o, position, visualizer);
-
-        objElementMap = new HashMap<Object, AbstractGraphElement>();
-        idElementMap = new HashMap<Integer, AbstractGraphElement>();
-
-        this.nodes = nodes;
-    }
-
 
     @Override
     public boolean has(Object o) {
@@ -94,6 +97,14 @@ public class GroupElement extends VertexElement {
     }
 
     public boolean isInnerLayoutComputed() {
-        return nodes.size() == objElementMap.size();
+        //return nodes.size() == objElementMap.size();
+        return this.isInnerLayoutComputed;
     }
+
+
+    public boolean setIsInnerLayoutComputed(boolean b) {
+        return this.isInnerLayoutComputed = b;
+    }
+
+
 }

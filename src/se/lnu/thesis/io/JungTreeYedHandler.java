@@ -26,7 +26,7 @@ public class JungTreeYedHandler extends JungYedHandler {
     protected Tree graph2tree() {
         DelegateTree tree = new DelegateTree();
 
-        Object root = GraphUtils.getInstance().findRoot((Graph) graph);
+        Object root = GraphUtils.getRoot((Graph) graph);
 
         tree.addVertex(root);
 

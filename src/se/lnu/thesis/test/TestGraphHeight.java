@@ -16,30 +16,26 @@ import java.io.File;
  * Date: 31.07.2010
  * Time: 1:41:45
  */
-public class TestGraphHeight extends TestGraph {
+public class TestGraphHeight {
 
     @Test
     public void nodeHeight() {
-        Graph graph = createGraph();
-
-        GraphUtils utils = GraphUtils.getInstance();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(11));
 
-        assertEquals(5, utils.getNodeHeight(graph, 11, 5, 0));
-        assertEquals(1, utils.getNodeHeight(graph, 8, 7, 0));
+        assertEquals(5, GraphUtils.getDistance(graph, 11, 5));
+        assertEquals(1, GraphUtils.getDistance(graph, 8, 7));
 
-        assertEquals(2, utils.getNodeHeight(graph, 11, 8, 0));
+        assertEquals(2, GraphUtils.getDistance(graph, 11, 8));
 
-        assertEquals(2, utils.getNodeHeight(graph, 4, 1, 0));
+        assertEquals(2, GraphUtils.getDistance(graph, 4, 1));
     }
 
     @Test
     public void nodeHeightRealData() {
 
         Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(new File("RealClusterGraph.graphml")).get(0);
-
-        GraphUtils utils = GraphUtils.getInstance();
 
         assertTrue(graph.containsVertex("n11732")); // root
         assertTrue(graph.containsVertex("n11733"));
@@ -49,33 +45,31 @@ public class TestGraphHeight extends TestGraph {
         assertTrue(graph.containsVertex("n4094"));
         assertTrue(graph.containsVertex("n4846"));
 
-        assertEquals(1631, utils.getNodeHeight(graph, "n11732", 0));
+        assertEquals(1631, GraphUtils.getNodeHeight(graph, "n11732", 0));
 
-        assertEquals(0, utils.getNodeHeight(graph, "n11732", "n11732", 0));
-        assertEquals(1, utils.getNodeHeight(graph, "n11733", "n11732", 0));
-        assertEquals(2, utils.getNodeHeight(graph, "n1599", "n11732", 0));
-        assertEquals(2, utils.getNodeHeight(graph, "n7181", "n11732", 0));
-        assertEquals(1, utils.getNodeHeight(graph, "n13869", "n11732", 0));
-        assertEquals(2, utils.getNodeHeight(graph, "n4094", "n11732", 0));
-        assertEquals(2, utils.getNodeHeight(graph, "n4846", "n11732", 0));
+        assertEquals(0, GraphUtils.getDistance(graph, "n11732", "n11732"));
+        assertEquals(1, GraphUtils.getDistance(graph, "n11733", "n11732"));
+        assertEquals(2, GraphUtils.getDistance(graph, "n1599", "n11732"));
+        assertEquals(2, GraphUtils.getDistance(graph, "n7181", "n11732"));
+        assertEquals(1, GraphUtils.getDistance(graph, "n13869", "n11732"));
+        assertEquals(2, GraphUtils.getDistance(graph, "n4094", "n11732"));
+        assertEquals(2, GraphUtils.getDistance(graph, "n4846", "n11732"));
     }
 
 
     @Test
     public void graphHeight() {
-        Graph graph = createGraph();
+        Graph graph = GraphUtils.createTestBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
 
-        GraphUtils utils = GraphUtils.getInstance();
-
-        assertEquals(0, utils.getNodeHeight(graph, 1, 0)); // root vertex
-        assertEquals(2, utils.getNodeHeight(graph, 5, 0));
-        assertEquals(3, utils.getNodeHeight(graph, 5, 1));
-        assertEquals(5, utils.getNodeHeight(graph, 8, 0));
-        assertEquals(7, utils.getNodeHeight(graph, 11, 0));
-        assertEquals(8, utils.getNodeHeight(graph, 11, 1));
+        assertEquals(0, GraphUtils.getNodeHeight(graph, 1, 0)); // root vertex
+        assertEquals(2, GraphUtils.getNodeHeight(graph, 5, 0));
+        assertEquals(3, GraphUtils.getNodeHeight(graph, 5, 1));
+        assertEquals(5, GraphUtils.getNodeHeight(graph, 8, 0));
+        assertEquals(7, GraphUtils.getNodeHeight(graph, 11, 0));
+        assertEquals(8, GraphUtils.getNodeHeight(graph, 11, 1));
     }
 
 

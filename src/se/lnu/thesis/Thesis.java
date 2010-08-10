@@ -8,8 +8,6 @@ import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
-import se.lnu.thesis.paint.visualizer.graph.GOGraphVisualizer;
-import se.lnu.thesis.paint.visualizer.graph.GraphWithSubgraphVisualizer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,24 +63,10 @@ public class Thesis {
     protected void initGOWindow() {
         goWindow = new GoWindow();
 
-        GraphWithSubgraphVisualizer visualizer = new GOGraphVisualizer();
+        //     GraphWithSubgraphVisualizer visualizer = new GOGraphVisualizer();
 
-        visualizer.setGraph(goGraph);
+        //   visualizer.setGraph(goGraph);
 
-/*
-        RadialLayout layout = new RadialLayout(goGraph);
-        layout.initialize();
-        visualizer.setLayout(layout);
-*/
-
-/*
-        visualizer.setEdgeVisualizer(new LineEdgeVisualizer(visualizer, Color.WHITE));
-        visualizer.setSubGraphEdgeVizualizer(new LineEdgeVisualizer(visualizer, Color.YELLOW));
-
-        AbstractGraphElementVisualizer vertexVisualizer = new CircleVertexVisualizer(visualizer, Color.RED);
-        visualizer.setVertexVisualizer(vertexVisualizer);
-        visualizer.setSubGraphVertexVizualizer(vertexVisualizer);
-*/
 
         //      goWindow.setVisualizer(visualizer);
 

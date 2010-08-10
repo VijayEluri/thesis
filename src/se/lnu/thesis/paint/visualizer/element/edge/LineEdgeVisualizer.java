@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer.element.edge;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.EdgeElement;
+import se.lnu.thesis.element.AbstractGraphElement;
+import se.lnu.thesis.element.EdgeElement;
 
 import javax.media.opengl.GL;
 import java.awt.*;

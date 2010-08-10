@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
@@ -21,33 +21,20 @@ public abstract class AbstractGraphElement implements Drawable {
 
     private Boolean isDraw = true;
 
-    private GraphElementVisualizer elementVisualizer;
-
-    public AbstractGraphElement() {
-
-    }
-
-    public AbstractGraphElement(Object object) {
-        setObject(object);
-    }
-
-    public AbstractGraphElement(Object object, GraphElementVisualizer elementVisualizer) {
-        setObject(object);
-        setElementVisualizer(elementVisualizer);
-    }
+    private GraphElementVisualizer visualizer;
 
     public void draw(GLAutoDrawable drawable) {
-        if (isDraw && elementVisualizer != null) {
-            elementVisualizer.draw(drawable, this);
+        if (isDraw && visualizer != null) {
+            visualizer.draw(drawable, this);
         }
     }
 
-    public GraphElementVisualizer getElementVisualizer() {
-        return elementVisualizer;
+    public GraphElementVisualizer getVisualizer() {
+        return visualizer;
     }
 
-    public void setElementVisualizer(GraphElementVisualizer elementVisualizer) {
-        this.elementVisualizer = elementVisualizer;
+    public void setVisualizer(GraphElementVisualizer visualizer) {
+        this.visualizer = visualizer;
     }
 
     public Object getObject() {

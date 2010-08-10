@@ -2,10 +2,12 @@ package se.lnu.thesis.test;
 
 import org.apache.log4j.Logger;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.PrintGraphUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -35,7 +37,7 @@ public class TestRealData {
         assertEquals(DAG_NODE_COUNT, go.getVertexCount());
         assertEquals(DAG_EDGE_COUNT, go.getEdgeCount());
 
-        GraphUtils.getInstance().printGraphInfo(go);
+        GraphUtils.printGraphInfo(go);
     }
 
     @Test
@@ -49,7 +51,7 @@ public class TestRealData {
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());
 
-        GraphUtils.getInstance().printGraphInfo(cluster);
+        GraphUtils.printGraphInfo(cluster);
     }
 
     @Test
@@ -78,11 +80,11 @@ public class TestRealData {
     public void findClusterLabelDublicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+        MyGraph cluster = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
 
         Set<String> dublicates = new HashSet<String>();
 
-        Collection<String> labels = go.getNodeLabelMap().values();
+        Collection<String> labels = cluster.getNodeLabelMap().values();
         for (String label : labels) {
             if (Collections.frequency(labels, label) > 1) {
                 dublicates.add(label);
@@ -94,6 +96,25 @@ public class TestRealData {
         }
 
         assertEquals(0, dublicates.size());
+    }
+
+    @Test
+    public void checkGroupCluster() throws Exception {
+
+        IOFacade ioFacade = new IOFacade();
+        MyGraph graph = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+
+        MyGraph subGraph = new MyGraph();
+
+        final String node = "n10115";
+        assertTrue(graph.containsVertex(node));
+
+        GraphUtils.extractSubgraph(graph, subGraph, node);
+
+
+        assertEquals(0, subGraph.getVertexCount());
+
+        PrintGraphUtil.printBinaryTree(subGraph);
     }
 
 

@@ -13,17 +13,19 @@ public class Utils {
 
     public static final double COLOR_MAX = 256.0;
 
-    private static int CURRENT_ID = Integer.MIN_VALUE;
-
     public static double inRadians(double angle) {
         return angle * PIdev180;
     }
 
-    public static void computePosition(Point2D point, double angle, double radius, double xCenter, double yCenter) {
+    public static void computeOnCirclePosition(Point2D position, double angle, double radius, double xCenter, double yCenter) {
+        if (position == null) {
+            throw new IllegalArgumentException("Argument 'position' cannt be null! Initialize it before method call");
+        }
+
         double x = Math.cos(inRadians(angle)) * radius + xCenter;
         double y = Math.sin(inRadians(angle)) * radius + yCenter;
 
-        point.setLocation(x, y);
+        position.setLocation(x, y);
 
         LOGGER.debug(angle + "; " + x + ", " + y);
     }
@@ -40,7 +42,4 @@ public class Utils {
         return color / COLOR_MAX;
     }
 
-    public static int nextId() {
-        return CURRENT_ID++;
-    }
 }

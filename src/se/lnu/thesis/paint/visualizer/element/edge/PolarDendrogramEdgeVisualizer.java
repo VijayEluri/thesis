@@ -1,8 +1,8 @@
 package se.lnu.thesis.paint.visualizer.element.edge;
 
+import se.lnu.thesis.element.AbstractGraphElement;
+import se.lnu.thesis.element.PolarEdge;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.PolarDendrogramEdgeElement;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.Utils;
 
@@ -32,16 +32,16 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
     }
 
     protected void drawShape(AbstractGraphElement element) {
-        PolarDendrogramEdgeElement edgeElement = (PolarDendrogramEdgeElement) element;
+        PolarEdge edge = (PolarEdge) element;
 
-        if (edgeElement.isFromRoot()) { // from root draw simple line
+        if (edge.isFromRoot()) { // from root draw simple line
 
-            drawLine(edgeElement.getStartPosition(), edgeElement.getEndPosition());
+            drawLine(edge.getStartPosition(), edge.getEndPosition());
 
         } else {
-            drawArc(edgeElement);
+            drawArc(edge);
 
-            drawLine(edgeElement.getDummyNode(), edgeElement.getEndPosition());
+            drawLine(edge.getDummyNode(), edge.getEndPosition());
         }
     }
 
@@ -52,17 +52,17 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
         gl().glEnd();
     }
 
-    protected void drawArc(PolarDendrogramEdgeElement edgeElement) {
-        Double sourceAngle = edgeElement.getSourceAngle();
-        Double destAngle = edgeElement.getDestAngle();
+    protected void drawArc(PolarEdge edge) {
+        Double sourceAngle = edge.getSourceAngle();
+        Double destAngle = edge.getDestAngle();
 
         double startAngle = Utils.min(sourceAngle, destAngle);
         double endAngle = Utils.max(sourceAngle, destAngle);
 
         gl().glPushMatrix();
-        gl().glTranslated(edgeElement.getXCenter(), edgeElement.getYCenter(), 0.0);
+        gl().glTranslated(edge.getXCenter(), edge.getYCenter(), 0.0);
 
-        DrawingUtils.arc(gl(), startAngle, endAngle, edgeElement.getSourceRadius(), 10);
+        DrawingUtils.arc(gl(), startAngle, endAngle, edge.getSourceRadius(), 10);
 
         gl().glPopMatrix();
     }
