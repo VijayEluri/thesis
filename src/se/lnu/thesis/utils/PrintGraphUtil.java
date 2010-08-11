@@ -1,9 +1,9 @@
 package se.lnu.thesis.utils;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 import edu.uci.ics.jung.graph.Graph;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,12 +15,30 @@ public class PrintGraphUtil {
 
 
     public static void printBinaryTree(Graph graph) {
-        Map<Object, Integer> levels = new HashMap();
 
-        int height = GraphUtils.computeLevelsV2(graph, levels);
+        Multimap levels = TreeMultimap.create();
+        int height = GraphUtils.computeLevels(graph, levels);
 
+        StringBuffer result = new StringBuffer();
+        Joiner joiner = Joiner.on("___");
+
+        for (Object key : levels.keySet()) {
+            System.out.println(joiner.join(levels.get(key)));
+        }
 
     }
 
+/*
+    protected void printPart(Graph graph, Object o, Map<Object, Integer> levels) {
+        int height = levels.get(o);
 
+        for (int i = 0; i < height; i++) {
+            printf("      ");
+        }
+        printf("%d", t - > info);
+        printPart(t - > left);
+        printPart(t - > right);
+        printf("\n");
+    }
+*/
 }

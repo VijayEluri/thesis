@@ -1,5 +1,6 @@
 package se.lnu.thesis.utils;
 
+import com.google.common.collect.Multimap;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -46,7 +47,7 @@ public class GraphUtils {
 
     public static <V, E> int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
 
-        Integer graphHeight = 0;
+        Integer maxHeight = 0;
         Integer level;
 
         for (V node : graph.getVertices()) {
@@ -55,43 +56,60 @@ public class GraphUtils {
             level = list.size();
 
             if (levels.get(node) != null) {
-                if (graphHeight > levels.get(node)) {
+                if (maxHeight > levels.get(node)) {
                     levels.put(node, level);
                 }
             } else {
                 levels.put(node, level);
             }
 
-            if (level > graphHeight) {
-                graphHeight = level;
+            if (level > maxHeight) {
+                maxHeight = level;
             }
         }
 
-        return graphHeight;
+        return maxHeight + 1;
     }
 
     public static <V, E> int computeLevelsV2(Graph<V, E> graph, Map<V, Integer> levels) {
 
-        int graphHeight = 0;
+        int maxHeight = 0;
         Integer nodeLevel;
 
         for (V node : graph.getVertices()) {
             nodeLevel = GraphUtils.getNodeHeight(graph, node, 0);
 
             if (levels.get(node) != null) {
-                if (graphHeight > levels.get(node)) {
+                if (maxHeight > levels.get(node)) {
                     levels.put(node, nodeLevel);
                 }
             } else {
                 levels.put(node, nodeLevel);
             }
 
-            if (nodeLevel > graphHeight) {
-                graphHeight = nodeLevel;
+            if (nodeLevel > maxHeight) {
+                maxHeight = nodeLevel;
             }
         }
 
-        return graphHeight; // TODO +1 to the heighest node!!!!
+        return maxHeight + 1;
+    }
+
+    public static <V, E> int computeLevels(Graph<V, E> graph, Multimap levels) {
+
+        int maxHeight = 0;
+        Integer level;
+
+        for (V node : graph.getVertices()) {
+            level = GraphUtils.getNodeHeight(graph, node, 0);
+            levels.put(level, node);
+
+            if (level > maxHeight) {
+                maxHeight = level;
+            }
+        }
+
+        return maxHeight + 1;
     }
 
     public static <V, E> int getNodeHeight(Graph<V, E> graph, V node) {

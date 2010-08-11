@@ -112,7 +112,7 @@ public class TestRealData {
         GraphUtils.extractSubgraph(graph, subGraph, node);
 
 
-        assertEquals(0, subGraph.getVertexCount());
+        assertEquals(13, subGraph.getVertexCount());
 
         PrintGraphUtil.printBinaryTree(subGraph);
     }
