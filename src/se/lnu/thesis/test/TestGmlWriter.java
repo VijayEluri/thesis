@@ -4,7 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import se.lnu.thesis.io.gml.GmlWriter;
-import se.lnu.thesis.io.gml.YedGmlWriter;
+import se.lnu.thesis.io.gml.GraphYedGmlWriter;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.io.FileOutputStream;
@@ -24,7 +24,7 @@ public class TestGmlWriter {
         Graph graph = GraphUtils.createTestBinaryTree();
         assertEquals(11, graph.getVertexCount());
 
-        GmlWriter writer = new YedGmlWriter();
+        GmlWriter writer = new GraphYedGmlWriter();
 
         writer.write(graph, System.out);
 

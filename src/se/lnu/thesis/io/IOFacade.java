@@ -4,7 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.gml.GmlWriter;
-import se.lnu.thesis.io.gml.YedGmlWriter;
+import se.lnu.thesis.io.gml.GraphYedGmlWriter;
 import se.lnu.thesis.io.graphml.AbstractHandler;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
@@ -46,12 +46,23 @@ public class IOFacade {
 
 
     public void writeToYedGmlFile(Graph graph, File file) {
-        GmlWriter writer = new YedGmlWriter();
+        writeToGmlFile(graph, new GraphYedGmlWriter(), file);
+    }
 
+/*
+    public void writeToYedGmlFile(MyGraph graph, File file) {
+        writeToGmlFile(graph, new MyGraphYedGmlWriter(), file);
+    }
+*/
+
+
+    protected void writeToGmlFile(Graph graph, GmlWriter writer, File file) {
         try {
             writer.write(graph, new FileOutputStream(file));
         } catch (FileNotFoundException e) {
             LOGGER.error(e);
         }
     }
+
+
 }

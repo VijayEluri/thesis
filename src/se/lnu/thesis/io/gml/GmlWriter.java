@@ -15,7 +15,7 @@ import java.io.*;
  */
 public class GmlWriter {
 
-    private static final Logger LOGGER = Logger.getLogger(GmlWriter.class);
+    public static final Logger LOGGER = Logger.getLogger(GmlWriter.class);
 
     public void write(Graph graph, OutputStream outputStream) {
 

@@ -10,7 +10,7 @@ import edu.uci.ics.jung.graph.Graph;
  * <p/>
  * Save Graph to GML file
  */
-public class YedGmlWriter extends GmlWriter {
+public class GraphYedGmlWriter extends GmlWriter {
 
     @Override
     protected void node(StringBuffer out, Object node) {
