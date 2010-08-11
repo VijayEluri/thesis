@@ -6,8 +6,8 @@ import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.io.graphml.GraphMLParser;
+import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.io.File;

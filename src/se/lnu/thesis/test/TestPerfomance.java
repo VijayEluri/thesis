@@ -6,10 +6,10 @@ import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.JungTreeYedHandler;
-import se.lnu.thesis.io.JungYedHandler;
-import se.lnu.thesis.io.MyGraphYedHandler;
+import se.lnu.thesis.io.graphml.GraphMLParser;
+import se.lnu.thesis.io.graphml.JungTreeYedHandler;
+import se.lnu.thesis.io.graphml.JungYedHandler;
+import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;

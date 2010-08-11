@@ -1,4 +1,4 @@
-package se.lnu.thesis.io;
+package se.lnu.thesis.io.graphml;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.log4j.Logger;

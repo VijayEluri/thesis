@@ -4,9 +4,9 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import se.lnu.thesis.io.GraphMLParser;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.io.JungYedHandler;
+import se.lnu.thesis.io.graphml.GraphMLParser;
+import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 

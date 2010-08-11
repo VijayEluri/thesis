@@ -1,4 +1,4 @@
-package se.lnu.thesis.io;
+package se.lnu.thesis.io.graphml;
 
 import org.apache.log4j.Logger;
 
@@ -34,7 +34,7 @@ public class GraphMLParser {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             try {
                 SAXParser saxParser = saxParserFactory.newSAXParser();
-                saxParser.setProperty("http://apache.org/xml/properties/input-buffer-size", new Integer(READ_BUFFER));
+                saxParser.setProperty("http://apache.org/xml/properties/input-buffer-size", READ_BUFFER);
 
                 // parse the graphml file and also register this class for call backs
                 saxParser.parse(path, handler);

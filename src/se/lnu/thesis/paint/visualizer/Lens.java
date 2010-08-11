@@ -2,11 +2,13 @@ package se.lnu.thesis.paint.visualizer;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.AbstractGraphElement;
 import se.lnu.thesis.element.GroupElement;
 import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.Drawable;
+import se.lnu.thesis.utils.GraphUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -31,9 +33,11 @@ public class Lens implements Drawable {
 
     private GLU glu = new GLU();
 
+    private Graph clusterGraph;
+
 
     public void setGraph(Graph graph) {
-        layout.setGraph(graph);
+        clusterGraph = graph;
     }
 
     public void draw(GLAutoDrawable drawable) {
@@ -54,7 +58,12 @@ public class Lens implements Drawable {
         this.groupElement = groupElement;
 
         if (!groupElement.isInnerLayoutComputed()) {
+            Graph subGraph = new MyGraph();
+            GraphUtils.extractSubgraph(clusterGraph, subGraph, groupElement.getObject());
+
+            layout.setGraph(subGraph);
             layout.setRoot(groupElement);
+
             LOGGER.info("Computing lens..");
             layout.compute();
             LOGGER.info("Done.");

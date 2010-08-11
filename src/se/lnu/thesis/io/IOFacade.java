@@ -3,8 +3,15 @@ package se.lnu.thesis.io;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.io.gml.GmlWriter;
+import se.lnu.thesis.io.gml.YedGmlWriter;
+import se.lnu.thesis.io.graphml.AbstractHandler;
+import se.lnu.thesis.io.graphml.GraphMLParser;
+import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,4 +45,13 @@ public class IOFacade {
     }
 
 
+    public void writeToYedGmlFile(Graph graph, File file) {
+        GmlWriter writer = new YedGmlWriter();
+
+        try {
+            writer.write(graph, new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
+    }
 }

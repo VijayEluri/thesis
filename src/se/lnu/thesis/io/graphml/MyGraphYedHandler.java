@@ -1,4 +1,4 @@
-package se.lnu.thesis.io;
+package se.lnu.thesis.io.graphml;
 
 import se.lnu.thesis.core.MyGraph;
 

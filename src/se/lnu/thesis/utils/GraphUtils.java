@@ -1,5 +1,6 @@
 package se.lnu.thesis.utils;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
@@ -274,29 +275,34 @@ public class GraphUtils {
     }
 
     public static <V, E> void printGraphInfo(Graph<V, E> graph) {
-        int nodes = 0;
-        int roots = 0;
-        int leafs = 0;
+        Collection nodes = new LinkedList();
+        Collection roots = new LinkedList();
+        Collection leafs = new LinkedList();
 
         for (V node : graph.getVertices()) {
             if (graph.outDegree(node) == 0) {
-                leafs++;
+                leafs.add(node);
             } else {
                 if (graph.inDegree(node) == 0) {
-                    roots++;
+                    roots.add(node);
                 } else {
-                    nodes++;
+                    nodes.add(node);
                 }
             }
         }
+
+        Joiner joiner = Joiner.on(", ");
 
         LOGGER.info("***********************************");
         LOGGER.info("   Gene Ontology graph information:");
         LOGGER.info("       Edge count: " + graph.getEdgeCount());
         LOGGER.info("       Vertex count: " + graph.getVertexCount());
-        LOGGER.info("           Roots: " + roots);
-        LOGGER.info("           Nodes: " + nodes);
-        LOGGER.info("           Leafs: " + leafs);
+        LOGGER.info("           Roots: " + roots.size());
+        LOGGER.info("               " + joiner.join(roots));
+        LOGGER.info("           Nodes: " + nodes.size());
+        LOGGER.info("               " + joiner.join(nodes));
+        LOGGER.info("           Leafs: " + leafs.size());
+        LOGGER.info("               " + joiner.join(leafs));
         LOGGER.info("***********************************");
     }
 

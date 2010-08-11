@@ -7,8 +7,8 @@ import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.utils.GraphUtils;
-import se.lnu.thesis.utils.PrintGraphUtil;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -106,15 +106,17 @@ public class TestRealData {
 
         MyGraph subGraph = new MyGraph();
 
-        final String node = "n10115";
+        final String node = "n12859";
         assertTrue(graph.containsVertex(node));
 
         GraphUtils.extractSubgraph(graph, subGraph, node);
 
 
-        assertEquals(13, subGraph.getVertexCount());
+        assertEquals(19, subGraph.getVertexCount());
 
-        PrintGraphUtil.printBinaryTree(subGraph);
+        GraphUtils.printGraphInfo(subGraph);
+
+        ioFacade.writeToYedGmlFile(subGraph, new File("test.gml"));
     }
 
 

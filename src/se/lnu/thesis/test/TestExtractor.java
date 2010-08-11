@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.io.GraphMLParser;
-import se.lnu.thesis.io.MyGraphYedHandler;
+import se.lnu.thesis.io.graphml.GraphMLParser;
+import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 
 /**
  * Created by IntelliJ IDEA.
