@@ -3,7 +3,7 @@ package se.lnu.thesis.test;
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.PrintGraphUtil;
 
 /**
@@ -17,7 +17,7 @@ public class TestPrint {
 
     @Test
     public void print() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 

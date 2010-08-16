@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.JungYedHandler;
+import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class TestGraphHeight {
 
     @Test
     public void nodeHeight() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(11));
 
@@ -63,7 +64,7 @@ public class TestGraphHeight {
 
     @Test
     public void levels() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
@@ -81,7 +82,7 @@ public class TestGraphHeight {
 
     @Test
     public void computeGraphHeight() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
@@ -93,7 +94,7 @@ public class TestGraphHeight {
 
     @Test
     public void computeLevels() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 

@@ -1,5 +1,8 @@
 package se.lnu.thesis.element;
 
+import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
+import se.lnu.thesis.utils.IdUtils;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -9,6 +12,25 @@ import java.awt.geom.Point2D;
  * Time: 17:44:55
  */
 public class EdgeElement extends AbstractGraphElement {
+
+    public static EdgeElement init(Object o, Object source, Object target, Point2D start, Point2D end, GraphElementVisualizer visualizer) {
+        EdgeElement result = new EdgeElement();
+
+        result.setId(IdUtils.next());
+        result.setObject(o);
+
+        result.setFrom(source);
+        result.setTo(target);
+
+        result.setDraw(true);
+
+        result.setStartPosition(start);
+        result.setEndPosition(end);
+
+        result.setVisualizer(visualizer);
+
+        return result;
+    }
 
     private Object from;
     private Object to;
@@ -60,4 +82,6 @@ public class EdgeElement extends AbstractGraphElement {
     public void setEndPosition(Point2D endPosition) {
         this.endPosition = endPosition;
     }
+
+
 }

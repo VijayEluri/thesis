@@ -26,7 +26,7 @@ public class GmlWriter {
             out.write(result);
             out.flush();
         } catch (IOException e) {
-            e.printStackTrace();  // TODO use logger!
+            LOGGER.error(e);
         }
     }
 

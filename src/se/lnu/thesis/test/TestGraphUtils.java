@@ -7,6 +7,7 @@ import org.junit.Test;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.JungYedHandler;
+import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -22,7 +23,7 @@ public class TestGraphUtils {
 
     @Test
     public void nodeLeafs() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
@@ -43,7 +44,7 @@ public class TestGraphUtils {
 
     @Test
     public void subgraph() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(6));
 
@@ -66,7 +67,7 @@ public class TestGraphUtils {
 
     @Test
     public void subgraph2() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
@@ -178,7 +179,7 @@ public class TestGraphUtils {
 
     @Test
     public void longestPath() {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
 
         List path = GraphUtils.getLongestPath(graph);
 

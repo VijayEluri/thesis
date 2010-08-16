@@ -40,4 +40,8 @@ public abstract class AbstractLayout {
     public void setRoot(GroupElement root) {
         this.root = root;
     }
+
+    public GroupElement getRoot() {
+        return root;
+    }
 }

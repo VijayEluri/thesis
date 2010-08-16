@@ -41,7 +41,7 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
         } else {
             drawArc(edge);
 
-            drawLine(edge.getDummyNode(), edge.getEndPosition());
+            drawLine(edge.getDummyNodePosition(), edge.getEndPosition());
         }
     }
 

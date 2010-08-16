@@ -2,9 +2,7 @@ package se.lnu.thesis.utils;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -146,30 +144,9 @@ public class GraphUtils {
     }
 
     public static <V, E> Set<V> getLeafs(Graph<V, E> graph, V node) {
-        Stack stack = new Stack();
-        Set visited = new HashSet();
         Set result = new HashSet();
 
-        stack.push(node);
-
-        while (!stack.isEmpty()) {
-            V next = (V) stack.pop();
-
-            if (visited.add(next)) {
-
-                if (isLeaf(graph, next)) {
-                    result.add(next);
-                } else {
-                    for (Object neighbor : graph.getSuccessors(next)) {
-                        if (!visited.contains(neighbor)) {
-                            stack.push(neighbor);
-                        }
-                    }
-                }
-
-
-            }
-        }
+        getLeafs(graph, node, result);
 
         return result;
     }
@@ -304,52 +281,6 @@ public class GraphUtils {
         LOGGER.info("           Leafs: " + leafs.size());
         LOGGER.info("               " + joiner.join(leafs));
         LOGGER.info("***********************************");
-    }
-
-    /**
-     * ______1
-     * ____/   \
-     * ___3     2
-     * _/  \
-     * 4    5
-     * _____|
-     * _____6
-     * _____|
-     * _____7
-     * _____|
-     * _____8
-     * ____/ \
-     * ___9__10
-     * ______|
-     * ______11
-     */
-    public static Graph<Integer, String> createTestBinaryTree() {
-        Graph<Integer, String> graph = new DirectedSparseGraph();
-
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-        graph.addVertex(10);
-
-        graph.addEdge("1->2", 1, 2, EdgeType.DIRECTED);
-        graph.addEdge("1->3", 1, 3, EdgeType.DIRECTED);
-        graph.addEdge("3->4", 3, 4, EdgeType.DIRECTED);
-        graph.addEdge("3->5", 3, 5, EdgeType.DIRECTED);
-        graph.addEdge("5->6", 5, 6, EdgeType.DIRECTED);
-        graph.addEdge("6->7", 6, 7, EdgeType.DIRECTED);
-        graph.addEdge("7->8", 7, 8, EdgeType.DIRECTED);
-        graph.addEdge("8->9", 8, 9, EdgeType.DIRECTED);
-        graph.addEdge("8->10", 8, 10, EdgeType.DIRECTED);
-        graph.addEdge("10->11", 10, 11, EdgeType.DIRECTED);
-
-        return graph;
     }
 
 }

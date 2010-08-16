@@ -1,5 +1,10 @@
 package se.lnu.thesis.element;
 
+import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
+import static se.lnu.thesis.utils.GraphUtils.isRoot;
+import se.lnu.thesis.utils.IdUtils;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -10,9 +15,37 @@ import java.awt.geom.Point2D;
  */
 public class PolarEdge extends EdgeElement {
 
+    public static PolarEdge init(PolarDendrogramLayout layout, Object o) {
+        PolarEdge result = new PolarEdge();
+
+        result.setId(IdUtils.next());
+        result.setObject(o);
+
+        Object source = layout.getGraph().getSource(o);
+        result.setFrom(source);
+
+        Object target = layout.getGraph().getDest(o);
+        result.setTo(target);
+
+        result.setFromRoot(isRoot(layout.getGraph(), source));
+
+        result.setStartPosition(((VertexElement) (layout.getRoot().getElementByObject(source))).getPosition());
+        result.setDummyNodePosition(layout.getDummyNode(source, target));
+        result.setEndPosition(((VertexElement) (layout.getRoot().getElementByObject(target))).getPosition());
+
+        result.setSourceRadius(layout.getNodeRadius(source));
+
+        result.setSourceAngle(layout.getNodeAngle().get(source));
+        result.setDestAngle(layout.getNodeAngle().get(target));
+
+        result.setVisualizer(ElementVisualizerFactory.getInstance().getPolarDendrogramEdgeVisializer());
+
+        return result;
+    }
+
     private boolean isFromRoot = false;
 
-    private Point2D dummyNode;
+    private Point2D dummyNodePosition;
 
     private double sourceRadius;
     private Double sourceAngle;
@@ -32,12 +65,12 @@ public class PolarEdge extends EdgeElement {
         isFromRoot = fromRoot;
     }
 
-    public Point2D getDummyNode() {
-        return dummyNode;
+    public Point2D getDummyNodePosition() {
+        return dummyNodePosition;
     }
 
-    public void setDummyNode(Point2D dummyNode) {
-        this.dummyNode = dummyNode;
+    public void setDummyNodePosition(Point2D dummyNodePosition) {
+        this.dummyNodePosition = dummyNodePosition;
     }
 
     public double getSourceRadius() {
@@ -79,4 +112,5 @@ public class PolarEdge extends EdgeElement {
     public void setYCenter(double yCenter) {
         this.yCenter = yCenter;
     }
+
 }

@@ -2,12 +2,13 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.element.*;
+import se.lnu.thesis.element.GroupElement;
+import se.lnu.thesis.element.PolarEdge;
+import se.lnu.thesis.element.PolarVertex;
+import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 import static se.lnu.thesis.utils.GraphUtils.isLeaf;
-import static se.lnu.thesis.utils.GraphUtils.isRoot;
-import se.lnu.thesis.utils.IdUtils;
 import se.lnu.thesis.utils.Utils;
 
 import java.awt.geom.Point2D;
@@ -50,7 +51,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
         extractLeafs();
 
-        arrangeLeafByLevel(new NodeLevelComparator());
+        //     arrangeLeafByLevel(new NodeLevelComparator());
 
         computeLeafAngles();
 
@@ -107,17 +108,7 @@ public class PolarDendrogramLayout extends RadialLayout {
     }
 
     protected void extractLeafs() {
-/*
-        for (Object node : root.getNodes()) {
-            if (isLeaf(graph, node)) {
-                leafs.add(node);
-            }
-        }
-        TODO check new version bellow! And delete previous one if works.
-*/
-
         GraphUtils.getLeafs(graph, root.getObject(), leafs);
-
     }
 
     protected void arrangeLeafByLevel(Comparator<Object> levelComparator) {
@@ -178,75 +169,23 @@ public class PolarDendrogramLayout extends RadialLayout {
         double angle = nodeAngle.get(node);
         double radius = getNodeRadius(node);
 
-/*
-        Point2D position = new Point2D.Double();
-        Utils.computeOnCirclePosition(position, angle, radius, xCenter, yCenter);
-*/
-
         root.addElement(PolarVertex.init(node, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
-        //root.addElement(new VertexElement(node, position, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
     protected void setRootCoordinate() {
         root.addElement(VertexElement.init(root.getObject(), center, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
-    // TODO implement it!
     private void computeEdges() {
         for (Object edge : getGraph().getEdges()) {
             Object source = graph.getSource(edge);
             Object dest = graph.getDest(edge);
 
             if (root.has(source) && root.has(dest)) {
-                root.addElement(createEdge(edge, source, dest));
-                //root.addElement(createPolarEdge(edge, source, dest));
+                //root.addElement(EdgeElement.init(edge, source, target, ((VertexElement) (root.getElementByObject(source))).getPosition(), ((VertexElement) (root.getElementByObject(target))).getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer()););
+                root.addElement(PolarEdge.init(this, edge));
             }
         }
-    }
-
-    private PolarEdge createPolarEdge(Object edge, Object source, Object dest) {  // TODO use PolarEdge class
-        PolarEdge resultEdge = new PolarEdge();
-
-        resultEdge.setId(IdUtils.next());
-        resultEdge.setObject(edge);
-
-        resultEdge.setFrom(source);
-        resultEdge.setTo(dest);
-
-        resultEdge.setFromRoot(isRoot(graph, source));
-        resultEdge.setDraw(true);
-
-        resultEdge.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
-        resultEdge.setDummyNode(getDummyNode(source, dest));
-        resultEdge.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
-
-        resultEdge.setSourceRadius(getNodeRadius(source));
-
-        resultEdge.setSourceAngle(getNodeAngle().get(source));
-        resultEdge.setDestAngle(getNodeAngle().get(dest));
-
-        resultEdge.setVisualizer(ElementVisualizerFactory.getInstance().getPolarDendrogramEdgeVisializer());
-
-        return resultEdge;
-    }
-
-    private EdgeElement createEdge(Object edge, Object source, Object dest) { // TODO move all this crap to EdgeElement.init method!
-        EdgeElement resultEdgeElement = new EdgeElement();
-
-        resultEdgeElement.setId(IdUtils.next());
-        resultEdgeElement.setObject(edge);
-
-        resultEdgeElement.setFrom(source);
-        resultEdgeElement.setTo(dest);
-
-        resultEdgeElement.setDraw(true);
-
-        resultEdgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
-        resultEdgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
-
-        resultEdgeElement.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
-
-        return resultEdgeElement;
     }
 
     public double getNodeRadius(Object node) {

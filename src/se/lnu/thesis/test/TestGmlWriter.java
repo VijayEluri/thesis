@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import se.lnu.thesis.io.gml.GmlWriter;
 import se.lnu.thesis.io.gml.GraphYedGmlWriter;
-import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.GraphMaker;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class TestGmlWriter {
 
     @Test
     public void viewBinaryTree() throws IOException {
-        Graph graph = GraphUtils.createTestBinaryTree();
+        Graph graph = GraphMaker.createBigBinaryTree();
         assertEquals(11, graph.getVertexCount());
 
         GmlWriter writer = new GraphYedGmlWriter();
