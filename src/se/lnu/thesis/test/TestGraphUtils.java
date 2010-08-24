@@ -23,7 +23,7 @@ public class TestGraphUtils {
 
     @Test
     public void nodeLeafs() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
@@ -44,7 +44,7 @@ public class TestGraphUtils {
 
     @Test
     public void subgraph() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(6));
 
@@ -67,7 +67,7 @@ public class TestGraphUtils {
 
     @Test
     public void subgraph2() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
@@ -179,7 +179,7 @@ public class TestGraphUtils {
 
     @Test
     public void longestPath() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         List path = GraphUtils.getLongestPath(graph);
 

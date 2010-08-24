@@ -1,5 +1,8 @@
 package se.lnu.thesis.test;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -117,6 +120,30 @@ public class TestRealData {
         GraphUtils.printGraphInfo(subGraph);
 
         ioFacade.writeToYedGmlFile(subGraph, new File("test.gml"));
+    }
+
+
+    @Test
+    public void testGeneOntologyLevels() throws Exception {
+
+        IOFacade ioFacade = new IOFacade();
+        MyGraph graph = ioFacade.loadFromYedGraphml("RealGOGraph.graphml");
+
+        Set roots = GraphUtils.getRoots(graph);
+        System.out.println("Roots: " + Joiner.on(" ,").join(roots));
+
+        Multimap levels = TreeMultimap.create();
+        GraphUtils.computeLevels(graph, levels);
+
+        Collection level0 = levels.get(0);
+        assertTrue(level0.size() == roots.size());
+        assertTrue(level0.containsAll(roots));
+
+        for (Object key : levels.keySet()) {
+            System.out.println(key + ": " + Joiner.on(" ,").join(levels.get(key)));
+        }
+
+
     }
 
 

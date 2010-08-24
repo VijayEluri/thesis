@@ -21,7 +21,7 @@ public class TestGmlWriter {
 
     @Test
     public void viewBinaryTree() throws IOException {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
         assertEquals(11, graph.getVertexCount());
 
         GmlWriter writer = new GraphYedGmlWriter();

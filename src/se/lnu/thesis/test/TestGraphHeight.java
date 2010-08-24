@@ -25,9 +25,14 @@ public class TestGraphHeight {
 
     @Test
     public void nodeHeight() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(11));
+        assertTrue(graph.containsVertex(5));
+        assertTrue(graph.containsVertex(8));
+        assertTrue(graph.containsVertex(7));
+        assertTrue(graph.containsVertex(4));
+        assertTrue(graph.containsVertex(1));
 
         assertEquals(5, GraphUtils.getDistance(graph, 11, 5));
         assertEquals(1, GraphUtils.getDistance(graph, 8, 7));
@@ -64,7 +69,7 @@ public class TestGraphHeight {
 
     @Test
     public void levels() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertEquals(11, graph.getVertexCount());
         assertEquals(10, graph.getEdgeCount());
@@ -82,7 +87,7 @@ public class TestGraphHeight {
 
     @Test
     public void computeGraphHeight() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
@@ -94,7 +99,7 @@ public class TestGraphHeight {
 
     @Test
     public void computeLevels() {
-        Graph graph = GraphMaker.createBigBinaryTree();
+        Graph graph = GraphMaker.createTestBinaryTree();
 
         assertTrue(graph.containsVertex(8));
 
