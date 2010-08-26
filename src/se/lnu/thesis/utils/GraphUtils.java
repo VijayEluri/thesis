@@ -94,7 +94,7 @@ public class GraphUtils {
         return maxHeight + 1;
     }
 
-    public static <V, E> int computeLevels(Graph<V, E> graph, Multimap levels) {
+    public static <V, E> int computeLevels(Graph<V, E> graph, Multimap<Integer, V> levels) {
 
         int maxHeight = 0;
         Integer level;

@@ -48,16 +48,17 @@ public class VertexElement extends AbstractGraphElement {
 
     private Point2D position;
 
-    /**
-     * Constructor deprecated. Use static method init to create and initialize new instance.
-     */
-    @Deprecated
+
     public VertexElement() {
 
     }
 
     public GraphElementType getType() {
         return GraphElementType.NODE;
+    }
+
+    public int getDrawingOrder() {
+        return 1;
     }
 
     public GraphElementType checkType(Graph graph, Object o) {

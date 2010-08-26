@@ -3,7 +3,7 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
+import se.lnu.thesis.paint.visualizer.GraphVisualizer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -27,7 +27,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
 
     public static final Logger LOGGER = Logger.getLogger(JoglWindow.class);
 
-    protected ClusterVisualizer visualizer;
+    protected GraphVisualizer visualizer;
 
     private GLJPanel drawablePanel;
 
@@ -125,7 +125,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
     }
 
-    public void setVisualizer(ClusterVisualizer visualizer) {
+    public void setVisualizer(GraphVisualizer visualizer) {
         this.visualizer = visualizer;
     }
 
@@ -162,7 +162,7 @@ public abstract class JoglWindow extends JFrame implements KeyListener, GLEventL
 
     public abstract void notifyObserver(Subject subject, Object params);
 
-    public ClusterVisualizer getVisualizer() {
+    public GraphVisualizer getVisualizer() {
         return visualizer;
     }
 }

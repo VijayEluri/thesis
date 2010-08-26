@@ -1,13 +1,12 @@
 package se.lnu.thesis.element;
 
+import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,13 +16,11 @@ import java.util.Map;
  */
 public class GroupElement extends VertexElement {
 
-    private boolean isInnerLayoutComputed = false;
+    private static final Logger LOGGER = Logger.getLogger(GroupElement.class);
 
-    public static GroupElement init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, List<Object> nodes) {
+
+    public static GroupElement init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer, Collection<Object> nodes) {
         GroupElement result = new GroupElement();
-
-        result.objElementMap = new HashMap<Object, AbstractGraphElement>();
-        result.idElementMap = new HashMap<Integer, AbstractGraphElement>();
 
         result.nodes = nodes;
 
@@ -36,20 +33,65 @@ public class GroupElement extends VertexElement {
         return result;
     }
 
-    private List<Object> nodes;
+    private boolean isLayoutComputed = false;
 
-    private Map<Object, AbstractGraphElement> objElementMap;
-    private Map<Integer, AbstractGraphElement> idElementMap;
+    private Collection<Object> nodes;
 
-    @Deprecated
+    private SortedSet<AbstractGraphElement> elements;
+
+    private Map<Object, AbstractGraphElement> obj2Element;
+    private Map<Integer, AbstractGraphElement> id2Element;
+
+
     public GroupElement() {
-        this.objElementMap = new HashMap<Object, AbstractGraphElement>();
-        this.idElementMap = new HashMap<Integer, AbstractGraphElement>();
+        this.nodes = new HashSet<Object>();
+
+        this.obj2Element = new HashMap<Object, AbstractGraphElement>();
+        this.id2Element = new HashMap<Integer, AbstractGraphElement>();
+
+        this.elements = new TreeSet<AbstractGraphElement>(new GraphElementDrawingOrderComparator());
     }
 
     @Override
     public boolean has(Object o) {
-        return objElementMap.containsKey(o) || (getObject() != null && getObject().equals(o));
+        //return obj2Element.containsKey(o) || getObject().equals(o);
+        return nodes.contains(o) || (getObject() != null && getObject().equals(o));
+    }
+
+    @Override
+    public boolean has(Collection nodes) {
+
+        for (Object o : nodes) {
+            if (has(o) || obj2Element.containsKey(o)) {
+                return true;
+            }
+        }
+
+        for (AbstractGraphElement element : getElements()) {
+            if (element.has(nodes)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void setSubgraphHighlighting(Collection nodes) {
+        if (has(nodes)) {
+            setSubgraphHighlighting(true);
+            for (AbstractGraphElement element : getElements()) {
+                element.setSubgraphHighlighting(nodes);
+            }
+        }
+    }
+
+    @Override
+    public void resetSubgraphHighlighting() {
+        setSubgraphHighlighting(false);
+        for (AbstractGraphElement element : getElements()) {
+            element.resetSubgraphHighlighting();
+        }
     }
 
     public GraphElementType getType() {
@@ -65,46 +107,51 @@ public class GroupElement extends VertexElement {
     }
 
     public Collection<AbstractGraphElement> getElements() {
-        return objElementMap.values();
-    }
-
-    public Collection<Object> getObjects() {
-        return objElementMap.keySet();
+        return elements;
     }
 
     public Collection<Integer> getIds() {
-        return idElementMap.keySet();
+        return id2Element.keySet();
     }
 
     public void addElement(AbstractGraphElement element) {
         if (element != null && element.getObject() != null && element.getId() != null) {
-            objElementMap.put(element.getObject(), element);
-            idElementMap.put(element.getId(), element);
+            elements.add(element);
+
+            obj2Element.put(element.getObject(), element);
+            id2Element.put(element.getId(), element);
+        } else {
+            LOGGER.error("Cant add new element to GroupElement!");
         }
 
     }
 
     public AbstractGraphElement getElementById(int i) {
-        return idElementMap.get(i);
+        return id2Element.get(i);
     }
 
     public AbstractGraphElement getElementByObject(Object obj) {
-        return objElementMap.get(obj);
+        return obj2Element.get(obj);
     }
 
-    public List<Object> getNodes() {
+    public Collection<Object> getNodes() {
         return nodes;
     }
 
-    public boolean isInnerLayoutComputed() {
-        //return nodes.size() == objElementMap.size();
-        return this.isInnerLayoutComputed;
+    public boolean isLayoutComputed() {
+        return this.isLayoutComputed;
     }
 
 
-    public boolean setIsInnerLayoutComputed(boolean b) {
-        return this.isInnerLayoutComputed = b;
+    public boolean setIsLayoutComputed(boolean b) {
+        return this.isLayoutComputed = b;
     }
 
+
+    public void drawElements(GLAutoDrawable drawable) {
+        for (AbstractGraphElement element : getElements()) {
+            element.draw(drawable);
+        }
+    }
 
 }

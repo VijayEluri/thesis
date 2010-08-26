@@ -63,7 +63,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
         computeEdges();
 
-        root.setIsInnerLayoutComputed(true);
+        root.setIsLayoutComputed(true);
     }
 
     protected void init() {

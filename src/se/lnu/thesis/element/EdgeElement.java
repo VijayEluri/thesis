@@ -1,9 +1,12 @@
 package se.lnu.thesis.element;
 
+import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +35,29 @@ public class EdgeElement extends AbstractGraphElement {
         return result;
     }
 
+
+    public static EdgeElement init(Object o, Graph graph, GroupElement root) {
+        EdgeElement result = new EdgeElement();
+
+        result.setId(IdUtils.next());
+        result.setObject(o);
+
+        Object source = graph.getSource(o);
+        result.setFrom(source);
+
+        Object dest = graph.getDest(o);
+        result.setTo(dest);
+
+        result.setDraw(false);
+
+        result.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
+        result.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+
+        result.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+
+        return result;
+    }
+
     private Object from;
     private Object to;
     private Point2D startPosition;
@@ -46,9 +72,19 @@ public class EdgeElement extends AbstractGraphElement {
         return from.equals(o) || to.equals(o);
     }
 
+
+    @Override
+    public boolean has(Collection nodes) {
+        return nodes.contains(from) && nodes.contains(to);
+    }
+
     @Override
     public GraphElementType getType() {
         return GraphElementType.EDGE;
+    }
+
+    public int getDrawingOrder() {
+        return -1;
     }
 
     public Object getFrom() {
@@ -82,6 +118,5 @@ public class EdgeElement extends AbstractGraphElement {
     public void setEndPosition(Point2D endPosition) {
         this.endPosition = endPosition;
     }
-
 
 }

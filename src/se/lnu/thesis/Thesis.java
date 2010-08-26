@@ -8,6 +8,8 @@ import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
+import se.lnu.thesis.paint.visualizer.GOVisualizer;
+import se.lnu.thesis.paint.visualizer.GraphVisualizer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,23 +63,23 @@ public class Thesis {
     }
 
     protected void initGOWindow() {
+
+        GOVisualizer visualizer = new GOVisualizer();
+        visualizer.setGraph(goGraph);
+        visualizer.init();
+
+
         goWindow = new GoWindow();
-
-        //     GraphWithSubgraphVisualizer visualizer = new GOGraphVisualizer();
-
-        //   visualizer.setGraph(goGraph);
-
-
-        //      goWindow.setVisualizer(visualizer);
+        goWindow.setVisualizer(visualizer);
 
         selectionDialog.registerObserver(goWindow);
 
-        goWindow.setVisible(false); // TODO for testing only
+        goWindow.setVisible(true);
     }
 
     protected void initClusterWindow() {
 
-        ClusterVisualizer visualizer = new ClusterVisualizer();
+        GraphVisualizer visualizer = new ClusterVisualizer();
         visualizer.setGraph(clusterGraph);
         visualizer.init();
 

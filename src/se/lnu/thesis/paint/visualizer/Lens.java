@@ -3,7 +3,6 @@ package se.lnu.thesis.paint.visualizer;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.AbstractGraphElement;
 import se.lnu.thesis.element.GroupElement;
 import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
@@ -14,6 +13,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,46 +27,53 @@ public class Lens implements Drawable {
     private static final double LENS_RADIUS = 0.4;
     private static final double LAYOUT_RADIUS = 0.3;
 
+    protected Color circleColor = Color.BLACK;
+
     private AbstractLayout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
 
-    private GroupElement groupElement = null;
+    private GroupElement root = null;
 
     private GLU glu = new GLU();
 
     private Graph clusterGraph;
 
 
-    public void setGraph(Graph graph) {
-        clusterGraph = graph;
-    }
-
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        gl.glColor3d(1, 0, 0);
+        gl.glColor3d(circleColor.getRed(), circleColor.getGreen(), circleColor.getBlue());
         GLUquadric glUquadric = glu.gluNewQuadric();
 
         glu.gluDisk(glUquadric, 0, LENS_RADIUS, 50, 50);
 
-        for (AbstractGraphElement element : groupElement.getElements()) {
-            element.draw(drawable);
-        }
-
+        root.drawElements(drawable);
     }
 
-    public void setGroupElement(GroupElement groupElement) {
-        this.groupElement = groupElement;
+    public void setRoot(GroupElement root) {
+        this.root = root;
 
-        if (!groupElement.isInnerLayoutComputed()) {
-            Graph subGraph = new MyGraph();
-            GraphUtils.extractSubgraph(clusterGraph, subGraph, groupElement.getObject());
+        if (!root.isLayoutComputed()) {
+            Graph groupGraph = new MyGraph();
+            GraphUtils.extractSubgraph(clusterGraph, groupGraph, root.getObject());
 
-            layout.setGraph(subGraph);
-            layout.setRoot(groupElement);
+            layout.setGraph(groupGraph);
+            layout.setRoot(root);
 
-            LOGGER.info("Computing lens..");
+            LOGGER.info("Group layout is not computed. Computing lens..");
             layout.compute();
             LOGGER.info("Done.");
         }
+    }
+
+    public void setGraph(Graph graph) {
+        clusterGraph = graph;
+    }
+
+    public Color getCircleColor() {
+        return circleColor;
+    }
+
+    public void setCircleColor(Color circleColor) {
+        this.circleColor = circleColor;
     }
 }

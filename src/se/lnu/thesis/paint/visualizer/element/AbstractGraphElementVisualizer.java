@@ -53,7 +53,7 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
         if (element.isSelected()) {
             color(getSelectionColor());
         } else {
-            if (element.isSubgraph()) {
+            if (element.isSubgraphHighlighting()) {
                 color(getSubgraphColor());
             } else {
                 color(getMainColor());

@@ -4,6 +4,7 @@ import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +18,7 @@ public abstract class AbstractGraphElement implements Drawable {
     private Object object;
 
     private Boolean isSelected = false;
-    private Boolean isSubgraph = false;
+    private Boolean isSubgraphHighlighting = false;
 
     private Boolean isDraw = true;
 
@@ -28,6 +29,20 @@ public abstract class AbstractGraphElement implements Drawable {
             visualizer.draw(drawable, this);
         }
     }
+
+/*
+    @Override
+    public boolean equals(Object o) {
+        AbstractGraphElement element = (AbstractGraphElement) o;
+
+        return getObject() != null && element.getObject() != null && getObject().equals(element.getObject());
+    }
+
+    @Override
+    public int hashCode() {
+        return getObject().hashCode();
+    }
+*/
 
     public GraphElementVisualizer getVisualizer() {
         return visualizer;
@@ -50,11 +65,9 @@ public abstract class AbstractGraphElement implements Drawable {
     }
 
     public void setObject(Object object) {
-/*
         if (object == null) {
-            throw new IllegalArgumentException("'object' argument can't be null!!");
+            throw new IllegalArgumentException("Argument 'object' can't be null!!");
         }
-*/
 
         this.object = object;
     }
@@ -63,7 +76,23 @@ public abstract class AbstractGraphElement implements Drawable {
         return object.equals(o);
     }
 
+    public boolean has(Collection collection) {
+        return collection.contains(object);
+    }
+
+    public void setSubgraphHighlighting(Collection nodes) {
+        if (has(nodes)) {
+            setSubgraphHighlighting(true);
+        }
+    }
+
+    public void resetSubgraphHighlighting() {
+        setSubgraphHighlighting(false);
+    }
+
     public abstract GraphElementType getType();
+
+    public abstract int getDrawingOrder();
 
     public Boolean isSelected() {
         return isSelected;
@@ -73,19 +102,19 @@ public abstract class AbstractGraphElement implements Drawable {
         isSelected = selected;
     }
 
-    public Boolean isSubgraph() {
-        return isSubgraph;
+    public Boolean isSubgraphHighlighting() {
+        return isSubgraphHighlighting;
     }
 
-    public void setSubgraph(Boolean subgraph) {
-        isSubgraph = subgraph;
+    public void setSubgraphHighlighting(boolean subgraphHighlighting) {
+        isSubgraphHighlighting = subgraphHighlighting;
     }
 
-    public Boolean isDraw() {
+    public boolean isDraw() {
         return isDraw;
     }
 
-    public void setDraw(Boolean draw) {
+    public void setDraw(boolean draw) {
         isDraw = draw;
     }
 }

@@ -5,7 +5,6 @@ import se.lnu.thesis.element.*;
 import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
-import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -63,6 +62,8 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
         for (Object node : path) {
 
+            root.getNodes().add(node);
+
             if (GraphUtils.isLeaf(getGraph(), node)) {
                 root.addElement(VertexElement.init(node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
             } else {
@@ -82,6 +83,8 @@ public class RectangularSpiralLayout extends AbstractLayout {
                                 this.maxGroupSize = groupSize;
                             }
                         }
+
+                        root.getNodes().add(successor);
                     }
                 }
 
@@ -113,22 +116,8 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     private void computeEdgePositions() {
         for (Object edge : getGraph().getEdges()) {
-            Object source = graph.getSource(edge);
-            Object dest = graph.getDest(edge);
-
-            if (root.has(source) && root.has(dest)) {
-
-                EdgeElement edgeElement = new EdgeElement();
-                edgeElement.setId(IdUtils.next());
-                edgeElement.setObject(edge);
-                edgeElement.setFrom(source);
-                edgeElement.setTo(dest);
-                edgeElement.setDraw(false);
-                edgeElement.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
-                edgeElement.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
-                edgeElement.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
-
-                root.addElement(edgeElement);
+            if (root.has(graph.getSource(edge)) && root.has(graph.getDest(edge))) {
+                root.addElement(EdgeElement.init(edge, graph, root));
             }
         }
     }
