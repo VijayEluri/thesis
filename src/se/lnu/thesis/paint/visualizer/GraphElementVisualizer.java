@@ -1,6 +1,6 @@
-package se.lnu.thesis.paint.visualizer.element;
+package se.lnu.thesis.paint.visualizer;
 
-import se.lnu.thesis.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
 
 import javax.media.opengl.GLAutoDrawable;
 

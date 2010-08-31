@@ -1,8 +1,8 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
-import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
+import se.lnu.thesis.paint.visualizer.GraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
@@ -74,7 +74,7 @@ public class EdgeElement extends AbstractGraphElement {
 
 
     @Override
-    public boolean has(Collection nodes) {
+    public boolean hasAny(Collection nodes) {
         return nodes.contains(from) && nodes.contains(to);
     }
 
@@ -119,4 +119,9 @@ public class EdgeElement extends AbstractGraphElement {
         this.endPosition = endPosition;
     }
 
+    @Override
+    public void setSubgraphHighlighting(boolean b) {
+        isSubgraphHighlighting = b;
+        isDraw = b;
+    }
 }

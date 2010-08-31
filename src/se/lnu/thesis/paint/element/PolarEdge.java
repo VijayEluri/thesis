@@ -1,7 +1,7 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
+import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import static se.lnu.thesis.utils.GraphUtils.isRoot;
 import se.lnu.thesis.utils.IdUtils;
 

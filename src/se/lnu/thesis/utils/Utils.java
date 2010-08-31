@@ -38,7 +38,7 @@ public class Utils {
         return value1 > value2 ? value1 : value2;
     }
 
-    public static double asDouble(int color) {
+    public static double colorAsDouble(int color) {
         return color / COLOR_MAX;
     }
 

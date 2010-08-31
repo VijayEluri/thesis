@@ -1,7 +1,8 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 import se.lnu.thesis.paint.Drawable;
-import se.lnu.thesis.paint.visualizer.element.GraphElementVisualizer;
+import se.lnu.thesis.paint.Orderable;
+import se.lnu.thesis.paint.visualizer.GraphElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.util.Collection;
@@ -12,37 +13,23 @@ import java.util.Collection;
  * Date: 02.07.2010
  * Time: 17:33:46
  */
-public abstract class AbstractGraphElement implements Drawable {
+public abstract class AbstractGraphElement implements Drawable, Orderable {
 
-    private Integer id;
-    private Object object;
+    protected Integer id;
+    protected Object object;
 
-    private Boolean isSelected = false;
-    private Boolean isSubgraphHighlighting = false;
+    protected Boolean isSelected = false;
+    protected Boolean isSubgraphHighlighting = false;
 
-    private Boolean isDraw = true;
+    protected Boolean isDraw = true;
 
-    private GraphElementVisualizer visualizer;
+    protected GraphElementVisualizer visualizer;
 
     public void draw(GLAutoDrawable drawable) {
         if (isDraw && visualizer != null) {
             visualizer.draw(drawable, this);
         }
     }
-
-/*
-    @Override
-    public boolean equals(Object o) {
-        AbstractGraphElement element = (AbstractGraphElement) o;
-
-        return getObject() != null && element.getObject() != null && getObject().equals(element.getObject());
-    }
-
-    @Override
-    public int hashCode() {
-        return getObject().hashCode();
-    }
-*/
 
     public GraphElementVisualizer getVisualizer() {
         return visualizer;
@@ -76,12 +63,12 @@ public abstract class AbstractGraphElement implements Drawable {
         return object.equals(o);
     }
 
-    public boolean has(Collection collection) {
+    public boolean hasAny(Collection collection) {
         return collection.contains(object);
     }
 
     public void setSubgraphHighlighting(Collection nodes) {
-        if (has(nodes)) {
+        if (hasAny(nodes)) {
             setSubgraphHighlighting(true);
         }
     }
@@ -91,8 +78,6 @@ public abstract class AbstractGraphElement implements Drawable {
     }
 
     public abstract GraphElementType getType();
-
-    public abstract int getDrawingOrder();
 
     public Boolean isSelected() {
         return isSelected;

@@ -1,7 +1,7 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;

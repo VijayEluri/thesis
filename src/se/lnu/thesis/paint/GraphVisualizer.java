@@ -1,11 +1,11 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint;
 
 import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.AbstractGraphElement;
-import se.lnu.thesis.element.GroupElement;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.GroupElement;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -43,17 +43,19 @@ public abstract class GraphVisualizer {
 
     protected GroupElement root;
 
-    private GLU glu;
+    protected GL gl;
+    protected GLU glu;
 
     public abstract void init();
 
     public void draw(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        gl = drawable.getGL();
 
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
 
         gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL.GL_DEPTH_TEST);
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
@@ -63,6 +65,7 @@ public abstract class GraphVisualizer {
         }
 
         root.drawElements(drawable);
+
 
         drawable.swapBuffers();
     }
@@ -118,7 +121,7 @@ public abstract class GraphVisualizer {
             this.selectedElement.setSelected(true);
             vertexState = State.SELECTED;
 
-            LOGGER.info("Selected vertex '" + element.getObject() + "'");
+            LOGGER.info("Selected vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
         }
     }
 

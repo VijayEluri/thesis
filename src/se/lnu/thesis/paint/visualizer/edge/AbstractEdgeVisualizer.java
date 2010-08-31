@@ -1,6 +1,6 @@
-package se.lnu.thesis.paint.visualizer.element.edge;
+package se.lnu.thesis.paint.visualizer.edge;
 
-import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
 
 import java.awt.*;
 

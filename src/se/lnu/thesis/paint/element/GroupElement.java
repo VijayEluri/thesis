@@ -1,7 +1,7 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -59,7 +59,7 @@ public class GroupElement extends VertexElement {
     }
 
     @Override
-    public boolean has(Collection nodes) {
+    public boolean hasAny(Collection nodes) {
 
         for (Object o : nodes) {
             if (has(o) || obj2Element.containsKey(o)) {
@@ -68,7 +68,7 @@ public class GroupElement extends VertexElement {
         }
 
         for (AbstractGraphElement element : getElements()) {
-            if (element.has(nodes)) {
+            if (element.hasAny(nodes)) {
                 return true;
             }
         }
@@ -78,7 +78,7 @@ public class GroupElement extends VertexElement {
 
     @Override
     public void setSubgraphHighlighting(Collection nodes) {
-        if (has(nodes)) {
+        if (hasAny(nodes)) {
             setSubgraphHighlighting(true);
             for (AbstractGraphElement element : getElements()) {
                 element.setSubgraphHighlighting(nodes);
@@ -115,7 +115,7 @@ public class GroupElement extends VertexElement {
     }
 
     public void addElement(AbstractGraphElement element) {
-        if (element != null && element.getObject() != null && element.getId() != null) {
+        if (element != null && element.getObject() != null) {
             elements.add(element);
 
             obj2Element.put(element.getObject(), element);
@@ -136,6 +136,10 @@ public class GroupElement extends VertexElement {
 
     public Collection<Object> getNodes() {
         return nodes;
+    }
+
+    protected void setNodes(Collection<Object> nodes) {
+        this.nodes = nodes;
     }
 
     public boolean isLayoutComputed() {

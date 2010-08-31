@@ -1,4 +1,4 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
 /**
  * Created by IntelliJ IDEA.

@@ -66,7 +66,7 @@ public class TestPerfomance {
 
         assertEquals(nodes, visited.size());
 
-        //System.out.println("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+        //System.out.println("Done in " + TimeUnit.SECONDS.convert(end - dimension, TimeUnit.MILLISECONDS) + "s");
         System.out.println("Done in " + (end - start) + "s");
 
     }
@@ -128,11 +128,11 @@ public class TestPerfomance {
 /*
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
-        long start = System.currentTimeMillis();
+        long dimension = System.currentTimeMillis();
         Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
         long end = System.currentTimeMillis();
 
-        System.out.println("'JungYedHandler' done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+        System.out.println("'JungYedHandler' done in " + TimeUnit.SECONDS.convert(end - dimension, TimeUnit.MILLISECONDS) + "s");
 
         assertEquals(nodes, graph.getVertexCount());
         assertEquals(edges, graph.getEdgeCount());
@@ -150,11 +150,11 @@ public class TestPerfomance {
 
         System.gc();
 
-        start = System.currentTimeMillis();
+        dimension = System.currentTimeMillis();
         layout.initialize();
         end = System.currentTimeMillis();
 
-        System.out.println("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+        System.out.println("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - dimension, TimeUnit.MILLISECONDS) + "s");
 */
     }
 

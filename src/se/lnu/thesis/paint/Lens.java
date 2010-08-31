@@ -1,12 +1,11 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.GroupElement;
 import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.Drawable;
+import se.lnu.thesis.paint.element.GroupElement;
 import se.lnu.thesis.utils.GraphUtils;
 
 import javax.media.opengl.GL;

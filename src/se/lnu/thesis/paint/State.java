@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint;
 
 /**
  * Created by IntelliJ IDEA.
@@ -7,6 +7,6 @@ package se.lnu.thesis.paint.visualizer;
  * Time: 13:18:58
  */
 enum State {
-    SELECTING, NORMAL, SELECTED, SUBGRAPH;
+    SELECTING, NORMAL, SELECTED, SUBGRAPH
 
 }

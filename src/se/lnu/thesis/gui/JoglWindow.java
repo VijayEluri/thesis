@@ -3,7 +3,7 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.visualizer.GraphVisualizer;
+import se.lnu.thesis.paint.GraphVisualizer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

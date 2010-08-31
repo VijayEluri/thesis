@@ -1,10 +1,10 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint;
 
 
-import se.lnu.thesis.element.AbstractGraphElement;
-import se.lnu.thesis.element.GraphElementType;
-import se.lnu.thesis.element.GroupElement;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.GraphElementType;
+import se.lnu.thesis.paint.element.GroupElement;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -18,6 +18,7 @@ public class ClusterVisualizer extends GraphVisualizer {
         LOGGER.info("Initializing..");
 
         root = new GroupElement();
+        root.setObject("Cluster");
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
         layout.compute();
@@ -36,7 +37,9 @@ public class ClusterVisualizer extends GraphVisualizer {
             GroupElement groupElement = (GroupElement) selectedElement;
             lens.setRoot(groupElement);
 
-            groupElement.setSubgraphHighlighting(subGraph.getVertices());
+            if (subGraph != null) {
+                groupElement.setSubgraphHighlighting(subGraph.getVertices());
+            }
         }
     }
 

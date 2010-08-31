@@ -1,6 +1,6 @@
-package se.lnu.thesis.paint.visualizer.element;
+package se.lnu.thesis.paint.visualizer;
 
-import se.lnu.thesis.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
 import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
@@ -14,9 +14,9 @@ import java.awt.*;
  */
 public abstract class AbstractGraphElementVisualizer implements GraphElementVisualizer {
 
-    public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;      // default color for graph elements visualization
-    public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph color
-    public static final Color DEFAULT_SEECTION_COLOR = Color.GREEN;  // default selection color
+    public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;      // default levelBackgroud for graph elements visualization
+    public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph levelBackgroud
+    public static final Color DEFAULT_SEECTION_COLOR = Color.GREEN;  // default selection levelBackgroud
 
 
     private GLAutoDrawable drawable; // OpenGL drawing context
@@ -38,12 +38,16 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
     public void draw(GLAutoDrawable drawable, AbstractGraphElement element) {
         setDrawable(drawable); // update OpenGL drawing contex
 
-        gl().glPushName(element.getId()); // set element id
+        if (element.getId() != null) {
+            gl().glPushName(element.getId()); // set element id
+        }
 
-        drawingColor(element); // set element color
+        drawingColor(element); // set element levelBackgroud
         drawShape(element); // draw object
 
-        gl().glPopName();
+        if (element.getId() != null) {
+            gl().glPopName();
+        }
     }
 
     protected abstract void drawShape(AbstractGraphElement element);
@@ -62,9 +66,9 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
     }
 
     protected void color(Color color) {
-        gl().glColor3d(Utils.asDouble(color.getRed()),
-                Utils.asDouble(color.getGreen()),
-                Utils.asDouble(color.getBlue()));
+        gl().glColor3d(Utils.colorAsDouble(color.getRed()),
+                Utils.colorAsDouble(color.getGreen()),
+                Utils.colorAsDouble(color.getBlue()));
     }
 
     public Color getSubgraphColor() {

@@ -1,6 +1,6 @@
-package se.lnu.thesis.element;
+package se.lnu.thesis.paint.element;
 
-import se.lnu.thesis.paint.visualizer.element.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 import se.lnu.thesis.utils.Utils;
 

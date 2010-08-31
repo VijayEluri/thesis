@@ -1,8 +1,8 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.element.*;
-import se.lnu.thesis.paint.visualizer.element.ElementVisualizerFactory;
+import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 

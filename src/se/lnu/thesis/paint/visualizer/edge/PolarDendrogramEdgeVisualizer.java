@@ -1,8 +1,8 @@
-package se.lnu.thesis.paint.visualizer.element.edge;
+package se.lnu.thesis.paint.visualizer.edge;
 
-import se.lnu.thesis.element.AbstractGraphElement;
-import se.lnu.thesis.element.PolarEdge;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.Utils;
 

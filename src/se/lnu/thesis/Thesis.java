@@ -7,9 +7,9 @@ import se.lnu.thesis.gui.GoWindow;
 import se.lnu.thesis.gui.JoglWindow;
 import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.paint.visualizer.ClusterVisualizer;
-import se.lnu.thesis.paint.visualizer.GOVisualizer;
-import se.lnu.thesis.paint.visualizer.GraphVisualizer;
+import se.lnu.thesis.paint.ClusterVisualizer;
+import se.lnu.thesis.paint.GOVisualizer;
+import se.lnu.thesis.paint.GraphVisualizer;
 
 /**
  * Created by IntelliJ IDEA.

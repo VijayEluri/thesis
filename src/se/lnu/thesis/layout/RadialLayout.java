@@ -1,8 +1,8 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.element.GroupElement;
-import se.lnu.thesis.element.VertexElement;
+import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 
 public class RadialLayout extends AbstractLayout {
