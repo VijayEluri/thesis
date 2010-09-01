@@ -15,19 +15,31 @@ import java.awt.*;
  */
 public class LevelVisualizer extends AbstractGraphElementVisualizer {
 
+    protected Color borderColor;
+
     public LevelVisualizer() {
         setMainColor(Color.BLACK);
+        setBorderColor(Color.WHITE);
     }
 
     @Override
     public void draw(GLAutoDrawable drawable, AbstractGraphElement element) {
         setDrawable(drawable); // update OpenGL drawing contex
 
-        LevelElement levelElement = (LevelElement) element;
-
         if (element.getId() != null) {
             gl().glPushName(element.getId()); // set element id
         }
+
+        drawShape(element);
+
+        if (element.getId() != null) {
+            gl().glPopName();
+        }
+
+    }
+
+    protected void drawShape(AbstractGraphElement element) {
+        LevelElement levelElement = (LevelElement) element;
 
         gl().glBegin(GL.GL_QUADS);
         color(getMainColor());
@@ -42,17 +54,30 @@ public class LevelVisualizer extends AbstractGraphElementVisualizer {
         gl().glEnd();
 
 
-        levelElement.getPreview().drawElements(drawable);
+/*
+        color(getBorderColor());
+        gl().glLineWidth(0.5f);
+        gl().glBegin(GL.GL_LINE_LOOP);
+        gl().glVertex2d(levelElement.getPosition().getX(),
+                levelElement.getPosition().getY());
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
+                levelElement.getPosition().getY());
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
+                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+        gl().glVertex2d(levelElement.getPosition().getX(),
+                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+        gl().glEnd();
+*/
 
-        if (element.getId() != null) {
-            gl().glPopName();
-        }
 
+        levelElement.getPreview().drawElements(getDrawable());
     }
 
-    protected void drawShape(AbstractGraphElement element) {
-
-
+    public Color getBorderColor() {
+        return borderColor;
     }
 
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
 }

@@ -18,7 +18,7 @@ public class LevelPreviewLayout extends UniformDistributionLayout {
 
 
     protected void addElement(Object o) {
-        VertexElement element = VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getSmallCircleVisualizer());
+        VertexElement element = VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer());
         element.setId(null); // this elements are not active for any interaction
 
         root.addElement(element);

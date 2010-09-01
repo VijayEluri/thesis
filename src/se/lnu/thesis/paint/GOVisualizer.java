@@ -42,13 +42,14 @@ public class GOVisualizer extends GraphVisualizer {
         int levelCount = GraphUtils.computeLevels(graph, levels);
 
 
-        double d = 2.0 - (border * 2);
-        Point2D.Double dimension = new Point2D.Double(d, d / levelCount);
+        Point2D.Double dimension = new Point2D.Double(2.0 - (border * 2), (2 - border - (border * levelCount)) / levelCount);
 
         UniformDistributionLayout levelPreviewLayout = new LevelPreviewLayout(graph);
 
         for (int i = 0; i < levelCount; i++) {
-            Point2D.Double position = new Point2D.Double(-1 + border, 1 - border - (dimension.getY() * i));
+            Point2D.Double position;
+
+            position = new Point2D.Double(-1 + border, 1 - dimension.getY() * i - border * (i + 1));
 
             LevelElement level = LevelElement.init(i, position, dimension, levels.get(i));
 

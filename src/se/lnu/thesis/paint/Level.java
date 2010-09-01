@@ -27,9 +27,12 @@ public class Level implements Drawable {
 
     private Graph goGraph;
 
-    protected final Point2D position = new Point2D.Double(-0.8, 0.8);
-    protected final Point2D dimension = new Point2D.Double(1.6, 1.6);
-    protected final Point2D border = new Point2D.Double(0.05, 0.05);
+    protected final Point2D levelPosition = new Point2D.Double(-1, 0.8);
+    protected final Point2D levelDimension = new Point2D.Double(2, 2);
+
+    protected final Point2D layoutPosition = new Point2D.Double(-0.8, 0.8);
+    protected final Point2D layoutDimension = new Point2D.Double(1, 1);
+
 
     public Level() {
 
@@ -40,10 +43,10 @@ public class Level implements Drawable {
 
         gl.glColor3d(Utils.colorAsDouble(levelBackgroud.getRed()), Utils.colorAsDouble(levelBackgroud.getGreen()), Utils.colorAsDouble(levelBackgroud.getBlue()));
         gl.glBegin(GL.GL_QUADS);
-        gl.glVertex2d(position.getX(), position.getY());
-        gl.glVertex2d(position.getX() + dimension.getX(), position.getY());
-        gl.glVertex2d(position.getX() + dimension.getX(), position.getY() - dimension.getY());
-        gl.glVertex2d(position.getX(), position.getY() - dimension.getY());
+        gl.glVertex2d(levelPosition.getX(), levelPosition.getY());
+        gl.glVertex2d(levelPosition.getX() + levelDimension.getX(), levelPosition.getY());
+        gl.glVertex2d(levelPosition.getX() + levelDimension.getX(), levelPosition.getY() - levelDimension.getY());
+        gl.glVertex2d(levelPosition.getX(), levelPosition.getY() - levelDimension.getY());
         gl.glEnd();
 
 
@@ -55,8 +58,8 @@ public class Level implements Drawable {
 
         if (!root.isLayoutComputed()) {
             UniformDistributionLayout layout = new UniformDistributionLayout(goGraph);
-            layout.setStart(new Point2D.Double(position.getX() + border.getX(), position.getY() - border.getY()));
-            layout.setDimension(dimension.getX() - border.getX() * 2, dimension.getY() - border.getY() * 2);
+            layout.setStart(layoutPosition);
+            layout.setDimension(layoutDimension);
 
             layout.setNodes(root.getNodes());
             layout.setRoot(root);
