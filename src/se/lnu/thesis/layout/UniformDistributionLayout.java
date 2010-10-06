@@ -1,12 +1,13 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
-import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,12 +17,17 @@ import java.util.Collection;
  */
 public class UniformDistributionLayout extends AbstractLayout {
 
+    public static final Logger LOGGER = Logger.getLogger(UniformDistributionLayout.class);
+
     protected Collection nodes;
 
     protected Point2D p;
 
+    protected Point2D step;
+
     protected Point2D start;
     protected Point2D dimension;
+
 
     public UniformDistributionLayout(Graph graph) {
         setGraph(graph);
@@ -29,34 +35,71 @@ public class UniformDistributionLayout extends AbstractLayout {
 
     public void compute() {
 
-        p = new Point2D.Double(start.getX(), start.getY());
+        double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
 
-        int elementsInRow = (int) Math.abs(Math.sqrt(nodes.size()));
+        int columns = (int) (dimension.getX() / pixelPerElement);
+        int rows = (int) (dimension.getY() / pixelPerElement);
 
-        Point2D step = new Point2D.Double(dimension.getX() / elementsInRow, dimension.getY() / elementsInRow);
+        LOGGER.debug("columns " + columns);
+        LOGGER.debug("rows " + rows);
 
-        int current = 0;
-        for (Object o : nodes) {
-            addElement(o);
+        step = new Point2D.Double(dimension.getX() / pixelPerElement, dimension.getY() / pixelPerElement);
 
-            if (current > elementsInRow) {
-                p.setLocation(start.getX(), p.getY() - step.getY());
-                current = 0;
+
+        int more = nodes.size() - (columns * rows);
+
+        if (more > 0) {
+            LOGGER.debug("Find more space for " + more + " count");
+
+            if (more == 1) {
+                rows++;
             } else {
-                p.setLocation(p.getX() + step.getX(), p.getY());
-                current++;
+                rows += more / columns;
+                if (more % columns > 0) {
+                    rows++;
+                }
             }
         }
 
+
+        LOGGER.debug("columns " + columns);
+        LOGGER.debug("rows " + rows);
+
+        step.setLocation(dimension.getX() / columns, dimension.getY() / rows);
+
+        LOGGER.debug("step [" + step.getX() + ", " + step.getY() + "]");
+
+
+        p = new Point2D.Double(start.getX(), start.getY());
+
+        int count = 0;
+        Iterator element = nodes.iterator();
+        for (int j = 0; j < rows; j++) {
+            if (j == (rows - 1)) {
+                step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
+            }
+
+            for (int i = 0; i < columns; i++) {
+                if (count < nodes.size()) {
+                    setElementPosition(element.next());
+                    //point(pX, pY);
+                    count++;
+                }
+                p.setLocation(p.getX() + step.getX(), p.getY());
+            }
+            p.setLocation(start.getX(), p.getY() - step.getY());
+        }
     }
 
-    protected void addElement(Object o) {
-        //root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer()));
+    protected void setElementPosition(Object o) {
+        root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer()));
+/*
         if (GraphUtils.isLeaf(graph, o)) {
             root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getCircleVisualizer()));
         } else {
             root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getTriangleVisualizer()));
         }
+*/
     }
 
     public void setNodes(Collection nodes) {

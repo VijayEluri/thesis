@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class ElementVisualizerFactory {
 
-    private static final double MAX_GROUP_VERTEX_SIZE = 0.028;
+    private static final double MAX_GROUP_VERTEX_SIZE = 0.02;
 
     private static final int CIRCLE_VERTEX_VISUALIZER = -1;
     private static final int RECT_VERTEX_VISUALIZER = -2;
