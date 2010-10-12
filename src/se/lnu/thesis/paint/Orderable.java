@@ -5,7 +5,8 @@ package se.lnu.thesis.paint;
  * User: vady
  * Date: 28.08.2010
  * Time: 0:34:49
- * To change this template use File | Settings | File Templates.
+ * <p/>
+ * This interface summarize drawing order for elements
  */
 public interface Orderable {
     int getDrawingOrder();

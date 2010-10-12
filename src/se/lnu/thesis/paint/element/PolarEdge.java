@@ -3,7 +3,6 @@ package se.lnu.thesis.paint.element;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import static se.lnu.thesis.utils.GraphUtils.isRoot;
-import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
 
@@ -18,7 +17,7 @@ public class PolarEdge extends EdgeElement {
     public static PolarEdge init(PolarDendrogramLayout layout, Object o) {
         PolarEdge result = new PolarEdge();
 
-        result.setId(IdUtils.next());
+        //     result.setId(IdUtils.next()); // edges are unselectable in future
         result.setObject(o);
 
         Object source = layout.getGraph().getSource(o);
@@ -29,9 +28,9 @@ public class PolarEdge extends EdgeElement {
 
         result.setFromRoot(isRoot(layout.getGraph(), source));
 
-        result.setStartPosition(((VertexElement) (layout.getRoot().getElementByObject(source))).getPosition());
+        result.setStartPosition(layout.getRoot().getElementByObject(source).getPosition());
         result.setDummyNodePosition(layout.getDummyNode(source, target));
-        result.setEndPosition(((VertexElement) (layout.getRoot().getElementByObject(target))).getPosition());
+        result.setEndPosition(layout.getRoot().getElementByObject(target).getPosition());
 
         result.setSourceRadius(layout.getNodeRadius(source));
 

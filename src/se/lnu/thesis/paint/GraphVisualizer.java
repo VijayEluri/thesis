@@ -4,8 +4,8 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.CompositeElement;
+import se.lnu.thesis.paint.element.Element;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -25,14 +25,14 @@ public abstract class GraphVisualizer {
 
     public static final int BUFSIZE = 512;
 
-    public static final double CURSOR_X_SIZE = 2.0;
-    public static final double CURSOR_Y_SIZE = 2.0;
+    public static final double CURSOR_X_SIZE = 3.0;
+    public static final double CURSOR_Y_SIZE = 3.0;
 
     protected Color background = Color.BLACK;
 
     protected State vertexState = State.NORMAL;
 
-    protected AbstractGraphElement selectedElement;
+    protected Element selectedElement;
 
     protected Point cursor;
 
@@ -41,7 +41,7 @@ public abstract class GraphVisualizer {
     protected Graph subGraph;
     protected MyGraph graph;
 
-    protected GroupElement root;
+    protected CompositeElement root;
 
     protected GL gl;
     protected GLU glu;
@@ -64,7 +64,7 @@ public abstract class GraphVisualizer {
             selectElement(drawable);
         }
 
-        root.drawElements(drawable);
+        root.drawContent(drawable);
 
 
         drawable.swapBuffers();
@@ -91,7 +91,7 @@ public abstract class GraphVisualizer {
 
         getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
-        root.drawElements(drawable);
+        root.drawContent(drawable);
 
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glPopMatrix();
@@ -115,7 +115,7 @@ public abstract class GraphVisualizer {
         cursor = null;
     }
 
-    protected void select(AbstractGraphElement element) {
+    protected void select(Element element) {
         if (element != null) {
             this.selectedElement = element;
             this.selectedElement.setSelected(true);
@@ -151,7 +151,7 @@ public abstract class GraphVisualizer {
 
 
             if (root != null) {
-                root.setSubgraphHighlighting(subGraph.getVertices());
+                root.setHighlighted(subGraph.getVertices());
             }
 
         } else {
@@ -159,7 +159,7 @@ public abstract class GraphVisualizer {
             graphState = State.NORMAL;
 
             if (root != null) {
-                root.resetSubgraphHighlighting();
+                root.resetHighlighting();
             }
         }
     }

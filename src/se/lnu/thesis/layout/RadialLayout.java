@@ -1,7 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 
@@ -12,7 +12,7 @@ public class RadialLayout extends AbstractLayout {
     public RadialLayout() {
     }
 
-    public RadialLayout(Graph graph, GroupElement root) {
+    public RadialLayout(Graph graph, GroupingElement root) {
         super(graph, root);
     }
 

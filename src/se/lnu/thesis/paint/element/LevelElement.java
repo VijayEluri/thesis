@@ -1,8 +1,10 @@
 package se.lnu.thesis.paint.element;
 
+import com.google.common.collect.ImmutableSet;
 import se.lnu.thesis.paint.visualizer.LevelVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 
@@ -12,80 +14,93 @@ import java.util.Collection;
  * Date: 28.08.2010
  * Time: 0:12:17
  */
-public class LevelElement extends GroupElement {
+public class LevelElement extends AbstractCompositeElement {
 
 
-    public static LevelElement init(Object o, Point2D position, Point2D dimension, Collection<Object> nodes) {
+    public static LevelElement init(Object o, Collection<Object> objects) {
         LevelElement result = new LevelElement();
 
         result.setObject(o);
-        result.setId(IdUtils.next());
 
-        result.preview.setId(result.getId());
+        int i = IdUtils.next();
+        result.setId(i);
 
-        result.setPosition(position);
-        result.setDimension(dimension);
+        result.preview.setId(i);
+        result.preview.setVisualizer(new LevelVisualizer());
 
-        result.setNodes(nodes);
 
-        result.setVisualizer(new LevelVisualizer());
+        result.content.setId(i);
+        result.content.setVisualizer(new LevelVisualizer());
+
+        result.objects = ImmutableSet.copyOf(objects);
 
         return result;
     }
 
-    private Point2D dimension;
 
-    private GroupElement preview;
+    private Point2D previewDimension;
+    private Point2D contentDimension;
+
+    private CompositeElement preview = new GroupingElement();
+    private CompositeElement content = new GroupingElement();
+
 
     public LevelElement() {
-        super();
-
-        preview = new GroupElement();
     }
 
-    public GraphElementType getType() {
-        return GraphElementType.GROUP;
+
+    @Override
+    public void draw(GLAutoDrawable drawable) {
+        preview.drawContent(drawable);
     }
 
-    public GroupElement getPreview() {
+    @Override
+    public void drawContent(GLAutoDrawable drawable) {
+        content.drawContent(drawable);
+    }
+
+    public Point2D getPreviewDimension() {
+        return previewDimension;
+    }
+
+    public void setPreviewDimension(double width, double height) {
+        if (previewDimension == null) {
+            previewDimension = new Point2D.Double();
+        }
+
+        previewDimension.setLocation(width, height);
+    }
+
+    public Point2D getContentDimension() {
+        return contentDimension;
+    }
+
+    public void setContentDimension(double width, double height) {
+        if (contentDimension == null) {
+            contentDimension = new Point2D.Double();
+        }
+
+        contentDimension.setLocation(width, height);
+    }
+
+    public CompositeElement getPreview() {
         return preview;
     }
 
-    public Point2D getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(double width, double height) {
-        if (dimension == null) {
-            dimension = new Point2D.Double();
-        }
-
-        dimension.setLocation(width, height);
-    }
-
-
-    public void setDimension(Point2D dimension) {
-        setDimension(dimension.getX(), dimension.getY());
+    public CompositeElement getContent() {
+        return content;
     }
 
     @Override
-    public void setSubgraphHighlighting(Collection nodes) {
-        super.setSubgraphHighlighting(nodes);
-
-        if (isSubgraphHighlighting) {
-            for (AbstractGraphElement element : getPreview().getElements()) {
-                element.setSubgraphHighlighting(nodes);
-            }
-        }
+    public void setHighlighted(Collection objects) {
+        preview.setHighlighted(objects);
+        content.setHighlighted(objects);
     }
 
     @Override
-    public void resetSubgraphHighlighting() {
-        super.resetSubgraphHighlighting();
-
-        for (AbstractGraphElement element : getPreview().getElements()) {
-            element.resetSubgraphHighlighting();
-        }
-
+    public void resetHighlighting() {
+        preview.resetHighlighting();
+        content.resetHighlighting();
     }
+
 }

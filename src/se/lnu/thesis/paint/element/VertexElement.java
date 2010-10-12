@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.element;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
@@ -12,7 +12,9 @@ import java.awt.geom.Point2D;
  * Date: 02.07.2010
  * Time: 17:54:07
  */
-public class VertexElement extends AbstractGraphElement {
+public class VertexElement extends AbstractElement {
+
+    public static final int VERTEX_DRAWING_ORDER = 1;
 
     public static VertexElement init(Object o) {
         return init(o, null, null);
@@ -26,7 +28,7 @@ public class VertexElement extends AbstractGraphElement {
         return init(o, position, null);
     }
 
-    public static VertexElement init(Object o, Point2D position, AbstractGraphElementVisualizer visualizer) {
+    public static VertexElement init(Object o, Point2D position, AbstractElementVisualizer visualizer) {
         if (position == null) {
             throw new IllegalArgumentException("Argument 'position' cannt be null!");
         }
@@ -34,7 +36,7 @@ public class VertexElement extends AbstractGraphElement {
         return init(o, position.getX(), position.getY(), visualizer);
     }
 
-    public static VertexElement init(Object o, double x, double y, AbstractGraphElementVisualizer visualizer) {
+    public static VertexElement init(Object o, double x, double y, AbstractElementVisualizer visualizer) {
         VertexElement result = new VertexElement();
 
         result.setId(IdUtils.next());
@@ -53,22 +55,22 @@ public class VertexElement extends AbstractGraphElement {
 
     }
 
-    public GraphElementType getType() {
-        return GraphElementType.NODE;
+    public ElementType getType() {
+        return ElementType.NODE;
     }
 
     public int getDrawingOrder() {
-        return 1;
+        return VERTEX_DRAWING_ORDER;
     }
 
-    public GraphElementType checkType(Graph graph, Object o) {
+    public ElementType checkType(Graph graph, Object o) {
         if (graph.inDegree(o) == 0) {
-            return GraphElementType.ROOT;
+            return ElementType.ROOT;
         } else {
             if (graph.outDegree(o) == 0) {
-                return GraphElementType.LEAF;
+                return ElementType.LEAF;
             } else {
-                return GraphElementType.NODE;
+                return ElementType.NODE;
             }
         }
     }

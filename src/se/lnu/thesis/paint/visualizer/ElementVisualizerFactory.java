@@ -1,5 +1,6 @@
 package se.lnu.thesis.paint.visualizer;
 
+import com.google.common.collect.ImmutableMap;
 import se.lnu.thesis.paint.visualizer.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.PolarDendrogramEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.vertex.CircleVertexVisualizer;
@@ -21,6 +22,8 @@ public class ElementVisualizerFactory {
 
     private static final double MAX_GROUP_VERTEX_SIZE = 0.02;
 
+    private static final Color DEFAULT_ELEMENT_COLOR = new Color(100, 100, 100, 100);
+
     private static final int CIRCLE_VERTEX_VISUALIZER = -1;
     private static final int RECT_VERTEX_VISUALIZER = -2;
     private static final int POINT_VERTEX_VISUALIZER = -3;
@@ -30,76 +33,67 @@ public class ElementVisualizerFactory {
     private static final int LINE_EDGE_VISUALIZER = -101;
     private static final int POLAR_DENDROGRAM_EDGE_VISUALIZER = -102;
 
-    private static final Color DEFAULT_ELEMENT_COLOR = new Color(100, 100, 100, 100);
 
     private static final ElementVisualizerFactory instance = new ElementVisualizerFactory();
-
 
     public static ElementVisualizerFactory getInstance() {
         return instance;
     }
 
-    private Map<Object, AbstractGraphElementVisualizer> visualizers;
+
+    private ImmutableMap<Object, AbstractElementVisualizer> visualizers = new ImmutableMap.Builder<Object, AbstractElementVisualizer>()
+            .put(SMALL_CIRCLE_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR, 0.005))
+            .put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(TRIANGLE_VISUALIZER, new TriangleVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
+            .build();
+
+    private Map<Object, AbstractElementVisualizer> rectVisualizers = new HashMap<Object, AbstractElementVisualizer>();
 
     private ElementVisualizerFactory() {
-        init();
     }
 
-    private void init() {
-        visualizers = new HashMap<Object, AbstractGraphElementVisualizer>();
 
-
-        visualizers.put(SMALL_CIRCLE_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR, 0.005));
-        visualizers.put(TRIANGLE_VISUALIZER, new TriangleVertexVisualizer(DEFAULT_ELEMENT_COLOR));
-        visualizers.put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR));
-        visualizers.put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR));
-        visualizers.put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_ELEMENT_COLOR));
-
-        visualizers.put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_ELEMENT_COLOR));
-        visualizers.put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(DEFAULT_ELEMENT_COLOR));
+    public AbstractElementVisualizer getCircleVisualizer() {
+        return visualizers.get(CIRCLE_VERTEX_VISUALIZER);
     }
 
-    protected AbstractGraphElementVisualizer getVisualizer(int id) {
-        return visualizers.get(id);
+    public AbstractElementVisualizer getPointVisualizer() {
+        return visualizers.get(POINT_VERTEX_VISUALIZER);
     }
 
-    public AbstractGraphElementVisualizer getCircleVisualizer() {
-        return getVisualizer(CIRCLE_VERTEX_VISUALIZER);
+    public ElementVisualizer getLineEdgeVisializer() {
+        return visualizers.get(LINE_EDGE_VISUALIZER);
     }
 
-    public AbstractGraphElementVisualizer getRectVisualizer() {
-        return getVisualizer(RECT_VERTEX_VISUALIZER);
+    public ElementVisualizer getPolarDendrogramEdgeVisializer() {
+        return visualizers.get(POLAR_DENDROGRAM_EDGE_VISUALIZER);
     }
 
-    public AbstractGraphElementVisualizer getPointVisualizer() {
-        return getVisualizer(POINT_VERTEX_VISUALIZER);
+    public AbstractElementVisualizer getSmallCircleVisualizer() {
+        return visualizers.get(SMALL_CIRCLE_VISUALIZER);
     }
 
-    public GraphElementVisualizer getLineEdgeVisializer() {
-        return getVisualizer(LINE_EDGE_VISUALIZER);
+    public AbstractElementVisualizer getTriangleVisualizer() {
+        return visualizers.get(TRIANGLE_VISUALIZER);
     }
 
-    public GraphElementVisualizer getPolarDendrogramEdgeVisializer() {
-        return getVisualizer(POLAR_DENDROGRAM_EDGE_VISUALIZER);
+    public AbstractElementVisualizer getRectVisualizer() {
+        return visualizers.get(RECT_VERTEX_VISUALIZER);
     }
 
-    public GraphElementVisualizer getRectVisualizer(int maxGroupSize, int thisGroupSize) {
+    public ElementVisualizer getRectVisualizer(int maxGroupSize, int thisGroupSize) {
 
-        if (visualizers.containsKey(thisGroupSize)) {
-            return getVisualizer(thisGroupSize);
+        if (rectVisualizers.containsKey(thisGroupSize)) {
+            return rectVisualizers.get(thisGroupSize);
         } else {
             double size = (MAX_GROUP_VERTEX_SIZE / maxGroupSize) * thisGroupSize;
-            visualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR, size));
+            rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR, size));
 
-            return getVisualizer(thisGroupSize);
+            return rectVisualizers.get(thisGroupSize);
         }
-    }
-
-    public AbstractGraphElementVisualizer getSmallCircleVisualizer() {
-        return getVisualizer(SMALL_CIRCLE_VISUALIZER);
-    }
-
-    public AbstractGraphElementVisualizer getTriangleVisualizer() {
-        return getVisualizer(TRIANGLE_VISUALIZER);
     }
 }

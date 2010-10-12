@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.utils.GraphUtils;
 
 import javax.media.opengl.GL;
@@ -30,7 +30,7 @@ public class Lens implements Drawable {
 
     private AbstractLayout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
 
-    private GroupElement root = null;
+    private GroupingElement root = null;
 
     private GLU glu = new GLU();
 
@@ -45,10 +45,10 @@ public class Lens implements Drawable {
 
         glu.gluDisk(glUquadric, 0, LENS_RADIUS, 50, 50);
 
-        root.drawElements(drawable);
+        root.drawContent(drawable);
     }
 
-    public void setRoot(GroupElement root) {
+    public void setRoot(GroupingElement root) {
         this.root = root;
 
         if (!root.isLayoutComputed()) {

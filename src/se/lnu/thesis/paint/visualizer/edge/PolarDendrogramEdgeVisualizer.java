@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer.edge;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.Utils;
@@ -31,7 +31,7 @@ public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
 //        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
     }
 
-    protected void drawShape(AbstractGraphElement element) {
+    protected void drawShape(Element element) {
         PolarEdge edge = (PolarEdge) element;
 
         if (edge.isFromRoot()) { // from root draw simple line

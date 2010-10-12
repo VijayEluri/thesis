@@ -1,5 +1,7 @@
 package se.lnu.thesis.paint.element;
 
+import se.lnu.thesis.paint.Orderable;
+
 import java.util.Comparator;
 
 /**
@@ -7,11 +9,12 @@ import java.util.Comparator;
  * User: vady
  * Date: 26.08.2010
  * <p/>
- * Compare drawing order of two AbstractGraphElements
+ * <p/>
+ * Compare drawing order of two Orderable
  */
-public class GraphElementDrawingOrderComparator implements Comparator<AbstractGraphElement> {
+public class ElementDrawingOrderComparator implements Comparator<Orderable> {
 
-    public int compare(AbstractGraphElement element1, AbstractGraphElement element2) {
+    public int compare(Orderable element1, Orderable element2) {
 
         if (element1.getDrawingOrder() < element2.getDrawingOrder()) {
             return -1;

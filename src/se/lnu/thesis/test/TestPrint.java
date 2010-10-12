@@ -17,6 +17,7 @@ public class TestPrint {
 
     @Test
     public void print() {
+
         Graph graph = GraphMaker.createBigBinaryTree();
 
         assertTrue(graph.containsVertex(8));

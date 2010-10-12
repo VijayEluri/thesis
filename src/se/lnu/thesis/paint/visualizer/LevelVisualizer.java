@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.visualizer;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.LevelElement;
 
 import javax.media.opengl.GL;
@@ -13,7 +13,7 @@ import java.awt.*;
  * Date: 28.08.2010
  * Time: 3:28:30
  */
-public class LevelVisualizer extends AbstractGraphElementVisualizer {
+public class LevelVisualizer extends AbstractElementVisualizer {
 
     protected Color borderColor;
 
@@ -23,7 +23,7 @@ public class LevelVisualizer extends AbstractGraphElementVisualizer {
     }
 
     @Override
-    public void draw(GLAutoDrawable drawable, AbstractGraphElement element) {
+    public void draw(GLAutoDrawable drawable, Element element) {
         setDrawable(drawable); // update OpenGL drawing contex
 
         if (element.getId() != null) {
@@ -38,19 +38,19 @@ public class LevelVisualizer extends AbstractGraphElementVisualizer {
 
     }
 
-    protected void drawShape(AbstractGraphElement element) {
+    protected void drawShape(Element element) {
         LevelElement levelElement = (LevelElement) element;
 
         gl().glBegin(GL.GL_QUADS);
         color(getMainColor());
         gl().glVertex2d(levelElement.getPosition().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
-                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
+                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
         gl().glVertex2d(levelElement.getPosition().getX(),
-                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
         gl().glEnd();
 
 
@@ -60,17 +60,17 @@ public class LevelVisualizer extends AbstractGraphElementVisualizer {
         gl().glBegin(GL.GL_LINE_LOOP);
         gl().glVertex2d(levelElement.getPosition().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
-                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
+                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
         gl().glVertex2d(levelElement.getPosition().getX(),
-                levelElement.getPosition().getY() - levelElement.getDimension().getY());
+                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
         gl().glEnd();
 */
 
 
-        levelElement.getPreview().drawElements(getDrawable());
+        levelElement.getPreview().drawContent(getDrawable());
     }
 
     public Color getBorderColor() {

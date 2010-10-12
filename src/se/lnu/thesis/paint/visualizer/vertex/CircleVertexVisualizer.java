@@ -1,8 +1,7 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.VertexElement;
-import se.lnu.thesis.paint.visualizer.AbstractGraphElementVisualizer;
+import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
@@ -14,7 +13,7 @@ import java.awt.*;
  * Date: 20.03.2010
  * Time: 1:20:56
  */
-public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
+public class CircleVertexVisualizer extends AbstractElementVisualizer {
 
     public static int SEGMENT_COUNT = 8;
 
@@ -32,10 +31,10 @@ public class CircleVertexVisualizer extends AbstractGraphElementVisualizer {
     public CircleVertexVisualizer() {
     }
 
-    protected void drawShape(AbstractGraphElement element) {
+    protected void drawShape(Element element) {
         gl().glPushMatrix();
 
-        gl().glTranslated(((VertexElement) element).getPosition().getX(), ((VertexElement) element).getPosition().getY(), 0.0);
+        gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
         gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
 

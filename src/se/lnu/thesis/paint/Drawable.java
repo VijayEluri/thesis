@@ -5,9 +5,8 @@ import javax.media.opengl.GLAutoDrawable;
 /**
  * Created by IntelliJ IDEA.
  * User: vady
- * Date: 20.07.2010
- * <p/>
- * Common interface for all drawing elements on the scene
+ * Date: 11.10.2010
+ * Time: 15:35:44
  */
 public interface Drawable {
 

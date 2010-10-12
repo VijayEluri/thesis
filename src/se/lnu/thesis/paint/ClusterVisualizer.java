@@ -2,9 +2,9 @@ package se.lnu.thesis.paint;
 
 
 import se.lnu.thesis.layout.RectangularSpiralLayout;
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.GraphElementType;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.paint.element.ElementType;
+import se.lnu.thesis.paint.element.GroupingElement;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -17,7 +17,7 @@ public class ClusterVisualizer extends GraphVisualizer {
     public void init() {
         LOGGER.info("Initializing..");
 
-        root = new GroupElement();
+        root = new GroupingElement();
         root.setObject("Cluster");
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
@@ -30,15 +30,15 @@ public class ClusterVisualizer extends GraphVisualizer {
     }
 
     @Override
-    protected void select(AbstractGraphElement element) {
+    protected void select(Element element) {
         super.select(element);
 
-        if (element != null && selectedElement.getType() == GraphElementType.GROUP) {
-            GroupElement groupElement = (GroupElement) selectedElement;
-            lens.setRoot(groupElement);
+        if (element != null && selectedElement.getType() == ElementType.COMPOSITE) {
+            GroupingElement groupingElement = (GroupingElement) selectedElement;
+            lens.setRoot(groupingElement);
 
             if (subGraph != null) {
-                groupElement.setSubgraphHighlighting(subGraph.getVertices());
+                groupingElement.setHighlighted(subGraph.getVertices());
             }
         }
     }
@@ -59,9 +59,9 @@ public class ClusterVisualizer extends GraphVisualizer {
             selectElement(drawable);
         }
 
-        root.drawElements(drawable);
+        root.drawContent(drawable);
 
-        if (vertexState == State.SELECTED && selectedElement.getType() == GraphElementType.GROUP) {
+        if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.COMPOSITE) {
             lens.draw(drawable);
         }
 

@@ -3,7 +3,7 @@ package se.lnu.thesis.paint;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.layout.UniformDistributionLayout;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
@@ -23,7 +23,7 @@ public class Level implements Drawable {
 
     protected Color levelBackgroud = Color.WHITE;
 
-    private GroupElement root = null;
+    private GroupingElement root = null;
 
     private Graph goGraph;
 
@@ -50,10 +50,10 @@ public class Level implements Drawable {
         gl.glEnd();
 
 
-        root.drawElements(drawable);
+        root.drawContent(drawable);
     }
 
-    public void setRoot(GroupElement root) {
+    public void setRoot(GroupingElement root) {
         this.root = root;
 
         if (!root.isLayoutComputed()) {
@@ -61,14 +61,14 @@ public class Level implements Drawable {
             layout.setStart(layoutPosition);
             layout.setDimension(layoutDimension);
 
-            layout.setNodes(root.getNodes());
+            layout.setNodes(root.getObjects());
             layout.setRoot(root);
 
             LOGGER.info("Computing level layout..");
             layout.compute();
             LOGGER.info("Done.");
 
-            root.setIsLayoutComputed(true);
+            root.setLayoutComputed(true);
         }
     }
 

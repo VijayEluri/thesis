@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.AbstractElement;
 import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.utils.DrawingUtils;
 
@@ -19,7 +19,7 @@ public class TriangleVertexVisualizer extends CircleVertexVisualizer {
         super(color);
     }
 
-    protected void drawShape(AbstractGraphElement element) {
+    protected void drawShape(AbstractElement element) {
         gl().glPushMatrix();
 
         gl().glTranslated(((VertexElement) element).getPosition().getX(), ((VertexElement) element).getPosition().getY(), 0.0);

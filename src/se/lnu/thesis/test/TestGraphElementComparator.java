@@ -18,9 +18,9 @@ public class TestGraphElementComparator {
     @Test
     public void compare() {
 
-        List<AbstractGraphElement> result = new LinkedList<AbstractGraphElement>();
+        List<AbstractElement> result = new LinkedList<AbstractElement>();
 
-        assertTrue(result.add(new GroupElement()));
+        assertTrue(result.add(new GroupingElement()));
         assertTrue(result.add(new VertexElement()));
         assertTrue(result.add(new VertexElement()));
         assertTrue(result.add(new VertexElement()));
@@ -33,15 +33,15 @@ public class TestGraphElementComparator {
 
         assertEquals(10, result.size());
 
-        for (AbstractGraphElement element : result) {
+        for (AbstractElement element : result) {
             System.out.println(element.getType());
         }
 
-        Collections.sort(result, new GraphElementDrawingOrderComparator());
+        Collections.sort(result, new ElementDrawingOrderComparator());
 
         System.out.println("");
 
-        for (AbstractGraphElement element : result) {
+        for (AbstractElement element : result) {
             System.out.println(element.getType());
         }
 
@@ -52,11 +52,11 @@ public class TestGraphElementComparator {
     @Test
     public void asSortedSet() {
 
-        SortedSet<AbstractGraphElement> result = new TreeSet<AbstractGraphElement>(new GraphElementDrawingOrderComparator());
+        SortedSet<AbstractElement> result = new TreeSet<AbstractElement>(new ElementDrawingOrderComparator());
 
-        AbstractGraphElement element = null;
+        AbstractElement element = null;
 
-        element = new GroupElement();
+        element = new GroupingElement();
         element.setObject(1);
         assertTrue(result.add(element));
 
@@ -65,7 +65,7 @@ public class TestGraphElementComparator {
         element.setObject(3);
         assertTrue(result.add(element));
 
-        element = new GroupElement();
+        element = new GroupingElement();
         element.setObject(2);
         assertTrue(result.add(element));
 
@@ -81,7 +81,7 @@ public class TestGraphElementComparator {
 
         assertEquals(5, result.size());
 
-        assertEquals(GraphElementType.EDGE, result.first().getType());
+        assertEquals(ElementType.EDGE, result.first().getType());
 
     }
 

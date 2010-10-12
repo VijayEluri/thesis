@@ -1,7 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.CompositeElement;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,12 +12,12 @@ import se.lnu.thesis.paint.element.GroupElement;
 public abstract class AbstractLayout {
 
     protected Graph graph;
-    protected GroupElement root;
+    protected CompositeElement root;
 
     public AbstractLayout() {
     }
 
-    public AbstractLayout(Graph graph, GroupElement root) {
+    public AbstractLayout(Graph graph, CompositeElement root) {
         setGraph(graph);
         setRoot(root);
     }
@@ -37,11 +37,11 @@ public abstract class AbstractLayout {
         this.graph = graph;
     }
 
-    public void setRoot(GroupElement root) {
+    public void setRoot(CompositeElement root) {
         this.root = root;
     }
 
-    public GroupElement getRoot() {
+    public CompositeElement getRoot() {
         return root;
     }
 }

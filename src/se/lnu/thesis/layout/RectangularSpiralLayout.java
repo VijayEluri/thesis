@@ -37,7 +37,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     }
 
-    public RectangularSpiralLayout(Graph graph, GroupElement root) {
+    public RectangularSpiralLayout(Graph graph, CompositeElement root) {
         super(graph, root);
     }
 
@@ -62,7 +62,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
         for (Object node : path) {
 
-            root.getNodes().add(node);
+            root.getObjects().add(node);
 
             if (GraphUtils.isLeaf(getGraph(), node)) {
                 root.addElement(VertexElement.init(node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
@@ -74,17 +74,17 @@ public class RectangularSpiralLayout extends AbstractLayout {
                         if (GraphUtils.isLeaf(getGraph(), successor)) {
                             root.addElement(VertexElement.init(successor, nodePosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
                         } else {
-                            GroupElement groupElement = GroupElement.init(successor, nodePosition, null, GraphTraversalUtils.dfs(graph, successor));
-                            root.addElement(groupElement);
+                            GroupingElement groupingElement = GroupingElement.init(successor, nodePosition, null, GraphTraversalUtils.dfs(graph, successor));
+                            root.addElement(groupingElement);
 
-                            int groupSize = groupElement.getSize();
+                            int groupSize = groupingElement.getSize();
 
                             if (groupSize > this.maxGroupSize) {
                                 this.maxGroupSize = groupSize;
                             }
                         }
 
-                        root.getNodes().add(successor);
+                        root.getObjects().add(successor);
                     }
                 }
 
@@ -107,9 +107,9 @@ public class RectangularSpiralLayout extends AbstractLayout {
     }
 
     private void normalizeVertexSize() {
-        for (AbstractGraphElement element : root.getElements()) {
-            if (element.getType() == GraphElementType.GROUP) {
-                element.setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((GroupElement) element).getSize()));
+        for (Element element : root.getElements()) {
+            if (element.getType() == ElementType.COMPOSITE) {
+                element.setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((CompositeElement) element).getSize()));
             }
         }
     }

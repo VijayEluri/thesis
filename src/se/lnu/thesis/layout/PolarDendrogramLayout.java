@@ -2,7 +2,7 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.GroupElement;
+import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.paint.element.PolarVertex;
 import se.lnu.thesis.paint.element.VertexElement;
@@ -33,7 +33,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
     }
 
-    public PolarDendrogramLayout(Graph graph, GroupElement root) {
+    public PolarDendrogramLayout(Graph graph, GroupingElement root) {
         super(graph, root);
     }
 
@@ -63,7 +63,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
         computeEdges();
 
-        root.setIsLayoutComputed(true);
+        root.setLayoutComputed(true);
     }
 
     protected void init() {
@@ -97,7 +97,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
 
     private void computeLevels() {
-        for (Object node : root.getNodes()) {
+        for (Object node : root.getObjects()) {
             int height = GraphUtils.getDistance(graph, node, root.getObject());
             nodeLevel.put(node, height);
 
@@ -158,7 +158,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
 
     protected void computePositions() {
-        for (Object node : root.getNodes()) {
+        for (Object node : root.getObjects()) {
             setNodeCoordinate(node);
         }
 

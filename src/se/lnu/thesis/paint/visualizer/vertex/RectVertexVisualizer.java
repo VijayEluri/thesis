@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
-import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.paint.element.Element;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -26,10 +25,11 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
         setRadius(size);
     }
 
-    protected void drawShape(AbstractGraphElement element) {
+    @Override
+    protected void drawShape(Element element) {
         gl().glPushMatrix();
 
-        gl().glTranslated(((VertexElement) element).getPosition().getX(), ((VertexElement) element).getPosition().getY(), 0.0);
+        gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
         gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
         gl().glBegin(GL.GL_QUADS);

@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.visualizer;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
+import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
@@ -12,7 +12,7 @@ import java.awt.*;
  * Created by IntelliJ IDEA.
  * User: vady
  */
-public abstract class AbstractGraphElementVisualizer implements GraphElementVisualizer {
+public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;      // default levelBackgroud for graph elements visualization
     public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph levelBackgroud
@@ -27,15 +27,15 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
     private Color selectionColor = DEFAULT_SEECTION_COLOR;
     private Color subgraphColor = DEFAULT_SUBGRAPH_COLOR;
 
-    public AbstractGraphElementVisualizer() {
+    public AbstractElementVisualizer() {
 
     }
 
-    public AbstractGraphElementVisualizer(Color mainColor) {
+    public AbstractElementVisualizer(Color mainColor) {
         setMainColor(mainColor);
     }
 
-    public void draw(GLAutoDrawable drawable, AbstractGraphElement element) {
+    public void draw(GLAutoDrawable drawable, Element element) {
         setDrawable(drawable); // update OpenGL drawing contex
 
         if (element.getId() != null) {
@@ -50,14 +50,14 @@ public abstract class AbstractGraphElementVisualizer implements GraphElementVisu
         }
     }
 
-    protected abstract void drawShape(AbstractGraphElement element);
+    protected abstract void drawShape(Element element);
 
 
-    protected void drawingColor(AbstractGraphElement element) {
+    protected void drawingColor(Element element) {
         if (element.isSelected()) {
             color(getSelectionColor());
         } else {
-            if (element.isSubgraphHighlighting()) {
+            if (element.isHighlighted()) {
                 color(getSubgraphColor());
             } else {
                 color(getMainColor());

@@ -1,9 +1,8 @@
 package se.lnu.thesis.paint.element;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
-import se.lnu.thesis.paint.visualizer.GraphElementVisualizer;
-import se.lnu.thesis.utils.IdUtils;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -14,18 +13,20 @@ import java.util.Collection;
  * Date: 02.07.2010
  * Time: 17:44:55
  */
-public class EdgeElement extends AbstractGraphElement {
+public class EdgeElement extends AbstractElement {
 
-    public static EdgeElement init(Object o, Object source, Object target, Point2D start, Point2D end, GraphElementVisualizer visualizer) {
+    private static final int EDGE_DRAWING_ORDER = -1;
+
+    public static EdgeElement init(Object o, Object source, Object target, Point2D start, Point2D end, ElementVisualizer visualizer) {
         EdgeElement result = new EdgeElement();
 
-        result.setId(IdUtils.next());
+//        result.setId(IdUtils.next()); // edges are unselectable in future
         result.setObject(o);
 
         result.setFrom(source);
         result.setTo(target);
 
-        result.setDraw(true);
+        result.setDrawed(true);
 
         result.setStartPosition(start);
         result.setEndPosition(end);
@@ -36,10 +37,10 @@ public class EdgeElement extends AbstractGraphElement {
     }
 
 
-    public static EdgeElement init(Object o, Graph graph, GroupElement root) {
+    public static EdgeElement init(Object o, Graph graph, CompositeElement root) {
         EdgeElement result = new EdgeElement();
 
-        result.setId(IdUtils.next());
+        //      result.setId(IdUtils.next()); // edges are unselectable in future
         result.setObject(o);
 
         Object source = graph.getSource(o);
@@ -48,10 +49,21 @@ public class EdgeElement extends AbstractGraphElement {
         Object dest = graph.getDest(o);
         result.setTo(dest);
 
-        result.setDraw(false);
+        result.setDrawed(false);
 
-        result.setStartPosition(((VertexElement) (root.getElementByObject(source))).getPosition());
-        result.setEndPosition(((VertexElement) (root.getElementByObject(dest))).getPosition());
+        Element element = root.getElementByObject(source);
+        if (element != null) {
+            result.setStartPosition(element.getPosition());
+        } else {
+            LOGGER.error("Cant find element for object '" + source + "'");
+        }
+
+        element = root.getElementByObject(dest);
+        if (element != null) {
+            result.setEndPosition(element.getPosition());
+        } else {
+            LOGGER.error("Cant find element for object '" + source + "'");
+        }
 
         result.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
 
@@ -60,7 +72,7 @@ public class EdgeElement extends AbstractGraphElement {
 
     private Object from;
     private Object to;
-    private Point2D startPosition;
+
     private Point2D endPosition;
 
     public EdgeElement() {
@@ -78,13 +90,12 @@ public class EdgeElement extends AbstractGraphElement {
         return nodes.contains(from) && nodes.contains(to);
     }
 
-    @Override
-    public GraphElementType getType() {
-        return GraphElementType.EDGE;
+    public ElementType getType() {
+        return ElementType.EDGE;
     }
 
     public int getDrawingOrder() {
-        return -1;
+        return EDGE_DRAWING_ORDER;
     }
 
     public Object getFrom() {
@@ -104,11 +115,11 @@ public class EdgeElement extends AbstractGraphElement {
     }
 
     public Point2D getStartPosition() {
-        return startPosition;
+        return getPosition();
     }
 
     public void setStartPosition(Point2D startPosition) {
-        this.startPosition = startPosition;
+        setPosition(startPosition);
     }
 
     public Point2D getEndPosition() {
@@ -120,8 +131,8 @@ public class EdgeElement extends AbstractGraphElement {
     }
 
     @Override
-    public void setSubgraphHighlighting(boolean b) {
-        isSubgraphHighlighting = b;
-        isDraw = b;
+    public void setHighlighted(boolean b) {
+        highlighted = b;
+        drawed = b;
     }
 }

@@ -5,9 +5,9 @@ package se.lnu.thesis.paint.element;
  * User: vady
  * Date: 02.07.2010
  */
-public enum GraphElementType {
+public enum ElementType {
 
     EDGE,
-    ROOT, LEAF, NODE, GROUP
+    ROOT, LEAF, NODE, COMPOSITE
 
 }

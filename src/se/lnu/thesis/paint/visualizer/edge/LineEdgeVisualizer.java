@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer.edge;
 
-import se.lnu.thesis.paint.element.AbstractGraphElement;
 import se.lnu.thesis.paint.element.EdgeElement;
+import se.lnu.thesis.paint.element.Element;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
         super(color);
     }
 
-    protected void drawShape(AbstractGraphElement edgeElement) {
+    protected void drawShape(Element edgeElement) {
         EdgeElement edge = (EdgeElement) edgeElement;
 
         Point2D start = edge.getStartPosition();
