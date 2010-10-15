@@ -17,6 +17,11 @@ public abstract class AbstractLayout {
     public AbstractLayout() {
     }
 
+    public AbstractLayout(Graph graph) {
+        setGraph(graph);
+    }
+
+
     public AbstractLayout(Graph graph, CompositeElement root) {
         setGraph(graph);
         setRoot(root);

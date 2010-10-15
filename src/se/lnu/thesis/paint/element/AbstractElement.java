@@ -58,8 +58,8 @@ public abstract class AbstractElement implements Element {
         return object.equals(o);
     }
 
-    public boolean hasAny(Collection collection) {
-        return collection.contains(object);
+    public boolean hasAny(Collection objects) {
+        return objects.contains(object);
     }
 
     public void setHighlighted(Collection objects) {
@@ -116,7 +116,8 @@ public abstract class AbstractElement implements Element {
 
             position.setLocation(p.getX(), p.getY());
         } else {
-            LOGGER.error("Can't set element position value cause argument is null!");
+            AbstractElement.LOGGER.error("Can't set element position value cause argument is null!");
         }
     }
+
 }

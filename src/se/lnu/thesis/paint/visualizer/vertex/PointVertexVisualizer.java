@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
 import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 
 import javax.media.opengl.GL;
@@ -21,7 +20,7 @@ public class PointVertexVisualizer extends AbstractElementVisualizer {
 
     protected void drawShape(Element element) {
         gl().glBegin(GL.GL_POINTS);
-        gl().glVertex2d(((VertexElement) element).getPosition().getX(), ((VertexElement) element).getPosition().getY());
+        gl().glVertex2d(element.getPosition().getX(), element.getPosition().getY());
         gl().glEnd();
     }
 }

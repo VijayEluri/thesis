@@ -19,7 +19,7 @@ import java.nio.IntBuffer;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphVisualizer {
+public abstract class GraphVisualizer implements Drawable {
 
     public static final Logger LOGGER = Logger.getLogger(GraphVisualizer.class);
 

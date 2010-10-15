@@ -2,7 +2,10 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.element.VertexElement;
-import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
+import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
+import se.lnu.thesis.utils.GraphUtils;
+
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,11 +20,20 @@ public class LevelPreviewLayout extends UniformDistributionLayout {
     }
 
 
-    protected void addElement(Object o) {
+    @Override
+    protected void setElementPosition(Object o) {
+/*
         VertexElement element = VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer());
         element.setId(null); // this elements are not active for any interaction
+*/
 
-        root.addElement(element);
+        if (GraphUtils.isLeaf(graph, o)) {
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), new PointVertexVisualizer(Color.RED)));
+        } else {
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), new PointVertexVisualizer(Color.GREEN)));
+        }
+
+        //root.addElement(element);
     }
 
 }

@@ -23,7 +23,7 @@ public interface Element extends Drawable, Visualizable, Orderable, Positionable
 
     boolean has(Object o);
 
-    boolean hasAny(Collection collection);
+    boolean hasAny(Collection objects);
 
     void setHighlighted(Collection objects);
 

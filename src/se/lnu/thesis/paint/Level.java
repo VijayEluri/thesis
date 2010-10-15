@@ -61,7 +61,7 @@ public class Level implements Drawable {
             layout.setStart(layoutPosition);
             layout.setDimension(layoutDimension);
 
-            layout.setNodes(root.getObjects());
+            layout.setObjects(root.getObjects());
             layout.setRoot(root);
 
             LOGGER.info("Computing level layout..");

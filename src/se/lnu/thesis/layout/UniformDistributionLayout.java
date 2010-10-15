@@ -2,7 +2,9 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.paint.element.CompositeElement;
 import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
 import java.awt.geom.Point2D;
@@ -28,9 +30,15 @@ public class UniformDistributionLayout extends AbstractLayout {
     protected Point2D start;
     protected Point2D dimension;
 
+    protected ElementVisualizer elementVisualizer;
+
 
     public UniformDistributionLayout(Graph graph) {
-        setGraph(graph);
+        super(graph);
+    }
+
+    public UniformDistributionLayout(Graph graph, CompositeElement root) {
+        super(graph, root);
     }
 
     public void compute() {
@@ -93,16 +101,9 @@ public class UniformDistributionLayout extends AbstractLayout {
 
     protected void setElementPosition(Object o) {
         root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer()));
-/*
-        if (GraphUtils.isLeaf(graph, o)) {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getCircleVisualizer()));
-        } else {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getTriangleVisualizer()));
-        }
-*/
     }
 
-    public void setNodes(Collection nodes) {
+    public void setObjects(Collection nodes) {
         this.nodes = nodes;
     }
 

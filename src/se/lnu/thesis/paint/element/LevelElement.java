@@ -1,11 +1,9 @@
 package se.lnu.thesis.paint.element;
 
 import com.google.common.collect.ImmutableSet;
-import se.lnu.thesis.paint.visualizer.LevelVisualizer;
 import se.lnu.thesis.utils.IdUtils;
 
 import javax.media.opengl.GLAutoDrawable;
-import java.awt.geom.Point2D;
 import java.util.Collection;
 
 /**
@@ -14,7 +12,7 @@ import java.util.Collection;
  * Date: 28.08.2010
  * Time: 0:12:17
  */
-public class LevelElement extends AbstractCompositeElement {
+public class LevelElement extends DimensionalCompositeElement {
 
 
     public static LevelElement init(Object o, Collection<Object> objects) {
@@ -25,24 +23,22 @@ public class LevelElement extends AbstractCompositeElement {
         int i = IdUtils.next();
         result.setId(i);
 
+/*
+        LevelVisualizer visualizer = new LevelVisualizer();  // TODO think about it
+        result.setVisualizer(visualizer);
+*/
+
+
+        result.preview = new DimensionalCompositeElement();
         result.preview.setId(i);
-        result.preview.setVisualizer(new LevelVisualizer());
-
-
-        result.content.setId(i);
-        result.content.setVisualizer(new LevelVisualizer());
+//        result.preview.setVisualizer(visualizer);
 
         result.objects = ImmutableSet.copyOf(objects);
 
         return result;
     }
 
-
-    private Point2D previewDimension;
-    private Point2D contentDimension;
-
-    private CompositeElement preview = new GroupingElement();
-    private CompositeElement content = new GroupingElement();
+    private DimensionalCompositeElement preview;
 
 
     public LevelElement() {
@@ -56,51 +52,22 @@ public class LevelElement extends AbstractCompositeElement {
 
     @Override
     public void drawContent(GLAutoDrawable drawable) {
-        content.drawContent(drawable);
+        super.draw(drawable);
     }
 
-    public Point2D getPreviewDimension() {
-        return previewDimension;
-    }
-
-    public void setPreviewDimension(double width, double height) {
-        if (previewDimension == null) {
-            previewDimension = new Point2D.Double();
-        }
-
-        previewDimension.setLocation(width, height);
-    }
-
-    public Point2D getContentDimension() {
-        return contentDimension;
-    }
-
-    public void setContentDimension(double width, double height) {
-        if (contentDimension == null) {
-            contentDimension = new Point2D.Double();
-        }
-
-        contentDimension.setLocation(width, height);
-    }
-
-    public CompositeElement getPreview() {
+    public DimensionalCompositeElement getPreview() {
         return preview;
-    }
-
-    public CompositeElement getContent() {
-        return content;
     }
 
     @Override
     public void setHighlighted(Collection objects) {
         preview.setHighlighted(objects);
-        content.setHighlighted(objects);
+        super.setHighlighted(objects);
     }
 
     @Override
     public void resetHighlighting() {
         preview.resetHighlighting();
-        content.resetHighlighting();
+        super.resetHighlighting();
     }
-
 }

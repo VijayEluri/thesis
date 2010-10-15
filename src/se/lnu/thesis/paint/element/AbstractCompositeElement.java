@@ -73,13 +73,13 @@ public abstract class AbstractCompositeElement extends AbstractElement implement
         return layoutComputed;
     }
 
-    public boolean setLayoutComputed(boolean b) {
-        return layoutComputed = b;
+    public void setLayoutComputed(boolean b) {
+        this.layoutComputed = b;
     }
 
     @Override
     public boolean has(Object o) {
-        return objects.contains(o) || (getObject() != null && getObject().equals(o));
+        return (objects != null && objects.contains(o)) || (getObject() != null && getObject().equals(o));
     }
 
     @Override

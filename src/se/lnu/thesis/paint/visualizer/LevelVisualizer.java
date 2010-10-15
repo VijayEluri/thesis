@@ -42,15 +42,16 @@ public class LevelVisualizer extends AbstractElementVisualizer {
         LevelElement levelElement = (LevelElement) element;
 
         gl().glBegin(GL.GL_QUADS);
-        color(getMainColor());
+        //color(getMainColor());
+        color(Color.RED);
         gl().glVertex2d(levelElement.getPosition().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
                 levelElement.getPosition().getY());
-        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getPreviewDimension().getX(),
-                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
+        gl().glVertex2d(levelElement.getPosition().getX() + levelElement.getDimension().getX(),
+                levelElement.getPosition().getY() - levelElement.getDimension().getY());
         gl().glVertex2d(levelElement.getPosition().getX(),
-                levelElement.getPosition().getY() - levelElement.getPreviewDimension().getY());
+                levelElement.getPosition().getY() - levelElement.getDimension().getY());
         gl().glEnd();
 
 
@@ -70,7 +71,7 @@ public class LevelVisualizer extends AbstractElementVisualizer {
 */
 
 
-        levelElement.getPreview().drawContent(getDrawable());
+        levelElement.drawContent(getDrawable());
     }
 
     public Color getBorderColor() {

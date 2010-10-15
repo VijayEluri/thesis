@@ -48,9 +48,6 @@ public class VertexElement extends AbstractElement {
         return result;
     }
 
-    private Point2D position;
-
-
     public VertexElement() {
 
     }
@@ -73,19 +70,6 @@ public class VertexElement extends AbstractElement {
                 return ElementType.NODE;
             }
         }
-    }
-
-
-    public Point2D getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point2D position) {
-        if (position == null) {
-            throw new IllegalArgumentException("Argument 'position' cannt be null!");
-        }
-
-        setPosition(position.getX(), position.getY());
     }
 
     public void setPosition(double x, double y) {

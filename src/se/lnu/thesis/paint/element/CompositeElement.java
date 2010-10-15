@@ -13,11 +13,11 @@ public interface CompositeElement extends Element {
 
     int getSize();
 
+    void addElement(Element element);
+
     Collection<Element> getElements();
 
     Collection<Integer> getIds();
-
-    void addElement(Element element);
 
     Element getElementById(int i);
 
@@ -27,7 +27,7 @@ public interface CompositeElement extends Element {
 
     boolean isLayoutComputed();
 
-    boolean setLayoutComputed(boolean b);
+    void setLayoutComputed(boolean b);
 
     void drawContent(GLAutoDrawable drawable);
 
