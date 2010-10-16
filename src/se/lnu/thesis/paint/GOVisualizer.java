@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint;
 
 import se.lnu.thesis.layout.HierarchyLayout;
+import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.ElementType;
 import se.lnu.thesis.paint.element.GroupingElement;
@@ -28,8 +29,7 @@ public class GOVisualizer extends GraphVisualizer {
     public void init() {
         LOGGER.info("Initializing..");
 
-        root = new GroupingElement();
-        root.setObject("Gene Ontology");
+        root = DimensionalContainer.init("Gene Ontology");
 
         HierarchyLayout layout = new HierarchyLayout(graph, root);
         layout.compute();

@@ -2,6 +2,7 @@ package se.lnu.thesis.paint;
 
 
 import se.lnu.thesis.layout.RectangularSpiralLayout;
+import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.ElementType;
 import se.lnu.thesis.paint.element.GroupingElement;
@@ -17,8 +18,7 @@ public class ClusterVisualizer extends GraphVisualizer {
     public void init() {
         LOGGER.info("Initializing..");
 
-        root = new GroupingElement();
-        root.setObject("Cluster");
+        root = DimensionalContainer.init("Cluster");
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
         layout.compute();

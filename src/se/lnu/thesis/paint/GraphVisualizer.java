@@ -4,7 +4,7 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.paint.element.CompositeElement;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.Element;
 
 import javax.media.opengl.GL;
@@ -41,7 +41,7 @@ public abstract class GraphVisualizer implements Drawable {
     protected Graph subGraph;
     protected MyGraph graph;
 
-    protected CompositeElement root;
+    protected Container root;
 
     protected GL gl;
     protected GLU glu;

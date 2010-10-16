@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.element;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
@@ -17,22 +16,16 @@ public abstract class AbstractElement implements Element {
 
     public static final Logger LOGGER = Logger.getLogger(AbstractElement.class);
 
-    protected Integer id;
-    protected Object object;
+    private Integer id;
+    private Object object;
 
-    protected Boolean selected = false;
-    protected Boolean highlighted = false;
-    protected Boolean drawed = true;
+    private boolean selected = false;
+    private boolean highlighted = false;
+    private boolean drawed = true;
 
-    protected Point2D position;
+    private Point2D position;
 
-    protected ElementVisualizer visualizer;
-
-    public void draw(GLAutoDrawable drawable) {
-        if (drawed && visualizer != null) {
-            visualizer.draw(drawable, this);
-        }
-    }
+    public abstract void draw(GLAutoDrawable drawable);
 
     public Object getObject() {
         return object;
@@ -76,15 +69,15 @@ public abstract class AbstractElement implements Element {
         setHighlighted(false);
     }
 
-    public Boolean isHighlighted() {
+    public boolean isHighlighted() {
         return highlighted;
     }
 
-    public Boolean isSelected() {
+    public boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(Boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
@@ -94,14 +87,6 @@ public abstract class AbstractElement implements Element {
 
     public void setDrawed(boolean drawed) {
         this.drawed = drawed;
-    }
-
-    public ElementVisualizer getVisualizer() {
-        return visualizer;
-    }
-
-    public void setVisualizer(ElementVisualizer visualizer) {
-        this.visualizer = visualizer;
     }
 
     public Point2D getPosition() {

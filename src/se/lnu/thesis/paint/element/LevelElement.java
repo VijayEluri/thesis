@@ -12,7 +12,7 @@ import java.util.Collection;
  * Date: 28.08.2010
  * Time: 0:12:17
  */
-public class LevelElement extends DimensionalCompositeElement {
+public class LevelElement extends DimensionalContainer {
 
 
     public static LevelElement init(Object o, Collection<Object> objects) {
@@ -20,25 +20,16 @@ public class LevelElement extends DimensionalCompositeElement {
 
         result.setObject(o);
 
-        int i = IdUtils.next();
-        result.setId(i);
+        result.setId(IdUtils.next());
 
-/*
-        LevelVisualizer visualizer = new LevelVisualizer();  // TODO think about it
-        result.setVisualizer(visualizer);
-*/
-
-
-        result.preview = new DimensionalCompositeElement();
-        result.preview.setId(i);
-//        result.preview.setVisualizer(visualizer);
+        result.preview = new DimensionalContainer();
 
         result.objects = ImmutableSet.copyOf(objects);
 
         return result;
     }
 
-    private DimensionalCompositeElement preview;
+    private DimensionalContainer preview;
 
 
     public LevelElement() {
@@ -47,7 +38,9 @@ public class LevelElement extends DimensionalCompositeElement {
 
     @Override
     public void draw(GLAutoDrawable drawable) {
-        preview.drawContent(drawable);
+        if (isDrawed()) {
+            preview.drawContent(drawable);
+        }
     }
 
     @Override
@@ -55,7 +48,7 @@ public class LevelElement extends DimensionalCompositeElement {
         super.draw(drawable);
     }
 
-    public DimensionalCompositeElement getPreview() {
+    public DimensionalContainer getPreview() {
         return preview;
     }
 

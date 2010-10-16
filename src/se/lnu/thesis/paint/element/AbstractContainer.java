@@ -11,15 +11,15 @@ import java.util.*;
  * Date: 11.10.2010
  * Time: 16:32:32
  */
-public abstract class AbstractCompositeElement extends AbstractElement implements CompositeElement {
+public abstract class AbstractContainer extends AbstractElement implements Container {
 
-    public static final Logger LOGGER = Logger.getLogger(AbstractCompositeElement.class);
+    public static final Logger LOGGER = Logger.getLogger(AbstractContainer.class);
 
     private boolean layoutComputed = false;
 
     protected Collection<Object> objects;
 
-    private SortedSet<Element> elements = new TreeSet<Element>(new ElementDrawingOrderComparator());
+    private SortedSet<Element> elements = new TreeSet<Element>(new Orderable.ElementDrawingOrderComparator());
 
     private Map<Object, Element> obj2Element = new HashMap<Object, Element>();
     private Map<Integer, Element> id2Element = new HashMap<Integer, Element>();
@@ -37,12 +37,12 @@ public abstract class AbstractCompositeElement extends AbstractElement implement
         return objects != null ? objects.size() : 0;
     }
 
-    public Collection<Element> getElements() {
-        return elements;
+    public Iterator<Element> getElements() {
+        return elements.iterator();
     }
 
-    public Collection<Integer> getIds() {
-        return id2Element.keySet();
+    public Iterator<Integer> getIds() {
+        return id2Element.keySet().iterator();
     }
 
     public void addElement(Element element) {
@@ -91,7 +91,9 @@ public abstract class AbstractCompositeElement extends AbstractElement implement
             }
         }
 
-        for (Element element : getElements()) {
+        for (Iterator<Element> i = getElements(); i.hasNext();) {
+            Element element = i.next();
+
             if (element.hasAny(nodes)) {
                 return true;
             }
@@ -104,7 +106,8 @@ public abstract class AbstractCompositeElement extends AbstractElement implement
     public void setHighlighted(Collection objects) {
         if (hasAny(objects)) {
             setHighlighted(true);
-            for (Element element : getElements()) {
+            for (Iterator<Element> i = getElements(); i.hasNext();) {
+                Element element = i.next();
                 element.setHighlighted(objects);
             }
         }
@@ -113,14 +116,16 @@ public abstract class AbstractCompositeElement extends AbstractElement implement
     @Override
     public void resetHighlighting() {
         setHighlighted(false);
-        for (Element element : getElements()) {
+        for (Iterator<Element> i = getElements(); i.hasNext();) {
+            Element element = i.next();
             element.resetHighlighting();
         }
     }
 
 
     public void drawContent(GLAutoDrawable drawable) {
-        for (Element element : getElements()) {
+        for (Iterator<Element> i = getElements(); i.hasNext();) {
+            Element element = i.next();
             element.draw(drawable);
         }
     }

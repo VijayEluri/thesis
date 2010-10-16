@@ -2,6 +2,7 @@ package se.lnu.thesis.paint.element;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,15 +10,15 @@ import java.util.Collection;
  * Date: 11.10.2010
  * Time: 15:01:47
  */
-public interface CompositeElement extends Element {
+public interface Container extends Element {
 
     int getSize();
 
     void addElement(Element element);
 
-    Collection<Element> getElements();
+    Iterator<Element> getElements();
 
-    Collection<Integer> getIds();
+    Iterator<Integer> getIds();
 
     Element getElementById(int i);
 

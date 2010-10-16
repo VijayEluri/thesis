@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.element;
 
 import se.lnu.thesis.paint.Drawable;
-import se.lnu.thesis.paint.Orderable;
 
 import java.util.Collection;
 
@@ -11,7 +10,7 @@ import java.util.Collection;
  * Date: 11.10.2010
  * Time: 14:55:26
  */
-public interface Element extends Drawable, Visualizable, Orderable, Positionable {
+public interface Element extends Drawable, Orderable, Positionable {
 
     Integer getId();
 
@@ -31,13 +30,13 @@ public interface Element extends Drawable, Visualizable, Orderable, Positionable
 
     void resetHighlighting();
 
-    Boolean isHighlighted();
+    boolean isHighlighted();
 
     ElementType getType();
 
-    Boolean isSelected();
+    boolean isSelected();
 
-    void setSelected(Boolean selected);
+    void setSelected(boolean selected);
 
     boolean isDrawed();
 

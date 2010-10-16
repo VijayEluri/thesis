@@ -2,7 +2,7 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.CompositeElement;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
@@ -37,7 +37,7 @@ public class UniformDistributionLayout extends AbstractLayout {
         super(graph);
     }
 
-    public UniformDistributionLayout(Graph graph, CompositeElement root) {
+    public UniformDistributionLayout(Graph graph, Container root) {
         super(graph, root);
     }
 

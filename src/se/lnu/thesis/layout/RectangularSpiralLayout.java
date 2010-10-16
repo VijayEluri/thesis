@@ -1,6 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.*;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphTraversalUtils;
@@ -8,6 +9,7 @@ import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,13 +39,13 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     }
 
-    public RectangularSpiralLayout(Graph graph, CompositeElement root) {
+    public RectangularSpiralLayout(Graph graph, Container root) {
         super(graph, root);
     }
 
     public void compute() {
         computeVertexPosition();
-        normalizeVertexSize();
+        normalizeGroupingElementsSize();
 
         computeEdgePositions();
     }
@@ -77,11 +79,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
                             GroupingElement groupingElement = GroupingElement.init(successor, nodePosition, null, GraphTraversalUtils.dfs(graph, successor));
                             root.addElement(groupingElement);
 
-                            int groupSize = groupingElement.getSize();
-
-                            if (groupSize > this.maxGroupSize) {
-                                this.maxGroupSize = groupSize;
-                            }
+                            maxGroupSize = Math.max(maxGroupSize, groupingElement.getSize());
                         }
 
                         root.getObjects().add(successor);
@@ -106,10 +104,12 @@ public class RectangularSpiralLayout extends AbstractLayout {
         }
     }
 
-    private void normalizeVertexSize() {
-        for (Element element : root.getElements()) {
-            if (element.getType() == ElementType.COMPOSITE) {
-                element.setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((CompositeElement) element).getSize()));
+    private void normalizeGroupingElementsSize() {
+        for (Iterator<Element> i = root.getElements(); i.hasNext();) {
+            Element element = i.next();
+
+            if (element instanceof GroupingElement) {
+                ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((Container) element).getSize()));
             }
         }
     }
@@ -170,7 +170,4 @@ public class RectangularSpiralLayout extends AbstractLayout {
         this.pathStartPosition = pathStartPosition;
     }
 
-    public int getMaxGroupSize() {
-        return this.maxGroupSize;
-    }
 }

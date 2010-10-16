@@ -3,7 +3,7 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.paint.element.CompositeElement;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.LevelElement;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -21,7 +21,7 @@ public class HierarchyLayout extends AbstractLayout {
 
     private double border = DEFAULT_BORDER_WIDTH;
 
-    public HierarchyLayout(MyGraph graph, CompositeElement root) {
+    public HierarchyLayout(MyGraph graph, Container root) {
         super(graph, root);
     }
 

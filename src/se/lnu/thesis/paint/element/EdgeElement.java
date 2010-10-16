@@ -13,7 +13,7 @@ import java.util.Collection;
  * Date: 02.07.2010
  * Time: 17:44:55
  */
-public class EdgeElement extends AbstractElement {
+public class EdgeElement extends VisualizableElement {
 
     private static final int EDGE_DRAWING_ORDER = -1;
 
@@ -37,7 +37,7 @@ public class EdgeElement extends AbstractElement {
     }
 
 
-    public static EdgeElement init(Object o, Graph graph, CompositeElement root) {
+    public static EdgeElement init(Object o, Graph graph, Container root) {
         EdgeElement result = new EdgeElement();
 
         //      result.setId(IdUtils.next()); // edges are unselectable in future
@@ -132,7 +132,7 @@ public class EdgeElement extends AbstractElement {
 
     @Override
     public void setHighlighted(boolean b) {
-        highlighted = b;
-        drawed = b;
+        super.setHighlighted(b);
+        setDrawed(b);
     }
 }

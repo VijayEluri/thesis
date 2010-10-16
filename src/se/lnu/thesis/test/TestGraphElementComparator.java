@@ -37,7 +37,7 @@ public class TestGraphElementComparator {
             System.out.println(element.getType());
         }
 
-        Collections.sort(result, new ElementDrawingOrderComparator());
+        Collections.sort(result, new Orderable.ElementDrawingOrderComparator());
 
         System.out.println("");
 
@@ -52,7 +52,7 @@ public class TestGraphElementComparator {
     @Test
     public void asSortedSet() {
 
-        SortedSet<AbstractElement> result = new TreeSet<AbstractElement>(new ElementDrawingOrderComparator());
+        SortedSet<AbstractElement> result = new TreeSet<AbstractElement>(new Orderable.ElementDrawingOrderComparator());
 
         AbstractElement element = null;
 

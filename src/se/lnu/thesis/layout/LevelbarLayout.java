@@ -3,7 +3,7 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.CompositeElement;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
@@ -33,7 +33,7 @@ public class LevelbarLayout extends UniformDistributionLayout {
         super(graph);
     }
 
-    public LevelbarLayout(Graph graph, CompositeElement root) {
+    public LevelbarLayout(Graph graph, Container root) {
         super(graph, root);
     }
 
@@ -79,7 +79,7 @@ public class LevelbarLayout extends UniformDistributionLayout {
         compute(nodes, nodesStartPosition, nodesDimension, root);
     }
 
-    private void compute(Collection objects, Point2D start, Point2D dimension, CompositeElement container) {
+    private void compute(Collection objects, Point2D start, Point2D dimension, Container container) {
         if (objects.size() > 0) {
             LevelPreviewLayout layout = new LevelPreviewLayout(graph); // TODO THINK ABOUT IT!
 

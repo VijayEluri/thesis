@@ -7,6 +7,7 @@ package se.lnu.thesis.paint;
  * Time: 13:18:58
  */
 enum State {
+
     SELECTING, NORMAL, SELECTED, SUBGRAPH
 
 }
