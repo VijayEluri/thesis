@@ -135,11 +135,9 @@ public abstract class GraphVisualizer implements Drawable, Observer {
         vertexState = State.NORMAL;
     }
 
-    public void setCursor(Point point) {
-        if (point != null) {
-            this.cursor = point;
-            vertexState = State.SELECTING;
-        }
+    public void click(Point point) {
+        this.cursor = point;
+        vertexState = State.SELECTING;
     }
 
     public void setSubGraph(Graph subGraph) {
@@ -175,5 +173,10 @@ public abstract class GraphVisualizer implements Drawable, Observer {
         }
 
         return glu;
+    }
+
+    public void move(Point point) {
+        this.cursor = point;
+        vertexState = State.MOVE;
     }
 }

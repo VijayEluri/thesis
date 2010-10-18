@@ -1,23 +1,23 @@
 package se.lnu.thesis.paint;
 
 
+import com.sun.opengl.util.BufferUtil;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.ElementType;
-import se.lnu.thesis.paint.element.GroupingElement;
+import se.lnu.thesis.paint.element.*;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import java.nio.IntBuffer;
 
 
 public class ClusterVisualizer extends GraphVisualizer implements Observer {
 
     private Lens lens;
+    private Element focusedElement;
 
     public void init() {
         LOGGER.info("Initializing..");
@@ -35,9 +35,13 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
 
     @Override
     protected void select(Element element) {
-        super.select(element);
+        if (element != null && element.getType() == ElementType.COMPOSITE) {
+            LOGGER.info("Selected vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
 
-        if (element != null && selectedElement.getType() == ElementType.COMPOSITE) {
+            this.selectedElement = element;
+            this.selectedElement.setSelected(true);
+            vertexState = State.SELECTED;
+
             GroupingElement groupingElement = (GroupingElement) selectedElement;
             lens.setRoot(groupingElement);
 
@@ -61,18 +65,99 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
 
         if (root != null) {
-            if (vertexState == State.SELECTING) {
-                selectElement(drawable);
+            if (vertexState == State.MOVE) {
+                focusElement(drawable);
+            } else {
+                if (vertexState == State.SELECTING) {
+                    selectElement(drawable);
+                }
             }
+
 
             root.drawContent(drawable);
 
-            if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.COMPOSITE) {
+            if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
                 lens.draw(drawable);
             }
         }
 
         drawable.swapBuffers();
+    }
+
+    protected void focusElement(GLAutoDrawable drawable) {
+        GL gl = drawable.getGL();
+
+        int selectBuf[] = new int[BUFSIZE];
+        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+
+        int viewport[] = new int[4];
+
+        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+
+        gl.glSelectBuffer(BUFSIZE, selectBuffer);
+        gl.glRenderMode(GL.GL_SELECT);
+
+        gl.glInitNames();
+
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+
+        getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+
+
+        if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
+            ((Container) selectedElement).drawContent(drawable);
+        } else {
+            root.drawContent(drawable);
+        }
+
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPopMatrix();
+        gl.glFlush();
+
+
+        int hits = gl.glRenderMode(GL.GL_RENDER); // mouse hits
+        selectBuffer.get(selectBuf);
+
+        int count = selectBuf[0];
+
+        //LOGGER.info("Picked objects count: " + count);
+
+        if (count > 0) { // some figures?
+            unfocus();
+
+            if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
+                focus(((Container) selectedElement).getElementById(selectBuf[3]));
+            } else {
+                focus(root.getElementById(selectBuf[3]));
+            }
+
+
+        } else {
+            unfocus();
+        }
+
+        cursor = null;
+    }
+
+    private void unfocus() {
+        if (focusedElement != null) {
+            focusedElement.setFocused(false);
+        }
+
+        focusedElement = null;
+        vertexState = State.NORMAL;
+    }
+
+    private void focus(Element element) {
+        if (element != null) {
+            LOGGER.info("Focused vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
+
+            this.focusedElement = element;
+            this.focusedElement.setFocused(true);
+            vertexState = State.NORMAL;
+        }
     }
 
     public void notifyObserver(Subject subject, Object params) {

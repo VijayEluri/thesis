@@ -7,7 +7,9 @@ import se.lnu.thesis.paint.GraphVisualizer;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +19,7 @@ import java.awt.event.MouseListener;
  * <p/>
  * JOGL window
  */
-public abstract class JoglListener implements GLEventListener, MouseListener {
+public class JoglListener implements GLEventListener, MouseListener, MouseMotionListener {
 
 
     public static final Logger LOGGER = Logger.getLogger(JoglListener.class);
@@ -43,20 +45,24 @@ public abstract class JoglListener implements GLEventListener, MouseListener {
     }
 
 
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int heigh) {
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         GL gl = drawable.getGL();
 
+/*
         int length;
         int shift = 0;
 
-        if (heigh < width) {
-            length = heigh;
-            shift = (width - heigh) / 2;
+        if (height < width) {
+            length = height;
+            shift = (width - height) / 2;
         } else {
             length = width;
         }
 
         gl.glViewport(shift, 0, length, length);
+
+*/
+        gl.glViewport(0, 0, width, height);
 
         Scene.getInstance().getMainWindow().repaint();
     }
@@ -73,7 +79,7 @@ public abstract class JoglListener implements GLEventListener, MouseListener {
     }
 
     public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
-        visualizer.setCursor(mouseEvent.getPoint());
+        visualizer.click(mouseEvent.getPoint());
 
         Scene.getInstance().getMainWindow().repaint();
     }
@@ -93,5 +99,16 @@ public abstract class JoglListener implements GLEventListener, MouseListener {
 
     public GraphVisualizer getVisualizer() {
         return visualizer;
+    }
+
+    public void mouseDragged(MouseEvent mouseEvent) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void mouseMoved(MouseEvent mouseEvent) {
+        LOGGER.debug("Mouse moves [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+        visualizer.move(mouseEvent.getPoint());
+
+        Scene.getInstance().getMainWindow().repaint();
     }
 }

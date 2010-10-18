@@ -21,6 +21,7 @@ public abstract class AbstractElement implements Element {
 
     private boolean selected = false;
     private boolean highlighted = false;
+    private boolean focused = false;
     private boolean drawed = true;
 
     private Point2D position;
@@ -105,4 +106,11 @@ public abstract class AbstractElement implements Element {
         }
     }
 
+    public boolean isFocused() {
+        return focused;
+    }
+
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
 }

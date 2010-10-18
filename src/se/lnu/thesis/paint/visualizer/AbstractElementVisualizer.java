@@ -16,7 +16,8 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;      // default levelBackgroud for graph elements visualization
     public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph levelBackgroud
-    public static final Color DEFAULT_SEECTION_COLOR = Color.GREEN;  // default selection levelBackgroud
+    public static final Color DEFAULT_SELECTION_COLOR = Color.GREEN;  // default selection levelBackgroud
+    public static final Color DEFAULT_FOCUSED_COLOR = Color.BLUE;  // default selection levelBackgroud
 
 
     private GLAutoDrawable drawable; // OpenGL drawing context
@@ -24,8 +25,9 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
     private GLU glu;
 
     private Color mainColor = DEFAULT_MAIN_COLOR;
-    private Color selectionColor = DEFAULT_SEECTION_COLOR;
+    private Color selectionColor = DEFAULT_SELECTION_COLOR;
     private Color subgraphColor = DEFAULT_SUBGRAPH_COLOR;
+    private Color focusedColor = DEFAULT_FOCUSED_COLOR;
 
     public AbstractElementVisualizer() {
 
@@ -54,13 +56,17 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
 
     protected void drawingColor(Element element) {
-        if (element.isSelected()) {
-            color(getSelectionColor());
+        if (element.isFocused()) {
+            color(focusedColor);
         } else {
-            if (element.isHighlighted()) {
-                color(getSubgraphColor());
+            if (element.isSelected()) {
+                color(getSelectionColor());
             } else {
-                color(getMainColor());
+                if (element.isHighlighted()) {
+                    color(getSubgraphColor());
+                } else {
+                    color(getMainColor());
+                }
             }
         }
     }

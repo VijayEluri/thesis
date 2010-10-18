@@ -35,12 +35,12 @@ public class MainMenu extends JMenuBar implements ActionListener {
         fileChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File file) {
-                return file.isFile() && file.getName().endsWith(".graphml");
+                return file.isFile() && file.getName().endsWith(".gml");  // TODO fix it
             }
 
             @Override
             public String getDescription() {
-                return "yEd graphml";
+                return "gml";
             }
         });
 

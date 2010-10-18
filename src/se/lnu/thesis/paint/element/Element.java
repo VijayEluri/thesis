@@ -42,4 +42,8 @@ public interface Element extends Drawable, Orderable, Positionable {
 
     void setDrawed(boolean drawed);
 
+    void setFocused(boolean focused);
+
+    boolean isFocused();
+
 }

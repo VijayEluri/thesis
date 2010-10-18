@@ -38,6 +38,7 @@ public class MainWindow extends JFrame {
         NewGOListener listener = new NewGOListener(Scene.getInstance().getGoVisualizer());
         result.addGLEventListener(listener);
         result.addMouseListener(listener);
+        result.addMouseMotionListener(listener);
         result.setVisible(true);
 
         return result;
@@ -50,6 +51,7 @@ public class MainWindow extends JFrame {
         ClusterListener listener = new ClusterListener(Scene.getInstance().getClusterVisualizer());
         result.addGLEventListener(listener);
         result.addMouseListener(listener);
+        result.addMouseMotionListener(listener);
         result.setVisible(true);
 
         return result;
