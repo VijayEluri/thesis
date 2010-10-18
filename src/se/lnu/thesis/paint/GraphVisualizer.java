@@ -4,6 +4,7 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.Element;
 
@@ -19,7 +20,7 @@ import java.nio.IntBuffer;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphVisualizer implements Drawable {
+public abstract class GraphVisualizer implements Drawable, Observer {
 
     public static final Logger LOGGER = Logger.getLogger(GraphVisualizer.class);
 
@@ -48,7 +49,7 @@ public abstract class GraphVisualizer implements Drawable {
 
     public abstract void init();
 
-    public void draw(GLAutoDrawable drawable) {
+    public abstract void draw(GLAutoDrawable drawable);/* {
         gl = drawable.getGL();
 
         gl.glMatrixMode(GL.GL_PROJECTION);
@@ -68,7 +69,7 @@ public abstract class GraphVisualizer implements Drawable {
 
 
         drawable.swapBuffers();
-    }
+    }*/
 
     protected void selectElement(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();

@@ -1,6 +1,9 @@
 package se.lnu.thesis.paint;
 
+import se.lnu.thesis.Scene;
+import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.HierarchyLayout;
+import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.ElementType;
@@ -8,7 +11,6 @@ import se.lnu.thesis.paint.element.GroupingElement;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,10 +19,6 @@ import java.awt.*;
  * Time: 23:43:07
  */
 public class GOVisualizer extends GraphVisualizer {
-
-
-    protected Color background = Color.BLACK;
-    protected Color levelColor = Color.WHITE;
 
 
     private Level level;
@@ -54,7 +52,6 @@ public class GOVisualizer extends GraphVisualizer {
         }
     }
 
-    @Override
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
@@ -66,17 +63,27 @@ public class GOVisualizer extends GraphVisualizer {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
 
-        if (vertexState == State.SELECTING) {
-            selectElement(drawable);
-        }
+        if (root != null) {
+            if (vertexState == State.SELECTING) {
+                selectElement(drawable);
+            }
 
-        root.drawContent(drawable);
+            root.drawContent(drawable);
 
-        if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.COMPOSITE) {
-            level.draw(drawable);
+            if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.COMPOSITE) {
+                level.draw(drawable);
+            }
         }
 
         drawable.swapBuffers();
+    }
+
+    public void notifyObserver(Subject subject, Object params) {
+        Extractor extractor = (Extractor) params;
+
+        this.setSubGraph(extractor.getGoSubGraph());
+
+        Scene.getInstance().getMainWindow().repaint();
     }
 
 }

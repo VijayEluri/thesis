@@ -1,7 +1,7 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Thesis;
+import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
@@ -136,7 +136,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                extractor.extractSubGraphs(Thesis.getInstance().getGOGraph(), Thesis.getInstance().getClusterGraph(), getSelectedNode());
+                extractor.extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
 
                 list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
