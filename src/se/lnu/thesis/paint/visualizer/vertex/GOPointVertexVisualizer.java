@@ -17,6 +17,8 @@ public class GOPointVertexVisualizer extends AbstractElementVisualizer {
 
     public static final int DEFAULT_SEGMENT_COUNT = 10;
     public static final double DEFAULT_POINTING_RADIUSE = 0.015;
+    public static final float RING_THICKNESS = 1.0f;
+
 
     private double pointingRadius = DEFAULT_POINTING_RADIUSE;
     private int segmentCount = DEFAULT_SEGMENT_COUNT;
@@ -33,7 +35,7 @@ public class GOPointVertexVisualizer extends AbstractElementVisualizer {
         if (element.isSelected()) {
             gl().glPushMatrix();
             gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
-            DrawingUtils.ring(gl(), pointingRadius, segmentCount, 1.0f);
+            DrawingUtils.ring(gl(), pointingRadius, segmentCount, RING_THICKNESS);
             gl().glPopMatrix();
         }
 

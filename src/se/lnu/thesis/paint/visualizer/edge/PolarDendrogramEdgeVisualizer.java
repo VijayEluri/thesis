@@ -1,6 +1,5 @@
 package se.lnu.thesis.paint.visualizer.edge;
 
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.utils.DrawingUtils;
@@ -18,21 +17,16 @@ import java.awt.geom.Point2D;
  * <p/>
  * Simple implementation of the edge visualisation as line
  */
-public class PolarDendrogramEdgeVisualizer extends AbstractEdgeVisualizer {
-
-    protected PolarDendrogramLayout layout;
-
-    //      layout = (PolarDendrogramLayout) getVisualizer().getLayout();
-
+public class PolarDendrogramEdgeVisualizer extends LineEdgeVisualizer {
 
     public PolarDendrogramEdgeVisualizer(Color color) {
         super(color);
-
-//        layout = (PolarDendrogramLayout) getVisualizer().getLayout();
     }
 
     protected void drawShape(Element element) {
         PolarEdge edge = (PolarEdge) element;
+
+        gl().glLineWidth(getLineWidth());
 
         if (edge.isFromRoot()) { // from root draw simple line
 

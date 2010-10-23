@@ -16,7 +16,7 @@ import java.util.HashSet;
  * Date: 13.10.2010
  * Time: 16:00:39
  */
-public class LevelbarLayout extends UniformDistributionLayout {
+public class LevelLayout extends UniformDistributionLayout {
 
     private static final Point2D DEFAULT_BORDER = new Point2D.Double(0.02, 0.02);
 
@@ -33,11 +33,11 @@ public class LevelbarLayout extends UniformDistributionLayout {
 
     private Point2D border = DEFAULT_BORDER;
 
-    public LevelbarLayout(Graph graph) {
+    public LevelLayout(Graph graph) {
         super(graph);
     }
 
-    public LevelbarLayout(Graph graph, Container root) {
+    public LevelLayout(Graph graph, Container root) {
         super(graph, root);
     }
 

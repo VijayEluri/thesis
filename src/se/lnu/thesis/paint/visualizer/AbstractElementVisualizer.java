@@ -56,24 +56,18 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     protected void drawingColor(Element element) {
         if (element.isFocused()) {
-            color(focusedColor);
+            Utils.color(gl(), focusedColor);
         } else {
             if (element.isSelected()) {
-                color(getSelectionColor());
+                Utils.color(gl(), getSelectionColor());
             } else {
                 if (element.isHighlighted()) {
-                    color(getSubgraphColor());
+                    Utils.color(gl(), getSubgraphColor());
                 } else {
-                    color(getMainColor());
+                    Utils.color(gl(), getMainColor());
                 }
             }
         }
-    }
-
-    protected void color(Color color) {
-        gl().glColor3d(Utils.colorAsDouble(color.getRed()),
-                Utils.colorAsDouble(color.getGreen()),
-                Utils.colorAsDouble(color.getBlue()));
     }
 
     public Color getSubgraphColor() {

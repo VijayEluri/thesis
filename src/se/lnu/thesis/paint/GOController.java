@@ -5,6 +5,7 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.paint.element.Level;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -19,7 +20,7 @@ import java.util.Iterator;
 public class GOController extends GraphController {
 
 
-    private Level level;
+    private se.lnu.thesis.paint.Level level;
 
 
     public void init() {
@@ -30,7 +31,7 @@ public class GOController extends GraphController {
         HierarchyLayout layout = new HierarchyLayout(graph, root);
         layout.compute();
 
-        level = new Level();
+        level = new se.lnu.thesis.paint.Level();
         level.setGraph(graph);
 
         LOGGER.info("Done.");
@@ -86,8 +87,8 @@ public class GOController extends GraphController {
         this.setSubGraph(extractor.getGoSubGraph());
 
         for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
-            LevelElement levelElement = (LevelElement) i.next();
-            Element element = levelElement.getPreview().getElementByObject(extractor.getSelectedNode());
+            Level Level = (Level) i.next();
+            Element element = Level.getPreview().getElementByObject(extractor.getSelectedNode());
             if (element != null) {
                 selectedElement = element;
                 selectedElement.setSelected(true);

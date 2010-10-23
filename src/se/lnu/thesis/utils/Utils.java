@@ -2,6 +2,8 @@ package se.lnu.thesis.utils;
 
 import org.apache.log4j.Logger;
 
+import javax.media.opengl.GL;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 
@@ -42,4 +44,9 @@ public class Utils {
         return color / COLOR_MAX;
     }
 
+    public static void color(GL gl, Color color) {
+        gl.glColor3d(colorAsDouble(color.getRed()),
+                colorAsDouble(color.getGreen()),
+                colorAsDouble(color.getBlue()));
+    }
 }
