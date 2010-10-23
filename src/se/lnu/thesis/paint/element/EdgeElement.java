@@ -26,8 +26,6 @@ public class EdgeElement extends VisualizableElement {
         result.setFrom(source);
         result.setTo(target);
 
-        result.setDrawed(true);
-
         result.setStartPosition(start);
         result.setEndPosition(end);
 
@@ -48,8 +46,6 @@ public class EdgeElement extends VisualizableElement {
 
         Object dest = graph.getDest(o);
         result.setTo(dest);
-
-        result.setDrawed(false);
 
         Element element = root.getElementByObject(source);
         if (element != null) {

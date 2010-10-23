@@ -84,6 +84,10 @@ public class MainWindow extends JFrame {
         statusBar.setText(text);
     }
 
+    public void clearStatusBar() {
+        setStatusBarText(" ");
+    }
+
     public static void main(String[] args) {
         MainWindow window = new MainWindow();
         window.setVisible(true);
