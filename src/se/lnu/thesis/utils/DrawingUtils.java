@@ -13,7 +13,7 @@ import javax.media.opengl.GL;
 public class DrawingUtils {
 
     /**
-     * Draw polygon circle
+     * Draw circle polygon
      *
      * @param gl       GL context to draw
      * @param radius   Circle radius
@@ -25,6 +25,33 @@ public class DrawingUtils {
         double angle;
 
         gl.glBegin(GL.GL_POLYGON);
+        for (int i = 0; i < segments; i++) {
+            angle = step * i;
+
+            double x = Math.cos(Utils.inRadians(angle)) * radius;
+            double y = Math.sin(Utils.inRadians(angle)) * radius;
+
+            gl.glVertex2d(x, y);
+        }
+        gl.glEnd();
+    }
+
+    /**
+     * Draw ring
+     *
+     * @param gl        GL context to draw
+     * @param radius    Circle radius
+     * @param segments  Number of outer elements
+     * @param thickness Ring thickness
+     */
+    public static void ring(GL gl, double radius, int segments, float thickness) {
+
+        double step = 360.0 / segments;
+        double angle;
+
+        gl.glLineWidth(thickness);
+
+        gl.glBegin(GL.GL_LINE_LOOP);
         for (int i = 0; i < segments; i++) {
             angle = step * i;
 

@@ -14,7 +14,7 @@ import java.awt.*;
  */
 public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
-    public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;      // default levelBackgroud for graph elements visualization
+    public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;  // default levelBackgroud for graph elements visualization
     public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph levelBackgroud
     public static final Color DEFAULT_SELECTION_COLOR = Color.GREEN;  // default selection levelBackgroud
     public static final Color DEFAULT_FOCUSED_COLOR = Color.BLUE;  // default selection levelBackgroud
@@ -53,7 +53,6 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
     }
 
     protected abstract void drawShape(Element element);
-
 
     protected void drawingColor(Element element) {
         if (element.isFocused()) {

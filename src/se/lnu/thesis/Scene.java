@@ -2,12 +2,11 @@ package se.lnu.thesis;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.gui.LensDialog;
 import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.gui.SelectionDialog;
-import se.lnu.thesis.paint.ClusterVisualizer;
-import se.lnu.thesis.paint.GOVisualizer;
-import se.lnu.thesis.paint.GraphVisualizer;
+import se.lnu.thesis.paint.ClusterController;
+import se.lnu.thesis.paint.GOController;
+import se.lnu.thesis.paint.GraphController;
 
 import java.awt.*;
 
@@ -30,13 +29,11 @@ public class Scene {
     private MainWindow mainWindow;
     private SelectionDialog selectionDialog;
 
-    private LensDialog lensDialog;
-
     private MyGraph goGraph = null;
     private MyGraph clusterGraph = null;
 
-    private GraphVisualizer goVisualizer;
-    private GraphVisualizer clusterVisualizer;
+    private GraphController goController;
+    private GraphController clusterController;
 
 
     private Scene() {
@@ -44,14 +41,14 @@ public class Scene {
     }
 
     public void initUI() {
-        goVisualizer = new GOVisualizer();
-        clusterVisualizer = new ClusterVisualizer();
+        goController = new GOController();
+        clusterController = new ClusterController();
 
         mainWindow = new MainWindow();
 
         selectionDialog = new SelectionDialog();
-        selectionDialog.registerObserver(goVisualizer);
-        selectionDialog.registerObserver(clusterVisualizer);
+        selectionDialog.registerObserver(goController);
+        selectionDialog.registerObserver(clusterController);
 
         //lensDialog = new LensDialog();
     }
@@ -59,7 +56,7 @@ public class Scene {
     public void setGoGraph(MyGraph goGraph) {
         this.goGraph = goGraph;
 
-        initVisualizer(goVisualizer, goGraph);
+        initController(goController, goGraph);
 
         selectionDialog.initListContent(Scene.getInstance().getGoGraph().getNodeLabel());
         selectionDialog.setVisible(true);
@@ -68,16 +65,16 @@ public class Scene {
     public void setClusterGraph(MyGraph clusterGraph) {
         this.clusterGraph = clusterGraph;
 
-        initVisualizer(clusterVisualizer, clusterGraph);
+        initController(clusterController, clusterGraph);
     }
 
-    protected void initVisualizer(GraphVisualizer graphVisualizer, MyGraph graph) {
-        graphVisualizer.setGraph(graph);
+    protected void initController(GraphController graphController, MyGraph graph) {
+        graphController.setGraph(graph);
 
-        LOGGER.info("Initializing visualizer..");
+        LOGGER.info("Initializing controller..");
 
         getMainWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        graphVisualizer.init();
+        graphController.init();
         getMainWindow().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         LOGGER.info("Done.");
@@ -95,16 +92,12 @@ public class Scene {
         return mainWindow;
     }
 
-    public LensDialog getLensDialog() {
-        return lensDialog;
+    public GraphController getGoVisualizer() {
+        return goController;
     }
 
-    public GraphVisualizer getGoVisualizer() {
-        return goVisualizer;
-    }
-
-    public GraphVisualizer getClusterVisualizer() {
-        return clusterVisualizer;
+    public GraphController getClusterVisualizer() {
+        return clusterController;
     }
 
 }

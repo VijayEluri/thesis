@@ -8,6 +8,6 @@ package se.lnu.thesis.paint.element;
 public enum ElementType {
 
     EDGE,
-    ROOT, LEAF, NODE, COMPOSITE
+    ROOT, LEAF, NODE, CONTAINER
 
 }

@@ -14,14 +14,12 @@ import javax.media.opengl.GLAutoDrawable;
 import java.nio.IntBuffer;
 
 
-public class ClusterVisualizer extends GraphVisualizer implements Observer {
+public class ClusterController extends GraphController implements Observer {
 
     private Lens lens;
     private Element focusedElement;
 
     public void init() {
-        LOGGER.info("Initializing..");
-
         root = DimensionalContainer.init("Cluster");
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
@@ -29,13 +27,11 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
 
         lens = new Lens();
         lens.setGraph(graph);
-
-        LOGGER.info("Done.");
     }
 
     @Override
     protected void select(Element element) {
-        if (element != null && element.getType() == ElementType.COMPOSITE) {
+        if (element != null && element.getType() == ElementType.CONTAINER) {
             LOGGER.info("Selected vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
 
             this.selectedElement = element;
@@ -60,6 +56,7 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
         gl.glLoadIdentity();
 
         gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL.GL_BLEND);
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
@@ -69,14 +66,13 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
                 focusElement(drawable);
             } else {
                 if (vertexState == State.SELECTING) {
-                    selectElement(drawable);
+                    select(drawable);
                 }
             }
 
-
             root.drawContent(drawable);
 
-            if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
+            if (selectedElement != null && selectedElement.getType() == ElementType.CONTAINER) {
                 lens.draw(drawable);
             }
         }
@@ -106,7 +102,7 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
         getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
 
-        if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
+        if (selectedElement != null && selectedElement.getType() == ElementType.CONTAINER) {
             ((Container) selectedElement).drawContent(drawable);
         } else {
             root.drawContent(drawable);
@@ -127,7 +123,7 @@ public class ClusterVisualizer extends GraphVisualizer implements Observer {
         if (count > 0) { // some figures?
             unfocus();
 
-            if (selectedElement != null && selectedElement.getType() == ElementType.COMPOSITE) {
+            if (selectedElement != null && selectedElement.getType() == ElementType.CONTAINER) {
                 focus(((Container) selectedElement).getElementById(selectBuf[3]));
             } else {
                 focus(root.getElementById(selectBuf[3]));

@@ -40,7 +40,7 @@ public class Lens implements Drawable {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        gl.glColor3d(circleColor.getRed(), circleColor.getGreen(), circleColor.getBlue());
+        gl.glColor4d(circleColor.getRed(), circleColor.getGreen(), circleColor.getBlue(), 0.8);
         GLUquadric glUquadric = glu.gluNewQuadric();
 
         glu.gluDisk(glUquadric, 0, LENS_RADIUS, 50, 50);

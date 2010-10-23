@@ -1,6 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.*;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class RectangularSpiralLayout extends AbstractLayout {
 
+    public static final Logger LOGGER = Logger.getLogger(RectangularSpiralLayout.class);
 
     public static final double DEFAULT_PATH_DISTANCE = 0.045;
     public static final double DEFAULT_NODE_DISTANCE = 0.02;
@@ -44,6 +46,8 @@ public class RectangularSpiralLayout extends AbstractLayout {
     }
 
     public void compute() {
+        LOGGER.info("Computing layout..");
+
         computeVertexPosition();
         normalizeGroupingElementsSize();
 

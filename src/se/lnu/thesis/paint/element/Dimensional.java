@@ -16,4 +16,5 @@ public interface Dimensional {
 
     void setDimension(Point2D d);
 
+
 }

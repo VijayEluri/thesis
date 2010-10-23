@@ -26,7 +26,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
 
 
     public ElementType getType() {
-        return ElementType.COMPOSITE;
+        return ElementType.CONTAINER;
     }
 
     public int getDrawingOrder() {
@@ -122,6 +122,9 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         }
     }
 
+    public void draw(GLAutoDrawable drawable) {
+        drawContent(drawable);
+    }
 
     public void drawContent(GLAutoDrawable drawable) {
         for (Iterator<Element> i = getElements(); i.hasNext();) {

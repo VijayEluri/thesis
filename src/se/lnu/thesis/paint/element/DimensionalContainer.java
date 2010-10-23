@@ -24,6 +24,10 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
 
     Point2D dimension;
 
+    protected DimensionalContainer() {
+
+    }
+
     public Point2D getDimension() {
         return dimension;
     }

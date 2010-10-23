@@ -4,13 +4,11 @@ import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.ElementType;
-import se.lnu.thesis.paint.element.GroupingElement;
+import se.lnu.thesis.paint.element.*;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +16,7 @@ import javax.media.opengl.GLAutoDrawable;
  * Date: 19.08.2010
  * Time: 23:43:07
  */
-public class GOVisualizer extends GraphVisualizer {
+public class GOController extends GraphController {
 
 
     private Level level;
@@ -42,7 +40,7 @@ public class GOVisualizer extends GraphVisualizer {
     protected void select(Element element) {
         super.select(element);
 
-        if (element != null && selectedElement.getType() == ElementType.COMPOSITE) {
+        if (element != null && selectedElement.getType() == ElementType.CONTAINER) {
             GroupingElement groupingElement = (GroupingElement) selectedElement;
             level.setRoot(groupingElement);
 
@@ -59,18 +57,22 @@ public class GOVisualizer extends GraphVisualizer {
         gl.glLoadIdentity();
 
         gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
 
         if (root != null) {
             if (vertexState == State.SELECTING) {
-                selectElement(drawable);
+                select(drawable);
             }
 
             root.drawContent(drawable);
 
-            if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.COMPOSITE) {
+            if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.CONTAINER) {
                 level.draw(drawable);
             }
         }
@@ -82,6 +84,17 @@ public class GOVisualizer extends GraphVisualizer {
         Extractor extractor = (Extractor) params;
 
         this.setSubGraph(extractor.getGoSubGraph());
+
+        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
+            LevelElement levelElement = (LevelElement) i.next();
+            Element element = levelElement.getPreview().getElementByObject(extractor.getSelectedNode());
+            if (element != null) {
+                selectedElement = element;
+                selectedElement.setSelected(true);
+                break;
+            }
+        }
+
 
         Scene.getInstance().getMainWindow().repaint();
     }

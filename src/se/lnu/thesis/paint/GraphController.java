@@ -20,14 +20,14 @@ import java.nio.IntBuffer;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphVisualizer implements Drawable, Observer {
+public abstract class GraphController implements Drawable, Observer {
 
-    public static final Logger LOGGER = Logger.getLogger(GraphVisualizer.class);
+    public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
     public static final int BUFSIZE = 512;
 
-    public static final double CURSOR_X_SIZE = 3.0;
-    public static final double CURSOR_Y_SIZE = 3.0;
+    public static final double CURSOR_X_SIZE = 2.0;
+    public static final double CURSOR_Y_SIZE = 2.0;
 
     protected Color background = Color.BLACK;
 
@@ -49,29 +49,9 @@ public abstract class GraphVisualizer implements Drawable, Observer {
 
     public abstract void init();
 
-    public abstract void draw(GLAutoDrawable drawable);/* {
-        gl = drawable.getGL();
+    public abstract void draw(GLAutoDrawable drawable);
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
-
-        gl.glEnable(GL.GL_LINE_SMOOTH);
-        gl.glEnable(GL.GL_DEPTH_TEST);
-
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
-
-        if (vertexState == State.SELECTING) {
-            selectElement(drawable);
-        }
-
-        root.drawContent(drawable);
-
-
-        drawable.swapBuffers();
-    }*/
-
-    protected void selectElement(GLAutoDrawable drawable) {
+    protected void select(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
         int selectBuf[] = new int[BUFSIZE];

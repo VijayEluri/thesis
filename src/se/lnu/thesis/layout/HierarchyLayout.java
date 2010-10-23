@@ -17,9 +17,6 @@ import java.awt.geom.Point2D;
  */
 public class HierarchyLayout extends AbstractLayout {
 
-    public static final double DEFAULT_BORDER_WIDTH = 0.02;
-
-    private double border = DEFAULT_BORDER_WIDTH;
 
     public HierarchyLayout(MyGraph graph, Container root) {
         super(graph, root);
@@ -30,7 +27,7 @@ public class HierarchyLayout extends AbstractLayout {
         int levelCount = GraphUtils.computeLevels(graph, levels);
 
 
-        Point2D.Double dimension = new Point2D.Double(2.0 - (border * 2), (2 - border - (border * levelCount)) / levelCount);
+        Point2D.Double dimension = new Point2D.Double(2.0, 2.0 / levelCount);
 
 //        LevelPreviewLayout levelPreviewLayout = new LevelPreviewLayout(graph);
         LevelbarLayout levelPreviewLayout = new LevelbarLayout(graph);
@@ -48,7 +45,7 @@ public class HierarchyLayout extends AbstractLayout {
                         levelPreviewLayout.setStart(levelElement.getPreview().getPosition());
                         levelPreviewLayout.compute();
             */
-            Point2D.Double position = new Point2D.Double(-1 + border, 1 - dimension.getY() * i - border * (i + 1));
+            Point2D.Double position = new Point2D.Double(-1.0, 1.0 - dimension.getY() * i);
 
             LevelElement levelElement = LevelElement.init(i, levels.get(i));
             levelElement.getPreview().setPosition(position);
@@ -64,14 +61,6 @@ public class HierarchyLayout extends AbstractLayout {
             root.addElement(levelElement);
         }
 
-    }
-
-    public double getBorder() {
-        return border;
-    }
-
-    public void setBorder(double border) {
-        this.border = border;
     }
 
 }

@@ -18,16 +18,20 @@ import java.util.HashSet;
  */
 public class LevelbarLayout extends UniformDistributionLayout {
 
+    private static final Point2D DEFAULT_BORDER = new Point2D.Double(0.02, 0.02);
+
     private ImmutableCollection objects;
 
     private Collection leaves;
     private Collection nodes;
 
-    private Point2D.Double leavesStartPosition;
-    private Point2D.Double leavesDimension;
+    private Point2D leavesStartPosition;
+    private Point2D leavesDimension;
 
-    private Point2D.Double nodesStartPosition;
-    private Point2D.Double nodesDimension;
+    private Point2D nodesStartPosition;
+    private Point2D nodesDimension;
+
+    private Point2D border = DEFAULT_BORDER;
 
     public LevelbarLayout(Graph graph) {
         super(graph);
@@ -61,14 +65,18 @@ public class LevelbarLayout extends UniformDistributionLayout {
     }
 
     private void computeSpace() {
+        Point2D d = new Point2D.Double(getDimension().getX() - (border.getX() * 2), getDimension().getY() - (border.getY() * 2)); // layout dimension including border
+        Point2D p = new Point2D.Double(getStart().getX() + border.getX(), getStart().getY() - border.getY()); // start position including border
+
+
         double percentage = leaves.size() * 100 / objects.size();
-        leavesDimension = new Point2D.Double(dimension.getX() / 100 * percentage, dimension.getY());
+        leavesDimension = new Point2D.Double(d.getX() / 100 * percentage, d.getY());
 
         percentage = 100 - percentage;
-        nodesDimension = new Point2D.Double(dimension.getX() / 100 * percentage, dimension.getY());
+        nodesDimension = new Point2D.Double(d.getX() / 100 * percentage, d.getY());
 
-        leavesStartPosition = new Point2D.Double(getStart().getX(), getStart().getY());
-        nodesStartPosition = new Point2D.Double(getStart().getX() + leavesDimension.getX(), getStart().getY());
+        leavesStartPosition = new Point2D.Double(p.getX(), p.getY());
+        nodesStartPosition = new Point2D.Double(p.getX() + leavesDimension.getX(), p.getY());
     }
 
     private void computePositions() {
@@ -106,5 +114,21 @@ public class LevelbarLayout extends UniformDistributionLayout {
         } else {
             this.nodes.clear();
         }
+    }
+
+    public Point2D getBorder() {
+        return border;
+    }
+
+    public void setBorder(Point2D border) {
+        this.border = border;
+    }
+
+    public void setBorder(double x, double y) {
+        if (this.border == null) {
+            this.border = new Point2D.Double();
+        }
+
+        this.border.setLocation(x, y);
     }
 }
