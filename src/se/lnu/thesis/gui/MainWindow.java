@@ -1,7 +1,6 @@
 package se.lnu.thesis.gui;
 
 import se.lnu.thesis.Scene;
-import se.lnu.thesis.core.MyGraph;
 
 import javax.media.opengl.GLJPanel;
 import javax.swing.*;
@@ -15,24 +14,41 @@ public class MainWindow extends JFrame {
 
 //    SelectionDialog selectionDialog;
 
-    MyGraph clusterGraph;
+    JLabel statusBar;
 
     public MainWindow() {
         initUIElements();
     }
 
     private void initUIElements() {
-
-        this.setLayout(new GridLayout(1, 2));
         this.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEGIHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.setLayout(new BorderLayout());
+
         this.setJMenuBar(new MainMenu());
 
-        this.add(goPanel());
-        this.add(clusterPanel());
+        this.add(centralPanel(), BorderLayout.CENTER);
+        this.add(statusBar(), BorderLayout.SOUTH);
 
         this.setVisible(true);
+    }
+
+    private JLabel statusBar() {
+        statusBar = new JLabel(" ");
+
+        return statusBar;
+    }
+
+    private Component centralPanel() {
+        JPanel result = new JPanel();
+
+        result.setLayout(new GridLayout(1, 2));
+
+        result.add(goPanel());
+        result.add(clusterPanel());
+
+        return result;
     }
 
     private Component goPanel() {
@@ -64,11 +80,14 @@ public class MainWindow extends JFrame {
         return result;
     }
 
-    public MyGraph getClusterGraph() {
-        return clusterGraph;
+    public void setStatusBarText(String text) {
+        statusBar.setText(text);
     }
 
-    public void setClusterGraph(MyGraph clusterGraph) {
-        this.clusterGraph = clusterGraph;
+    public static void main(String[] args) {
+        MainWindow window = new MainWindow();
+        window.setVisible(true);
+
+        window.setStatusBarText("THIS IS STATUS BAR MESSAGE");
     }
 }

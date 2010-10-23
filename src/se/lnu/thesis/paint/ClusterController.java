@@ -25,6 +25,7 @@ public class ClusterController extends GraphController implements Observer {
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
         layout.compute();
 
+
         lens = new Lens();
         lens.setGraph(graph);
     }
@@ -33,6 +34,8 @@ public class ClusterController extends GraphController implements Observer {
     protected void select(Element element) {
         if (element != null && element.getType() == ElementType.CONTAINER) {
             LOGGER.info("Selected vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
+
+            Scene.getInstance().getMainWindow().setStatusBarText("Selected vertex " + graph.getLabel(element.getObject()));
 
             this.selectedElement = element;
             this.selectedElement.setSelected(true);
@@ -149,6 +152,8 @@ public class ClusterController extends GraphController implements Observer {
     private void focus(Element element) {
         if (element != null) {
             LOGGER.info("Focused vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
+
+            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + graph.getLabel(element.getObject()));
 
             this.focusedElement = element;
             this.focusedElement.setFocused(true);
