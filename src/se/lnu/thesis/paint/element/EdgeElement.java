@@ -129,6 +129,5 @@ public class EdgeElement extends VisualizableElement {
     @Override
     public void setHighlighted(boolean b) {
         super.setHighlighted(b);
-        setDrawed(b);
     }
 }
