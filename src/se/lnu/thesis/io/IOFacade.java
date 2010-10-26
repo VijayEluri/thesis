@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.gml.GmlReader;
 import se.lnu.thesis.io.gml.GmlWriter;
-import se.lnu.thesis.io.gml.GraphYedGmlWriter;
 import se.lnu.thesis.io.gml.YedGmlReader;
 import se.lnu.thesis.io.graphml.AbstractHandler;
 import se.lnu.thesis.io.graphml.GraphMLParser;
@@ -47,17 +46,9 @@ public class IOFacade {
         return result;
     }
 
-
-    public void writeToYedGmlFile(Graph graph, File file) {
-        writeToGmlFile(graph, new GraphYedGmlWriter(), file);
+    public void writeToGmlFile(Graph graph, File file) {
+        writeToGmlFile(graph, new GmlWriter(), file);
     }
-
-/*
-    public void writeToYedGmlFile(MyGraph graph, File file) {
-        writeToGmlFile(graph, new MyGraphYedGmlWriter(), file);
-    }
-*/
-
 
     protected void writeToGmlFile(Graph graph, GmlWriter writer, File file) {
         try {
@@ -66,7 +57,6 @@ public class IOFacade {
             LOGGER.error(e);
         }
     }
-
 
     protected MyGraph loadFromGml(GmlReader reader, File file) {
         MyGraph result = null;
@@ -80,7 +70,6 @@ public class IOFacade {
         return result;
     }
 
-
     public MyGraph loadFromGml(String file) {
         return loadFromGml(new GmlReader(), new File(file));
     }
@@ -88,7 +77,6 @@ public class IOFacade {
     public MyGraph loadFromGml(File file) {
         return loadFromGml(new GmlReader(), file);
     }
-
 
     public MyGraph loadFromYedGml(String file) {
         return loadFromGml(new YedGmlReader(), new File(file));

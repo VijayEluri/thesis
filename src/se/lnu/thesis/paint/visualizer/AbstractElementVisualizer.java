@@ -41,10 +41,10 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
         setDrawable(drawable); // update OpenGL drawing contex
 
         if (element.getId() != null) {
-            gl().glPushName(element.getId()); // set element id
+            gl().glPushName(element.getId()); // set tag id
         }
 
-        drawingColor(element); // set element levelBackgroud
+        drawingColor(element); // set tag levelBackgroud
         drawShape(element); // draw object
 
         if (element.getId() != null) {

@@ -51,14 +51,14 @@ public class EdgeElement extends VisualizableElement {
         if (element != null) {
             result.setStartPosition(element.getPosition());
         } else {
-            LOGGER.error("Cant find element for object '" + source + "'");
+            LOGGER.error("Cant find tag for object '" + source + "'");
         }
 
         element = root.getElementByObject(dest);
         if (element != null) {
             result.setEndPosition(element.getPosition());
         } else {
-            LOGGER.error("Cant find element for object '" + source + "'");
+            LOGGER.error("Cant find tag for object '" + source + "'");
         }
 
         result.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());

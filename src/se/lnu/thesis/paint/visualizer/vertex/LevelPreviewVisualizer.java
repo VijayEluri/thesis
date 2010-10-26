@@ -34,7 +34,7 @@ public class LevelPreviewVisualizer implements ElementVisualizer {
             GL gl = drawable.getGL();
 
             if (element.getId() != null) {
-                gl.glPushName(element.getId()); // set element id
+                gl.glPushName(element.getId()); // set tag id
             }
 
             drawLevelLines(drawable, levelPreview);

@@ -17,9 +17,12 @@ public class GmlWriter {
 
     public static final Logger LOGGER = Logger.getLogger(GmlWriter.class);
 
+    public static final char OPEN_SQUARE_BRACKET = '[';
+    public static final char CLOSE_SQUARE_BRACKET = ']';
+
     public void write(Graph<Integer, Object> graph, OutputStream outputStream) {
 
-        String result = result(graph);
+        String result = buildResultString(graph);
 
         Writer out = new BufferedWriter(new OutputStreamWriter(outputStream));
         try {
@@ -30,61 +33,60 @@ public class GmlWriter {
         }
     }
 
-    protected String result(Graph<Integer, Object> graph) {
+    protected String buildResultString(Graph graph) {
         StringBuffer result = new StringBuffer();
 
-        graph(result);
+        tag(result, "graph"); // open graph tag
 
-        for (Object node : graph.getVertices()) {
-            node(result, node);
-        }
+        processNodes(result, graph);
 
-        for (Object edge : graph.getEdges()) {
-            edge(result, graph, edge);
-        }
+        processEdges(result, graph);
 
-        close(result);
+        close(result); // close graph tag
 
         return result.toString();
     }
 
     protected void graph(StringBuffer out) {
-        element(out, "graph");
-    }
-
-    protected void node(StringBuffer out, Object node) {
-        element(out, "node");
-
-        out.append("id");
-        space(out);
-        out.append(node);
-        newLine(out);
-        close(out);
-    }
-
-    protected void edge(StringBuffer out, Graph graph, Object edge) {
-        Object source = graph.getSource(edge);
-        Object target = graph.getDest(edge);
-
-        element(out, "edge");
-
-        out.append("source");
-        space(out);
-        out.append(source);
-        newLine(out);
-        out.append("target");
-        space(out);
-        out.append(target);
-        newLine(out);
-        close(out);
 
     }
 
-    protected void element(StringBuffer out, String element) {
-        out.append(element);
-        space(out);
-        out.append('[');
-        newLine(out);
+    protected void processNodes(StringBuffer result, Graph graph) {
+        for (Object o : graph.getVertices()) {
+            tag(result, "node");
+
+            result.append("id");
+            space(result);
+            result.append(o);
+            newLine(result);
+            close(result);
+        }
+    }
+
+    protected void processEdges(StringBuffer out, Graph graph) {
+        for (Object o : graph.getEdges()) {
+            Object source = graph.getSource(o);
+            Object target = graph.getDest(o);
+
+            tag(out, "edge");
+
+            out.append("source");
+            space(out);
+            out.append(source);
+            newLine(out);
+            out.append("target");
+            space(out);
+            out.append(target);
+            newLine(out);
+            close(out);
+        }
+    }
+
+    protected void tag(StringBuffer result, String tag) {
+        result.append(tag);
+        space(result);
+        result.append(OPEN_SQUARE_BRACKET);
+        newLine(result);
     }
 
     protected void space(StringBuffer out) {
@@ -96,9 +98,8 @@ public class GmlWriter {
     }
 
     protected void close(StringBuffer out) {
-        out.append(']');
+        out.append(CLOSE_SQUARE_BRACKET);
         newLine(out);
     }
-
 
 }

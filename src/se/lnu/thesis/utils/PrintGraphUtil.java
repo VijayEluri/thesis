@@ -42,12 +42,12 @@ public class PrintGraphUtil {
         calculateDimensionX(graph, root);
 
         int current = length.get(root) / 2 + distance;
-        StringBuffer result = new StringBuffer();
+        StringBuffer buildResultString = new StringBuffer();
 
-        buildTree(graph, root, current, result);
+        buildTree(graph, root, current, buildResultString);
     }
 
-    protected void buildTree(Graph graph, Object node, int x, StringBuffer result) {
+    protected void buildTree(Graph graph, Object node, int x, StringBuffer buildResultString) {
 
         int currentLength = length.get(node);
 
@@ -69,13 +69,13 @@ public class PrintGraphUtil {
         this.currentPoint.y -= stepY;
     }
 
-    protected int calculateDimensionX(Graph graph, Object root, StringBuffer result) {
+    protected int calculateDimensionX(Graph graph, Object root, StringBuffer buildResultString) {
 
         int length = 0;
 
         if (graph.outDegree(root) > 0) {
             for (Object child: graph.getSuccessors(root)) {
-                length += calculateDimensionX(graph, child, result) + distance + child.toString().length();
+                length += calculateDimensionX(graph, child, buildResultString) + distance + child.toString().length();
             }
         }
 

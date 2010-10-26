@@ -21,8 +21,8 @@ public class LevelPreviewLayout extends UniformDistributionLayout {
     @Override
     protected void setElementPosition(Object o) {
 /*
-        VertexElement element = VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer());
-        element.setId(null); // this elements are not active for any interaction
+        VertexElement tag = VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer());
+        tag.setId(null); // this elements are not active for any interaction
 */
 
         if (GraphUtils.isLeaf(graph, o)) {
@@ -31,7 +31,7 @@ public class LevelPreviewLayout extends UniformDistributionLayout {
             root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGONodePointVisualizer()));
         }
 
-        //root.addElement(element);
+        //root.addElement(tag);
     }
 
 }

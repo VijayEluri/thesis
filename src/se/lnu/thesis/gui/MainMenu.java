@@ -2,13 +2,11 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
-import se.lnu.thesis.io.IOFacade;
+import se.lnu.thesis.core.MyGraph;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 
 public class MainMenu extends JMenuBar implements ActionListener {
@@ -19,8 +17,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
     public static final String OPEN_GO_GRAPH = "Open GO graph";
     public static final String OPEN_CLUSTER_GRAPH = "Open cluster graph";
 
-    private JFileChooser fileChooser;
-    private IOFacade ioFacade;
+    private GraphChooser graphChooser;
 
     public MainMenu() {
         initFileChooser();
@@ -28,22 +25,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
     }
 
     private void initFileChooser() {
-        ioFacade = new IOFacade();
-
-        fileChooser = new JFileChooser();
-
-        fileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isFile() && file.getName().endsWith(".gml");  // TODO fix it
-            }
-
-            @Override
-            public String getDescription() {
-                return "gml";
-            }
-        });
-
+        graphChooser = new GraphChooser();
     }
 
     private void createFileMenu() {
@@ -84,15 +66,16 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
 
         if (event == OPEN_GO_GRAPH) {
-            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                Scene.getInstance().setGoGraph(ioFacade.loadFromYedGraphml(fileChooser.getSelectedFile()));
+            MyGraph graph = graphChooser.open();
+            if (graph != null) {
+                Scene.getInstance().setGoGraph(graph);
             }
-
         }
 
         if (event == OPEN_CLUSTER_GRAPH) {
-            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                Scene.getInstance().setClusterGraph(ioFacade.loadFromYedGraphml(fileChooser.getSelectedFile()));
+            MyGraph graph = graphChooser.open();
+            if (graph != null) {
+                Scene.getInstance().setClusterGraph(graph);
             }
         }
 

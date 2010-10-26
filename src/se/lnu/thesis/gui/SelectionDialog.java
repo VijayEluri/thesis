@@ -124,7 +124,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
     }
 
     public void valueChanged(ListSelectionEvent event) {
-        // TODO if same element than unselect!
+        // TODO if same tag than unselect!
 
         if (!event.getValueIsAdjusting()) {
 
