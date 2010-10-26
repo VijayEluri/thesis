@@ -3,13 +3,16 @@ package se.lnu.thesis.io;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.io.gml.GmlReader;
 import se.lnu.thesis.io.gml.GmlWriter;
 import se.lnu.thesis.io.gml.GraphYedGmlWriter;
+import se.lnu.thesis.io.gml.YedGmlReader;
 import se.lnu.thesis.io.graphml.AbstractHandler;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
@@ -65,4 +68,33 @@ public class IOFacade {
     }
 
 
+    protected MyGraph loadFromGml(GmlReader reader, File file) {
+        MyGraph result = null;
+
+        try {
+            result = reader.read(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
+
+        return result;
+    }
+
+
+    public MyGraph loadFromGml(String file) {
+        return loadFromGml(new GmlReader(), new File(file));
+    }
+
+    public MyGraph loadFromGml(File file) {
+        return loadFromGml(new GmlReader(), file);
+    }
+
+
+    public MyGraph loadFromYedGml(String file) {
+        return loadFromGml(new YedGmlReader(), new File(file));
+    }
+
+    public MyGraph loadFromYedGml(File file) {
+        return loadFromGml(new YedGmlReader(), file);
+    }
 }

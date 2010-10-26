@@ -17,7 +17,7 @@ public class GmlWriter {
 
     public static final Logger LOGGER = Logger.getLogger(GmlWriter.class);
 
-    public void write(Graph graph, OutputStream outputStream) {
+    public void write(Graph<Integer, Integer> graph, OutputStream outputStream) {
 
         String result = result(graph);
 
@@ -30,7 +30,7 @@ public class GmlWriter {
         }
     }
 
-    protected String result(Graph graph) {
+    protected String result(Graph<Integer, Integer> graph) {
         StringBuffer result = new StringBuffer();
 
         graph(result);
