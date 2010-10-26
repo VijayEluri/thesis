@@ -11,7 +11,6 @@ import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.utils.GraphUtils;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -118,8 +117,6 @@ public class TestRealData {
         assertEquals(19, subGraph.getVertexCount());
 
         GraphUtils.printGraphInfo(subGraph);
-
-        ioFacade.writeToYedGmlFile(subGraph, new File("test.gml"));
     }
 
 
