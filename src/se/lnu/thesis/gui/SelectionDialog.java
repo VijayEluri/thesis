@@ -3,6 +3,7 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 
@@ -29,7 +30,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
     private JList list;
 
-    private Map<Object, String> nodeLabel;
+    private MyGraph graph;
     private Map<Integer, Object> indexNode;
 
     private DefaultListModel labels;
@@ -61,9 +62,8 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
         extractor = new Extractor();
     }
 
-    public void initListContent(Map<Object, String> nodeLabel) {
-        this.nodeLabel = nodeLabel;
-
+    public void initListContent(MyGraph graph) {
+        this.graph = graph;
         labels.clear();
 
         if (indexNode == null) {
@@ -73,9 +73,9 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
         }
 
         int i = 0;
-        for (Object node : nodeLabel.keySet()) {
-            labels.add(i, nodeLabel.get(node));
-            indexNode.put(i, node);
+        for (Object o : graph.getVertices()) {
+            labels.add(i, graph.getLabel(o));
+            indexNode.put(i, o);
             i++;
         }
 
@@ -113,7 +113,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
 
     public Object getSelectedLabel() {
         if (getSelectedNode() != null) {
-            return nodeLabel.get(getSelectedNode());
+            return graph.getLabel(getSelectedNode());
         } else {
             return null;
         }
@@ -155,14 +155,15 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
     @Deprecated
     public static void main(String[] args) {
 
-        Map nodeLabel = new HashMap();
+        MyGraph graph = new MyGraph();
 
         for (int i = 0; i < 100; i++) {
-            nodeLabel.put("id" + i, "Label" + i);
+            graph.addVertex(i);
+            graph.addLabel(i, "-> " + i);
         }
 
         SelectionDialog selectionDialog = new SelectionDialog();
-        selectionDialog.initListContent(nodeLabel);
+        selectionDialog.initListContent(graph);
         selectionDialog.setVisible(true);
 
     }

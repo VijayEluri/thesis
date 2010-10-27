@@ -1,5 +1,8 @@
 package se.lnu.thesis.core;
 
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 import java.util.HashMap;
@@ -23,10 +26,32 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
 
     private Map<V, String> nodeLabel = new HashMap<V, String>(); // TODO use GoogleCollection Bidirectional Map
 
-    public Map<V, String> getNodeLabel() {
-        return nodeLabel;
+    public boolean addLabel(V o, String label) {
+        nodeLabel.put(o, label);
+
+        return nodeLabel.containsKey(o);
     }
 
+    @Override
+    public boolean removeVertex(V v) {
+        if (super.removeVertex(v)) {
+            nodeLabel.remove(v);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeLabel(V v) {
+        nodeLabel.remove(v);
+
+        return !nodeLabel.containsKey(v);
+    }
+
+    public ImmutableCollection<String> getLabels() {
+        return ImmutableMultiset.copyOf(nodeLabel.values());
+    }
 
     /**
      * Returns all nodes with selected label in graph
@@ -34,7 +59,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
      * @param label Label string
      * @return Set of node keys
      */
-    public Set<V> getNodesByLabel(String label) {
+    public ImmutableSet<V> getNodesByLabel(String label) {
         Set result = new HashSet();
 
         for (V v : nodeLabel.keySet()) {
@@ -43,7 +68,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
             }
         }
 
-        return result;
+        return ImmutableSet.copyOf(result);
     }
 
     /**
@@ -52,7 +77,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
      * @param label Label string
      * @return Set of node keys
      */
-    public Set<V> getLeafsByLabel(String label) {
+    public ImmutableSet<V> getLeafsByLabel(String label) {
         Set result = new HashSet();
 
         for (V v : nodeLabel.keySet()) {
@@ -63,7 +88,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
             }
         }
 
-        return result;
+        return ImmutableSet.copyOf(result);
     }
 
     /**
@@ -87,9 +112,11 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
         return nodeLabel.get(node);
     }
 
-    public Map<V, String> getNodeLabelMap() {
-        return nodeLabel;
+    public int getLabelCount() {
+        return nodeLabel.values().size();
     }
 
-
+    public boolean containsLabel(String label) {
+        return nodeLabel.values().contains(label);
+    }
 }

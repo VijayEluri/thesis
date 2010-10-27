@@ -60,9 +60,9 @@ public class TestGmlReader {
         assertNotNull(graph.findEdge(68, 75));
         assertNotNull(graph.findEdge(72, 79));
 
-        assertEquals(100, graph.getNodeLabelMap().size());
+        assertEquals(100, graph.getLabelCount());
 
-        for (Object o : graph.getNodeLabel().values()) {
+        for (Object o : graph.getLabels()) {
             System.out.println(o);
         }
     }
@@ -98,9 +98,9 @@ public class TestGmlReader {
         assertEquals(graphmlGraph.getVertexCount(), gmlGraph.getVertexCount());
         assertEquals(graphmlGraph.getEdgeCount(), gmlGraph.getEdgeCount());
 
-        assertEquals(graphmlGraph.getNodeLabel().size(), gmlGraph.getNodeLabel().size());
+        assertEquals(graphmlGraph.getLabelCount(), gmlGraph.getLabelCount());
 
-        assertTrue(gmlGraph.getNodeLabel().values().containsAll(graphmlGraph.getNodeLabel().values()));
+        assertTrue(gmlGraph.getLabels().containsAll(graphmlGraph.getLabels()));
     }
 
     @Test
@@ -122,9 +122,9 @@ public class TestGmlReader {
         assertEquals(graphmlGraph.getVertexCount(), gmlGraph.getVertexCount());
         assertEquals(graphmlGraph.getEdgeCount(), gmlGraph.getEdgeCount());
 
-        assertEquals(graphmlGraph.getNodeLabel().size(), gmlGraph.getNodeLabel().size());
+        assertEquals(graphmlGraph.getLabels(), gmlGraph.getLabels());
 
-        assertTrue(gmlGraph.getNodeLabel().values().containsAll(graphmlGraph.getNodeLabel().values()));
+        assertTrue(gmlGraph.getLabels().containsAll(graphmlGraph.getLabels()));
     }
 
 }

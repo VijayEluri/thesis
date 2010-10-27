@@ -26,7 +26,7 @@ public class MyGraphYedHandler extends AbstractYedHandler {
 
     protected void labelTagValue(String label) {
         MyGraph myGraph = (MyGraph) graph;
-        myGraph.getNodeLabel().put(currentNode, label);
+        myGraph.addLabel(currentNode, label);
     }
 
 
@@ -34,11 +34,11 @@ public class MyGraphYedHandler extends AbstractYedHandler {
      * Deprecated!
      * Use MyGraph.getNodeLabel() insteed.
      *
-     * @return Returns node id - label map.
+     * @return Allways returns null;
      */
     @Deprecated
     public Map getIdLabel() {
-        return ((MyGraph) graph).getNodeLabel();
+        return null;
     }
 
 }

@@ -47,11 +47,10 @@ public class TestHandler {
         MyGraph graph = (MyGraph) graphs.get(0);
 
         assertEquals(23, graph.getVertexCount());
-        assertEquals(23, graph.getNodeLabel().size());
+        assertEquals(23, graph.getLabelCount());
 
         assertTrue(graph.containsVertex("n10"));
-
-        assertEquals("11", graph.getNodeLabel().get("n10"));
+        assertTrue(graph.containsLabel("11"));
 
         assertEquals("11", graph.getLabel("n10"));
         assertEquals("n10", graph.getNodeByLabel("11"));
@@ -74,8 +73,6 @@ public class TestHandler {
         assertEquals(14623, graph.getVertexCount());
 
         assertTrue(graph.containsVertex("n10"));
-
-        assertEquals("AFFX-LysX-3_at", graph.getNodeLabel().get("n10"));
 
         assertEquals("AFFX-LysX-3_at", graph.getLabel("n10"));
         assertEquals("n10", graph.getNodeByLabel("AFFX-LysX-3_at"));

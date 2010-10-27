@@ -33,7 +33,7 @@ public class TestYedGmlReader {
         assertNotNull(graph.findEdge(1, 3));
         assertNotNull(graph.findEdge(3, 7));
 
-        assertEquals(15, graph.getNodeLabelMap().size());
+        assertEquals(15, graph.getLabelCount());
     }
 
 }

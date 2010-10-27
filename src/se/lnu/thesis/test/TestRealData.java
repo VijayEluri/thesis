@@ -64,7 +64,7 @@ public class TestRealData {
 
         Set<String> dublicates = new HashSet<String>();
 
-        Collection<String> labels = go.getNodeLabelMap().values();
+        Collection<String> labels = go.getLabels();
         for (String label : labels) {
             if (Collections.frequency(labels, label) > 1) {
                 dublicates.add(label);
@@ -86,7 +86,7 @@ public class TestRealData {
 
         Set<String> dublicates = new HashSet<String>();
 
-        Collection<String> labels = cluster.getNodeLabelMap().values();
+        Collection<String> labels = cluster.getLabels();
         for (String label : labels) {
             if (Collections.frequency(labels, label) > 1) {
                 dublicates.add(label);

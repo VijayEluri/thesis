@@ -134,7 +134,7 @@ public class GmlReader {
         if (s.startsWith(tagLabel) && node && id != null) { // node label
             String label = Utils.extractStringValue(s, tagLabel);
 
-            result.getNodeLabelMap().put(id, label);
+            result.addLabel(id, label);
 
             node = false;
             id = null;

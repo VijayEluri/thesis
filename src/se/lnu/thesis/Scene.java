@@ -58,7 +58,7 @@ public class Scene {
 
         initController(goController, goGraph);
 
-        selectionDialog.initListContent(Scene.getInstance().getGoGraph().getNodeLabel());
+        selectionDialog.initListContent(Scene.getInstance().getGoGraph());
         selectionDialog.setVisible(true);
     }
 

@@ -89,7 +89,7 @@ public class LevelLayout extends UniformDistributionLayout {
 
     private void compute(Collection objects, Point2D start, Point2D dimension, Container container) {
         if (objects.size() > 0) {
-            LevelPreviewLayout layout = new LevelPreviewLayout(graph); // TODO THINK ABOUT IT!
+            LevelPreviewLayout layout = new LevelPreviewLayout(graph);
 
             layout.setStart(start);
             layout.setDimension(dimension);
