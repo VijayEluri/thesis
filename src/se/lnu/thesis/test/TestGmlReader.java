@@ -10,6 +10,7 @@ import se.lnu.thesis.io.gml.GmlReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -62,8 +63,8 @@ public class TestGmlReader {
 
         assertEquals(100, graph.getLabelCount());
 
-        for (Object o : graph.getLabels()) {
-            System.out.println(o);
+        for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
+            System.out.println(iterator.next());
         }
     }
 
@@ -122,7 +123,7 @@ public class TestGmlReader {
         assertEquals(graphmlGraph.getVertexCount(), gmlGraph.getVertexCount());
         assertEquals(graphmlGraph.getEdgeCount(), gmlGraph.getEdgeCount());
 
-        assertEquals(graphmlGraph.getLabels(), gmlGraph.getLabels());
+        assertEquals(graphmlGraph.getLabelCount(), gmlGraph.getLabelCount());
 
         assertTrue(gmlGraph.getLabels().containsAll(graphmlGraph.getLabels()));
     }

@@ -8,9 +8,11 @@ import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,7 +26,7 @@ import java.util.Set;
  * <p/>
  * Gene Ontology node selectable list
  */
-public class SelectionDialog extends JFrame implements ListSelectionListener, Subject {
+public class SelectionDialog extends JFrame implements Subject {
 
     public static final Logger LOGGER = Logger.getLogger(SelectionDialog.class);
 
@@ -40,45 +42,119 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
     private Extractor extractor;
 
     public SelectionDialog() {
-        setSize(150, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-        labels = new DefaultListModel();
-
-        list = new JList();
-        list.setModel(labels);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.addListSelectionListener(this);
-
-        JScrollPane scrollPane = new JScrollPane(list);
-        scrollPane.setWheelScrollingEnabled(true);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        this.add(scrollPane);
+        initGUI();
 
         observers = new HashSet<Observer>();
 
         extractor = new Extractor();
     }
 
-    public void initListContent(MyGraph graph) {
+    private void initGUI() {
+        this.setSize(150, 300);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        this.setLayout(new BorderLayout());
+
+        this.add(searchField(), BorderLayout.NORTH);
+
+        this.add(geneList(), BorderLayout.CENTER);
+    }
+
+    protected JComponent geneList() {
+        labels = new DefaultListModel();
+
+        list = new JList();
+        list.setModel(labels);
+        list.setSelectionModel(new DefaultListSelectionModel() {
+            public void setSelectionInterval(int index0, int index1) {
+                if (isSelectedIndex(index0)) {
+                    super.removeSelectionInterval(index0, index1);
+                } else {
+                    super.setSelectionInterval(index0, index1);
+                }
+            }
+        });
+
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if (list.getSelectedIndex() > -1) {
+                    LOGGER.info("User selected node.. " + list.getSelectedValue());
+
+                    LOGGER.info("Extracting subgraph..");
+
+                    list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                    extractor.extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
+
+                    list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+                    LOGGER.info("Done.");
+
+                } else {
+                    LOGGER.info("User unselected node.");
+
+                    extractor.extractSubGraphs(null, null, null);
+                }
+
+                notifyObservers();
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setWheelScrollingEnabled(true);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        return scrollPane;
+    }
+
+    private JTextField searchField() {
+        JTextField search = new JTextField();
+        search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                String search = ((JTextField) keyEvent.getSource()).getText();
+
+                LOGGER.debug("User typed in the search field: " + search);
+
+                fillContent(search);
+            }
+        });
+        return search;
+    }
+
+    protected void fillContent(String match) {
+        if (graph != null) {
+            labels.clear();
+
+            if (indexNode == null) {
+                indexNode = new HashMap<Integer, Object>();
+            } else {
+                indexNode.clear();
+            }
+
+            int i = 0;
+            for (Object o : graph.getVertices()) { // TODO LabelsIterator after fixing dublicates in the Gene Ontology data file
+                String label = graph.getLabel(o);
+                if (match != null) {
+                    if (label.contains(match)) {
+                        labels.add(i, label);
+                        indexNode.put(i, o);
+                        i++;
+                    }
+                } else {
+                    labels.add(i, label);
+                    indexNode.put(i, o);
+                    i++;
+                }
+            }
+        }
+    }
+
+    public void setGraph(MyGraph graph) {
         this.graph = graph;
-        labels.clear();
-
-        if (indexNode == null) {
-            indexNode = new HashMap<Integer, Object>();
-        } else {
-            indexNode.clear();
-        }
-
-        int i = 0;
-        for (Object o : graph.getVertices()) {
-            labels.add(i, graph.getLabel(o));
-            indexNode.put(i, o);
-            i++;
-        }
-
+        fillContent(null);
     }
 
     public boolean registerObserver(se.lnu.thesis.myobserver.Observer observer) {
@@ -123,32 +199,6 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
         setVisible(true);
     }
 
-    public void valueChanged(ListSelectionEvent event) {
-        // TODO if same tag than unselect!
-
-        if (!event.getValueIsAdjusting()) {
-
-            if (list.getSelectedIndex() > -1) {
-
-                LOGGER.debug(SelectionDialog.this.getSelectedNode() + " -> " + SelectionDialog.this.getSelectedLabel());
-
-                LOGGER.debug("Extracting subgraph..");
-
-                list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-                extractor.extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
-
-                list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-                LOGGER.debug("Done.");
-            }
-
-            notifyObservers();
-        }
-
-    }
-
-
     /**
      * For testing purpose only!
      */
@@ -163,7 +213,7 @@ public class SelectionDialog extends JFrame implements ListSelectionListener, Su
         }
 
         SelectionDialog selectionDialog = new SelectionDialog();
-        selectionDialog.initListContent(graph);
+        selectionDialog.setGraph(graph);
         selectionDialog.setVisible(true);
 
     }

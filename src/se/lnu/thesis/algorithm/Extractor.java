@@ -39,22 +39,39 @@ public class Extractor {
     private Map<Object, Graph> clusterCache;
 
     public Extractor() {
-        goCache = new HashMap<Object, Graph>();
-        clusterCache = new HashMap<Object, Graph>();
+
     }
 
-    public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goNode) {
+    public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goVertex) {
+        initVariables();
 
-        setSelectedNode(goNode);
+        if (goGraph == null) {
+            LOGGER.error("Gene Ontology graph is null");
+            return;
+        }
 
-        if (goCache.containsKey(goNode) && clusterCache.containsKey(goNode)) {
+        if (clusterGraph == null) {
+            LOGGER.error("Cluster graph is null!!");
+            return;
+        }
+
+        if (goVertex == null) {
+            LOGGER.error("Gene Ontology vertex is null!!");
+            return;
+        }
+
+        setSelectedNode(goVertex);
+
+        if (goCache.containsKey(goVertex) && clusterCache.containsKey(goVertex)) {
             LOGGER.info("Allready computed. Loading from cache..");
 
-            goSubGraph = goCache.get(goNode);
-            clusterSubGraph = clusterCache.get(goNode);
+            goSubGraph = goCache.get(goVertex);
+            clusterSubGraph = clusterCache.get(goVertex);
         } else {
+            long startTime = System.currentTimeMillis();
+
             goSubGraph = new DirectedSparseGraph();
-            Set goSubGraphLeafs = GraphUtils.extractSubgraph(goGraph, goSubGraph, goNode);
+            Set goSubGraphLeafs = GraphUtils.extractSubgraph(goGraph, goSubGraph, goVertex);
 
             clusterSubGraph = new DirectedSparseGraph();
             Object clusterSubGraphRoot = null;
@@ -94,10 +111,27 @@ public class Extractor {
             LOGGER.info("GO subgraph [" + getGoSubGraph().getVertexCount() + ", " + getGoSubGraph().getEdgeCount() + "]");
             LOGGER.info("Cluster subgraph [" + getClusterSubGraph().getVertexCount() + ", " + getClusterSubGraph().getEdgeCount() + "]");
 
-            goCache.put(goNode, goSubGraph);
-            clusterCache.put(goNode, clusterSubGraph);
+            goCache.put(goVertex, goSubGraph);
+            clusterCache.put(goVertex, clusterSubGraph);
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("Subgraphs extraction tooked " + (endTime - startTime) / 1000 + "s");
         }
 
+    }
+
+    protected void initVariables() {
+        if (goCache == null) {
+            goCache = new HashMap<Object, Graph>();
+        }
+
+        if (clusterCache == null) {
+            clusterCache = new HashMap<Object, Graph>();
+        }
+
+        goSubGraph = null;
+        clusterSubGraph = null;
+        selectedNode = null;
     }
 
     public void removeRootChains(Graph graph, Object root) {

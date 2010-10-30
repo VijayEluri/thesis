@@ -49,8 +49,6 @@ public class Scene {
         selectionDialog = new SelectionDialog();
         selectionDialog.registerObserver(goController);
         selectionDialog.registerObserver(clusterController);
-
-        //lensDialog = new LensDialog();
     }
 
     public void setGoGraph(MyGraph goGraph) {
@@ -58,7 +56,7 @@ public class Scene {
 
         initController(goController, goGraph);
 
-        selectionDialog.initListContent(Scene.getInstance().getGoGraph());
+        selectionDialog.setGraph(Scene.getInstance().getGoGraph());
         selectionDialog.setVisible(true);
     }
 
@@ -98,6 +96,10 @@ public class Scene {
 
     public GraphController getClusterVisualizer() {
         return clusterController;
+    }
+
+    public void showGeneList() {
+        selectionDialog.setVisible(true);
     }
 
 }

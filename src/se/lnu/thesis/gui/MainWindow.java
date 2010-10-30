@@ -12,8 +12,6 @@ public class MainWindow extends JFrame {
     public static final int DEFAULT_WINDOW_HEGIHT = 600;
     public static final int DEFAULT_WINDOW_WIDTH = 1200;
 
-//    SelectionDialog selectionDialog;
-
     JLabel statusBar;
 
     public MainWindow() {

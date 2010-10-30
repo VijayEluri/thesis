@@ -86,13 +86,20 @@ public class GOController extends GraphController {
 
         this.setSubGraph(extractor.getGoSubGraph());
 
-        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
-            Level Level = (Level) i.next();
-            Element element = Level.getPreview().getElementByObject(extractor.getSelectedNode());
-            if (element != null) {
-                selectedElement = element;
-                selectedElement.setSelected(true);
-                break;
+        if (extractor.getSelectedNode() != null) {    // TODO move this shit to setSubGraph
+            for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
+                Level Level = (Level) i.next();
+                Element element = Level.getPreview().getElementByObject(extractor.getSelectedNode());
+                if (element != null) {
+                    selectedElement = element;
+                    selectedElement.setSelected(true);
+                    break;
+                }
+            }
+        } else {
+            if (selectedElement != null) {
+                selectedElement.setSelected(false);
+                selectedElement = null;
             }
         }
 

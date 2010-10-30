@@ -71,11 +71,14 @@ public class TestRealData {
             }
         }
 
+        LOGGER.info("LABEL DUBLICATES: ");
         for (String label : dublicates) {
-            LOGGER.error(label);
+            LOGGER.info(" -> " + label);
         }
 
-        assertEquals(1, dublicates.size()); // one dublicate: 'biological_process'
+        assertEquals(1, dublicates.size()); // one dublicate 'biological_process'
+        assertTrue(dublicates.contains("biological_process"));
+
     }
 
     @Test
@@ -94,7 +97,7 @@ public class TestRealData {
         }
 
         for (String label : dublicates) {
-            LOGGER.error(label);
+            LOGGER.info(label);
         }
 
         assertEquals(0, dublicates.size());

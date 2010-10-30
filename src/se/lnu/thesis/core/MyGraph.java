@@ -5,10 +5,7 @@ import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,9 +17,8 @@ import java.util.Set;
  */
 public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
 
-    /*TODO improve this implementation by making my own, where leafs and nodes should be stored separatedly;
-    also maybe make my own tree implementation with getRoot() and node levels
-    * */
+    /*TODO improve this implementation by making my own, where leafs and nodes should be stored separatedly; also maybe make my own tree implementation with getRoot() and node levels
+    */
 
     private Map<V, String> nodeLabel = new HashMap<V, String>(); // TODO use GoogleCollection Bidirectional Map
 
@@ -50,8 +46,31 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     public ImmutableCollection<String> getLabels() {
-        return ImmutableMultiset.copyOf(nodeLabel.values());
+        return ImmutableMultiset.copyOf(nodeLabel.values()); // TODO use ImmutableSet after switching to BiMap
     }
+
+    public Iterator<String> getLabelsIterator() {
+
+        final Iterator<String> labelsIterator = nodeLabel.values().iterator();
+
+        return new Iterator() {
+
+            public void remove() {
+                throw new UnsupportedOperationException("This iterator doesnt allow collection modifications");
+            }
+
+            public boolean hasNext() {
+                return labelsIterator.hasNext();
+            }
+
+            public Object next() {
+                return labelsIterator.next();
+            }
+
+        };
+
+    }
+
 
     /**
      * Returns all nodes with selected label in graph
