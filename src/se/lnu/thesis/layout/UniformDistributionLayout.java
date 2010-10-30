@@ -4,7 +4,6 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.VertexElement;
-import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
 import java.awt.geom.Point2D;
@@ -30,9 +29,6 @@ public class UniformDistributionLayout extends AbstractLayout {
     protected Point2D start;
     protected Point2D dimension;
 
-    protected ElementVisualizer elementVisualizer;
-
-
     public UniformDistributionLayout(Graph graph) {
         super(graph);
     }
@@ -43,60 +39,63 @@ public class UniformDistributionLayout extends AbstractLayout {
 
     public void compute() {
 
-        double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
+        if (nodes.size() == 1) { // find place for only one node?
+            p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() + (dimension.getY() / 2));
+            setElementPosition(nodes.iterator().next());
+        } else {
+            double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
 
-        int columns = (int) (dimension.getX() / pixelPerElement);
-        int rows = (int) (dimension.getY() / pixelPerElement);
+            int columns = (int) (dimension.getX() / pixelPerElement);
+            int rows = (int) (dimension.getY() / pixelPerElement);
 
-        LOGGER.debug("columns " + columns);
-        LOGGER.debug("rows " + rows);
-
-        step = new Point2D.Double(dimension.getX() / pixelPerElement, dimension.getY() / pixelPerElement);
+            LOGGER.debug("columns " + columns);
+            LOGGER.debug("rows " + rows);
 
 
-        int more = nodes.size() - (columns * rows);
+            int more = nodes.size() - (columns * rows); // is this row x columns count is enouph?
 
-        if (more > 0) {
-            LOGGER.debug("Find more space for " + more + " count");
+            if (more > 0) { // No! More elements needs to be disctributed
+                LOGGER.debug("Find more space for " + more + " count");
 
-            if (more == 1) {
-                rows++;
-            } else {
-                rows += more / columns;
-                if (more % columns > 0) {
+                if (more == 1) {
                     rows++;
+                } else {
+                    rows += more / columns;
+                    if (more % columns > 0) {
+                        rows++;
+                    }
                 }
+            }
+
+
+            LOGGER.debug("columns " + columns);
+            LOGGER.debug("rows " + rows);
+
+            step = new Point2D.Double(dimension.getX() / columns, dimension.getY() / rows);
+            LOGGER.debug("step [" + step.getX() + ", " + step.getY() + "]");
+
+            p = new Point2D.Double(start.getX(), start.getY());
+
+            int count = 0;
+            Iterator element = nodes.iterator();
+            for (int j = 0; j < rows; j++) {
+                if (j == (rows - 1)) {
+                    step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
+                }
+
+                for (int i = 0; i < columns; i++) {
+                    if (count < nodes.size()) {
+                        setElementPosition(element.next());
+                        //point(pX, pY);
+                        count++;
+                    }
+                    p.setLocation(p.getX() + step.getX(), p.getY());
+                }
+                p.setLocation(start.getX(), p.getY() - step.getY());
             }
         }
 
 
-        LOGGER.debug("columns " + columns);
-        LOGGER.debug("rows " + rows);
-
-        step.setLocation(dimension.getX() / columns, dimension.getY() / rows);
-
-        LOGGER.debug("step [" + step.getX() + ", " + step.getY() + "]");
-
-
-        p = new Point2D.Double(start.getX(), start.getY());
-
-        int count = 0;
-        Iterator element = nodes.iterator();
-        for (int j = 0; j < rows; j++) {
-            if (j == (rows - 1)) {
-                step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
-            }
-
-            for (int i = 0; i < columns; i++) {
-                if (count < nodes.size()) {
-                    setElementPosition(element.next());
-                    //point(pX, pY);
-                    count++;
-                }
-                p.setLocation(p.getX() + step.getX(), p.getY());
-            }
-            p.setLocation(start.getX(), p.getY() - step.getY());
-        }
     }
 
     protected void setElementPosition(Object o) {

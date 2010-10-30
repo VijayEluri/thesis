@@ -56,8 +56,7 @@ public class Scene {
 
         initController(goController, goGraph);
 
-        selectionDialog.setGraph(Scene.getInstance().getGoGraph());
-        selectionDialog.setVisible(true);
+        selectionDialog.setGraph(goGraph);
     }
 
     public void setClusterGraph(MyGraph clusterGraph) {
