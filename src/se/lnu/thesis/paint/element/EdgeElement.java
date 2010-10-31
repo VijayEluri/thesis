@@ -15,12 +15,11 @@ import java.util.Collection;
  */
 public class EdgeElement extends VisualizableElement {
 
-    private static final int EDGE_DRAWING_ORDER = -1;
+    private static final int EDGE_DRAWING_ORDER = -2;
 
     public static EdgeElement init(Object o, Object source, Object target, Point2D start, Point2D end, ElementVisualizer visualizer) {
         EdgeElement result = new EdgeElement();
 
-//        result.setId(IdUtils.next()); // edges are unselectable in future
         result.setObject(o);
 
         result.setFrom(source);
@@ -51,14 +50,14 @@ public class EdgeElement extends VisualizableElement {
         if (element != null) {
             result.setStartPosition(element.getPosition());
         } else {
-            LOGGER.error("Cant find tag for object '" + source + "'");
+            LOGGER.error("Cant find vertex for object '" + source + "'");
         }
 
         element = root.getElementByObject(dest);
         if (element != null) {
             result.setEndPosition(element.getPosition());
         } else {
-            LOGGER.error("Cant find tag for object '" + source + "'");
+            LOGGER.error("Cant find vertex for object '" + source + "'");
         }
 
         result.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());

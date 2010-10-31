@@ -2,8 +2,8 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
@@ -120,8 +120,18 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     private void computeEdgePositions() {
         for (Object edge : getGraph().getEdges()) {
-            if (root.has(graph.getSource(edge)) && root.has(graph.getDest(edge))) {
-                root.addElement(EdgeElement.init(edge, graph, root));
+            Object source = graph.getSource(edge);
+            Object dest = graph.getDest(edge);
+
+            if (root.has(source) && root.has(dest)) { // is this edge part of the backbone spiral?
+
+                // is it backbone edge?
+                if (root.getElementByObject(source).getType() != ElementType.CONTAINER && root.getElementByObject(dest).getType() != ElementType.CONTAINER) {
+                    root.addElement(BackboneEdgeElement.init(edge, graph, root));
+                } else { // it's edge from backbone to grouping element
+                    root.addElement(EdgeElement.init(edge, graph, root));
+                }
+
             }
         }
     }

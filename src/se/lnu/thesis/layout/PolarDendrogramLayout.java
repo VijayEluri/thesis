@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.paint.element.PolarVertex;
-import se.lnu.thesis.paint.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 import static se.lnu.thesis.utils.GraphUtils.isLeaf;
@@ -59,7 +58,7 @@ public class PolarDendrogramLayout extends RadialLayout {
 
         computePositions();
 
-        setRootCoordinate();
+        //    setRootCoordinate();
 
         computeEdges();
 
@@ -111,9 +110,11 @@ public class PolarDendrogramLayout extends RadialLayout {
         GraphUtils.getLeafs(graph, root.getObject(), leafs);
     }
 
+/*
     protected void arrangeLeafByLevel(Comparator<Object> levelComparator) {
         Collections.sort(leafs, levelComparator);
     }
+*/
 
     protected void computeLeafAngles() {
 
@@ -172,9 +173,11 @@ public class PolarDendrogramLayout extends RadialLayout {
         root.addElement(PolarVertex.init(node, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
 
+/*
     protected void setRootCoordinate() {
         root.addElement(VertexElement.init(root.getObject(), center, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
     }
+*/
 
     private void computeEdges() {
         for (Object edge : getGraph().getEdges()) {
