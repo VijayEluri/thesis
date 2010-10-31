@@ -4,7 +4,7 @@ import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.LevelPreview;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
-import se.lnu.thesis.utils.Utils;
+import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -17,27 +17,36 @@ import java.awt.geom.Point2D;
  * Date: 22.10.2010
  * Time: 16:13:07
  */
-public class LevelPreviewVisualizer implements ElementVisualizer {
+public class LevelVisualizer implements ElementVisualizer {
 
     public static final int DEFAULT_LINE_LENGTH = 2; // 2% of the whole horizontal level length
     public static final float DEFAULT_LINE_THICKNESS = 1.5f;
     public static final Color DEFAULT_LINE_COLOR = Color.GRAY;
 
+    public static final Color DEFAULT_LEVEL_BACKGROUND = Color.BLACK;
+
     private int lineLength = DEFAULT_LINE_LENGTH; // length in percents
     private float lineThickness = DEFAULT_LINE_THICKNESS;
     private Color lineColor = DEFAULT_LINE_COLOR;
 
+    private Color background = DEFAULT_LEVEL_BACKGROUND;
+
+    protected GL gl;
+
     public void draw(GLAutoDrawable drawable, Element element) {
+        gl = drawable.getGL(); // update GL context
+
         LevelPreview levelPreview = (LevelPreview) element;
 
         if (levelPreview.isDrawed()) {
-            GL gl = drawable.getGL();
 
             if (element.getId() != null) {
-                gl.glPushName(element.getId()); // set tag id
+                gl.glPushName(element.getId()); // set id
             }
 
-            drawLevelLines(drawable, levelPreview);
+            drawLevelBox(levelPreview);
+
+            drawLevelLines(levelPreview);
 
             levelPreview.drawContent(drawable);
 
@@ -47,16 +56,28 @@ public class LevelPreviewVisualizer implements ElementVisualizer {
         }
     }
 
-    protected void drawLevelLines(GLAutoDrawable drawable, DimensionalContainer container) {
+    protected void drawLevelBox(DimensionalContainer container) {
+        Point2D p = container.getPosition();
+        Point2D d = container.getDimension();
+
+        DrawingUtils.colord(gl, getBackground());
+        gl.glBegin(GL.GL_POLYGON);
+        gl.glVertex2d(p.getX(), p.getY());
+        gl.glVertex2d(p.getX() + d.getX(), p.getY());
+        gl.glVertex2d(p.getX() + d.getX(), p.getY() - d.getY());
+        gl.glVertex2d(p.getX(), p.getY() - d.getY());
+
+        gl.glEnd();
+    }
+
+    protected void drawLevelLines(DimensionalContainer container) {
         Point2D p = container.getPosition();
         Point2D d = container.getDimension();
 
         double x_length = container.getDimension().getX() * (lineLength / 100.0);
 
-        GL gl = drawable.getGL();
-
         gl.glLineWidth(lineThickness);
-        Utils.color(gl, lineColor); // lines color
+        DrawingUtils.colord(gl, lineColor); // lines colord
 
 
         gl.glBegin(GL.GL_LINES);
@@ -78,6 +99,14 @@ public class LevelPreviewVisualizer implements ElementVisualizer {
         gl.glVertex2d(p.getX() + d.getX(), p.getY() - d.getY());
 
         gl.glEnd();
+    }
+
+    public Color getBackground() {
+        return background;
+    }
+
+    public void setBackground(Color background) {
+        this.background = background;
     }
 
     public int getLineLength() {

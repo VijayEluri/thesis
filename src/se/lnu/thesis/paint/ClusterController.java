@@ -8,6 +8,7 @@ import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -55,6 +56,12 @@ public class ClusterController extends GraphController implements Observer {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClearColor(
+                DrawingUtils.colorAsFloat(background.getRed()),
+                DrawingUtils.colorAsFloat(background.getGreen()),
+                DrawingUtils.colorAsFloat(background.getBlue()),
+                1.0f); // background color
 
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
@@ -64,9 +71,6 @@ public class ClusterController extends GraphController implements Observer {
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
 
-
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
 
         if (root != null) {
             if (vertexState == State.MOVE) {

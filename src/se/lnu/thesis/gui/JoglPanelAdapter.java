@@ -40,9 +40,11 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
     }
 
     public void display(GLAutoDrawable drawable) {
-        if (getVisualizer() != null) {
-            getVisualizer().draw(drawable);
+        if (getGraphController() != null) {
+            getGraphController().draw(drawable);
         }
+
+        getFrame().repaint();
     }
 
 
@@ -65,38 +67,38 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 */
         gl.glViewport(0, 0, width, height);
 
-        frame.repaint();
+        getFrame().repaint();
     }
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
     }
 
     public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mouseEntered(java.awt.event.MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mouseMoved(MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getFrame().repaint();
     }
 
     public JFrame getFrame() {
@@ -111,7 +113,7 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
         this.graphController = graphController;
     }
 
-    public GraphController getVisualizer() {
+    public GraphController getGraphController() {
         return graphController;
     }
 }

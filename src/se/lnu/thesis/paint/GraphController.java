@@ -29,7 +29,10 @@ public abstract class GraphController implements Drawable, Observer {
     public static final double CURSOR_X_SIZE = 2.0;
     public static final double CURSOR_Y_SIZE = 2.0;
 
-    protected Color background = Color.BLACK;
+    public static final Color DEFAULT_BACKGROUND = Color.BLACK;
+
+
+    protected Color background = DEFAULT_BACKGROUND;
 
     protected State vertexState = State.NORMAL;
 
@@ -46,6 +49,7 @@ public abstract class GraphController implements Drawable, Observer {
 
     protected GL gl;
     protected GLU glu;
+
 
     public abstract void init();
 
@@ -158,5 +162,13 @@ public abstract class GraphController implements Drawable, Observer {
     public void move(Point point) {
         this.cursor = point;
         vertexState = State.MOVE;
+    }
+
+    public Color getBackground() {
+        return background;
+    }
+
+    public void setBackground(Color background) {
+        this.background = background;
     }
 }

@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
 
     private Component goPanel() {
 
-        JoglPanelAdapter panelAdapter = new JoglPanelAdapter(Scene.getInstance().getGoVisualizer());
+        JoglPanelAdapter panelAdapter = new JoglPanelAdapter(Scene.getInstance().getGoController());
         panelAdapter.setFrame(this);
 
         GLJPanel result = new GLJPanel();
@@ -66,7 +66,7 @@ public class MainWindow extends JFrame {
     private Component clusterPanel() {
 
         JoglPanelAdapter panelAdapter = new ClusterPanelAdapter();
-        panelAdapter.setGraphController(Scene.getInstance().getClusterVisualizer());
+        panelAdapter.setGraphController(Scene.getInstance().getClusterController());
         panelAdapter.setFrame(this);
 
         GLJPanel result = new GLJPanel();

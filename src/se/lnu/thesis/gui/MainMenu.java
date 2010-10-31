@@ -3,8 +3,10 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +21,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
     public static final String TOOLS = "Tools";
     public static final String SHOW_GENE_LIST = "Show GO gene list";
+    public static final String OPEN_BACKGROUND_CHOOSER = "Set background color";
 
 
     private GraphChooser graphChooser;
@@ -38,7 +41,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
     }
 
     private void createToolsMenu() {
-        constructMenu(TOOLS, new String[]{SHOW_GENE_LIST}, this);
+        constructMenu(TOOLS, new String[]{SHOW_GENE_LIST, OPEN_BACKGROUND_CHOOSER}, this);
     }
 
 
@@ -90,7 +93,21 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
         if (event == SHOW_GENE_LIST) {
             Scene.getInstance().showGeneList();
+        }
 
+        if (event == OPEN_BACKGROUND_CHOOSER) {
+
+            Color initialBackground = Scene.getInstance().getGoController().getBackground();
+            Color color = JColorChooser.showDialog(null, null, initialBackground);
+
+            if (color != null) {
+                LOGGER.debug("Setting new background color [" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + "]");
+
+                Scene.getInstance().getGoController().setBackground(color);
+                Scene.getInstance().getClusterController().setBackground(color);
+
+                ElementVisualizerFactory.getInstance().getLevelVisualizer().setBackground(color);
+            }
         }
 
         Scene.getInstance().getMainWindow().repaint();

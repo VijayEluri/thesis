@@ -89,11 +89,11 @@ public class Scene {
         return mainWindow;
     }
 
-    public GraphController getGoVisualizer() {
+    public GraphController getGoController() {
         return goController;
     }
 
-    public GraphController getClusterVisualizer() {
+    public GraphController getClusterController() {
         return clusterController;
     }
 

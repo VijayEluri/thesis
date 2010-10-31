@@ -4,8 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.io.gml.GmlReader;
 
-import javax.media.opengl.GL;
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 
@@ -16,8 +14,6 @@ public class Utils {
     public static final String SPEC_SYMBOLS = " \t\n";
 
     public static final double PIdev180 = 0.017444;
-
-    public static final double COLOR_MAX = 256.0;
 
     public static double inRadians(double angle) {
         return angle * PIdev180;
@@ -34,21 +30,6 @@ public class Utils {
         position.setLocation(x, y);
 
         LOGGER.debug(angle + "; " + x + ", " + y);
-    }
-
-    public static double colorAsDouble(int color) {
-        return color / COLOR_MAX;
-    }
-
-    public static void color(GL gl, Color color) {
-        color(gl, color, 1.0);
-    }
-
-    public static void color(GL gl, Color color, double alfa) {
-        gl.glColor4d(colorAsDouble(color.getRed()),
-                colorAsDouble(color.getGreen()),
-                colorAsDouble(color.getBlue()),
-                alfa);
     }
 
     /**

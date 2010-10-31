@@ -4,7 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.layout.UniformDistributionLayout;
 import se.lnu.thesis.paint.element.GroupingElement;
-import se.lnu.thesis.utils.Utils;
+import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -41,7 +41,7 @@ public class Level implements Drawable {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        gl.glColor3d(Utils.colorAsDouble(levelBackgroud.getRed()), Utils.colorAsDouble(levelBackgroud.getGreen()), Utils.colorAsDouble(levelBackgroud.getBlue()));
+        gl.glColor3d(DrawingUtils.colorAsDouble(levelBackgroud.getRed()), DrawingUtils.colorAsDouble(levelBackgroud.getGreen()), DrawingUtils.colorAsDouble(levelBackgroud.getBlue()));
         gl.glBegin(GL.GL_QUADS);
         gl.glVertex2d(levelPosition.getX(), levelPosition.getY());
         gl.glVertex2d(levelPosition.getX() + levelDimension.getX(), levelPosition.getY());

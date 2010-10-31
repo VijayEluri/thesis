@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer;
 
 import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.utils.Utils;
+import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -56,15 +56,15 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     protected void drawingColor(Element element) {
         if (element.isFocused()) {
-            Utils.color(gl(), focusedColor);
+            DrawingUtils.colord(gl(), focusedColor);
         } else {
             if (element.isSelected()) {
-                Utils.color(gl(), getSelectionColor());
+                DrawingUtils.colord(gl(), getSelectionColor());
             } else {
                 if (element.isHighlighted()) {
-                    Utils.color(gl(), getSubgraphColor());
+                    DrawingUtils.colord(gl(), getSubgraphColor());
                 } else {
-                    Utils.color(gl(), getMainColor());
+                    DrawingUtils.colord(gl(), getMainColor());
                 }
             }
         }

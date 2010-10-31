@@ -6,6 +6,7 @@ import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.*;
 import se.lnu.thesis.paint.element.Level;
+import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -64,7 +65,11 @@ public class GOController extends GraphController {
 
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
+        gl.glClearColor(
+                DrawingUtils.colorAsFloat(background.getRed()),
+                DrawingUtils.colorAsFloat(background.getGreen()),
+                DrawingUtils.colorAsFloat(background.getBlue()),
+                1.0f); // background color
 
         if (root != null) {
             if (vertexState == State.SELECTING) {

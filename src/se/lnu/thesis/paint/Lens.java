@@ -8,7 +8,6 @@ import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.element.GroupingElement;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.GraphUtils;
-import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -24,6 +23,8 @@ public class Lens implements Drawable {
     public static final Logger LOGGER = Logger.getLogger(Lens.class);
 
     private static final double LENS_RADIUS = 0.35;
+    public static final int LENS_SEGMENTS = 20;
+
     private static final double LAYOUT_RADIUS = 0.3;
 
     public static final Color DEFAULT_CIRCLE_COLOR = Color.BLACK;
@@ -42,9 +43,9 @@ public class Lens implements Drawable {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        Utils.color(gl, circleColor, circleAlfa);
+        DrawingUtils.colord(gl, circleColor, circleAlfa);
 
-        DrawingUtils.circle(gl, LENS_RADIUS, 10);
+        DrawingUtils.circle(gl, LENS_RADIUS, LENS_SEGMENTS);
 
         root.drawContent(drawable);
     }
