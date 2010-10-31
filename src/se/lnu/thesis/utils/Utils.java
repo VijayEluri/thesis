@@ -36,22 +36,19 @@ public class Utils {
         LOGGER.debug(angle + "; " + x + ", " + y);
     }
 
-    public static double min(double value1, double value2) {
-        return value1 < value2 ? value1 : value2;
-    }
-
-    public static double max(double value1, double value2) {
-        return value1 > value2 ? value1 : value2;
-    }
-
     public static double colorAsDouble(int color) {
         return color / COLOR_MAX;
     }
 
     public static void color(GL gl, Color color) {
-        gl.glColor3d(colorAsDouble(color.getRed()),
+        color(gl, color, 1.0);
+    }
+
+    public static void color(GL gl, Color color, double alfa) {
+        gl.glColor4d(colorAsDouble(color.getRed()),
                 colorAsDouble(color.getGreen()),
-                colorAsDouble(color.getBlue()));
+                colorAsDouble(color.getBlue()),
+                alfa);
     }
 
     /**

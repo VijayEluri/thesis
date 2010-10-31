@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
  */
 public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 
-    public static final float DEFAULT_LINE_WIDTH = 0.4f;
+    public static final float DEFAULT_LINE_WIDTH = 2.0f;
 
     protected float lineWidth = DEFAULT_LINE_WIDTH;
 
@@ -31,6 +31,7 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
         Point2D start = edge.getStartPosition();
         Point2D end = edge.getEndPosition();
 
+        gl().glLineWidth(getLineWidth());
         gl().glBegin(GL.GL_LINES);
         gl().glLineWidth(lineWidth);
         gl().glVertex2d(start.getX(), start.getY());

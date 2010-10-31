@@ -6,12 +6,12 @@ import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.element.GroupingElement;
+import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import java.awt.*;
 
 /**
@@ -23,16 +23,18 @@ public class Lens implements Drawable {
 
     public static final Logger LOGGER = Logger.getLogger(Lens.class);
 
-    private static final double LENS_RADIUS = 0.4;
+    private static final double LENS_RADIUS = 0.35;
     private static final double LAYOUT_RADIUS = 0.3;
 
-    protected Color circleColor = Color.BLACK;
+    public static final Color DEFAULT_CIRCLE_COLOR = Color.BLACK;
+    public static final double DEFAULT_CIRCLE_ALFA = 0.5;
+
+    protected Color circleColor = DEFAULT_CIRCLE_COLOR;
+    private double circleAlfa = DEFAULT_CIRCLE_ALFA;
 
     private AbstractLayout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
 
     private GroupingElement root = null;
-
-    private GLU glu = new GLU();
 
     private Graph clusterGraph;
 
@@ -40,10 +42,9 @@ public class Lens implements Drawable {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        gl.glColor4d(circleColor.getRed(), circleColor.getGreen(), circleColor.getBlue(), 0.8);
-        GLUquadric glUquadric = glu.gluNewQuadric();
+        Utils.color(gl, circleColor, circleAlfa);
 
-        glu.gluDisk(glUquadric, 0, LENS_RADIUS, 50, 50);
+        DrawingUtils.circle(gl, LENS_RADIUS, 10);
 
         root.drawContent(drawable);
     }
@@ -74,5 +75,13 @@ public class Lens implements Drawable {
 
     public void setCircleColor(Color circleColor) {
         this.circleColor = circleColor;
+    }
+
+    public double getCircleAlfa() {
+        return circleAlfa;
+    }
+
+    public void setCircleAlfa(double circleAlfa) {
+        this.circleAlfa = circleAlfa;
     }
 }

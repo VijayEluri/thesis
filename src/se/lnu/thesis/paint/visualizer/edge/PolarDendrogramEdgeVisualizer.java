@@ -3,7 +3,6 @@ package se.lnu.thesis.paint.visualizer.edge;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.PolarEdge;
 import se.lnu.thesis.utils.DrawingUtils;
-import se.lnu.thesis.utils.Utils;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -50,8 +49,8 @@ public class PolarDendrogramEdgeVisualizer extends LineEdgeVisualizer {
         Double sourceAngle = edge.getSourceAngle();
         Double destAngle = edge.getDestAngle();
 
-        double startAngle = Utils.min(sourceAngle, destAngle);
-        double endAngle = Utils.max(sourceAngle, destAngle);
+        double startAngle = Math.min(sourceAngle, destAngle);
+        double endAngle = Math.max(sourceAngle, destAngle);
 
         gl().glPushMatrix();
         gl().glTranslated(edge.getXCenter(), edge.getYCenter(), 0.0);

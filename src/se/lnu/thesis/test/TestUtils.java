@@ -14,17 +14,6 @@ import se.lnu.thesis.utils.Utils;
 public class TestUtils {
 
     @Test
-    public void testMin() {
-        assertEquals(5.0, Utils.min(9.0d, 5.0d));
-    }
-
-    @Test
-    public void testMax() {
-        assertEquals(9.0, Utils.max(9.0d, 5.0d));
-    }
-
-
-    @Test
     public void testStringValueExtractor() {
         String s = "                name \"Super mega name\"            ";
         String value = Utils.extractStringValue(s, "name");

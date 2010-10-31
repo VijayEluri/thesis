@@ -55,11 +55,15 @@ public class ClusterController extends GraphController implements Observer {
     public void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
+
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
 
         gl.glEnable(GL.GL_LINE_SMOOTH);
         gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(background.getRed(), background.getGreen(), background.getBlue(), 1.0f); // background color
