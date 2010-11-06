@@ -1,18 +1,23 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
+import se.lnu.thesis.paint.GraphController;
 
 import java.awt.event.MouseEvent;
 
 /**
  * Created by IntelliJ IDEA.
  * User: vady
- * Date: 20.10.2010
- * Time: 16:17:10
+ * Date: 05.11.2010
+ * Time: 17:31:14
  */
-public class ClusterPanelAdapter extends JoglPanelAdapter {
+public class GOPanelAdapter extends JoglPanelAdapter {
 
-    public static final Logger LOGGER = Logger.getLogger(ClusterPanelAdapter.class);
+    public static final Logger LOGGER = Logger.getLogger(GOPanelAdapter.class);
+
+    public GOPanelAdapter(GraphController graphController) {
+        setGraphController(graphController);
+    }
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {

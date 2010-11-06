@@ -1,9 +1,7 @@
-package se.lnu.thesis.paint.visualizer.vertex;
+package se.lnu.thesis.paint.visualizer;
 
 import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.LevelPreview;
-import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
@@ -22,12 +20,13 @@ public class LevelVisualizer implements ElementVisualizer {
     public static final int DEFAULT_LINE_LENGTH = 2; // 2% of the whole horizontal level length
     public static final float DEFAULT_LINE_THICKNESS = 1.5f;
     public static final Color DEFAULT_LINE_COLOR = Color.GRAY;
-
+    public static final Color DEFAULT_SELECTION_COLOR = Color.BLUE;
     public static final Color DEFAULT_LEVEL_BACKGROUND = Color.BLACK;
 
     private int lineLength = DEFAULT_LINE_LENGTH; // length in percents
     private float lineThickness = DEFAULT_LINE_THICKNESS;
     private Color lineColor = DEFAULT_LINE_COLOR;
+    private Color focusingColor = DEFAULT_SELECTION_COLOR;
 
     private Color background = DEFAULT_LEVEL_BACKGROUND;
 
@@ -36,19 +35,23 @@ public class LevelVisualizer implements ElementVisualizer {
     public void draw(GLAutoDrawable drawable, Element element) {
         gl = drawable.getGL(); // update GL context
 
-        LevelPreview levelPreview = (LevelPreview) element;
+        DimensionalContainer container = (DimensionalContainer) element;
 
-        if (levelPreview.isDrawed()) {
+        if (container.isDrawed()) {
 
             if (element.getId() != null) {
                 gl.glPushName(element.getId()); // set id
             }
 
-            drawLevelBox(levelPreview);
+            drawLevelBackground(container);
 
-            drawLevelLines(levelPreview);
+            if (element.isFocused()) {
+                drawLevelBorderBox(container);
+            } else {
+                drawLevelLines(container);
+            }
 
-            levelPreview.drawContent(drawable);
+            container.drawContent(drawable);
 
             if (element.getId() != null) {
                 gl.glPopName();
@@ -56,7 +59,35 @@ public class LevelVisualizer implements ElementVisualizer {
         }
     }
 
-    protected void drawLevelBox(DimensionalContainer container) {
+    protected void drawLevelBorderBox(DimensionalContainer container) {
+        Point2D p = container.getPosition();
+        Point2D d = container.getDimension();
+
+        gl.glLineWidth(lineThickness);
+        DrawingUtils.colord(gl, focusingColor); // lines colord
+
+        gl.glBegin(GL.GL_LINES);
+
+        // top
+        gl.glVertex2d(p.getX(), p.getY());
+        gl.glVertex2d(p.getX() + d.getX(), p.getY());
+
+        // right
+        gl.glVertex2d(p.getX() + d.getX(), p.getY());
+        gl.glVertex2d(p.getX() + d.getX(), p.getY() - d.getY());
+
+        // down
+        gl.glVertex2d(p.getX(), p.getY() - d.getY());
+        gl.glVertex2d(p.getX() + d.getX(), p.getY() - d.getY());
+
+        // left
+        gl.glVertex2d(p.getX(), p.getY());
+        gl.glVertex2d(p.getX(), p.getY() - d.getY());
+
+        gl.glEnd();
+    }
+
+    protected void drawLevelBackground(DimensionalContainer container) {
         Point2D p = container.getPosition();
         Point2D d = container.getDimension();
 
@@ -136,5 +167,13 @@ public class LevelVisualizer implements ElementVisualizer {
 
     public void setLineColor(Color lineColor) {
         this.lineColor = lineColor;
+    }
+
+    public Color getFocusingColor() {
+        return focusingColor;
+    }
+
+    public void setFocusingColor(Color focusingColor) {
+        this.focusingColor = focusingColor;
     }
 }

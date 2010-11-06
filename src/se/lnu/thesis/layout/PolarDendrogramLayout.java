@@ -170,7 +170,8 @@ public class PolarDendrogramLayout extends RadialLayout {
         double angle = nodeAngle.get(node);
         double radius = getNodeRadius(node);
 
-        root.addElement(PolarVertex.init(node, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+        PolarVertex vertex = PolarVertex.init(node, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer());
+        root.addElement(vertex);
     }
 
 /*

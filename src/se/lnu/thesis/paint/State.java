@@ -8,6 +8,6 @@ package se.lnu.thesis.paint;
  */
 public enum State {
 
-    SELECTING, NORMAL, SELECTED, SUBGRAPH, MOVE
+    SELECTING, NORMAL, SELECTED, SUBGRAPH, MOVE, ZOOM
 
 }

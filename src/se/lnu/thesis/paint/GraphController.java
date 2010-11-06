@@ -1,18 +1,13 @@
 package se.lnu.thesis.paint;
 
-import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.Element;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLU;
 import java.awt.*;
-import java.nio.IntBuffer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,144 +19,42 @@ public abstract class GraphController implements Drawable, Observer {
 
     public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
-    public static final int BUFSIZE = 512;
-
-    public static final double CURSOR_X_SIZE = 2.0;
-    public static final double CURSOR_Y_SIZE = 2.0;
-
     public static final Color DEFAULT_BACKGROUND = Color.BLACK;
-
 
     protected Color background = DEFAULT_BACKGROUND;
 
-    protected State vertexState = State.NORMAL;
+    private GraphState state = new NoneGraphState(this);
 
-    protected Element selectedElement;
-
-    protected Point cursor;
-
-    protected State graphState = State.NORMAL;
-
-    protected Graph subGraph;
     protected MyGraph graph;
+    protected Graph subGraph;
 
     protected Container root;
 
-    protected GL gl;
-    protected GLU glu;
-
-
     public abstract void init();
 
-    public abstract void draw(GLAutoDrawable drawable);
-
-    protected void select(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
-
-        int selectBuf[] = new int[BUFSIZE];
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
-
-        int viewport[] = new int[4];
-
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-
-        gl.glSelectBuffer(BUFSIZE, selectBuffer);
-        gl.glRenderMode(GL.GL_SELECT);
-
-        gl.glInitNames();
-
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
-
-        getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
-
-        root.drawContent(drawable);
-
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPopMatrix();
-        gl.glFlush();
-
-
-        int hits = gl.glRenderMode(GL.GL_RENDER); // mouse hits
-        selectBuffer.get(selectBuf);
-
-        int count = selectBuf[0];
-
-        LOGGER.info("Picked objects count: " + count);
-
-        if (count > 0) { // some figures?
-            unselect();
-            select(root.getElementById(selectBuf[3]));
-        } else {
-            unselect();
-        }
-
-        cursor = null;
+    public void draw(GLAutoDrawable drawable) {
+        getState().draw(drawable);
     }
 
-    protected void select(Element element) {
-        if (element != null) {
-            this.selectedElement = element;
-            this.selectedElement.setSelected(true);
-            vertexState = State.SELECTED;
-
-            LOGGER.info("Selected vertex " + element.getObject() + " [" + graph.getLabel(element.getObject()) + "]");
-        }
+    public void mouseMove(Point point) {
+        getState().mouseMove(point);
     }
 
-    protected void unselect() {
-        if (selectedElement != null) {
-            selectedElement.setSelected(false);
-        }
-
-        selectedElement = null;
-        vertexState = State.NORMAL;
-    }
-
-    public void click(Point point) {
-        this.cursor = point;
-        vertexState = State.SELECTING;
+    public void leftMouseButtonClicked(Point point) {
+        getState().leftMouseButtonClicked(point);
     }
 
     public void setSubGraph(Graph subGraph) {
-        if (subGraph != null) {
-            setSubGraph(null);
-            unselect();
-
-            this.subGraph = subGraph;
-            graphState = State.SUBGRAPH;
-
-
-            if (root != null) {
-                root.setHighlighted(subGraph.getVertices());
-            }
-
-        } else {
-            this.subGraph = null;
-            graphState = State.NORMAL;
-
-            if (root != null) {
-                root.resetHighlighting();
-            }
-        }
+        this.subGraph = subGraph;
+        getState().setSubGraph(subGraph);
     }
 
     public void setGraph(MyGraph graph) {
         this.graph = graph;
     }
 
-    public GLU getGlu() {
-        if (glu == null) {
-            glu = new GLU();
-        }
-
-        return glu;
-    }
-
-    public void move(Point point) {
-        this.cursor = point;
-        vertexState = State.MOVE;
+    public MyGraph getGraph() {
+        return graph;
     }
 
     public Color getBackground() {
@@ -170,5 +63,21 @@ public abstract class GraphController implements Drawable, Observer {
 
     public void setBackground(Color background) {
         this.background = background;
+    }
+
+    public Container getRoot() {
+        return root;
+    }
+
+    public GraphState getState() {
+        return state;
+    }
+
+    public void setState(GraphState state) {
+        this.state = state;
+    }
+
+    public Graph getSubGraph() {
+        return subGraph;
     }
 }

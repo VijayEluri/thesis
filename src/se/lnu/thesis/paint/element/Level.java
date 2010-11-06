@@ -68,11 +68,22 @@ public class Level extends DimensionalContainer implements Visualizable {
         super.resetHighlighting();
     }
 
+    @Override
+    public void setFocused(boolean focused) {
+        preview.setFocused(focused);
+        super.setFocused(focused);
+    }
+
     public ElementVisualizer getVisualizer() {
         return visualizer;
     }
 
     public void setVisualizer(ElementVisualizer visualizer) {
         this.visualizer = visualizer;
+    }
+
+    @Override
+    public String toString() {
+        return getObject().toString();
     }
 }

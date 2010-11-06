@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
 
     private Component goPanel() {
 
-        JoglPanelAdapter panelAdapter = new JoglPanelAdapter(Scene.getInstance().getGoController());
+        JoglPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController());
         panelAdapter.setFrame(this);
 
         GLJPanel result = new GLJPanel();

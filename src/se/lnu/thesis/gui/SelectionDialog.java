@@ -152,9 +152,13 @@ public class SelectionDialog extends JFrame implements Subject {
         }
     }
 
+    protected void fillContent() {
+        fillContent(null);
+    }
+
     public void setGraph(MyGraph graph) {
         this.graph = graph;
-        fillContent(null);
+        fillContent();
     }
 
     public boolean registerObserver(se.lnu.thesis.myobserver.Observer observer) {

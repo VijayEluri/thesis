@@ -4,12 +4,10 @@ import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.paint.element.DimensionalContainer;
+import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.Level;
-import se.lnu.thesis.utils.DrawingUtils;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 import java.util.Iterator;
 
 /**
@@ -20,9 +18,9 @@ import java.util.Iterator;
  */
 public class GOController extends GraphController {
 
+    public GOController() {
 
-    private se.lnu.thesis.paint.Level level;
-
+    }
 
     public void init() {
         LOGGER.info("Initializing..");
@@ -32,60 +30,21 @@ public class GOController extends GraphController {
         HierarchyLayout layout = new HierarchyLayout(graph, root);
         layout.compute();
 
-        level = new se.lnu.thesis.paint.Level();
-        level.setGraph(graph);
+        normalState();
 
         LOGGER.info("Done.");
     }
 
-    @Override
-    protected void select(Element element) {
-        super.select(element);
-
-        if (element != null && selectedElement.getType() == ElementType.CONTAINER) {
-            GroupingElement groupingElement = (GroupingElement) selectedElement;
-            level.setRoot(groupingElement);
-
-            if (subGraph != null) {
-                groupingElement.setHighlighted(subGraph.getVertices());
-            }
-        }
+    private void normalState() {
+        setState(new NormalGOState(this));
     }
 
-    public void draw(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
-
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
-
-        gl.glEnable(GL.GL_LINE_SMOOTH);
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-
-
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glClearColor(
-                DrawingUtils.colorAsFloat(background.getRed()),
-                DrawingUtils.colorAsFloat(background.getGreen()),
-                DrawingUtils.colorAsFloat(background.getBlue()),
-                1.0f); // background color
-
-        if (root != null) {
-            if (vertexState == State.SELECTING) {
-                select(drawable);
-            }
-
-            root.drawContent(drawable);
-
-            if (vertexState == State.SELECTED && selectedElement.getType() == ElementType.CONTAINER) {
-                level.draw(drawable);
-            }
-        }
-
-        drawable.swapBuffers();
-    }
-
+    /**
+     * Gene Ontology  vertex been selected in the Gene List and corresponded subgraph computed.
+     *
+     * @param subject Server of the even
+     * @param params  Instance of class the Extractor
+     */
     public void notifyObserver(Subject subject, Object params) {
         Extractor extractor = (Extractor) params;
 
@@ -96,18 +55,21 @@ public class GOController extends GraphController {
                 Level Level = (Level) i.next();
                 Element element = Level.getPreview().getElementByObject(extractor.getSelectedNode());
                 if (element != null) {
+/*
                     selectedElement = element;
                     selectedElement.setSelected(true);
+*/
                     break;
                 }
             }
         } else {
+/*
             if (selectedElement != null) {
                 selectedElement.setSelected(false);
                 selectedElement = null;
             }
+*/
         }
-
 
         Scene.getInstance().getMainWindow().repaint();
     }
