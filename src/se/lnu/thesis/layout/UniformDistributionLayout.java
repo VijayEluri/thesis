@@ -46,7 +46,7 @@ public class UniformDistributionLayout extends AbstractLayout {
         checkArguments();
 
         if (nodes.size() == 1) { // find place for only one node?
-            p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() + (dimension.getY() / 2));
+            p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() - (dimension.getY() / 2));
             setElementPosition(nodes.iterator().next());
         } else {
             double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
