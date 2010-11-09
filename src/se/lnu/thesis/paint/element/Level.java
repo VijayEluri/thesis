@@ -49,7 +49,9 @@ public class Level extends DimensionalContainer implements Visualizable {
 
     @Override
     public void drawContent(GLAutoDrawable drawable) {
-        super.draw(drawable);
+        if (visualizer != null) {
+            visualizer.draw(drawable, this);
+        }
     }
 
 

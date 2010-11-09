@@ -8,6 +8,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,11 +52,17 @@ public class LevelVisualizer implements ElementVisualizer {
                 drawLevelLines(container);
             }
 
-            container.drawContent(drawable);
-
             if (element.getId() != null) {
                 gl.glPopName();
             }
+
+            drawContent(drawable, container);
+        }
+    }
+
+    private void drawContent(GLAutoDrawable drawable, DimensionalContainer container) {
+        for (Iterator<Element> i = container.getElements(); i.hasNext();) {
+            i.next().draw(drawable);
         }
     }
 
