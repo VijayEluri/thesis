@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.element.Container;
+import se.lnu.thesis.paint.state.GraphState;
+import se.lnu.thesis.paint.state.NoneGraphState;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
@@ -45,8 +47,21 @@ public abstract class GraphController implements Drawable, Observer {
     }
 
     public void setSubGraph(Graph subGraph) {
-        this.subGraph = subGraph;
-        getState().setSubGraph(subGraph);
+        if (subGraph != null) {
+            setSubGraph(null);
+
+            this.subGraph = subGraph;
+
+            if (root != null) {
+                root.setHighlighted(subGraph.getVertices());
+            }
+        } else {
+            this.subGraph = null;
+
+            if (root != null) {
+                root.resetHighlighting();
+            }
+        }
     }
 
     public void setGraph(MyGraph graph) {

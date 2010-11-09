@@ -7,6 +7,7 @@ import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.DimensionalContainer;
+import se.lnu.thesis.paint.state.NormalClusterState;
 
 
 public class ClusterController extends GraphController implements Observer {

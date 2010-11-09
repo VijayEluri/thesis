@@ -1,8 +1,10 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.Lens;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.GroupingElement;
 
@@ -51,14 +53,14 @@ public class LensState extends NormalClusterState {
     protected void focusElement(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        int selectBuf[] = new int[BUFSIZE];
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+        int selectBuf[] = new int[GraphState.BUFSIZE];
+        IntBuffer selectBuffer = BufferUtil.newIntBuffer(GraphState.BUFSIZE);
 
         int viewport[] = new int[4];
 
         gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
 
-        gl.glSelectBuffer(BUFSIZE, selectBuffer);
+        gl.glSelectBuffer(GraphState.BUFSIZE, selectBuffer);
         gl.glRenderMode(GL.GL_SELECT);
 
         gl.glInitNames();
@@ -67,7 +69,7 @@ public class LensState extends NormalClusterState {
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
-        getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+        getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), GraphState.CURSOR_X_SIZE, GraphState.CURSOR_Y_SIZE, viewport, 0);
 
         selectedElement.drawContent(drawable);
 

@@ -1,8 +1,9 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.element.Level;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -19,7 +20,7 @@ public class NormalGOState extends GraphState {
 
     public static final Logger LOGGER = Logger.getLogger(NormalGOState.class);
 
-    private Element current;
+    protected Level current;
 
     protected NormalGOState() {
 
@@ -87,7 +88,7 @@ public class NormalGOState extends GraphState {
         cursor = null;
     }
 
-    private void unfocusLevel() {
+    protected void unfocusLevel() {
         if (current != null) {
             current.setFocused(false);
         }
@@ -96,13 +97,13 @@ public class NormalGOState extends GraphState {
         cursor = null;
     }
 
-    private void focusLevel(int id) {
-        Element element = getGraphController().getRoot().getElementById(id);
+    protected void focusLevel(int id) {
+        Level level = (Level) getGraphController().getRoot().getElementById(id);
 
-        if (element != null) {
-            LOGGER.info("Focused level " + element.getObject());
+        if (level != null) {
+            LOGGER.debug("Focused level " + level.getObject());
 
-            current = element;
+            current = level;
             current.setFocused(true);
         }
     }
@@ -116,6 +117,7 @@ public class NormalGOState extends GraphState {
         if (current != null) {
             LOGGER.info("Zoom in. Current level " + current);
             getGraphController().setState(new ZoomGOState(getGraphController(), current));
+            unfocusLevel();
         }
     }
 

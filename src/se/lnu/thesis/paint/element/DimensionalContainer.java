@@ -44,7 +44,7 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
 
     public void draw(GLAutoDrawable drawable) {
         if (isDrawed()) {
-            drawContent(drawable);
+            super.drawContent(drawable);
         }
     }
 }

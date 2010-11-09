@@ -29,6 +29,10 @@ public class UniformDistributionLayout extends AbstractLayout {
     protected Point2D start;
     protected Point2D dimension;
 
+    public UniformDistributionLayout() {
+
+    }
+
     public UniformDistributionLayout(Graph graph) {
         super(graph);
     }
@@ -38,6 +42,8 @@ public class UniformDistributionLayout extends AbstractLayout {
     }
 
     public void compute() {
+
+        checkArguments();
 
         if (nodes.size() == 1) { // find place for only one node?
             p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() + (dimension.getY() / 2));
@@ -96,6 +102,23 @@ public class UniformDistributionLayout extends AbstractLayout {
         }
 
 
+    }
+
+    @Override
+    protected boolean checkArguments() {
+        if (super.checkArguments()) {
+            if (getStart() == null) {
+                throw new IllegalStateException("No start position been set!");
+            }
+
+            if (getDimension() == null) {
+                throw new IllegalStateException("No dimension been set!");
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     protected void setElementPosition(Object o) {

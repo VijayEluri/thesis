@@ -13,6 +13,10 @@ import se.lnu.thesis.utils.GraphUtils;
  */
 public class LevelPreviewLayout extends UniformDistributionLayout {
 
+    public LevelPreviewLayout() {
+
+    }
+
     public LevelPreviewLayout(Graph graph) {
         super(graph);
     }

@@ -1,6 +1,8 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.state;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.paint.Drawable;
+import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;
@@ -53,33 +55,19 @@ public abstract class GraphState implements Drawable {
 
     protected abstract void drawCurrentState(GLAutoDrawable drawable);
 
-    public void leftMouseButtonClicked(Point point) {
-
+    public void leftMouseButtonClicked(Point cursor) {
+        setCursor(cursor);
     }
 
-    public void mouseMove(Point point) {
-        setCursor(point);
+    public void rightMouseButtonClicked(Point cursor) {
+        setCursor(cursor);
+    }
+
+    public void mouseMove(Point cursor) {
+        setCursor(cursor);
     }
 
     public void setSubGraph(Graph subGraph) {
-/*
-        if (subGraph != null) {
-
-            setSubGraph(null);
-
-            this.subGraph = subGraph;
-
-            if (root != null) {
-                root.setHighlighted(subGraph.getVertices());
-            }
-        } else {
-            this.subGraph = null;
-
-            if (root != null) {
-                root.resetHighlighting();
-            }
-        }
-*/
     }
 
     public GraphController getGraphController() {

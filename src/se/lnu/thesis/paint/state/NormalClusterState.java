@@ -1,8 +1,9 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.ElementType;
 import se.lnu.thesis.paint.element.GroupingElement;

@@ -4,10 +4,12 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.paint.element.Container;
+import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Level;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,30 +25,53 @@ public class HierarchyLayout extends AbstractLayout {
     }
 
     public void compute() {
+        checkArguments();
+
         Multimap levels = TreeMultimap.create();
         int levelCount = GraphUtils.computeLevels(graph, levels);
 
-        Point2D.Double dimension = new Point2D.Double(2.0, 2.0 / levelCount);
+        Point2D levelDimension = new Point2D.Double(2.0, 1.0);
+        Point2D levelPosition = new Point2D.Double(-1.0, 0.5);
 
-        LevelLayout levelPreviewLayout = new LevelLayout(graph);
+        LevelBarLayout levelLayout = new LevelBarLayout();
+        levelLayout.setGraph(graph);
+        levelLayout.setPartsLayout(new LevelLayout());
+
+
+        Point2D previewDimension = new Point2D.Double(2.0, 2.0 / levelCount);
+
+        LevelBarLayout previewLayout = new LevelBarLayout();
+        previewLayout.setGraph(graph);
+        previewLayout.setPartsLayout(new LevelPreviewLayout());
 
         for (int i = 0; i < levelCount; i++) {
-            Point2D.Double position = new Point2D.Double(-1.0, 1.0 - dimension.getY() * i);
+            Point2D.Double previewPosition = new Point2D.Double(-1.0, 1.0 - previewDimension.getY() * i);
 
             Level level = Level.init(i, levels.get(i));
-            level.getPreview().setPosition(position);
-            level.getPreview().setDimension(dimension);
 
-            levelPreviewLayout.setRoot(level.getPreview());
-            levelPreviewLayout.setObjects(level.getObjects());
-            levelPreviewLayout.setDimension(level.getPreview().getDimension());
-            levelPreviewLayout.setStart(level.getPreview().getPosition());
-            levelPreviewLayout.compute();
+            // comptute preview
+            computePositions(level.getPreview(), level.getObjects(), previewLayout, previewDimension, previewPosition);
 
+            // compute level
+            computePositions(level, level.getObjects(), levelLayout, levelDimension, levelPosition);
 
             root.addElement(level);
         }
 
+    }
+
+    private void computePositions(DimensionalContainer root, Collection objects, LevelBarLayout layout, Point2D dimension, Point2D position) {
+        root.setPosition(position);
+        root.setDimension(dimension);
+
+        layout.setRoot(root);
+
+        layout.setObjects(objects);
+
+        layout.setStart(position);
+        layout.setDimension(dimension);
+
+        layout.compute();
     }
 
 }

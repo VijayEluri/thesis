@@ -7,6 +7,7 @@ import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.Level;
+import se.lnu.thesis.paint.state.NormalGOState;
 
 import java.util.Iterator;
 

@@ -1,6 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.element.Container;
 
 /**
@@ -13,6 +14,7 @@ public abstract class AbstractLayout {
 
     protected Graph graph;
     protected Container root;
+    public static final Logger LOGGER = Logger.getLogger(UniformDistributionLayout.class);
 
     public AbstractLayout() {
     }
@@ -32,6 +34,18 @@ public abstract class AbstractLayout {
     public void reset() {
         setGraph(null);
         setRoot(null);
+    }
+
+    protected boolean checkArguments() {
+        if (getGraph() == null) {
+            throw new IllegalStateException("No graph!!");
+        }
+
+        if (getRoot() == null) {
+            throw new IllegalStateException("No root container!!");
+        }
+
+        return true;
     }
 
     public Graph getGraph() {

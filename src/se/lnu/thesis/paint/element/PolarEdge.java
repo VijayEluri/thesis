@@ -42,6 +42,38 @@ public class PolarEdge extends EdgeElement {
         return result;
     }
 
+    public static PolarEdge init(Object o,
+                                 Object source,
+                                 Object target,
+                                 boolean isFromRoot,
+                                 Point2D start,
+                                 Point2D dummyNode,
+                                 Point2D end,
+                                 double sourceRadius,
+                                 double sourceAngle,
+                                 double destAngle) {
+
+        PolarEdge result = new PolarEdge();
+
+        result.setObject(o);
+
+        result.setFrom(source);
+        result.setTo(target);
+
+        result.setFromRoot(isFromRoot);
+
+        result.setStartPosition(start);
+        result.setDummyNodePosition(dummyNode);
+        result.setEndPosition(end);
+
+        result.setSourceRadius(sourceRadius);
+
+        result.setSourceAngle(sourceAngle);
+        result.setDestAngle(destAngle);
+
+        return result;
+    }
+
     private boolean isFromRoot = false;
 
     private Point2D dummyNodePosition;
