@@ -3,7 +3,10 @@ package se.lnu.thesis.paint.visualizer;
 import com.google.common.collect.ImmutableMap;
 import se.lnu.thesis.paint.visualizer.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.PolarDendrogramEdgeVisualizer;
-import se.lnu.thesis.paint.visualizer.vertex.*;
+import se.lnu.thesis.paint.visualizer.vertex.CircleVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.vertex.GOPointVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.vertex.RectVertexVisualizer;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -29,10 +32,14 @@ public class ElementVisualizerFactory {
     private static final int POINT_GO_LEAF_VERTEX_VISUALIZER = 5;
     private static final int POINT_GO_NODE_VERTEX_VISUALIZER = 6;
 
+    private static final int CIRCLE_GO_LEAF_VERTEX_VISUALIZER = 7;
+    private static final int CIRCLE_GO_NODE_VERTEX_VISUALIZER = 8;
+
     private static final int LINE_EDGE_VISUALIZER = 101;
     private static final int POLAR_DENDROGRAM_EDGE_VISUALIZER = 102;
 
     private static final int LEVEL_VISUALIZER = 200;
+    private static final int LEVEL_PREVIEW_VISUALIZER = 201;
 
     private static final ElementVisualizerFactory instance = new ElementVisualizerFactory();
 
@@ -41,7 +48,6 @@ public class ElementVisualizerFactory {
         return instance;
     }
 
-
     private ImmutableMap<Object, ElementVisualizer> visualizers = new ImmutableMap.Builder<Object, ElementVisualizer>()
             .put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR))
             .put(SMALL_CIRCLE_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR, 0.005))
@@ -49,13 +55,18 @@ public class ElementVisualizerFactory {
             .put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR))
 
             .put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+
             .put(POINT_GO_LEAF_VERTEX_VISUALIZER, new GOPointVertexVisualizer(Color.RED))
-            .put(POINT_GO_NODE_VERTEX_VISUALIZER, new GOPointVertexVisualizer(Color.GREEN))
+            .put(POINT_GO_NODE_VERTEX_VISUALIZER, new GOPointVertexVisualizer(Color.WHITE))
+
+            .put(CIRCLE_GO_LEAF_VERTEX_VISUALIZER, new CircleVertexVisualizer(Color.RED))
+            .put(CIRCLE_GO_NODE_VERTEX_VISUALIZER, new CircleVertexVisualizer(Color.WHITE))
 
             .put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
             .put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
 
             .put(LEVEL_VISUALIZER, new LevelVisualizer())
+            .put(LEVEL_PREVIEW_VISUALIZER, new LevelPreviewVisualizer())
 
             .build();
 
@@ -75,6 +86,14 @@ public class ElementVisualizerFactory {
 
     public GOPointVertexVisualizer getGONodePointVisualizer() {
         return (GOPointVertexVisualizer) visualizers.get(POINT_GO_NODE_VERTEX_VISUALIZER);
+    }
+
+    public CircleVertexVisualizer getGOLeafCircleVisualizer() {
+        return (CircleVertexVisualizer) visualizers.get(CIRCLE_GO_LEAF_VERTEX_VISUALIZER);
+    }
+
+    public CircleVertexVisualizer getGONodeCircleVisualizer() {
+        return (CircleVertexVisualizer) visualizers.get(CIRCLE_GO_NODE_VERTEX_VISUALIZER);
     }
 
     public PointVertexVisualizer getPointVisualizer() {
@@ -111,5 +130,9 @@ public class ElementVisualizerFactory {
 
     public LevelVisualizer getLevelVisualizer() {
         return (LevelVisualizer) visualizers.get(LEVEL_VISUALIZER);
+    }
+
+    public LevelVisualizer getLevelPreviewVisualizer() {
+        return (LevelVisualizer) visualizers.get(LEVEL_PREVIEW_VISUALIZER);
     }
 }

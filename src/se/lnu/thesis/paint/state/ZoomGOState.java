@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.state;
 
 import org.apache.log4j.Logger;
+import se.lnu.thesis.paint.GOController;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.element.Level;
 
@@ -25,7 +26,18 @@ public class ZoomGOState extends FocusableState {
     }
 
     @Override
-    public void leftMouseButtonClicked(Point point) {
+    public void leftMouseButtonClicked(Point cursor) {
+        GOController goController = (GOController) getGraphController();
+
+        if (getCurrent() == null) { // no  focused element than skip selection
+            goController.unselect();
+        } else {                    // there is focused element then select it
+            goController.select(getCurrent());
+        }
+    }
+
+    @Override
+    public void rightMouseButtonClicked(Point cursor) {
         LOGGER.info("Zoom out to default view");
 
         getGraphController().setState(new NormalGOState(getGraphController()));

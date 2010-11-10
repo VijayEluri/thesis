@@ -25,8 +25,8 @@ public abstract class FocusableState extends GraphState {
 
     public static final int BUFSIZE = 512;
 
-    public static final double CURSOR_X_SIZE = 2.0;
-    public static final double CURSOR_Y_SIZE = 2.0;
+    public static final double CURSOR_X_SIZE = 3.0;
+    public static final double CURSOR_Y_SIZE = 3.0;
 
     private Container container;
     private Element current;
@@ -38,7 +38,7 @@ public abstract class FocusableState extends GraphState {
                 focusing(drawable, getContainer());
             }
 
-            container.drawContent(drawable);
+            getContainer().drawContent(drawable);
         }
     }
 
@@ -94,9 +94,18 @@ public abstract class FocusableState extends GraphState {
 
         if (element != null) {
             setCurrent(element);
-
             getCurrent().setFocused(true);
         }
+
+        if (getCurrent() != null) {
+
+            String label = getGraphController().getGraph().getLabel(getCurrent().getObject());
+
+            LOGGER.info("Focused vertex " + getCurrent().getObject() + " [" + label + "]");
+
+            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
+        }
+
     }
 
     protected void unfocus() {
@@ -121,14 +130,5 @@ public abstract class FocusableState extends GraphState {
 
     public void setCurrent(Element current) {
         this.current = current;
-
-        if (current != null) {
-            String label = getGraphController().getGraph().getLabel(current.getObject());
-
-            LOGGER.info("Focused vertex " + current.getObject() + " [" + label + "]");
-
-            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
-        }
-
     }
 }

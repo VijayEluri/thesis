@@ -60,7 +60,7 @@ public class LevelVisualizer implements ElementVisualizer {
         }
     }
 
-    private void drawContent(GLAutoDrawable drawable, DimensionalContainer container) {
+    protected void drawContent(GLAutoDrawable drawable, DimensionalContainer container) {
         for (Iterator<Element> i = container.getElements(); i.hasNext();) {
             i.next().draw(drawable);
         }

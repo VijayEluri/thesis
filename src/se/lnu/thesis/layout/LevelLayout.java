@@ -2,10 +2,8 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.element.VertexElement;
-import se.lnu.thesis.paint.visualizer.vertex.CircleVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
-
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,9 +26,9 @@ public class LevelLayout extends UniformDistributionLayout {
     protected void setElementPosition(Object o) {
 
         if (GraphUtils.isLeaf(graph, o)) {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), new CircleVertexVisualizer(Color.RED)));
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGOLeafCircleVisualizer()));
         } else {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), new CircleVertexVisualizer(Color.GREEN)));
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGONodeCircleVisualizer()));
         }
 
     }

@@ -26,9 +26,9 @@ public class LevelPreviewLayout extends UniformDistributionLayout {
     protected void setElementPosition(Object o) {
 
         if (GraphUtils.isLeaf(graph, o)) {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGOLeafPointVisualizer()));
+            root.addElement(VertexElement.initUnidentifiable(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGOLeafPointVisualizer()));
         } else {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGONodePointVisualizer()));
+            root.addElement(VertexElement.initUnidentifiable(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGONodePointVisualizer()));
         }
 
     }

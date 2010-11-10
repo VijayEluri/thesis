@@ -29,7 +29,7 @@ public class Level extends DimensionalContainer implements Visualizable {
         result.preview = new LevelPreview();
         result.preview.setObject(o);
         result.preview.setId(result.getId());
-        result.preview.setVisualizer(result.getVisualizer());
+        result.preview.setVisualizer(ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer());
 
 
         return result;

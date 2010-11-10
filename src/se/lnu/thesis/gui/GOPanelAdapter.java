@@ -37,6 +37,18 @@ public class GOPanelAdapter extends JoglPanelAdapter {
             graphController.leftMouseButtonClicked(mouseEvent.getPoint());
         }
 
+        if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
+            LOGGER.info("RIGHT MOUSE BUTTON");
+            graphController.rightMouseButtonClicked(mouseEvent.getPoint());
+        }
+
+        getFrame().repaint();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        graphController.mouseExited();
+
         getFrame().repaint();
     }
 }

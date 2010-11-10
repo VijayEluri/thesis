@@ -62,6 +62,10 @@ public abstract class GraphState implements Drawable {
         setCursor(cursor);
     }
 
+    public void mouseExited() {
+
+    }
+
     public void setSubGraph(Graph subGraph) {
     }
 
@@ -88,5 +92,4 @@ public abstract class GraphState implements Drawable {
 
         return glu;
     }
-
 }

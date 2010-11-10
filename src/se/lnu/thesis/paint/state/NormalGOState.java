@@ -2,6 +2,7 @@ package se.lnu.thesis.paint.state;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.Level;
 
@@ -27,10 +28,20 @@ public class NormalGOState extends FocusableState {
     }
 
     @Override
-    public void setCurrent(Element current) {
-        super.setCurrent(current);
+    protected void focus(int id, Container container) {
+        Element element = container.getElementById(id);
 
-        LOGGER.debug("Focused level " + getCurrent());
+        if (element != null) {
+            setCurrent(element);
+            getCurrent().setFocused(true);
+
+            LOGGER.debug("Focused level " + getCurrent());
+        }
+    }
+
+    @Override
+    public void mouseExited() {
+        unfocus();
     }
 
     /**

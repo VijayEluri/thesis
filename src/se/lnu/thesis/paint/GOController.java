@@ -19,6 +19,9 @@ import java.util.Iterator;
  */
 public class GOController extends GraphController {
 
+    private Element previewElement;
+    private Element selectedElement;
+
     public GOController() {
 
     }
@@ -52,27 +55,61 @@ public class GOController extends GraphController {
         this.setSubGraph(extractor.getGoSubGraph());
 
         if (extractor.getSelectedNode() != null) {    // TODO move this shit to setSubGraph
-            for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
-                Level Level = (Level) i.next();
-                Element element = Level.getPreview().getElementByObject(extractor.getSelectedNode());
-                if (element != null) {
-/*
-                    selectedElement = element;
-                    selectedElement.setSelected(true);
-*/
-                    break;
-                }
-            }
+            select(extractor.getSelectedNode());
         } else {
-/*
-            if (selectedElement != null) {
-                selectedElement.setSelected(false);
-                selectedElement = null;
-            }
-*/
+            unselect();
         }
 
         Scene.getInstance().getMainWindow().repaint();
+    }
+
+    protected void select(Object object) {
+        unselect();
+
+        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
+            Level level = (Level) i.next();
+
+            Element element = level.getElementByObject(object);
+            if (element != null) {
+                selectedElement = element;
+                selectedElement.setSelected(true);
+
+                element = level.getPreview().getElementByObject(object);
+                previewElement = element;
+                previewElement.setSelected(true);
+
+                return;
+            }
+        }
+    }
+
+    public void select(Element element) {
+        unselect();
+
+        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
+            Level level = (Level) i.next();
+
+            Element foundedPreviewElement = level.getPreview().getElementByObject(element.getObject());
+            if (foundedPreviewElement != null) {
+                selectedElement = element;
+                selectedElement.setSelected(true);
+
+                previewElement = foundedPreviewElement;
+                previewElement.setSelected(true);
+
+                return;
+            }
+        }
+    }
+
+    public void unselect() {
+        if (selectedElement != null && previewElement != null) {
+            this.selectedElement.setSelected(false);
+            this.previewElement.setSelected(false);
+        }
+
+        selectedElement = null;
+        previewElement = null;
     }
 
 }

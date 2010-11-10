@@ -107,6 +107,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
                 Scene.getInstance().getClusterController().setBackground(color);
 
                 ElementVisualizerFactory.getInstance().getLevelVisualizer().setBackground(color);
+                ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer().setBackground(color);
             }
         }
 
