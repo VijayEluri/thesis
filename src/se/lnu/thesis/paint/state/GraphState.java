@@ -18,16 +18,11 @@ import java.awt.*;
  */
 public abstract class GraphState implements Drawable {
 
-    public static final int BUFSIZE = 512;
-
-    public static final double CURSOR_X_SIZE = 2.0;
-    public static final double CURSOR_Y_SIZE = 2.0;
-
-    protected GLU glu;
+    private GLU glu;
 
     private GraphController graphController;
 
-    protected Point cursor;
+    private Point cursor;
 
     public final void draw(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();

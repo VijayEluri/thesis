@@ -1,17 +1,13 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.Lens;
-import se.lnu.thesis.paint.element.Element;
 import se.lnu.thesis.paint.element.GroupingElement;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
-import java.nio.IntBuffer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,75 +36,15 @@ public class LensState extends NormalClusterState {
 
     @Override
     protected void drawCurrentState(GLAutoDrawable drawable) {
-        if (cursor != null) {
-            focusElement(drawable);
+        if (getCursor() != null) {
+            focusing(drawable, selectedElement);
         }
 
-        getGraphController().getRoot().drawContent(drawable);
+        getContainer().draw(drawable);
 
         lens.draw(drawable);
     }
 
-    @Override
-    protected void focusElement(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
-
-        int selectBuf[] = new int[GraphState.BUFSIZE];
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(GraphState.BUFSIZE);
-
-        int viewport[] = new int[4];
-
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-
-        gl.glSelectBuffer(GraphState.BUFSIZE, selectBuffer);
-        gl.glRenderMode(GL.GL_SELECT);
-
-        gl.glInitNames();
-
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
-
-        getGlu().gluPickMatrix((double) cursor.x, (double) (viewport[3] - cursor.y), GraphState.CURSOR_X_SIZE, GraphState.CURSOR_Y_SIZE, viewport, 0);
-
-        selectedElement.drawContent(drawable);
-
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPopMatrix();
-        gl.glFlush();
-
-
-        int hits = gl.glRenderMode(GL.GL_RENDER); // mouse hits
-        selectBuffer.get(selectBuf);
-
-        int count = selectBuf[0];
-
-        if (count > 0) { // some figures?
-            unfocus();
-            focus(selectBuf[3]);
-        } else {
-            unfocus();
-        }
-
-        cursor = null;
-    }
-
-    @Override
-    protected void focus(int id) {
-        Element element = selectedElement.getElementById(id);
-
-        if (element != null) {
-            String label = getGraphController().getGraph().getLabel(element.getObject());
-
-            LOGGER.info("Focused vertex " + element.getObject() + " [" + label + "]");
-
-            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
-
-            this.focusedElement = element;
-            this.focusedElement.setFocused(true);
-        }
-
-    }
 
     protected void select(GroupingElement element) {
         String label = getGraphController().getGraph().getLabel(element.getObject());

@@ -22,10 +22,10 @@ public class Lens implements Drawable {
 
     public static final Logger LOGGER = Logger.getLogger(Lens.class);
 
-    private static final double LENS_RADIUS = 0.35;
     public static final int LENS_SEGMENTS = 20;
+    public static final double LENS_RADIUS = 0.35;
 
-    private static final double LAYOUT_RADIUS = 0.3;
+    public static final double LAYOUT_RADIUS = 0.3;
 
     public static final Color DEFAULT_CIRCLE_COLOR = Color.BLACK;
     public static final double DEFAULT_CIRCLE_ALFA = 0.5;
