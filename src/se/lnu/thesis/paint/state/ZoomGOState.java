@@ -42,7 +42,6 @@ public class ZoomGOState extends FocusableState {
 
         getGraphController().setState(new NormalGOState(getGraphController()));
 
-        unfocus();
         level.setFocused(false);
     }
 }

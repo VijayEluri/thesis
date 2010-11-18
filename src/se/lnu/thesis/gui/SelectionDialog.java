@@ -66,6 +66,7 @@ public class SelectionDialog extends JFrame implements Subject {
         list = new JList();
         list.setModel(labels);
         list.setSelectionModel(new DefaultListSelectionModel() {
+
             public void setSelectionInterval(int index0, int index1) {
                 if (isSelectedIndex(index0)) {
                     super.removeSelectionInterval(index0, index1);
