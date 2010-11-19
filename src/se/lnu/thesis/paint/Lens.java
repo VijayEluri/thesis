@@ -22,6 +22,8 @@ public class Lens implements Drawable {
 
     public static final Logger LOGGER = Logger.getLogger(Lens.class);
 
+    public static final int ID = -100;
+
     public static final int LENS_SEGMENTS = 20;
     public static final double LENS_RADIUS = 0.35;
 
@@ -45,9 +47,12 @@ public class Lens implements Drawable {
 
         DrawingUtils.colord(gl, circleColor, circleAlfa);
 
+        gl.glPushName(ID);
         DrawingUtils.circle(gl, LENS_RADIUS, LENS_SEGMENTS);
 
         root.drawContent(drawable);
+
+        gl.glPopName();
     }
 
     public void setRoot(GroupingElement root) {

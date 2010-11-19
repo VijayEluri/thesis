@@ -1,13 +1,17 @@
 package se.lnu.thesis.paint.state;
 
+import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.Lens;
+import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.GroupingElement;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
+import java.nio.IntBuffer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,15 +40,80 @@ public class LensState extends NormalClusterState {
 
     @Override
     protected void drawCurrentState(GLAutoDrawable drawable) {
+        GL gl = drawable.getGL();
+
         if (getCursor() != null) {
+            gl.glPushMatrix();
+            gl.glTranslated(-0.5, -0.5, 0.0);
+
             focusing(drawable, selectedElement);
+
+            gl.glPopMatrix();
         }
 
         getContainer().draw(drawable);
 
+
+        gl.glPushMatrix();
+        gl.glTranslated(-0.5, -0.5, 0.0);
+
         lens.draw(drawable);
+
+        gl.glPopMatrix();
     }
 
+    @Override
+    protected void focusing(GLAutoDrawable drawable, Container container) {
+        GL gl = drawable.getGL();
+
+        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+
+        int viewport[] = new int[4];
+
+        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+
+        gl.glSelectBuffer(BUFSIZE, selectBuffer);
+        gl.glRenderMode(GL.GL_SELECT);
+
+        gl.glInitNames();
+
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+
+        getGlu().gluPickMatrix((double) getCursor().getX(), (double) (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+
+        lens.draw(drawable);
+
+
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glPopMatrix();
+        gl.glFlush();
+
+
+        int hits = gl.glRenderMode(GL.GL_RENDER);
+
+        LOGGER.debug("There are " + hits + " ids found.");
+
+        unfocus();
+
+        if (hits > 0) { // founded something?
+//            int id = selectBuffer.get(hits * 4 - 1); // get last id in the stack
+
+            int buf[] = new int[BUFSIZE];
+            selectBuffer.get(buf);
+            int id = buf[hits * 4 - 1];
+
+            if (id == Lens.ID) {
+                LOGGER.debug("Lens circle is in focus..");
+            } else {
+                LOGGER.debug("Looking for id '" + id + "'");
+                focus(id, container);
+            }
+        }
+
+        setCursor(null);
+    }
 
     protected void select(GroupingElement element) {
         String label = getGraphController().getGraph().getLabel(element.getObject());
