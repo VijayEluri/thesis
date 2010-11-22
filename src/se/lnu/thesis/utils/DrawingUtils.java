@@ -1,6 +1,9 @@
 package se.lnu.thesis.utils;
 
+import org.apache.log4j.Logger;
+
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
 import java.awt.*;
 
 /**
@@ -12,6 +15,8 @@ import java.awt.*;
  * OpenGL drawing halping class.
  */
 public class DrawingUtils {
+
+    public static final Logger LOGGER = Logger.getLogger(DrawingUtils.class);
 
     public static final double COLOR_MAX_D = 256.0;
     public static final float COLOR_MAX_F = 256.0f;
@@ -122,4 +127,37 @@ public class DrawingUtils {
                 colorAsDouble(color.getBlue()),
                 alfa);
     }
+
+    /**
+     * Convert point coordinates from the window coordinate system to the OpenGL world coordinates.
+     *
+     * @param gl    Current OpenGL context
+     * @param glu   GLU library
+     * @param point Point coordinates in window
+     * @return converted point in OpenGL world coordinate system
+     */
+    public static double[] window2world(GL gl, GLU glu, Point point) {
+        int viewport[] = new int[4];
+        double mvmatrix[] = new double[16];
+        double projmatrix[] = new double[16];
+
+        double wcoord[] = new double[4]; // wx, wy, wz
+
+        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, mvmatrix, 0);
+        gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, projmatrix, 0);
+
+        /* note viewport[3] is height of window in pixels */
+        double x = point.getX();
+        double y = point.getY();
+
+
+        glu.gluUnProject(x, viewport[3] - y - 1, 0.0, mvmatrix, 0, projmatrix, 0, viewport, 0, wcoord, 0);
+
+        LOGGER.debug("Cursot window coordinates: [" + point.getX() + ";" + point.getY() + "]");
+        LOGGER.debug("Cursor World coordinates: [" + wcoord[0] + ";" + wcoord[1] + "]");
+
+        return wcoord;
+    }
+
 }

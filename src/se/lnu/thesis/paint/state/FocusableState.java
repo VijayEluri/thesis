@@ -25,8 +25,8 @@ public abstract class FocusableState extends GraphState {
 
     public static final int BUFSIZE = 512;
 
-    public static final double CURSOR_X_SIZE = 3.0;
-    public static final double CURSOR_Y_SIZE = 3.0;
+    public static final double CURSOR_X_SIZE = 1.0;
+    public static final double CURSOR_Y_SIZE = 1.0;
 
     private Container container;
     private Element current;
@@ -86,7 +86,6 @@ public abstract class FocusableState extends GraphState {
             unfocus();
         }
 
-        setCursor(null);
     }
 
     protected void focus(int id, Container container) {

@@ -43,23 +43,12 @@ public class LensState extends NormalClusterState {
         GL gl = drawable.getGL();
 
         if (getCursor() != null) {
-            gl.glPushMatrix();
-            gl.glTranslated(-0.5, -0.5, 0.0);
-
             focusing(drawable, selectedElement);
-
-            gl.glPopMatrix();
         }
 
         getContainer().draw(drawable);
 
-
-        gl.glPushMatrix();
-        gl.glTranslated(-0.5, -0.5, 0.0);
-
         lens.draw(drawable);
-
-        gl.glPopMatrix();
     }
 
     @Override
@@ -100,6 +89,7 @@ public class LensState extends NormalClusterState {
         if (hits > 0) { // founded something?
 //            int id = selectBuffer.get(hits * 4 - 1); // get last id in the stack
 
+
             int buf[] = new int[BUFSIZE];
             selectBuffer.get(buf);
             int id = buf[hits * 4 - 1];
@@ -112,7 +102,6 @@ public class LensState extends NormalClusterState {
             }
         }
 
-        setCursor(null);
     }
 
     protected void select(GroupingElement element) {
