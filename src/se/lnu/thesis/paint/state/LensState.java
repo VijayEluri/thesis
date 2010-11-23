@@ -25,7 +25,10 @@ public class LensState extends NormalClusterState {
 
     private Lens lens;
 
-    protected LensState() {
+    private boolean lensInFocus = false;
+    private boolean moveLens = false;
+
+    public LensState() {
 
     }
 
@@ -44,6 +47,10 @@ public class LensState extends NormalClusterState {
 
         if (getCursor() != null) {
             focusing(drawable, selectedElement);
+        }
+
+        if (lensInFocus && moveLens) {
+            lens.move(gl, getGlu());
         }
 
         getContainer().draw(drawable);
@@ -70,7 +77,7 @@ public class LensState extends NormalClusterState {
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
-        getGlu().gluPickMatrix((double) getCursor().getX(), (double) (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+        getGlu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
         lens.draw(drawable);
 
@@ -96,7 +103,11 @@ public class LensState extends NormalClusterState {
 
             if (id == Lens.ID) {
                 LOGGER.debug("Lens circle is in focus..");
+
+                lensInFocus = true;
             } else {
+                lensInFocus = false;
+
                 LOGGER.debug("Looking for id '" + id + "'");
                 focus(id, container);
             }
@@ -133,8 +144,35 @@ public class LensState extends NormalClusterState {
     @Override
     public void leftMouseButtonClicked(Point point) {
         LOGGER.info("Hide lens");
+
         unfocus();
         unselect();
+
         getGraphController().setState(new NormalClusterState(getGraphController()));
     }
+
+    @Override
+    public void leftMouseButtonPressed(Point cursor) {
+        if (lensInFocus) {
+            lens.setStart(cursor);
+            lens.setEnd(cursor);
+
+            moveLens = true;
+        }
+    }
+
+    @Override
+    public void leftMouseButtonReleased(Point cursor) {
+        moveLens = false;
+        lensInFocus = false;
+    }
+
+    @Override
+    public void leftMouseButtonDragged(Point cursor) {
+        if (moveLens) {
+            lens.setStart(lens.getEnd());
+            lens.setEnd(cursor);
+        }
+    }
+
 }

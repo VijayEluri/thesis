@@ -38,12 +38,12 @@ public abstract class GraphController implements Drawable, Observer {
         getState().draw(drawable);
     }
 
-    public void mouseMove(Point point) {
-        getState().mouseMove(point);
+    public void mouseMove(Point cursor) {
+        getState().mouseMove(cursor);
     }
 
-    public void leftMouseButtonClicked(Point point) {
-        getState().leftMouseButtonClicked(point);
+    public void leftMouseButtonClicked(Point cursor) {
+        getState().leftMouseButtonClicked(cursor);
     }
 
     public void mouseExited() {
@@ -52,6 +52,18 @@ public abstract class GraphController implements Drawable, Observer {
 
     public void rightMouseButtonClicked(Point cursor) {
         getState().rightMouseButtonClicked(cursor);
+    }
+
+    public void leftMouseButtonPressed(Point cursor) {
+        getState().leftMouseButtonPressed(cursor);
+    }
+
+    public void leftMouseButtonDragged(Point cursor) {
+        getState().leftMouseButtonDragged(cursor);
+    }
+
+    public void leftMouseButtonReleased(Point cursor) {
+        getState().leftMouseButtonReleased(cursor);
     }
 
     public void setSubGraph(Graph subGraph) {

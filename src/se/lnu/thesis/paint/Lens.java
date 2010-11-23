@@ -11,6 +11,7 @@ import se.lnu.thesis.utils.GraphUtils;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.glu.GLU;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -50,6 +51,9 @@ public class Lens implements Drawable {
     private Point2D center;
 
     private Point2D distance = DEFAULT_DISTANCE;
+
+    private Point start;
+    private Point end;
 
 
     public Lens() {
@@ -109,6 +113,18 @@ public class Lens implements Drawable {
         }
     }
 
+    public void move(GL gl, GLU glu) {
+        if (start != null && end != null) {
+            double[] start = DrawingUtils.window2world(gl, glu, this.start);
+            double[] end = DrawingUtils.window2world(gl, glu, this.end);
+
+            double moveX = end[0] - start[0];
+            double moveY = end[1] - start[1];
+
+            center.setLocation(center.getX() + moveX, center.getY() + moveY);
+        }
+    }
+
     public void setGraph(Graph graph) {
         clusterGraph = graph;
     }
@@ -143,5 +159,21 @@ public class Lens implements Drawable {
 
     public void setLayoutRadius(double layoutRadius) {
         this.layoutRadius = layoutRadius;
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public void setStart(Point start) {
+        this.start = start;
+    }
+
+    public Point getEnd() {
+        return end;
+    }
+
+    public void setEnd(Point end) {
+        this.end = end;
     }
 }
