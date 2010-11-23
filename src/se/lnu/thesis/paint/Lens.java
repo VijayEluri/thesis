@@ -92,10 +92,10 @@ public class Lens implements Drawable {
             LOGGER.info("Done.");
         }
 
-        setLensCenterPosition(root.getPosition());
+        setLensNearSelectedNodePosition(root.getPosition());
     }
 
-    protected void setLensCenterPosition(Point2D p) {
+    protected void setLensNearSelectedNodePosition(Point2D p) {
         center = new Point2D.Double();
 
         // is it posible to set lens on the right from the vertex
@@ -113,6 +113,53 @@ public class Lens implements Drawable {
         }
     }
 
+    protected void keepLensInside(double moveX, double moveY) {
+        double x, y;
+
+        if (moveX > 0) { // moving right?
+
+            // check right border
+            if (center.getX() + moveX + lensRadius > 1.0) {
+                x = 1.0 - lensRadius;
+            } else {
+                x = center.getX() + moveX;
+            }
+
+        } else { // moving left
+
+            // check left border
+            if (center.getX() + moveX - lensRadius < -1.0) {
+                x = -1.0 + lensRadius;
+            } else {
+                x = center.getX() + moveX;
+            }
+
+        }
+
+        if (moveY > 0) { // moving up
+
+            // check top border
+            if (center.getY() + moveY + lensRadius > 1.0) {
+                y = 1.0 - lensRadius;
+            } else {
+                y = center.getY() + moveY;
+            }
+
+        } else { // moving down
+
+            // check bottom border
+            if (center.getY() - moveY - lensRadius < -1.0) {
+                y = -1.0 + lensRadius;
+            } else {
+                y = center.getY() + moveY;
+            }
+
+        }
+
+        center.setLocation(x, y);
+
+    }
+
     public void move(GL gl, GLU glu) {
         if (start != null && end != null) {
             double[] start = DrawingUtils.window2world(gl, glu, this.start);
@@ -121,7 +168,7 @@ public class Lens implements Drawable {
             double moveX = end[0] - start[0];
             double moveY = end[1] - start[1];
 
-            center.setLocation(center.getX() + moveX, center.getY() + moveY);
+            keepLensInside(moveX, moveY);
         }
     }
 

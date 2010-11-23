@@ -45,11 +45,11 @@ public class LensState extends NormalClusterState {
     protected void drawCurrentState(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
 
-        if (getCursor() != null) {
+        if (getCursor() != null && !moveLens) {
             focusing(drawable, selectedElement);
         }
 
-        if (lensInFocus && moveLens) {
+        if (moveLens) {
             lens.move(gl, getGlu());
         }
 
