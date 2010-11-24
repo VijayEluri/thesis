@@ -2,7 +2,7 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.Container;
+import se.lnu.thesis.element.Container;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;

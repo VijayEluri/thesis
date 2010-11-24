@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;

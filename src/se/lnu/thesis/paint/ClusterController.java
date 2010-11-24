@@ -3,10 +3,10 @@ package se.lnu.thesis.paint;
 
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
+import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.state.NormalClusterState;
 
 

@@ -3,8 +3,8 @@ package se.lnu.thesis.paint.state;
 import com.sun.opengl.util.BufferUtil;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.Element;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

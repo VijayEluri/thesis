@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;

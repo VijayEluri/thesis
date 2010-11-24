@@ -1,10 +1,10 @@
 package se.lnu.thesis.paint.state;
 
 import org.apache.log4j.Logger;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.Element;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.paint.GraphController;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.Level;
 
 import java.awt.*;
 

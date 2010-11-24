@@ -3,9 +3,9 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Level;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.DimensionalContainer;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;

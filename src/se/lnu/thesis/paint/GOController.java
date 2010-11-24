@@ -2,11 +2,11 @@ package se.lnu.thesis.paint;
 
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
+import se.lnu.thesis.element.DimensionalContainer;
+import se.lnu.thesis.element.Element;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.Level;
 import se.lnu.thesis.paint.state.NormalGOState;
 
 import java.util.Iterator;

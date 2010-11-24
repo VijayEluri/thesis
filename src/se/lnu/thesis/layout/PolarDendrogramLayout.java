@@ -2,9 +2,9 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.GroupingElement;
-import se.lnu.thesis.paint.element.PolarEdge;
-import se.lnu.thesis.paint.element.PolarVertex;
+import se.lnu.thesis.element.GroupingElement;
+import se.lnu.thesis.element.PolarEdge;
+import se.lnu.thesis.element.PolarVertex;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 import static se.lnu.thesis.utils.GraphUtils.isLeaf;

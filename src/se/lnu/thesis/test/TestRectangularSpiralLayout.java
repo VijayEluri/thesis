@@ -4,12 +4,12 @@ import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.DimensionalContainer;
+import se.lnu.thesis.element.Element;
+import se.lnu.thesis.element.ElementType;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Element;
-import se.lnu.thesis.paint.element.ElementType;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;

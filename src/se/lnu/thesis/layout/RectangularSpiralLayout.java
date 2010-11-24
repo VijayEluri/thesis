@@ -2,8 +2,8 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.element.*;
-import se.lnu.thesis.paint.element.Container;
+import se.lnu.thesis.element.*;
+import se.lnu.thesis.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
@@ -34,8 +34,8 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     protected Point2D pathStartPosition = new Point2D.Double(DEFAULT_START_X_POSITION, DEFAULT_START_Y_POSITION);
 
-    protected int maxGroupElementSize = 1;
-    protected int minGroupElementSize = 1;
+    protected int maxGroupElementSize = Integer.MIN_VALUE;
+    protected int minGroupElementSize = Integer.MAX_VALUE;
 
     protected enum Direction {
         RIGHT, UP, LEFT, DOWN
@@ -123,7 +123,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
         root.addElement(groupingElement);
 
         maxGroupElementSize = Math.max(maxGroupElementSize, groupingElement.getSize());
-        minGroupElementSize = Math.max(minGroupElementSize, groupingElement.getSize());
+        minGroupElementSize = Math.min(minGroupElementSize, groupingElement.getSize());
     }
 
     private void addNode(Object o, Point2D p) {
@@ -171,7 +171,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
             Element element = i.next();
 
             if (element instanceof GroupingElement) {
-                ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupElementSize, ((Container) element).getSize()));
+                ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(minGroupElementSize, maxGroupElementSize, ((Container) element).getSize()));
             }
         }
     }

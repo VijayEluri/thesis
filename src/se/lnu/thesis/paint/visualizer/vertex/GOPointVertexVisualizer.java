@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
 

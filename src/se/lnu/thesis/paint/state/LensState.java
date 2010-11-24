@@ -3,10 +3,10 @@ package se.lnu.thesis.paint.state;
 import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.Lens;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.GroupingElement;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

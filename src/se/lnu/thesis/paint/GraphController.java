@@ -3,8 +3,8 @@ package se.lnu.thesis.paint;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.Container;
 import se.lnu.thesis.myobserver.Observer;
-import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.state.GraphState;
 import se.lnu.thesis.paint.state.NoneGraphState;
 
