@@ -26,15 +26,16 @@ public class RectangularSpiralLayout extends AbstractLayout {
     public static final double DEFAULT_PATH_DISTANCE = 0.045;
     public static final double DEFAULT_NODE_DISTANCE = 0.02;
 
-    public static final double DEFAULT_X_POSITION = 0;
-    public static final double DEFAULT_Y_POSITION = 0;
+    public static final double DEFAULT_START_X_POSITION = 0;
+    public static final double DEFAULT_START_Y_POSITION = 0;
 
     protected double pathDistance = DEFAULT_PATH_DISTANCE;
     protected double nodeDistance = DEFAULT_PATH_DISTANCE / 2;
 
-    protected Point2D pathStartPosition = new Point2D.Double(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
+    protected Point2D pathStartPosition = new Point2D.Double(DEFAULT_START_X_POSITION, DEFAULT_START_Y_POSITION);
 
-    protected int maxGroupSize = 1;
+    protected int maxGroupElementSize = 1;
+    protected int minGroupElementSize = 1;
 
     protected enum Direction {
         RIGHT, UP, LEFT, DOWN
@@ -71,19 +72,23 @@ public class RectangularSpiralLayout extends AbstractLayout {
             root.getObjects().add(node);
 
             if (GraphUtils.isLeaf(getGraph(), node)) {
-                root.addElement(VertexElement.init(node, pathPosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+
+                addLeaf(node, pathPosition);
+
             } else {
-                root.addElement(VertexElement.init(node, pathPosition, ElementVisualizerFactory.getInstance().getPointVisualizer()));
+                addNode(node, pathPosition);
 
                 for (Object successor : getGraph().getSuccessors(node)) {
                     if (!path.contains(successor)) {
-                        if (GraphUtils.isLeaf(getGraph(), successor)) {
-                            root.addElement(VertexElement.init(successor, nodePosition, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
-                        } else {
-                            GroupingElement groupingElement = GroupingElement.init(successor, nodePosition, null, GraphTraversalUtils.dfs(graph, successor));
-                            root.addElement(groupingElement);
 
-                            maxGroupSize = Math.max(maxGroupSize, groupingElement.getSize());
+                        if (GraphUtils.isLeaf(getGraph(), successor)) {
+
+                            addLeaf(successor, nodePosition);
+
+                        } else {
+
+                            addGroupingNode(successor, nodePosition);
+
                         }
 
                         root.getObjects().add(successor);
@@ -92,20 +97,73 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
             }
 
-            if (current < elements - 1) {
+            if (current < elements) {
                 if (isChangeDirection(current, elements)) {
                     direction = changeDirection(vector, direction);
                 }
+
                 current++;
+
                 move(pathPosition, vector);
                 move(nodePosition, vector);
-
             } else {
                 elements += 2;
                 current = 0;
                 direction = changeDirection(vector, direction);
+
+                move(pathPosition, vector);
+                move(nodePosition, vector);
             }
         }
+    }
+
+    private void addGroupingNode(Object o, Point2D p) {
+        GroupingElement groupingElement = GroupingElement.init(o, p, null, GraphTraversalUtils.dfs(graph, o));
+
+        root.addElement(groupingElement);
+
+        maxGroupElementSize = Math.max(maxGroupElementSize, groupingElement.getSize());
+        minGroupElementSize = Math.max(minGroupElementSize, groupingElement.getSize());
+    }
+
+    private void addNode(Object o, Point2D p) {
+        root.addElement(VertexElement.init(o, p, ElementVisualizerFactory.getInstance().getPointVisualizer()));
+    }
+
+    private void addLeaf(Object o, Point2D p) {
+        root.addElement(VertexElement.init(o, p, ElementVisualizerFactory.getInstance().getCircleVisualizer()));
+    }
+
+    protected boolean isChangeDirection(int current, int length) {
+        return current == (length / 2);
+    }
+
+    protected void move(Point2D p, Point2D vector) {
+        p.setLocation(p.getX() + vector.getX(), p.getY() + vector.getY());
+    }
+
+    protected Direction changeDirection(Point2D vector, Direction direction) {
+        if (direction == Direction.RIGHT) { // was RIGHT? set UP
+            vector.setLocation(0, pathDistance);
+            return Direction.UP;
+        }
+
+        if (direction == Direction.UP) { // was UP? set LEFT
+            vector.setLocation(-pathDistance, 0);
+            return Direction.LEFT;
+        }
+
+        if (direction == Direction.LEFT) { // was LEFT? set DOWN
+            vector.setLocation(0, -pathDistance);
+            return Direction.DOWN;
+        }
+
+        if (direction == Direction.DOWN) { // was DOWN? set RIGHT
+            vector.setLocation(pathDistance, 0);
+            return Direction.RIGHT;
+        }
+
+        return null;
     }
 
     private void normalizeGroupingElementsSize() {
@@ -113,7 +171,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
             Element element = i.next();
 
             if (element instanceof GroupingElement) {
-                ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupSize, ((Container) element).getSize()));
+                ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(maxGroupElementSize, ((Container) element).getSize()));
             }
         }
     }
@@ -127,45 +185,15 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
                 // is it backbone edge?
                 if (root.getElementByObject(source).getType() != ElementType.CONTAINER && root.getElementByObject(dest).getType() != ElementType.CONTAINER) {
+
                     root.addElement(BackboneEdgeElement.init(edge, graph, root));
+
                 } else { // it's edge from backbone to grouping element
                     root.addElement(EdgeElement.init(edge, graph, root));
                 }
 
             }
         }
-    }
-
-    protected boolean isChangeDirection(int current, int groupSize) {
-        return current == (groupSize / 2);
-    }
-
-    protected void move(Point2D p, Point2D vector) {
-        p.setLocation(p.getX() + vector.getX(), p.getY() + vector.getY());
-    }
-
-    protected Direction changeDirection(Point2D vector, Direction direction) {
-        if (direction == Direction.RIGHT) { // was RIGHT? set UP
-            vector.setLocation(0, DEFAULT_PATH_DISTANCE);
-            return Direction.UP;
-        }
-
-        if (direction == Direction.UP) { // was UP? set LEFT
-            vector.setLocation(-DEFAULT_PATH_DISTANCE, 0);
-            return Direction.LEFT;
-        }
-
-        if (direction == Direction.LEFT) { // was LEFT? set DOWN
-            vector.setLocation(0, -DEFAULT_PATH_DISTANCE);
-            return Direction.DOWN;
-        }
-
-        if (direction == Direction.DOWN) { // was DOWN? set RIGHT
-            vector.setLocation(DEFAULT_PATH_DISTANCE, 0);
-            return Direction.RIGHT;
-        }
-
-        return null;
     }
 
     public double getPathDistance() {

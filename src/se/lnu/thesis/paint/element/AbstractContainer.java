@@ -37,6 +37,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         return objects != null ? objects.size() : 0;
     }
 
+    @Deprecated
     public Iterator<Element> getElements() {
         return elements.iterator();
     }
@@ -132,4 +133,23 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
             element.draw(drawable);
         }
     }
+
+    public Iterator<Element> iterator() {
+        final Iterator<Element> i = elements.iterator();
+
+        return new Iterator<Element>() {
+            public boolean hasNext() {
+                return i.hasNext();
+            }
+
+            public Element next() {
+                return i.next();
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException("This iterator does not allow removing operation!");
+            }
+        };
+    }
+
 }
