@@ -27,6 +27,8 @@ public class LevelPreviewVisualizer extends LevelVisualizer {
 
             drawLevelBackground(container);
 
+            drawLevelNumber(container);
+
             if (element.isFocused()) {
                 drawLevelBorderBox(container);
             } else {
@@ -42,4 +44,5 @@ public class LevelPreviewVisualizer extends LevelVisualizer {
         }
 
     }
+
 }

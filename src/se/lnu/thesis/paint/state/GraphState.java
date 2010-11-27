@@ -32,11 +32,19 @@ public abstract class GraphState implements Drawable {
 
         gl.glEnable(GL.GL_LINE_SMOOTH);
         gl.glEnable(GL.GL_BLEND);
+
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
 
+        gl.glClearDepth(1.0);                     // Enables Clearing Of The Depth Buffer
+        gl.glEnable(GL.GL_DEPTH_TEST);            // Enables Depth Testing
+        gl.glDepthFunc(GL.GL_LEQUAL);             // The Type Of Depth Test To Do
 
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        // Really Nice Perspective Calculations
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+
+
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glClearColor(
                 DrawingUtils.colorAsFloat(graphController.getBackground().getRed()),
                 DrawingUtils.colorAsFloat(graphController.getBackground().getGreen()),

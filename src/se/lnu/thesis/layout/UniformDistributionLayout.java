@@ -85,18 +85,19 @@ public class UniformDistributionLayout extends AbstractLayout {
             int count = 0;
             Iterator element = nodes.iterator();
             for (int j = 0; j < rows; j++) {
-                if (j == (rows - 1)) {
+                if (j == (rows - 1)) { // last row
                     step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
                 }
 
                 for (int i = 0; i < columns; i++) {
                     if (count < nodes.size()) {
                         setElementPosition(element.next());
-                        //point(pX, pY);
                         count++;
                     }
+
                     p.setLocation(p.getX() + step.getX(), p.getY());
                 }
+
                 p.setLocation(start.getX(), p.getY() - step.getY());
             }
         }

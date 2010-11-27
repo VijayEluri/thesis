@@ -18,7 +18,10 @@ import java.util.HashSet;
  */
 public class LevelBarLayout extends UniformDistributionLayout {
 
-    private static final Point2D DEFAULT_BORDER = new Point2D.Double(0.02, 0.02);
+    public static final double DEFAULT_LEFT_BORDER = 0.06;
+    public static final double DEFAULT_RIGHT_BORDER = 0.01;
+    public static final double DEFAULT_TOP_BORDER = 0.02;
+    public static final double DEFAULT_BOTTOM_BORDER = 0.02;
 
     private ImmutableCollection objects;
 
@@ -31,7 +34,10 @@ public class LevelBarLayout extends UniformDistributionLayout {
     private Point2D nodesStartPosition;
     private Point2D nodesDimension;
 
-    private Point2D border = DEFAULT_BORDER;
+    private double leftBorder = DEFAULT_LEFT_BORDER;
+    private double rightBorder = DEFAULT_RIGHT_BORDER;
+    private double topBorder = DEFAULT_TOP_BORDER;
+    private double bottomBorder = DEFAULT_BOTTOM_BORDER;
 
     /**
      * This layout is used to compute positions for leafs and nodes parts
@@ -74,8 +80,8 @@ public class LevelBarLayout extends UniformDistributionLayout {
     }
 
     private void computeSpace() {
-        Point2D d = new Point2D.Double(getDimension().getX() - (border.getX() * 2), getDimension().getY() - (border.getY() * 2)); // layout dimension including border
-        Point2D p = new Point2D.Double(getStart().getX() + border.getX(), getStart().getY() - border.getY()); // start position including border
+        Point2D d = new Point2D.Double(getDimension().getX() - (leftBorder + rightBorder), getDimension().getY() - (topBorder + bottomBorder)); // layout dimension including border
+        Point2D p = new Point2D.Double(getStart().getX() + leftBorder, getStart().getY() - topBorder); // start position including border
 
 
         double percentage = leaves.size() * 100 / objects.size();
@@ -131,20 +137,36 @@ public class LevelBarLayout extends UniformDistributionLayout {
         }
     }
 
-    public Point2D getBorder() {
-        return border;
+    public double getLeftBorder() {
+        return leftBorder;
     }
 
-    public void setBorder(Point2D border) {
-        this.border = border;
+    public void setLeftBorder(double leftBorder) {
+        this.leftBorder = leftBorder;
     }
 
-    public void setBorder(double x, double y) {
-        if (this.border == null) {
-            this.border = new Point2D.Double();
-        }
+    public double getRightBorder() {
+        return rightBorder;
+    }
 
-        this.border.setLocation(x, y);
+    public void setRightBorder(double rightBorder) {
+        this.rightBorder = rightBorder;
+    }
+
+    public double getTopBorder() {
+        return topBorder;
+    }
+
+    public void setTopBorder(double topBorder) {
+        this.topBorder = topBorder;
+    }
+
+    public double getBottomBorder() {
+        return bottomBorder;
+    }
+
+    public void setBottomBorder(double bottomBorder) {
+        this.bottomBorder = bottomBorder;
     }
 
     public UniformDistributionLayout getPartsLayout() {
