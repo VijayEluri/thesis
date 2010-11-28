@@ -19,7 +19,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
 
     protected Collection<Object> objects;
 
-    private SortedSet<Element> elements = new TreeSet<Element>(new Orderable.ElementDrawingOrderComparator());
+    protected Collection<Element> elements = new TreeSet<Element>(new Orderable.ElementDrawingOrderComparator());
 
     private Map<Object, Element> obj2Element = new HashMap<Object, Element>();
     private Map<Integer, Element> id2Element = new HashMap<Integer, Element>();

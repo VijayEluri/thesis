@@ -4,8 +4,8 @@ import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
 import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.paint.element.GOGraphContainer;
 import se.lnu.thesis.paint.element.Level;
 import se.lnu.thesis.paint.state.NormalGOState;
 
@@ -29,18 +29,14 @@ public class GOController extends GraphController {
     public void init() {
         LOGGER.info("Initializing..");
 
-        root = DimensionalContainer.init("Gene Ontology");
+        root = GOGraphContainer.init();
 
         HierarchyLayout layout = new HierarchyLayout(graph, root);
         layout.compute();
 
-        normalState();
+        setState(new NormalGOState(this));
 
         LOGGER.info("Done.");
-    }
-
-    private void normalState() {
-        setState(new NormalGOState(this));
     }
 
     /**

@@ -6,14 +6,14 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
-import se.lnu.thesis.paint.element.DimensionalContainer;
+import se.lnu.thesis.paint.element.ClusterGraphContainer;
 import se.lnu.thesis.paint.state.NormalClusterState;
 
 
 public class ClusterController extends GraphController implements Observer {
 
     public void init() {
-        root = DimensionalContainer.init("Cluster");
+        root = ClusterGraphContainer.init();
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
         layout.compute();

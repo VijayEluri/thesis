@@ -5,6 +5,7 @@ import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.paint.element.Container;
 import se.lnu.thesis.paint.element.DimensionalContainer;
+import se.lnu.thesis.paint.element.GOGraphContainer;
 import se.lnu.thesis.paint.element.Level;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -19,6 +20,11 @@ import java.util.Collection;
  */
 public class HierarchyLayout extends AbstractLayout {
 
+    private int levelCount;
+    private Multimap levels;
+
+    private LevelBarLayout levelLayout;
+    private LevelBarLayout levelPreviewLayout;
 
     public HierarchyLayout(MyGraph graph, Container root) {
         super(graph, root);
@@ -26,31 +32,34 @@ public class HierarchyLayout extends AbstractLayout {
 
     public void compute() {
         checkArguments();
+        ;
+        Point2D d = ((GOGraphContainer) root).getDimension(); // graph container dimension
+        Point2D p = root.getPosition(); // graph container position
 
-        Multimap levels = TreeMultimap.create();
-        int levelCount = GraphUtils.computeLevels(graph, levels);
+        computeGeneOntologyLevels();
 
-        Point2D levelDimension = new Point2D.Double(2.0, 1.0);
-        Point2D levelPosition = new Point2D.Double(-1.0, 0.5);
 
-        LevelBarLayout levelLayout = new LevelBarLayout();
+        levelLayout = new LevelBarLayout();
         levelLayout.setGraph(graph);
         levelLayout.setPartsLayout(new LevelLayout());
 
+        Point2D levelDimension = new Point2D.Double(d.getX(), d.getY() / 3);
+        Point2D levelPosition = new Point2D.Double(p.getX(), p.getY() - levelDimension.getY());
 
-        Point2D previewDimension = new Point2D.Double(2.0, 2.0 / levelCount);
 
-        LevelBarLayout previewLayout = new LevelBarLayout();
-        previewLayout.setGraph(graph);
-        previewLayout.setPartsLayout(new LevelPreviewLayout());
+        levelPreviewLayout = new LevelBarLayout();
+        levelPreviewLayout.setGraph(graph);
+        levelPreviewLayout.setPartsLayout(new LevelPreviewLayout());
+
+        Point2D previewDimension = new Point2D.Double(d.getX(), d.getY() / levelCount);
 
         for (int i = 0; i < levelCount; i++) {
-            Point2D.Double previewPosition = new Point2D.Double(-1.0, 1.0 - previewDimension.getY() * i);
+            Point2D previewPosition = new Point2D.Double(p.getX(), p.getY() - previewDimension.getY() * i);
 
             Level level = Level.init(i, levels.get(i));
 
             // comptute elements positions for level preview
-            computePositions(level.getPreview(), level.getObjects(), previewLayout, previewDimension, previewPosition);
+            computePositions(level.getPreview(), level.getObjects(), levelPreviewLayout, previewDimension, previewPosition);
 
             // compute elements positions for level
             computePositions(level, level.getObjects(), levelLayout, levelDimension, levelPosition);
@@ -72,6 +81,11 @@ public class HierarchyLayout extends AbstractLayout {
         layout.setDimension(dimension);
 
         layout.compute();
+    }
+
+    private void computeGeneOntologyLevels() {
+        levels = TreeMultimap.create();
+        levelCount = GraphUtils.computeLevels(graph, levels);
     }
 
 }

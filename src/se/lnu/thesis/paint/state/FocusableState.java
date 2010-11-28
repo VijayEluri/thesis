@@ -60,7 +60,7 @@ public abstract class FocusableState extends GraphState {
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
-        getGlu().gluPickMatrix((double) getCursor().getX(), (double) (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+        getGlu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
 
         container.drawContent(drawable);
@@ -101,7 +101,7 @@ public abstract class FocusableState extends GraphState {
 
             String label = getGraphController().getGraph().getLabel(getCurrent().getObject());
 
-            LOGGER.info("Focused vertex " + getCurrent().getObject() + " [" + label + "]");
+            LOGGER.debug("Focused vertex " + getCurrent().getObject() + " [" + label + "]");
 
             Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
         }

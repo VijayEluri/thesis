@@ -5,6 +5,7 @@ import se.lnu.thesis.paint.GOController;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.element.Level;
 
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 
 /**
@@ -23,6 +24,15 @@ public class ZoomGOState extends FocusableState {
         setGraphController(controller);
         setContainer(level);
         this.level = level;
+    }
+
+    @Override
+    protected void drawCurrentState(GLAutoDrawable drawable) {
+        if (getCursor() != null) {
+            focusing(drawable, level);
+        }
+
+        level.drawContent(drawable);
     }
 
     @Override
