@@ -1,9 +1,9 @@
 package se.lnu.thesis.paint.state;
 
 import org.apache.log4j.Logger;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.paint.GOController;
 import se.lnu.thesis.paint.GraphController;
-import se.lnu.thesis.paint.element.Level;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;

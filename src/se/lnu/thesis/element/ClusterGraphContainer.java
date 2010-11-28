@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import java.awt.geom.Point2D;
 import java.util.HashSet;

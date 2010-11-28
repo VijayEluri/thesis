@@ -11,7 +11,9 @@ package se.lnu.thesis.utils;
  */
 public class IdUtils {
 
-    private static int CURRENT_ID = 1;
+    public static final int START_ID = 1;
+
+    private static int CURRENT_ID = START_ID;
 
     public static int next() {
         return CURRENT_ID++;

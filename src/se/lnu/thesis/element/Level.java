@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import com.google.common.collect.ImmutableSet;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;

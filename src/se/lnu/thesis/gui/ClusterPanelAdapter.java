@@ -34,4 +34,34 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
         getFrame().repaint();
     }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.info("LEFT MOUSE BUTTON PRESSED");
+            graphController.leftMouseButtonPressed(mouseEvent.getPoint());
+        }
+
+        getFrame().repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.info("LEFT MOUSE BUTTON RELEASED");
+            graphController.leftMouseButtonReleased(mouseEvent.getPoint());
+        }
+
+        getFrame().repaint();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.info("LEFT MOUSE BUTTON DRAGGED");
+            graphController.leftMouseButtonDragged(mouseEvent.getPoint());
+        }
+
+        getFrame().repaint();
+    }
 }

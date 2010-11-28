@@ -3,10 +3,10 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.paint.element.Container;
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.GOGraphContainer;
-import se.lnu.thesis.paint.element.Level;
+import se.lnu.thesis.element.Container;
+import se.lnu.thesis.element.DimensionalContainer;
+import se.lnu.thesis.element.GOGraphContainer;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
@@ -32,7 +32,7 @@ public class HierarchyLayout extends AbstractLayout {
 
     public void compute() {
         checkArguments();
-        ;
+
         Point2D d = ((GOGraphContainer) root).getDimension(); // graph container dimension
         Point2D p = root.getPosition(); // graph container position
 

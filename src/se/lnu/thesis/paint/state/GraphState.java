@@ -70,6 +70,18 @@ public abstract class GraphState implements Drawable {
         setCursor(cursor);
     }
 
+    public void leftMouseButtonDragged(Point cursor) {
+        setCursor(cursor);
+    }
+
+    public void leftMouseButtonPressed(Point cursor) {
+        setCursor(cursor);
+    }
+
+    public void leftMouseButtonReleased(Point cursor) {
+
+    }
+
     public void mouseExited() {
 
     }

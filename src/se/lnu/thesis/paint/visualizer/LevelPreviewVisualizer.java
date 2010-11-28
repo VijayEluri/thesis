@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer;
 
-import se.lnu.thesis.paint.element.DimensionalContainer;
-import se.lnu.thesis.paint.element.Element;
+import se.lnu.thesis.element.DimensionalContainer;
+import se.lnu.thesis.element.Element;
 
 import javax.media.opengl.GLAutoDrawable;
 

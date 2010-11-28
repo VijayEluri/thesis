@@ -3,7 +3,7 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.paint.element.Container;
+import se.lnu.thesis.element.Container;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;

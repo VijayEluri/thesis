@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.util.Collection;
@@ -10,13 +10,15 @@ import java.util.Iterator;
  * Date: 11.10.2010
  * Time: 15:01:47
  */
-public interface Container extends Element {
+public interface Container extends Element, Iterable<Element> {
 
     int getSize();
 
     void addElement(Element element);
 
     Iterator<Element> getElements();
+
+    Iterator<Element> iterator();
 
     Iterator<Integer> getIds();
 

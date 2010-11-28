@@ -3,7 +3,7 @@ package se.lnu.thesis.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import se.lnu.thesis.paint.element.*;
+import se.lnu.thesis.element.*;
 
 import java.util.*;
 

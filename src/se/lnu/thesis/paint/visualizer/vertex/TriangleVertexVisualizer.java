@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import se.lnu.thesis.paint.element.AbstractElement;
-import se.lnu.thesis.paint.element.VertexElement;
+import se.lnu.thesis.element.AbstractElement;
+import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.DrawingUtils;
 
 import javax.media.opengl.GL;

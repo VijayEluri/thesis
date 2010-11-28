@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.element;
+package se.lnu.thesis.element;
 
 import org.apache.log4j.Logger;
 
@@ -112,5 +112,12 @@ public abstract class AbstractElement implements Element {
 
     public void setFocused(boolean focused) {
         this.focused = focused;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Element element = (Element) o;
+
+        return this.object.equals(element.getObject());
     }
 }

@@ -20,7 +20,8 @@ import java.util.Map;
  */
 public class ElementVisualizerFactory {
 
-    private static final double MAX_GROUP_VERTEX_SIZE = 0.02;
+    private static final double MAX_GROUP_VERTEX_SIZE = 0.0207;
+    private static final double MIN_GROUP_VERTEX_SIZE = 0.0057;
 
     private static final Color DEFAULT_ELEMENT_COLOR = new Color(100, 100, 100, 100); // deafult color is grey
 
@@ -116,12 +117,13 @@ public class ElementVisualizerFactory {
         return (RectVertexVisualizer) visualizers.get(RECT_VERTEX_VISUALIZER);
     }
 
-    public RectVertexVisualizer getRectVisualizer(int maxGroupSize, int thisGroupSize) {
+    public RectVertexVisualizer getRectVisualizer(int minGroupSize, int maxGroupSize, int thisGroupSize) {
 
         if (rectVisualizers.containsKey(thisGroupSize)) {
             return (RectVertexVisualizer) rectVisualizers.get(thisGroupSize);
         } else {
-            double size = (MAX_GROUP_VERTEX_SIZE / maxGroupSize) * thisGroupSize;
+            double size = (MAX_GROUP_VERTEX_SIZE - MIN_GROUP_VERTEX_SIZE) / (maxGroupSize - minGroupSize) * (thisGroupSize - minGroupSize) + MIN_GROUP_VERTEX_SIZE;
+
             rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR, size));
 
             return (RectVertexVisualizer) rectVisualizers.get(thisGroupSize);

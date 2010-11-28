@@ -14,6 +14,7 @@ import java.util.Map;
  * Date: 10.08.2010
  * Time: 14:07:06
  */
+@Deprecated
 public class PrintGraphUtil {
 
     private Map<Object, Integer> length = new HashMap<Object, Integer>();
