@@ -1,6 +1,7 @@
 package se.lnu.thesis;
 
 import org.apache.log4j.Logger;
+import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
@@ -35,6 +36,8 @@ public class Scene {
     private GOController goController;
     private GraphController clusterController;
 
+    private Extractor extractor;
+
 
     private Scene() {
 
@@ -49,6 +52,8 @@ public class Scene {
         geneListDialog = new GeneListDialog();
         geneListDialog.registerObserver(goController);
         geneListDialog.registerObserver(clusterController);
+
+        extractor = new Extractor();
     }
 
     public void setGoGraph(MyGraph goGraph) {
@@ -77,6 +82,10 @@ public class Scene {
         LOGGER.info("Done.");
     }
 
+    public void showGeneList() {
+        geneListDialog.setVisible(true);
+    }
+
     public MyGraph getGoGraph() {
         return goGraph;
     }
@@ -97,8 +106,11 @@ public class Scene {
         return clusterController;
     }
 
-    public void showGeneList() {
-        geneListDialog.setVisible(true);
+    public Extractor getExtractor() {
+        return extractor;
     }
 
+    public GeneListDialog getGeneListDialog() {
+        return geneListDialog;
+    }
 }

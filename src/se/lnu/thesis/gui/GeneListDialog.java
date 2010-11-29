@@ -2,7 +2,6 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
-import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
@@ -39,14 +38,10 @@ public class GeneListDialog extends JFrame implements Subject {
 
     private Set<Observer> observers;
 
-    private Extractor extractor;
-
     public GeneListDialog() {
         initGUI();
 
         observers = new HashSet<Observer>();
-
-        extractor = new Extractor();
     }
 
     private void initGUI() {
@@ -86,7 +81,7 @@ public class GeneListDialog extends JFrame implements Subject {
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                    extractor.extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
+                    Scene.getInstance().getExtractor().extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
@@ -95,7 +90,7 @@ public class GeneListDialog extends JFrame implements Subject {
                 } else {
                     LOGGER.info("User unselected node.");
 
-                    extractor.extractSubGraphs(null, null, null);
+                    Scene.getInstance().getExtractor().extractSubGraphs(null, null, null);
                 }
 
                 notifyObservers();
@@ -172,7 +167,7 @@ public class GeneListDialog extends JFrame implements Subject {
 
     public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.notifyObserver(this, extractor);
+            observer.notifyObserver(this, null);
         }
     }
 

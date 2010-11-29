@@ -34,7 +34,7 @@ public class ClusterController extends GraphController implements Observer {
     }
 
     public void notifyObserver(Subject subject, Object params) {
-        Extractor extractor = (Extractor) params;
+        Extractor extractor = Scene.getInstance().getExtractor();
 
         this.setSubGraph(extractor.getClusterSubGraph());
 

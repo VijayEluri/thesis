@@ -12,7 +12,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -36,7 +36,7 @@ public class ZoomGOState extends FocusableState {
 
         level.setFocused(false);
 
-        levels = new ArrayList<Level>();
+        levels = new LinkedList<Level>();
         int topLevelIndex = ((GOGraphContainer) controller.getRoot()).getZoomedLevels(level, levels);
 
         Scene.getInstance().getMainWindow().setScrollBarValue(topLevelIndex);
@@ -134,11 +134,21 @@ public class ZoomGOState extends FocusableState {
     public void leftMouseButtonClicked(Point cursor) {
         GOController goController = (GOController) getGraphController();
 
+        Scene.getInstance().getMainWindow().setCursor(Cursor.WAIT_CURSOR);
+
         if (getCurrent() == null) { // no  focused element than skip selection
             goController.unselect();
+
+            Scene.getInstance().getExtractor().extractSubGraphs(null, null, null);
         } else {                    // there is focused element then select it
             goController.select(getCurrent());
+
+            Scene.getInstance().getExtractor().extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getCurrent().getObject());
         }
+
+        Scene.getInstance().getGeneListDialog().notifyObservers();
+
+        Scene.getInstance().getMainWindow().setCursor(Cursor.DEFAULT_CURSOR);
     }
 
     @Override

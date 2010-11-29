@@ -60,11 +60,11 @@ public class GOController extends GraphController {
      * @param params  Instance of class the Extractor
      */
     public void notifyObserver(Subject subject, Object params) {
-        Extractor extractor = (Extractor) params;
+        Extractor extractor = Scene.getInstance().getExtractor();
 
         this.setSubGraph(extractor.getGoSubGraph());
 
-        if (extractor.getSelectedNode() != null) {    // TODO move this shit to setSubGraph
+        if (extractor.getSelectedNode() != null) {
             select(extractor.getSelectedNode());
         } else {
             unselect();

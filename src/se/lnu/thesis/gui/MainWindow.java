@@ -14,9 +14,6 @@ public class MainWindow extends JFrame {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
 
-    public static final int DEFAULT_WINDOW_HEGIHT = 600;
-    public static final int DEFAULT_WINDOW_WIDTH = 1200;
-
     JLabel statusBar;
     JScrollBar scrollBar;
 
@@ -25,7 +22,7 @@ public class MainWindow extends JFrame {
     }
 
     private void initUIElements() {
-        this.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEGIHT);
+        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setLayout(new BorderLayout());
@@ -58,21 +55,17 @@ public class MainWindow extends JFrame {
     private Component goPanel() {
         JPanel result = new JPanel(new BorderLayout());
 
-        JoglPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController());
-        panelAdapter.setFrame(this);
+        result.add(goDrawingPanel(), BorderLayout.CENTER);
 
-        GLJPanel gljPanel = new GLJPanel();
-        gljPanel.addGLEventListener(panelAdapter);
-        gljPanel.addMouseListener(panelAdapter);
-        gljPanel.addMouseMotionListener(panelAdapter);
+        result.add(goScrollBar(), BorderLayout.EAST);
 
-        result.add(gljPanel, BorderLayout.CENTER);
+        return result;
+    }
 
-        scrollBar = new JScrollBar(JScrollBar.VERTICAL);
-        scrollBar.setMinimum(0);
-        scrollBar.setValue(0);
-        scrollBar.setVisibleAmount(3);
+    private JScrollBar goScrollBar() {
+        scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 3, 0, Integer.MAX_VALUE);
         scrollBar.setUnitIncrement(1);
+        scrollBar.setBlockIncrement(2);
         scrollBar.setVisible(false);
 
         scrollBar.addAdjustmentListener(new AdjustmentListener() {
@@ -85,9 +78,18 @@ public class MainWindow extends JFrame {
             }
         });
 
-        result.add(scrollBar, BorderLayout.EAST);
+        return scrollBar;
+    }
 
-        return result;
+    private GLJPanel goDrawingPanel() {
+        JoglPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController());
+        panelAdapter.setFrame(this);
+
+        GLJPanel gljPanel = new GLJPanel();
+        gljPanel.addGLEventListener(panelAdapter);
+        gljPanel.addMouseListener(panelAdapter);
+        gljPanel.addMouseMotionListener(panelAdapter);
+        return gljPanel;
     }
 
     private Component clusterPanel() {
