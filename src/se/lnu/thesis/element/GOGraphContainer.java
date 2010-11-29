@@ -28,26 +28,30 @@ public class GOGraphContainer extends GraphContainer {
         return result;
     }
 
-    public Level getPrev(Level level) {
-        Level result = null;
+    public List<Level> getZoomLevels(Level level) {
+        List result = new LinkedList();
 
-        int i = ((List) elements).indexOf(level);
+        int current = ((List) elements).indexOf(level);
 
-        if (i > 0) {
-            result = (Level) ((List) elements).get(i - 1);
+        if (current == 0) {
+            result.add(((List) elements).get(current));
+            result.add(((List) elements).get(current + 1));
+            result.add(((List) elements).get(current + 2));
+
+            return result;
         }
 
-        return result;
-    }
+        if (current == elements.size() - 1) {
+            result.add(((List) elements).get(current));
+            result.add(((List) elements).get(current - 1));
+            result.add(((List) elements).get(current - 2));
 
-    public Level getNext(Level level) {
-        Level result = null;
-
-        int i = ((List) elements).indexOf(level);
-
-        if (i < elements.size() - 1) {
-            result = (Level) ((List) elements).get(i + 1);
+            return result;
         }
+
+        result.add(((List) elements).get(current - 1));
+        result.add(((List) elements).get(current));
+        result.add(((List) elements).get(current + 1));
 
         return result;
     }
