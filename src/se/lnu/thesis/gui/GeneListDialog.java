@@ -26,9 +26,9 @@ import java.util.Set;
  * <p/>
  * Gene Ontology node selectable list
  */
-public class SelectionDialog extends JFrame implements Subject {
+public class GeneListDialog extends JFrame implements Subject {
 
-    public static final Logger LOGGER = Logger.getLogger(SelectionDialog.class);
+    public static final Logger LOGGER = Logger.getLogger(GeneListDialog.class);
 
     private JList list;
 
@@ -41,7 +41,7 @@ public class SelectionDialog extends JFrame implements Subject {
 
     private Extractor extractor;
 
-    public SelectionDialog() {
+    public GeneListDialog() {
         initGUI();
 
         observers = new HashSet<Observer>();
@@ -217,9 +217,9 @@ public class SelectionDialog extends JFrame implements Subject {
             graph.addLabel(i, "-> " + i);
         }
 
-        SelectionDialog selectionDialog = new SelectionDialog();
-        selectionDialog.setGraph(graph);
-        selectionDialog.setVisible(true);
+        GeneListDialog geneListDialog = new GeneListDialog();
+        geneListDialog.setGraph(graph);
+        geneListDialog.setVisible(true);
 
     }
 

@@ -2,8 +2,8 @@ package se.lnu.thesis;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
-import se.lnu.thesis.gui.SelectionDialog;
 import se.lnu.thesis.paint.ClusterController;
 import se.lnu.thesis.paint.GOController;
 import se.lnu.thesis.paint.GraphController;
@@ -27,12 +27,12 @@ public class Scene {
     }
 
     private MainWindow mainWindow;
-    private SelectionDialog selectionDialog;
+    private GeneListDialog geneListDialog;
 
     private MyGraph goGraph = null;
     private MyGraph clusterGraph = null;
 
-    private GraphController goController;
+    private GOController goController;
     private GraphController clusterController;
 
 
@@ -46,9 +46,9 @@ public class Scene {
 
         mainWindow = new MainWindow();
 
-        selectionDialog = new SelectionDialog();
-        selectionDialog.registerObserver(goController);
-        selectionDialog.registerObserver(clusterController);
+        geneListDialog = new GeneListDialog();
+        geneListDialog.registerObserver(goController);
+        geneListDialog.registerObserver(clusterController);
     }
 
     public void setGoGraph(MyGraph goGraph) {
@@ -56,7 +56,7 @@ public class Scene {
 
         initController(goController, goGraph);
 
-        selectionDialog.setGraph(goGraph);
+        geneListDialog.setGraph(goGraph);
     }
 
     public void setClusterGraph(MyGraph clusterGraph) {
@@ -89,7 +89,7 @@ public class Scene {
         return mainWindow;
     }
 
-    public GraphController getGoController() {
+    public GOController getGoController() {
         return goController;
     }
 
@@ -98,7 +98,7 @@ public class Scene {
     }
 
     public void showGeneList() {
-        selectionDialog.setVisible(true);
+        geneListDialog.setVisible(true);
     }
 
 }

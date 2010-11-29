@@ -2,6 +2,7 @@ package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
 import se.lnu.thesis.paint.GOController;
@@ -11,6 +12,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,6 +21,7 @@ import java.util.List;
  * User: vady
  * Date: 05.11.2010
  * Time: 17:55:49
+ * <p/>
  * <p/>
  * Gene Ontology zooming levels state
  */
@@ -32,7 +35,12 @@ public class ZoomGOState extends FocusableState {
         setGraphController(controller);
 
         level.setFocused(false);
-        this.levels = ((GOGraphContainer) controller.getRoot()).getZoomLevels(level);
+
+        levels = new ArrayList<Level>();
+        int topLevelIndex = ((GOGraphContainer) controller.getRoot()).getZoomedLevels(level, levels);
+
+        Scene.getInstance().getMainWindow().setScrollBarValue(topLevelIndex);
+        Scene.getInstance().getMainWindow().showSrollBar();
     }
 
     @Override
@@ -137,6 +145,11 @@ public class ZoomGOState extends FocusableState {
     public void rightMouseButtonClicked(Point cursor) {
         LOGGER.info("Zoom out to default view");
 
+        Scene.getInstance().getMainWindow().hideScrollBar();
         getGraphController().setState(new NormalGOState(getGraphController()));
+    }
+
+    public void scrollBarValueChanged(int index) {
+        ((GOGraphContainer) getGraphController().getRoot()).getZoomedLevels(index, levels);
     }
 }

@@ -8,7 +8,9 @@ import se.lnu.thesis.element.Level;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.state.NormalGOState;
+import se.lnu.thesis.paint.state.ZoomGOState;
 
+import javax.swing.*;
 import java.util.Iterator;
 
 /**
@@ -31,8 +33,20 @@ public class GOController extends GraphController {
 
         root = GOGraphContainer.init();
 
-        HierarchyLayout layout = new HierarchyLayout(graph, root);
-        layout.compute();
+        try {
+            HierarchyLayout layout = new HierarchyLayout(graph, root);
+            layout.compute();
+
+            Scene.getInstance().getMainWindow().setScrollBarMax(layout.getLevelCount());
+        } catch (Exception e) {
+            LOGGER.error("Initialization error!");
+            LOGGER.error(e);
+
+            JOptionPane.showMessageDialog(null, "Incorrect input graph structure!", "Layout computation error", JOptionPane.ERROR_MESSAGE);
+
+            root = null;
+            return;
+        }
 
         setState(new NormalGOState(this));
 
@@ -106,6 +120,12 @@ public class GOController extends GraphController {
 
         selectedElement = null;
         previewElement = null;
+    }
+
+    public void scrollBarValueChanged(int index) {
+        if (getState() instanceof ZoomGOState) {  // only ZoomGOState traces this event
+            ((ZoomGOState) getState()).scrollBarValueChanged(index);
+        }
     }
 
 }

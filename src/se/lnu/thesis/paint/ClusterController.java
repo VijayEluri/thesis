@@ -9,14 +9,26 @@ import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.state.NormalClusterState;
 
+import javax.swing.*;
+
 
 public class ClusterController extends GraphController implements Observer {
 
     public void init() {
         root = ClusterGraphContainer.init();
 
-        RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
-        layout.compute();
+        try {
+            RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
+            layout.compute();
+        } catch (Exception e) {
+            LOGGER.error("Initialization error!");
+            LOGGER.error(e);
+
+            JOptionPane.showMessageDialog(null, "Incorrect input graph structure!", "Layout computation error", JOptionPane.ERROR_MESSAGE);
+
+            root = null;
+            return;
+        }
 
         setState(new NormalClusterState(this));
     }

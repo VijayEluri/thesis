@@ -28,32 +28,46 @@ public class GOGraphContainer extends GraphContainer {
         return result;
     }
 
-    public List<Level> getZoomLevels(Level level) {
-        List result = new LinkedList();
+    public int getZoomedLevels(Level level, List<Level> levels) {
+        if (!levels.isEmpty()) {
+            levels.clear();
+        }
 
         int current = ((List) elements).indexOf(level);
 
         if (current == 0) {
-            result.add(((List) elements).get(current));
-            result.add(((List) elements).get(current + 1));
-            result.add(((List) elements).get(current + 2));
+            levels.add((Level) ((List) elements).get(current));
+            levels.add((Level) ((List) elements).get(current + 1));
+            levels.add((Level) ((List) elements).get(current + 2));
 
-            return result;
+            return current;
         }
 
         if (current == elements.size() - 1) {
-            result.add(((List) elements).get(current));
-            result.add(((List) elements).get(current - 1));
-            result.add(((List) elements).get(current - 2));
+            levels.add((Level) ((List) elements).get(current));
+            levels.add((Level) ((List) elements).get(current - 1));
+            levels.add((Level) ((List) elements).get(current - 2));
 
-            return result;
+            return current;
         }
 
-        result.add(((List) elements).get(current - 1));
-        result.add(((List) elements).get(current));
-        result.add(((List) elements).get(current + 1));
+        levels.add((Level) ((List) elements).get(current - 1));
+        levels.add((Level) ((List) elements).get(current));
+        levels.add((Level) ((List) elements).get(current + 1));
 
-        return result;
+        return current - 1;
+    }
+
+    public int getZoomedLevels(int topLevelIndex, List<Level> levels) {
+        if (!levels.isEmpty()) {
+            levels.clear();
+        }
+
+        levels.add((Level) ((List) elements).get(topLevelIndex));
+        levels.add((Level) ((List) elements).get(topLevelIndex + 1));
+        levels.add((Level) ((List) elements).get(topLevelIndex + 2));
+
+        return topLevelIndex;
     }
 
 

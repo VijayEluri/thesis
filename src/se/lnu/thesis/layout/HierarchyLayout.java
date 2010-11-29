@@ -88,4 +88,7 @@ public class HierarchyLayout extends AbstractLayout {
         levelCount = GraphUtils.computeLevels(graph, levels);
     }
 
+    public int getLevelCount() {
+        return levelCount;
+    }
 }
