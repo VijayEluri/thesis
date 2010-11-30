@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertEquals;
@@ -43,7 +43,7 @@ public class TestGraphHeight {
     @Test
     public void nodeHeightRealData() {
 
-        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(new File("RealClusterGraph.graphml")).get(0);
+        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
 
         assertTrue(graph.containsVertex("n11732")); // root
         assertTrue(graph.containsVertex("n11733"));

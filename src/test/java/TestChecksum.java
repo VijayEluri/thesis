@@ -1,4 +1,3 @@
-package se.lnu.thesis.test;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class TestChecksum {
         CRC32 crc32 = new CRC32();
 
         try {
-            BufferedInputStream is = new BufferedInputStream(new FileInputStream("cluster.graphml"));
+            BufferedInputStream is = new BufferedInputStream(getClass().getClassLoader().getResourceAsStream("cluster.graphml"));
             byte[] bytes = new byte[1024];
             int len = 0;
 

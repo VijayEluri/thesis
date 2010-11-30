@@ -114,11 +114,11 @@ public class TestExtractor {
     @Test
     public void extract() {
 
-        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("RealGOGraph.graphml").get(0);
+        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath()).get(0);
         Assert.assertEquals(10042, goGraph.getVertexCount());
         Assert.assertEquals(24155, goGraph.getEdgeCount());
 
-        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("RealClusterGraph.graphml").get(0);
+        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
         Assert.assertEquals(14623, clusterGraph.getVertexCount());
         Assert.assertEquals(14622, clusterGraph.getEdgeCount());
 
@@ -152,11 +152,11 @@ public class TestExtractor {
     @Test
     public void extractSmall_10() {
 
-        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallGO.graphml").get(0);
+        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("smallGO.graphml").getPath()).get(0);
         Assert.assertEquals(10, goGraph.getVertexCount());
         Assert.assertEquals(12, goGraph.getEdgeCount());
 
-        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallCluster.graphml").get(0);
+        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("smallCluster.graphml").getPath()).get(0);
         Assert.assertEquals(9, clusterGraph.getVertexCount());
         Assert.assertEquals(8, clusterGraph.getEdgeCount());
 
@@ -174,11 +174,11 @@ public class TestExtractor {
     @Test
     public void extractSmall_1() {
 
-        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallGO.graphml").get(0);
+        MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("smallGO.graphml").getPath()).get(0);
         Assert.assertEquals(10, goGraph.getVertexCount());
         Assert.assertEquals(12, goGraph.getEdgeCount());
 
-        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load("smallCluster.graphml").get(0);
+        MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("smallCluster.graphml").getPath()).get(0);
         Assert.assertEquals(9, clusterGraph.getVertexCount());
         Assert.assertEquals(8, clusterGraph.getEdgeCount());
 

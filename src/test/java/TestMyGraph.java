@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.assertEquals;

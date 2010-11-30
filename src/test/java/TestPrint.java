@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertTrue;

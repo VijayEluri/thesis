@@ -1,0 +1,23 @@
+
+
+
+Some libraries used in project do not exist in the Maven Repository.
+You should add them to yout local repository manualy from "lib" directory
+
+
+    JUNG library
+
+mvn install:install-file -DgroupId=jung-graph-impl -DartifactId=jung-graph-impl -Dversion=2.0.1 -Dpackaging=jar -Dfile=jung-graph-impl-2.0.1.jar
+mvn install:install-file -DgroupId=jung-api -DartifactId=jung-api -Dversion=2.0.1 -Dpackaging=jar -Dfile=jung-api-2.0.1.jar
+mvn install:install-file -DgroupId=jung-algorithms -DartifactId=jung-algorithms -Dversion=2.0.1 -Dpackaging=jar -Dfile=jung-algorithms-2.0.1.jar
+
+
+
+    JOGL
+
+mvn install:install-file -DgroupId=jogl -DartifactId=jogl -Dversion=1.1.1 -Dpackaging=jar -Dfile=jogl.jar
+
+
+    Gluegen
+
+mvn install:install-file -DgroupId=gluegen-rt -DartifactId=gluegen-rt -Dversion=1.0 -Dpackaging=jar -Dfile=gluegen-rt.jar

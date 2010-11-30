@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
@@ -34,7 +34,7 @@ public class TestRealData {
         final int DAG_EDGE_COUNT = 24155;
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromYedGraphml("RealGOGraph.graphml");
+        MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
 
         assertEquals(DAG_NODE_COUNT, go.getVertexCount());
         assertEquals(DAG_EDGE_COUNT, go.getEdgeCount());
@@ -48,7 +48,7 @@ public class TestRealData {
         final int CLUSTER_EDGE_COUNT = 14622;
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+        MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
 
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());
@@ -60,7 +60,7 @@ public class TestRealData {
     public void findGeneOntologyLabelDublicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromYedGraphml("RealGOGraph.graphml");
+        MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
 
         Set<String> dublicates = new HashSet<String>();
 
@@ -85,7 +85,7 @@ public class TestRealData {
     public void findClusterLabelDublicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+        MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
 
         Set<String> dublicates = new HashSet<String>();
 
@@ -107,7 +107,7 @@ public class TestRealData {
     public void checkGroupCluster() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGraphml("RealClusterGraph.graphml");
+        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
 
         MyGraph subGraph = new MyGraph();
 
@@ -127,7 +127,7 @@ public class TestRealData {
     public void testGeneOntologyLevels() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGraphml("RealGOGraph.graphml");
+        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
 
         Set roots = GraphUtils.getRoots(graph);
         System.out.println("Roots: " + Joiner.on(" ,").join(roots));

@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
@@ -34,7 +34,7 @@ public class TestPerfomance {
     public void iterate() {
         GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
 
-        Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
+        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
 
         assertEquals(nodes, graph.getVertexCount());
         assertEquals(edges, graph.getEdgeCount());
@@ -78,7 +78,7 @@ public class TestPerfomance {
         Graph graph = null;
         long start = System.currentTimeMillis();
         try {
-            graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
+            graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +96,7 @@ public class TestPerfomance {
 
         Graph graph = null;
         long start = System.currentTimeMillis();
-        graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
+        graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         System.out.println("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
@@ -110,7 +110,7 @@ public class TestPerfomance {
         GraphMLParser parser = new GraphMLParser(new MyGraphYedHandler());
 
         long start = System.currentTimeMillis();
-        MyGraph graph = (MyGraph) parser.load(new File("RealClusterGraph.graphml")).get(0);
+        MyGraph graph = (MyGraph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         System.out.println("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
@@ -188,7 +188,7 @@ public class TestPerfomance {
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
         long start = System.currentTimeMillis();
-        Graph graph = (Graph) parser.load("RealGOGraph.graphml").get(0);
+        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         System.out.println("Loading graph from file done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");

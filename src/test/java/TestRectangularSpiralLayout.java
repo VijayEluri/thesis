@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
@@ -28,7 +28,7 @@ public class TestRectangularSpiralLayout {
     @Test
     public void positionOverlappings() {
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromGml("RealClusterGraph.gml");
+        MyGraph graph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
         assertNotNull(graph);
 
         Container container = DimensionalContainer.init("root");

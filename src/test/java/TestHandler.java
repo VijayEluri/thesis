@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
@@ -25,7 +25,7 @@ public class TestHandler {
     @Test
     public void jungTreeYedHandler() {
         GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
-        Tree tree = (Tree) parser.load(new File("cluster.graphml")).get(0);
+        Tree tree = (Tree) parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath()).get(0);
 
         assertEquals(23, tree.getVertexCount());
         assertEquals(11, tree.getHeight());
@@ -41,7 +41,7 @@ public class TestHandler {
     public void myGraphYedHandler() {
         GraphMLParser parser = new GraphMLParser(new MyGraphYedHandler());
 
-        List graphs = parser.load(new File("cluster.graphml"));
+        List graphs = parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath());
         assertEquals(1, graphs.size());
 
         MyGraph graph = (MyGraph) graphs.get(0);
@@ -65,7 +65,7 @@ public class TestHandler {
         MyGraphYedHandler yedHandler = new MyGraphYedHandler();
         GraphMLParser parser = new GraphMLParser(yedHandler);
 
-        List graphs = parser.load("RealClusterGraph.graphml");
+        List graphs = parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
         assertEquals(1, graphs.size());
 
         MyGraph graph = (MyGraph) graphs.get(0);
@@ -84,7 +84,7 @@ public class TestHandler {
 
         GraphMLParser parser = new GraphMLParser(yedHandler);
 
-        List graphs = parser.load(new File("cluster.graphml"));
+        List graphs = parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath());
         assertEquals(1, graphs.size());
 
         Graph graph = (Graph) graphs.get(0);

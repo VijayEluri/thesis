@@ -1,4 +1,4 @@
-package se.lnu.thesis.test;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,7 +22,7 @@ public class TestYedGmlReader {
     public void readTree_15_14() throws IOException {
         IOFacade ioFacade = new IOFacade();
 
-        MyGraph graph = ioFacade.loadFromYedGml("test_tree_15_14.gml");
+        MyGraph graph = ioFacade.loadFromYedGml(getClass().getClassLoader().getResource("test_tree_15_14.gml").getFile());
 
         assertNotNull(graph);
         assertEquals(15, graph.getVertexCount());
