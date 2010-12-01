@@ -1,6 +1,5 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
@@ -8,10 +7,12 @@ import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.paint.GraphController;
 import se.lnu.thesis.paint.Lens;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GL;
 import java.awt.*;
 import java.nio.IntBuffer;
+
+import com.sun.opengl.util.BufferUtil;
 
 /**
  * Created by IntelliJ IDEA.
@@ -169,6 +170,7 @@ public class LensState extends NormalClusterState {
 
     @Override
     public void leftMouseButtonDragged(Point cursor) {
+        LOGGER.info("LEFT MOUSE BUTTON DRAGGED [" + cursor + "]");
         if (moveLens) {
             lens.setStart(lens.getEnd());
             lens.setEnd(cursor);

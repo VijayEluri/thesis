@@ -169,6 +169,8 @@ public class Lens implements Drawable {
             double moveY = end[1] - start[1];
 
             keepLensInside(moveX, moveY);
+
+            start = null;
         }
     }
 
