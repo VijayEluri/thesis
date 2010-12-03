@@ -2,7 +2,9 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.GOController;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -19,9 +21,14 @@ public class GOPanelAdapter extends JoglPanelAdapter {
         setGraphController(graphController);
     }
 
+    public GOPanelAdapter(GraphController graphController, JFrame frame) {
+        super(graphController, frame);
+    }
+
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        LOGGER.debug("Mouse moves [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+        LOGGER.debug("MOUSE MOVED [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+
         graphController.mouseMove(mouseEvent.getPoint());
 
         getFrame().repaint();
@@ -30,15 +37,15 @@ public class GOPanelAdapter extends JoglPanelAdapter {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
-        LOGGER.info("Mouse clicked..");
+        LOGGER.debug("MOUSE CLICKED..");
 
         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            LOGGER.info("LEFT MOUSE BUTTON");
+            LOGGER.debug("LEFT MOUSE BUTTON");
             graphController.leftMouseButtonClicked(mouseEvent.getPoint());
         }
 
         if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
-            LOGGER.info("RIGHT MOUSE BUTTON");
+            LOGGER.debug("RIGHT MOUSE BUTTON");
             graphController.rightMouseButtonClicked(mouseEvent.getPoint());
         }
 
@@ -47,6 +54,8 @@ public class GOPanelAdapter extends JoglPanelAdapter {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE EXITED");
+        
         graphController.mouseExited();
 
         getFrame().repaint();

@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 
 import java.awt.event.MouseEvent;
 
+import se.lnu.thesis.paint.GraphController;
+
+import javax.swing.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -14,9 +18,16 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
     public static final Logger LOGGER = Logger.getLogger(ClusterPanelAdapter.class);
 
+    protected boolean isLeftMouseButtonPressed = false;
+
+    public ClusterPanelAdapter(GraphController graphController, JFrame frame) {
+        super(graphController, frame);
+    }
+
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        LOGGER.debug("Mouse moves [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+        LOGGER.debug("MOUSE MOVED [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+
         graphController.mouseMove(mouseEvent.getPoint());
 
         getFrame().repaint();
@@ -24,11 +35,10 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-
-        LOGGER.info("Mouse clicked..");
+        LOGGER.debug("MOUSE CLICKED..");
 
         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            LOGGER.info("LEFT MOUSE BUTTON");
+            LOGGER.debug("LEFT MOUSE BUTTON");
             graphController.leftMouseButtonClicked(mouseEvent.getPoint());
         }
 
@@ -37,9 +47,12 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE PRESSED..");
+
         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            LOGGER.info("LEFT MOUSE BUTTON PRESSED");
+            LOGGER.debug("LEFT MOUSE BUTTON PRESSED");
             graphController.leftMouseButtonPressed(mouseEvent.getPoint());
+            isLeftMouseButtonPressed = true;
         }
 
         getFrame().repaint();
@@ -47,9 +60,12 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE RELEASED..");
+
         if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            LOGGER.info("LEFT MOUSE BUTTON RELEASED");
+            LOGGER.debug("LEFT MOUSE BUTTON RELEASED");
             graphController.leftMouseButtonReleased(mouseEvent.getPoint());
+            isLeftMouseButtonPressed = false;
         }
 
         getFrame().repaint();
@@ -57,8 +73,10 @@ public class ClusterPanelAdapter extends JoglPanelAdapter {
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
-            LOGGER.info("LEFT MOUSE BUTTON DRAGGED");
+        LOGGER.debug("MOUSE DRAGGED [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+
+        if (isLeftMouseButtonPressed) {
+            LOGGER.debug("LEFT MOUSE BUTTON DRAGGED");
             graphController.leftMouseButtonDragged(mouseEvent.getPoint());
         }
 

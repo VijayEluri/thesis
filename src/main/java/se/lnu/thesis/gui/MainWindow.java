@@ -82,29 +82,26 @@ public class MainWindow extends JFrame {
     }
 
     private GLJPanel goDrawingPanel() {
-        JoglPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController());
-        panelAdapter.setFrame(this);
+        GOPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController(), this);
 
         GLJPanel gljPanel = new GLJPanel();
         gljPanel.addGLEventListener(panelAdapter);
         gljPanel.addMouseListener(panelAdapter);
         gljPanel.addMouseMotionListener(panelAdapter);
+
         return gljPanel;
     }
 
-    private Component clusterPanel() {
+    private GLJPanel clusterPanel() {
 
-        JoglPanelAdapter panelAdapter = new ClusterPanelAdapter();
-        panelAdapter.setGraphController(Scene.getInstance().getClusterController());
-        panelAdapter.setFrame(this);
+        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(Scene.getInstance().getClusterController(), this);
 
-        GLJPanel result = new GLJPanel();
-        result.addGLEventListener(panelAdapter);
-        result.addMouseListener(panelAdapter);
-        result.addMouseMotionListener(panelAdapter);
-        result.setVisible(true);
+        GLJPanel gljPanel = new GLJPanel();
+        gljPanel.addGLEventListener(panelAdapter);
+        gljPanel.addMouseListener(panelAdapter);
+        gljPanel.addMouseMotionListener(panelAdapter);
 
-        return result;
+        return gljPanel;
     }
 
     public void setStatusBarText(String text) {

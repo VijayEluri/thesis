@@ -35,11 +35,19 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
         setGraphController(graphController);
     }
 
+    public JoglPanelAdapter(GraphController graphController, JFrame frame) {
+        setGraphController(graphController);
+        setFrame(frame);
+    }
+
     public void init(GLAutoDrawable drawable) {
+        LOGGER.debug("INIT");
 
     }
 
     public void display(GLAutoDrawable drawable) {
+        //LOGGER.debug("DISPLAY");
+
         if (getGraphController() != null) {
             getGraphController().draw(drawable);
         }
@@ -49,7 +57,10 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+        LOGGER.debug("RESHAPE");
+/*
         GL gl = drawable.getGL();
+*/
 
 /*
         int length, shift;
@@ -65,39 +76,47 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
             gl.glViewport(shift, 0, length, length);
         }
 */
-        gl.glViewport(0, 0, width, height);
+//        gl.glViewport(0, 0, width, height);
 
         getFrame().repaint();
     }
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChange) {
+        LOGGER.debug("DISPLAY CHANGED");
     }
 
     public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE CLICKED");
         getFrame().repaint();
     }
 
     public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE PRESSED");
         getFrame().repaint();
     }
 
     public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE RELEASED");
         getFrame().repaint();
     }
 
     public void mouseEntered(java.awt.event.MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE ENTERED");
         getFrame().repaint();
     }
 
     public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE EXITED");
         getFrame().repaint();
     }
 
     public void mouseMoved(MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE MOVED");
         getFrame().repaint();
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {
+        LOGGER.debug("MOUSE DRAGGED");
         getFrame().repaint();
     }
 

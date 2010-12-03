@@ -3,10 +3,11 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
+import se.lnu.thesis.gui.filter.GMLFileFilter;
+import se.lnu.thesis.gui.filter.YedGraphmlFileFilter;
+import se.lnu.thesis.gui.filter.YedGMLFileFilter;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import java.io.File;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,49 +55,6 @@ public class GraphChooser extends JFileChooser {
         }
 
         return null;
-    }
-
-    private class YedGraphmlFileFilter extends FileFilter {
-
-        public static final String DESCRIPTION = "yEd graphml file format";
-
-        @Override
-        public boolean accept(File file) {
-            return file.isFile() && file.getName().endsWith(".graphml");
-        }
-
-        @Override
-        public String getDescription() {
-            return DESCRIPTION;
-        }
-
-    }
-
-    private class GMLFileFilter extends FileFilter {
-
-        public static final String DESCRIPTION = "gml file format";
-
-        @Override
-        public boolean accept(File file) {
-            return file.isFile() && file.getName().endsWith(".gml");
-        }
-
-        @Override
-        public String getDescription() {
-            return GMLFileFilter.DESCRIPTION;
-        }
-
-    }
-
-    private class YedGMLFileFilter extends GMLFileFilter {
-
-        public static final String DESCRIPTION = "yEd gml file format";
-
-        @Override
-        public String getDescription() {
-            return YedGMLFileFilter.DESCRIPTION;
-        }
-
     }
 
     public static void main(String[] args) {
