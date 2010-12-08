@@ -44,9 +44,9 @@ public class GOGraphContainer extends GraphContainer {
         }
 
         if (current == elements.size() - 1) {
-            levels.add((Level) ((List) elements).get(current));
-            levels.add((Level) ((List) elements).get(current - 1));
             levels.add((Level) ((List) elements).get(current - 2));
+            levels.add((Level) ((List) elements).get(current - 1));
+            levels.add((Level) ((List) elements).get(current));
 
             return current;
         }

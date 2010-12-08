@@ -92,7 +92,8 @@
 
     <build>
 
-        <finalName>${project.artifactId}-${project.version}-${maven.build.timestamp}</finalName>
+        <!--        <finalName>${project.artifactId}-${project.version}-${maven.build.timestamp}</finalName>-->
+        <finalName>${project.artifactId}</finalName>
 
         <plugins>
 
@@ -104,32 +105,15 @@
                 </configuration>
             </plugin>
 
-            <!--            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-
-                    <archive>
-                        <manifest>
-                            <mainClass>GoClusterViz</mainClass>
-                        </manifest>
-                    </archive>
-
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-my-jar-with-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
+            </plugin>
 
-<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -142,6 +126,8 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeScope>provided</excludeScope>
+                            <excludeGroupIds>junit</excludeGroupIds>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -149,16 +135,134 @@
                     </execution>
                 </executions>
             </plugin>
--->
 
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+
+                                <!-- CREATE ALL DIRECTORIES -->
+                                <mkdir dir="${project.basedir}/build/current_release"/>
+                                <mkdir dir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586"/>
+                                <mkdir dir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586"/>
+                                <mkdir dir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal"/>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- COPY NATIVE LIBRARY -->
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586/native">
+                                    <fileset dir="${project.basedir}/native/win-i586-native">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586/native">
+                                    <fileset dir="${project.basedir}/native/linux-i586-native">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal/native">
+                                    <fileset dir="${project.basedir}/native/macosx-universal-native">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- COPY JOGL AND GLUEGEN JARS -->
+                                <copy
+                                        file="${project.basedir}/lib/jogl.jar"
+                                        toFile="${project.build.directory}/lib/jogl.jar">
+                                </copy>
+
+                                <copy
+                                        file="${project.basedir}/lib/gluegen-rt.jar"
+                                        toFile="${project.build.directory}/lib/gluegen-rt.jar">
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- COPY JAVA LIBRARY -->
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586/lib">
+                                    <fileset dir="${project.build.directory}/lib">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586/lib">
+                                    <fileset dir="${project.build.directory}/lib">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+
+                                <copy todir="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal/lib">
+                                    <fileset dir="${project.build.directory}/lib">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- COPY BUILD JAR -->
+                                <copy
+                                        file="${project.build.directory}/${project.artifactId}.jar"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586/${project.artifactId}.jar">
+                                </copy>
+
+                                <copy
+                                        file="${project.build.directory}/${project.artifactId}.jar"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586/${project.artifactId}.jar">
+                                </copy>
+
+
+                                <copy
+                                        file="${project.build.directory}/${project.artifactId}.jar"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal/${project.artifactId}.jar">
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- COPY LAUCHERS -->
+                                <copy
+                                        file="${project.basedir}/src/main/lauchers/run.bat"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586/run.bat">
+                                </copy>
+
+                                <copy
+                                        file="${project.basedir}/src/main/lauchers/run.sh"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586/run.sh">
+                                </copy>
+
+
+                                <copy
+                                        file="${project.basedir}/src/main/lauchers/run.sh"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal/run.sh">
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- RENAME CURRENT BUILD DIRECTORY -->
+                                <move
+                                        todir="${project.basedir}/build/${project.artifactId}-${project.version}-${maven.build.timestamp}">
+                                        <fileset dir="${project.basedir}/build/current_release"/>
+                                </move>
+                                <!-- ****************************************************************************** -->
+
+                                <!-- DELETE CURRENT RELEASE BUILD DIRECTORY -->
+                                <!--<delete dir="${project.basedir}/build/current_release"/>-->
+
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
+            
+
         </plugins>
     </build>
 

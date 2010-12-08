@@ -30,7 +30,10 @@ public class GraphChooser extends JFileChooser {
 
         addChoosableFileFilter(new YedGraphmlFileFilter());
         addChoosableFileFilter(new YedGMLFileFilter());
-        addChoosableFileFilter(new GMLFileFilter());
+
+        GMLFileFilter gmlFileFilter = new GMLFileFilter();
+        addChoosableFileFilter(gmlFileFilter);
+        setFileFilter(gmlFileFilter);
 
         ioFacade = new IOFacade();
     }
