@@ -15,7 +15,6 @@ import java.awt.*;
  */
 public class ColorSchema {
 
-
     private MyColor background;
     private MyColor selection;
     private MyColor focusing;
@@ -49,6 +48,7 @@ public class ColorSchema {
         clusterLeaves = new MyColor();
         clusterNodes = new MyColor();
         clusterEdges = new MyColor();
+        
         lens = new MyColor();
     }
 
@@ -67,6 +67,7 @@ public class ColorSchema {
         clusterLeaves.setColor(tmp);
         clusterNodes.setColor(tmp);
         clusterEdges.setColor(tmp);
+
         lens.setColor(Color.BLACK);
         lens.setAlfa(0.53f);
     }

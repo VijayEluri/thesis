@@ -13,12 +13,13 @@ import java.awt.*;
  */
 public class MyColor {
 
-    public static final float COLOR_COMPONENT_MAX_VALUE = 256.0f;
+    public static final float COLOR_COMPONENT_MAX_VALUE = 255.0f;
 
+    // default color is BLACK [0, 0, 0]
     private float red = 0.0f;
     private float green = 0.0f;
     private float blue = 0.0f;
-    private float alfa = 0.0f;
+    private float alfa = 1.0f; // none transparent
 
     public MyColor() {
 
@@ -54,6 +55,10 @@ public class MyColor {
         setAlfa(alfa);
     }
 
+    public MyColor(int rgb) {
+        setColor(rgb);
+    }
+
     public void setColor(int r, int g, int b) {
         setRed(colorAsFloat(r));
         setGreen(colorAsFloat(g));
@@ -72,6 +77,10 @@ public class MyColor {
         setGreen(g);
         setBlue(b);
         setAlfa(alfa);
+    }
+
+    public void setColor(int rgb) {
+        setColor(new Color(rgb));
     }
 
     public Color asAWTColor() {
@@ -110,7 +119,18 @@ public class MyColor {
         this.alfa = alfa;
     }
 
-    public static float colorAsFloat(int colorComponent) {
+    protected float colorAsFloat(int colorComponent) {
         return colorComponent / COLOR_COMPONENT_MAX_VALUE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        MyColor myColor = (MyColor) o;
+        return getRed() == myColor.getRed() && getGreen() == myColor.getGreen() && getBlue() == myColor.getBlue() && getAlfa() == myColor.getAlfa();
+    }
+
+    @Override
+    public String toString() {
+        return "[" + getRed() + ", " + getGreen() + ", " + getBlue() + ", " + getAlfa() + "]";
     }
 }
