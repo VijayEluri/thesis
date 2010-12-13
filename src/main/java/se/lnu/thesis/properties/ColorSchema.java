@@ -1,5 +1,6 @@
 package se.lnu.thesis.properties;
 
+import com.google.common.collect.ImmutableMap;
 import se.lnu.thesis.utils.MyColor;
 
 import java.awt.*;
@@ -9,114 +10,116 @@ import java.awt.*;
  * User: vady
  * Date: 09.12.2010
  * Time: 18:25:33
- *
- *      Class stores color schema configuration for GoClusterViz program
- *
+ * <p/>
+ * Class stores color schema configuration for GoClusterViz program
  */
 public class ColorSchema {
 
-    private MyColor background;
-    private MyColor selection;
-    private MyColor focusing;
-    private MyColor subgraph;
+    public static final String COLOR_BACKGROUND = "color.background";
+    public static final String COLOR_SELECTION = "color.selection";
+    public static final String COLOR_FOCUSING = "color.focusing";
+    public static final String COLOR_SUBGRAPH = "color.subgraph";
 
-    private MyColor goLevelNumbers;
-    private MyColor goLevelLines;
-    private MyColor goLeaves;
-    private MyColor goNodes;
+    public static final String COLOR_GO_LEVEL_NUMBERS = "color.goLevelNumbers";
+    public static final String COLOR_GO_LEVEL_LINES = "color.goLevelLines";
+    public static final String COLOR_GO_LEAVES = "color.goLeaves";
+    public static final String COLOR_GO_NODES = "color.goNodes";
 
-    private MyColor clusterLeaves;
-    private MyColor clusterNodes;
-    private MyColor clusterEdges;
-    private MyColor lens;
+    public static final String COLOR_CLUSTER_LEAVES = "color.clusterLeaves";
+    public static final String COLOR_CLUSTER_NODES = "color.clusterNodes";
+    public static final String COLOR_CLUSTER_EDGES = "color.clusterEdges";
+
+    public static final String COLOR_LENS = "color.lens";
+
+    private ImmutableMap<String, MyColor> colors = new ImmutableMap.Builder<String, MyColor>()
+            .put(COLOR_BACKGROUND, new MyColor())
+            .put(COLOR_SELECTION, new MyColor())
+            .put(COLOR_FOCUSING, new MyColor())
+            .put(COLOR_SUBGRAPH, new MyColor())
+            .put(COLOR_GO_LEVEL_NUMBERS, new MyColor())
+            .put(COLOR_GO_LEVEL_LINES, new MyColor())
+            .put(COLOR_GO_LEAVES, new MyColor())
+            .put(COLOR_GO_NODES, new MyColor())
+            .put(COLOR_CLUSTER_LEAVES, new MyColor())
+            .put(COLOR_CLUSTER_NODES, new MyColor())
+            .put(COLOR_CLUSTER_EDGES, new MyColor())
+            .put(COLOR_LENS, new MyColor())
+            
+            .build();
+
 
     public ColorSchema() {
-        init();
-    }
-
-    protected void init() {
-        background = new MyColor();
-        selection = new MyColor();
-        focusing = new MyColor();
-        subgraph = new MyColor();
-
-        goLevelNumbers = new MyColor();
-        goLevelLines = new MyColor();
-        goLeaves = new MyColor();
-        goNodes = new MyColor();
-
-        clusterLeaves = new MyColor();
-        clusterNodes = new MyColor();
-        clusterEdges = new MyColor();
-        
-        lens = new MyColor();
     }
 
     public void useDefaultBlackSchema() {
-        background.setColor(Color.BLACK);
-        selection.setColor(Color.GREEN);
-        focusing.setColor(Color.BLUE);
-        subgraph.setColor(Color.YELLOW);
+        colors.get(COLOR_BACKGROUND).setColor(Color.BLACK);
+        colors.get(COLOR_SELECTION).setColor(Color.GREEN);
+        colors.get(COLOR_FOCUSING).setColor(Color.BLUE);
+        colors.get(COLOR_SUBGRAPH).setColor(Color.YELLOW);
 
-        goLevelNumbers.setColor(Color.WHITE);
-        goLevelLines.setColor(Color.GRAY);
-        goLeaves.setColor(Color.RED);
-        goNodes.setColor(Color.WHITE);
+        colors.get(COLOR_GO_LEVEL_NUMBERS).setColor(Color.WHITE);
+        colors.get(COLOR_GO_LEVEL_LINES).setColor(Color.GRAY);
+        colors.get(COLOR_GO_LEAVES).setColor(Color.RED);
+        colors.get(COLOR_GO_NODES).setColor(Color.WHITE);
 
         Color tmp = new Color(100, 100, 100);
-        clusterLeaves.setColor(tmp);
-        clusterNodes.setColor(tmp);
-        clusterEdges.setColor(tmp);
+        colors.get(COLOR_CLUSTER_LEAVES).setColor(tmp);
+        colors.get(COLOR_CLUSTER_NODES).setColor(tmp);
+        colors.get(COLOR_CLUSTER_EDGES).setColor(tmp);
 
-        lens.setColor(Color.BLACK);
-        lens.setAlfa(0.53f);
+        colors.get(COLOR_LENS).setColor(Color.BLACK);
+        colors.get(COLOR_LENS).setAlfa(0.53f);
+    }
+
+    public MyColor getColor(String key) {
+        return colors.get(key);
     }
 
     public MyColor getBackground() {
-        return background;
+        return getColor(COLOR_BACKGROUND);
     }
 
     public MyColor getSelection() {
-        return selection;
+        return getColor(COLOR_SELECTION);
     }
 
     public MyColor getFocusing() {
-        return focusing;
+        return getColor(COLOR_FOCUSING);
     }
 
     public MyColor getSubgraph() {
-        return subgraph;
+        return getColor(COLOR_SUBGRAPH);
     }
 
     public MyColor getGoLevelNumbers() {
-        return goLevelNumbers;
+        return getColor(COLOR_GO_LEVEL_NUMBERS);
     }
 
     public MyColor getGoLevelLines() {
-        return goLevelLines;
+        return getColor(COLOR_GO_LEVEL_LINES);
     }
 
     public MyColor getGoLeaves() {
-        return goLeaves;
+        return getColor(COLOR_GO_LEAVES);
     }
 
     public MyColor getGoNodes() {
-        return goNodes;
+        return getColor(COLOR_GO_NODES);
     }
 
     public MyColor getClusterLeaves() {
-        return clusterLeaves;
+        return getColor(COLOR_CLUSTER_LEAVES);
     }
 
     public MyColor getClusterNodes() {
-        return clusterNodes;
+        return getColor(COLOR_CLUSTER_NODES);
     }
 
     public MyColor getClusterEdges() {
-        return clusterEdges;
+        return getColor(COLOR_CLUSTER_EDGES);
     }
 
     public MyColor getLens() {
-        return lens;
+        return getColor(COLOR_LENS);
     }
 }
