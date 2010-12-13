@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.visualizer.vertex;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class GOPointVertexVisualizer extends AbstractElementVisualizer {
     private double pointingRadius = DEFAULT_POINTING_RADIUSE;
     private int segmentCount = DEFAULT_SEGMENT_COUNT;
 
-    public GOPointVertexVisualizer(Color color) {
+    public GOPointVertexVisualizer(MyColor color) {
         super(color);
     }
 

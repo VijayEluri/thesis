@@ -1,7 +1,9 @@
 package se.lnu.thesis.paint.visualizer;
 
 import se.lnu.thesis.element.Element;
-import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
+import se.lnu.thesis.properties.ColorSchema;
+import se.lnu.thesis.properties.PropertiesHolder;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -14,27 +16,23 @@ import java.awt.*;
  */
 public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
-    public static final Color DEFAULT_MAIN_COLOR = Color.WHITE;  // default levelBackgroud for graph elements visualization
-    public static final Color DEFAULT_SUBGRAPH_COLOR = Color.YELLOW; // default subgraph levelBackgroud
-    public static final Color DEFAULT_SELECTION_COLOR = Color.GREEN;  // default selection levelBackgroud
-    public static final Color DEFAULT_FOCUSED_COLOR = Color.BLUE;  // default selection levelBackgroud
-
+    private ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
 
     private GLAutoDrawable drawable; // OpenGL drawing context
 
     private GLU glu;
 
-    private Color mainColor = DEFAULT_MAIN_COLOR;
-    private Color selectionColor = DEFAULT_SELECTION_COLOR;
-    private Color subgraphColor = DEFAULT_SUBGRAPH_COLOR;
-    private Color focusedColor = DEFAULT_FOCUSED_COLOR;
+    private MyColor mainColor;
+    private MyColor selectionColor = colorSchema.getSelection();
+    private MyColor subgraphColor = colorSchema.getSubgraph();
+    private MyColor focusedColor = colorSchema.getFocusing();
 
-    public AbstractElementVisualizer() {
+    protected AbstractElementVisualizer() {
 
     }
 
-    public AbstractElementVisualizer(Color mainColor) {
-        setMainColor(mainColor);
+    public AbstractElementVisualizer(MyColor mainColor) {
+        this.mainColor = mainColor;
     }
 
     public void draw(GLAutoDrawable drawable, Element element) {
@@ -56,42 +54,34 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     protected void drawingColor(Element element) {
         if (element.isFocused()) {
-            DrawingUtils.colord(gl(), focusedColor);
+            gl().glColor3f(getFocusedColor().getRed(), getFocusedColor().getGreen(), getFocusedColor().getBlue());
         } else {
             if (element.isSelected()) {
-                DrawingUtils.colord(gl(), getSelectionColor());
+                gl().glColor3f(getSelectionColor().getRed(), getSelectionColor().getGreen(), getSelectionColor().getBlue());
             } else {
                 if (element.isHighlighted()) {
-                    DrawingUtils.colord(gl(), getSubgraphColor());
+                    gl().glColor3f(getSubgraphColor().getRed(), getSubgraphColor().getGreen(), getSubgraphColor().getBlue());
                 } else {
-                    DrawingUtils.colord(gl(), getMainColor());
+                    gl().glColor3f(getMainColor().getRed(), getMainColor().getGreen(), getMainColor().getBlue());
                 }
             }
         }
     }
 
-    public Color getSubgraphColor() {
+    public MyColor getSubgraphColor() {
         return subgraphColor;
     }
 
-    public void setSubgraphColor(Color subgraphColor) {
-        this.subgraphColor = subgraphColor;
-    }
-
-    public Color getSelectionColor() {
+    public MyColor getSelectionColor() {
         return selectionColor;
     }
 
-    public void setSelectionColor(Color selectionColor) {
-        this.selectionColor = selectionColor;
-    }
-
-    public Color getMainColor() {
+    public MyColor getMainColor() {
         return mainColor;
     }
 
-    public void setMainColor(Color mainColor) {
-        this.mainColor = mainColor;
+    public MyColor getFocusedColor() {
+        return focusedColor;
     }
 
     protected GLAutoDrawable getDrawable() {

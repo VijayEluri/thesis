@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.visualizer.vertex;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -19,16 +20,17 @@ public class CircleVertexVisualizer extends AbstractElementVisualizer {
 
     private double radius = 0.01;
 
-    public CircleVertexVisualizer(Color color) {
+    protected CircleVertexVisualizer() {
+
+    }
+
+    public CircleVertexVisualizer(MyColor color) {
         super(color);
     }
 
-    public CircleVertexVisualizer(Color color, double radius) {
+    public CircleVertexVisualizer(MyColor color, double radius) {
         super(color);
         setRadius(radius);
-    }
-
-    public CircleVertexVisualizer() {
     }
 
     protected void drawShape(Element element) {

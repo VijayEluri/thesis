@@ -4,6 +4,9 @@ import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
+import se.lnu.thesis.properties.ColorSchema;
+import se.lnu.thesis.properties.PropertiesHolder;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -21,19 +24,17 @@ public class LevelVisualizer implements ElementVisualizer {
 
     public static final int DEFAULT_LINE_LENGTH = 2; // 2% of the whole horizontal level length
     public static final float DEFAULT_LINE_THICKNESS = 1.5f;
-    public static final Color DEFAULT_LINE_COLOR = Color.GRAY;
-    public static final Color DEFAULT_SELECTION_COLOR = Color.BLUE;
-    public static final Color DEFAULT_LEVEL_BACKGROUND = Color.BLACK;
-    public static final Color DEFAULT_LEVEL_NUMBER = Color.WHITE;
+
+    private ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
 
     private int lineLength = DEFAULT_LINE_LENGTH; // length in percents
     private float lineThickness = DEFAULT_LINE_THICKNESS;
-    private Color lineColor = DEFAULT_LINE_COLOR;
-    private Color focusingColor = DEFAULT_SELECTION_COLOR;
 
-    private Color background = DEFAULT_LEVEL_BACKGROUND;
+    private MyColor lineColor = colorSchema.getGoLevelLines();
+    private MyColor focusingColor = colorSchema.getFocusing();
+    private MyColor levelNumberColor = colorSchema.getGoLevelNumbers();
 
-    private Color levelNumberColor = DEFAULT_LEVEL_NUMBER;
+    private MyColor background = colorSchema.getBackground();
 
     protected GL gl;
     private GLUT glut;
@@ -79,7 +80,9 @@ public class LevelVisualizer implements ElementVisualizer {
         Point2D d = container.getDimension();
 
         gl.glLineWidth(lineThickness);
-        DrawingUtils.colord(gl, focusingColor); // lines colord
+        gl.glColor3f(getFocusingColor().getRed(),
+                getFocusingColor().getGreen(),
+                getFocusingColor().getBlue());
 
         gl.glBegin(GL.GL_LINES);
 
@@ -106,7 +109,10 @@ public class LevelVisualizer implements ElementVisualizer {
         Point2D p = container.getPosition();
         Point2D d = container.getDimension();
 
-        DrawingUtils.colord(gl, getBackground());
+        gl.glColor3f(getBackground().getRed(),
+                getBackground().getGreen(),
+                getBackground().getBlue());
+
         gl.glBegin(GL.GL_POLYGON);
         gl.glVertex2d(p.getX(), p.getY());
         gl.glVertex2d(p.getX() + d.getX(), p.getY());
@@ -123,7 +129,9 @@ public class LevelVisualizer implements ElementVisualizer {
         double x_length = container.getDimension().getX() * (lineLength / 100.0);
 
         gl.glLineWidth(lineThickness);
-        DrawingUtils.colord(gl, lineColor); // lines colord
+        gl.glColor3f(getLineColor().getRed(),
+                getLineColor().getGreen(),
+                getLineColor().getBlue());
 
 
         gl.glBegin(GL.GL_LINES);
@@ -150,17 +158,16 @@ public class LevelVisualizer implements ElementVisualizer {
     protected void drawLevelNumber(DimensionalContainer container) {
         Point2D p = new Point2D.Double(container.getPosition().getX(), container.getPosition().getY() - container.getDimension().getY() / 2);
 
-        DrawingUtils.colord(gl, levelNumberColor);
+        gl.glColor3f(getLevelNumberColor().getRed(),
+                getLevelNumberColor().getGreen(),
+                getLevelNumberColor().getBlue());
+        
         gl.glRasterPos2d(p.getX(), p.getY());
         getGlut().glutBitmapString(GLUT.BITMAP_8_BY_13, container.getObject().toString());
     }
 
-    public Color getBackground() {
+    public MyColor getBackground() {
         return background;
-    }
-
-    public void setBackground(Color background) {
-        this.background = background;
     }
 
     public int getLineLength() {
@@ -184,28 +191,16 @@ public class LevelVisualizer implements ElementVisualizer {
         this.lineThickness = lineThickness;
     }
 
-    public Color getLineColor() {
+    public MyColor getLineColor() {
         return lineColor;
     }
 
-    public void setLineColor(Color lineColor) {
-        this.lineColor = lineColor;
-    }
-
-    public Color getFocusingColor() {
+    public MyColor getFocusingColor() {
         return focusingColor;
     }
 
-    public void setFocusingColor(Color focusingColor) {
-        this.focusingColor = focusingColor;
-    }
-
-    public Color getLevelNumberColor() {
+    public MyColor getLevelNumberColor() {
         return levelNumberColor;
-    }
-
-    public void setLevelNumberColor(Color levelNumberColor) {
-        this.levelNumberColor = levelNumberColor;
     }
 
     public GLUT getGlut() {

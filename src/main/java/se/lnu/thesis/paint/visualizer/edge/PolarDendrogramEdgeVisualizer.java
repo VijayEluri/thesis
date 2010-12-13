@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.visualizer.edge;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.PolarEdge;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -18,7 +19,7 @@ import java.awt.geom.Point2D;
  */
 public class PolarDendrogramEdgeVisualizer extends LineEdgeVisualizer {
 
-    public PolarDendrogramEdgeVisualizer(Color color) {
+    public PolarDendrogramEdgeVisualizer(MyColor color) {
         super(color);
     }
 

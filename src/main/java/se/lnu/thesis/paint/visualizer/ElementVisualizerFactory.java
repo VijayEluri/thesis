@@ -7,6 +7,9 @@ import se.lnu.thesis.paint.visualizer.vertex.CircleVertexVisualizer;
 import se.lnu.thesis.paint.visualizer.vertex.GOPointVertexVisualizer;
 import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
 import se.lnu.thesis.paint.visualizer.vertex.RectVertexVisualizer;
+import se.lnu.thesis.utils.MyColor;
+import se.lnu.thesis.properties.ColorSchema;
+import se.lnu.thesis.properties.PropertiesHolder;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -23,7 +26,7 @@ public class ElementVisualizerFactory {
     private static final double MAX_GROUP_VERTEX_SIZE = 0.0207;
     private static final double MIN_GROUP_VERTEX_SIZE = 0.0057;
 
-    private static final Color DEFAULT_ELEMENT_COLOR = new Color(100, 100, 100, 100); // deafult color is grey
+//    private static final MyColor DEFAULT_ELEMENT_COLOR = new MyColor(100, 100, 100); // deafult color is grey
 
     private static final int CIRCLE_VERTEX_VISUALIZER = 1;
     private static final int SMALL_CIRCLE_VISUALIZER = 2;
@@ -44,27 +47,28 @@ public class ElementVisualizerFactory {
 
     private static final ElementVisualizerFactory instance = new ElementVisualizerFactory();
 
-
     public static ElementVisualizerFactory getInstance() {
         return instance;
     }
 
+    private ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
+
     private ImmutableMap<Object, ElementVisualizer> visualizers = new ImmutableMap.Builder<Object, ElementVisualizer>()
-            .put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR))
-            .put(SMALL_CIRCLE_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR, 0.005))
+            .put(CIRCLE_VERTEX_VISUALIZER, new CircleVertexVisualizer(colorSchema.getClusterLeaves()))
+            /*.put(SMALL_CIRCLE_VISUALIZER, new CircleVertexVisualizer(DEFAULT_ELEMENT_COLOR, 0.005))*/
 
-            .put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(RECT_VERTEX_VISUALIZER, new RectVertexVisualizer(colorSchema.getClusterNodes()))
 
-            .put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(POINT_VERTEX_VISUALIZER, new PointVertexVisualizer(colorSchema.getClusterEdges()))
 
-            .put(POINT_GO_LEAF_VERTEX_VISUALIZER, new GOPointVertexVisualizer(Color.RED))
-            .put(POINT_GO_NODE_VERTEX_VISUALIZER, new GOPointVertexVisualizer(Color.WHITE))
+            .put(POINT_GO_LEAF_VERTEX_VISUALIZER, new GOPointVertexVisualizer(colorSchema.getGoLeaves()))
+            .put(POINT_GO_NODE_VERTEX_VISUALIZER, new GOPointVertexVisualizer(colorSchema.getGoNodes()))
 
-            .put(CIRCLE_GO_LEAF_VERTEX_VISUALIZER, new CircleVertexVisualizer(Color.RED))
-            .put(CIRCLE_GO_NODE_VERTEX_VISUALIZER, new CircleVertexVisualizer(Color.WHITE))
+            .put(CIRCLE_GO_LEAF_VERTEX_VISUALIZER, new CircleVertexVisualizer(colorSchema.getGoLeaves()))
+            .put(CIRCLE_GO_NODE_VERTEX_VISUALIZER, new CircleVertexVisualizer(colorSchema.getGoNodes()))
 
-            .put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
-            .put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(DEFAULT_ELEMENT_COLOR))
+            .put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(colorSchema.getClusterEdges()))
+            .put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(colorSchema.getClusterEdges()))
 
             .put(LEVEL_VISUALIZER, new LevelVisualizer())
             .put(LEVEL_PREVIEW_VISUALIZER, new LevelPreviewVisualizer())
@@ -75,7 +79,6 @@ public class ElementVisualizerFactory {
 
     private ElementVisualizerFactory() {
     }
-
 
     public CircleVertexVisualizer getCircleVisualizer() {
         return (CircleVertexVisualizer) visualizers.get(CIRCLE_VERTEX_VISUALIZER);
@@ -109,9 +112,11 @@ public class ElementVisualizerFactory {
         return (PolarDendrogramEdgeVisualizer) visualizers.get(POLAR_DENDROGRAM_EDGE_VISUALIZER);
     }
 
+/*
     public CircleVertexVisualizer getSmallCircleVisualizer() {
         return (CircleVertexVisualizer) visualizers.get(SMALL_CIRCLE_VISUALIZER);
     }
+*/
 
     public RectVertexVisualizer getRectVertexVisualizer() {
         return (RectVertexVisualizer) visualizers.get(RECT_VERTEX_VISUALIZER);
@@ -124,7 +129,7 @@ public class ElementVisualizerFactory {
         } else {
             double size = (MAX_GROUP_VERTEX_SIZE - MIN_GROUP_VERTEX_SIZE) / (maxGroupSize - minGroupSize) * (thisGroupSize - minGroupSize) + MIN_GROUP_VERTEX_SIZE;
 
-            rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(DEFAULT_ELEMENT_COLOR, size));
+            rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(colorSchema.getClusterNodes(), size));
 
             return (RectVertexVisualizer) rectVisualizers.get(thisGroupSize);
         }

@@ -1,4 +1,3 @@
-package se.lnu.thesis.test;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;

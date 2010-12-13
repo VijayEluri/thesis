@@ -18,9 +18,6 @@ public class DrawingUtils {
 
     public static final Logger LOGGER = Logger.getLogger(DrawingUtils.class);
 
-    public static final double COLOR_MAX_D = 256.0;
-    public static final float COLOR_MAX_F = 256.0f;
-
     /**
      * Draw circle polygon
      *
@@ -108,25 +105,19 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
-    public static double colorAsDouble(int color) {
-        return color / COLOR_MAX_D;
-    }
-
-    public static float colorAsFloat(int color) {
-        return color / COLOR_MAX_F;
-    }
-
+/*
     public static void colord(GL gl, Color color) {
         colord(gl, color, 1.0);
     }
 
     public static void colord(GL gl, Color color, double alfa) {
-        gl.glColor4d(
-                colorAsDouble(color.getRed()),
-                colorAsDouble(color.getGreen()),
-                colorAsDouble(color.getBlue()),
+        gl.glColor4f(
+                MyColor.colorAsDouble(color.getRed()),
+                MyColor.colorAsDouble(color.getGreen()),
+                MyColor.colorAsDouble(color.getBlue()),
                 alfa);
     }
+*/
 
     /**
      * Convert point coordinates from the window coordinate system to the OpenGL world coordinates.

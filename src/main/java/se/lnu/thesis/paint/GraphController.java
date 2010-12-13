@@ -7,6 +7,7 @@ import se.lnu.thesis.element.Container;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.state.GraphState;
 import se.lnu.thesis.paint.state.NoneGraphState;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
@@ -21,9 +22,9 @@ public abstract class GraphController implements Drawable, Observer {
 
     public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
-    public static final Color DEFAULT_BACKGROUND = Color.BLACK;
+    public static final MyColor DEFAULT_BACKGROUND = new MyColor(Color.BLACK);
 
-    protected Color background = DEFAULT_BACKGROUND;
+    protected MyColor background = DEFAULT_BACKGROUND;
 
     private GraphState state = new NoneGraphState(this);
 
@@ -92,11 +93,11 @@ public abstract class GraphController implements Drawable, Observer {
         return graph;
     }
 
-    public Color getBackground() {
+    public MyColor getBackground() {
         return background;
     }
 
-    public void setBackground(Color background) {
+    public void setBackground(MyColor background) {
         this.background = background;
     }
 

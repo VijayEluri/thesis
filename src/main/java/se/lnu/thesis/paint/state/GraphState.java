@@ -3,7 +3,7 @@ package se.lnu.thesis.paint.state;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.GraphController;
-import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -45,10 +45,9 @@ public abstract class GraphState implements Drawable {
 
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        gl.glClearColor(
-                DrawingUtils.colorAsFloat(graphController.getBackground().getRed()),
-                DrawingUtils.colorAsFloat(graphController.getBackground().getGreen()),
-                DrawingUtils.colorAsFloat(graphController.getBackground().getBlue()),
+        gl.glClearColor(graphController.getBackground().getRed(),
+                graphController.getBackground().getGreen(),
+                graphController.getBackground().getBlue(),
                 1.0f); // background color
 
         drawCurrentState(drawable);

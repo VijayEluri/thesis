@@ -8,6 +8,8 @@ import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.GraphUtils;
+import se.lnu.thesis.utils.MyColor;
+import se.lnu.thesis.properties.PropertiesHolder;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -31,13 +33,9 @@ public class Lens implements Drawable {
 
     public static final double LAYOUT_RADIUS = 0.3;
 
-    public static final Color DEFAULT_CIRCLE_COLOR = Color.BLACK;
-    public static final double DEFAULT_CIRCLE_ALFA = 0.53;
-
     public static final Point2D DEFAULT_DISTANCE = new Point2D.Double(0.0, 0.0);
 
-    protected Color circleColor = DEFAULT_CIRCLE_COLOR;
-    private double circleAlfa = DEFAULT_CIRCLE_ALFA;
+    protected MyColor circleColor = PropertiesHolder.getInstance().getColorSchema().getLens();
 
     private double lensRadius = LENS_RADIUS;
     private double layoutRadius = LAYOUT_RADIUS;
@@ -66,7 +64,10 @@ public class Lens implements Drawable {
         gl.glPushMatrix();
         gl.glTranslated(center.getX(), center.getY(), 0.0);
 
-        DrawingUtils.colord(gl, circleColor, circleAlfa);
+        gl.glColor4f(getCircleColor().getRed(),
+                getCircleColor().getGreen(),
+                getCircleColor().getBlue(),
+                getCircleColor().getAlfa());
 
         gl.glPushName(ID);
         DrawingUtils.circle(gl, LENS_RADIUS, LENS_SEGMENTS);
@@ -178,20 +179,8 @@ public class Lens implements Drawable {
         clusterGraph = graph;
     }
 
-    public Color getCircleColor() {
+    public MyColor getCircleColor() {
         return circleColor;
-    }
-
-    public void setCircleColor(Color circleColor) {
-        this.circleColor = circleColor;
-    }
-
-    public double getCircleAlfa() {
-        return circleAlfa;
-    }
-
-    public void setCircleAlfa(double circleAlfa) {
-        this.circleAlfa = circleAlfa;
     }
 
     public double getLensRadius() {

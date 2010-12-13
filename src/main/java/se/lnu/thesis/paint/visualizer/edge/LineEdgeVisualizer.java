@@ -2,6 +2,7 @@ package se.lnu.thesis.paint.visualizer.edge;
 
 import se.lnu.thesis.element.EdgeElement;
 import se.lnu.thesis.element.Element;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 
     protected float lineWidth = DEFAULT_LINE_WIDTH;
 
-    public LineEdgeVisualizer(Color color) {
+    public LineEdgeVisualizer(MyColor color) {
         super(color);
     }
 

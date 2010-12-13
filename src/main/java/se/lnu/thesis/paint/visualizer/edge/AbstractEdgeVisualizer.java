@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.visualizer.edge;
 
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
+import se.lnu.thesis.utils.MyColor;
 
 import java.awt.*;
 
@@ -12,7 +13,7 @@ import java.awt.*;
  */
 public abstract class AbstractEdgeVisualizer extends AbstractElementVisualizer {
 
-    public AbstractEdgeVisualizer(Color color) {
+    public AbstractEdgeVisualizer(MyColor color) {
         super(color);
     }
 

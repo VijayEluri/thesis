@@ -3,6 +3,7 @@ package se.lnu.thesis.paint.visualizer.vertex;
 import se.lnu.thesis.element.AbstractElement;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -15,14 +16,14 @@ import java.awt.*;
  */
 public class TriangleVertexVisualizer extends CircleVertexVisualizer {
 
-    public TriangleVertexVisualizer(Color color) {
+    public TriangleVertexVisualizer(MyColor color) {
         super(color);
     }
 
     protected void drawShape(AbstractElement element) {
         gl().glPushMatrix();
 
-        gl().glTranslated(((VertexElement) element).getPosition().getX(), ((VertexElement) element).getPosition().getY(), 0.0);
+        gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
         gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
         DrawingUtils.circle(gl(), getRadius(), 3);

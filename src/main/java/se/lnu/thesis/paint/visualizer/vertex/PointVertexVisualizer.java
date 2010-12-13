@@ -2,6 +2,7 @@ package se.lnu.thesis.paint.visualizer.vertex;
 
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -14,7 +15,7 @@ import java.awt.*;
  */
 public class PointVertexVisualizer extends AbstractElementVisualizer {
 
-    public PointVertexVisualizer(Color color) {
+    public PointVertexVisualizer(MyColor color) {
         super(color);
     }
 

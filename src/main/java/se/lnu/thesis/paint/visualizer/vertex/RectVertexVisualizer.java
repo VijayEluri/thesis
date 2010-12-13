@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
 import se.lnu.thesis.element.Element;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -13,11 +14,11 @@ import java.awt.*;
  */
 public class RectVertexVisualizer extends CircleVertexVisualizer {
 
-    public RectVertexVisualizer(Color color) {
+    public RectVertexVisualizer(MyColor color) {
         super(color);
     }
 
-    public RectVertexVisualizer(Color color, double radius) {
+    public RectVertexVisualizer(MyColor color, double radius) {
         super(color, radius);
     }
 

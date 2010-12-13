@@ -51,6 +51,12 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.sourceforge.collections</groupId>
             <artifactId>collections-generic</artifactId>
             <version>4.01</version>
@@ -224,6 +230,24 @@
                                 </copy>
                                 <!-- ****************************************************************************** -->
 
+                                <!-- COPY PROPERTIES -->
+                                <copy
+                                        file="${project.basedir}/src/main/properties/program.properties"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-win-i586/program.properties">
+                                </copy>
+
+                                <copy
+                                        file="${project.basedir}/src/main/properties/program.properties"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-linux-i586/program.properties">
+                                </copy>
+
+
+                                <copy
+                                        file="${project.basedir}/src/main/properties/program.properties"
+                                        toFile="${project.basedir}/build/current_release/${project.artifactId}-${project.version}-macosx-universal/program.properties">
+                                </copy>
+                                <!-- ****************************************************************************** -->
+
                                 <!-- COPY LAUCHERS -->
                                 <copy
                                         file="${project.basedir}/src/main/lauchers/run.bat"
@@ -245,7 +269,7 @@
                                 <!-- RENAME CURRENT BUILD DIRECTORY -->
                                 <move
                                         todir="${project.basedir}/build/${project.artifactId}-${project.version}-${maven.build.timestamp}">
-                                        <fileset dir="${project.basedir}/build/current_release"/>
+                                    <fileset dir="${project.basedir}/build/current_release"/>
                                 </move>
                                 <!-- ****************************************************************************** -->
 
@@ -261,7 +285,6 @@
                 </executions>
             </plugin>
 
-            
 
         </plugins>
     </build>

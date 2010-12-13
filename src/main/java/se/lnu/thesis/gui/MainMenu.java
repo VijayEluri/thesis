@@ -97,17 +97,17 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
         if (event == OPEN_BACKGROUND_CHOOSER) {
 
-            Color initialBackground = Scene.getInstance().getGoController().getBackground();
+            Color initialBackground = Scene.getInstance().getGoController().getBackground().asAWTColor();
             Color color = JColorChooser.showDialog(null, null, initialBackground);
 
             if (color != null) {
                 LOGGER.debug("Setting new background color [" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + "]");
 
-                Scene.getInstance().getGoController().setBackground(color);
-                Scene.getInstance().getClusterController().setBackground(color);
+                Scene.getInstance().getGoController().getBackground().setColor(color);
+                Scene.getInstance().getClusterController().getBackground().setColor(color);
 
-                ElementVisualizerFactory.getInstance().getLevelVisualizer().setBackground(color);
-                ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer().setBackground(color);
+                ElementVisualizerFactory.getInstance().getLevelVisualizer().getBackground().setColor(color);
+                ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer().getBackground().setColor(color);
             }
         }
 
