@@ -69,7 +69,6 @@ public class MyColor {
         setRed(colorAsFloat(color.getRed()));
         setGreen(colorAsFloat(color.getGreen()));
         setBlue(colorAsFloat(color.getBlue()));
-        setAlfa(colorAsFloat(color.getAlpha()));
     }
 
     public void setColor(float r, float g, float b, float alfa) {

@@ -2,6 +2,7 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
@@ -21,7 +22,9 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
     public static final String TOOLS = "Tools";
     public static final String SHOW_GENE_LIST = "Show GO gene list";
-    public static final String OPEN_BACKGROUND_CHOOSER = "Set background color";
+    public static final String DEFAULT_BLACK_COLOR_SCHEMA = "Default black color schema";
+//    public static final String DEFAULT_WHITE_COLOR_SCHEMA = "Default white color schema";
+    public static final String COLOR_PROPERTIES = "Color properties";
 
 
     private GraphChooser graphChooser;
@@ -41,7 +44,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
     }
 
     private void createToolsMenu() {
-        constructMenu(TOOLS, new String[]{SHOW_GENE_LIST, OPEN_BACKGROUND_CHOOSER}, this);
+        constructMenu(TOOLS, new String[]{SHOW_GENE_LIST, "-", DEFAULT_BLACK_COLOR_SCHEMA, /*DEFAULT_WHITE_COLOR_SCHEMA,*/ COLOR_PROPERTIES}, this);
     }
 
 
@@ -95,20 +98,19 @@ public class MainMenu extends JMenuBar implements ActionListener {
             Scene.getInstance().showGeneList();
         }
 
-        if (event == OPEN_BACKGROUND_CHOOSER) {
+        if (event == DEFAULT_BLACK_COLOR_SCHEMA) {
+            PropertiesHolder.getInstance().getColorSchema().useDefaultBlackSchema();
+            PropertiesHolder.getInstance().save();
+        }
 
-            Color initialBackground = Scene.getInstance().getGoController().getBackground().asAWTColor();
-            Color color = JColorChooser.showDialog(null, null, initialBackground);
+/*
+        if (event == DEFAULT_WHITE_COLOR_SCHEMA) {
 
-            if (color != null) {
-                LOGGER.debug("Setting new background color [" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + "]");
+        }
+*/
 
-                Scene.getInstance().getGoController().getBackground().setColor(color);
-                Scene.getInstance().getClusterController().getBackground().setColor(color);
-
-                ElementVisualizerFactory.getInstance().getLevelVisualizer().getBackground().setColor(color);
-                ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer().getBackground().setColor(color);
-            }
+        if (event == COLOR_PROPERTIES) {
+            Scene.getInstance().getColorPropertiesDialog().showIt();
         }
 
         Scene.getInstance().getMainWindow().repaint();

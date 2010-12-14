@@ -87,6 +87,8 @@ public class PropertiesHolder {
 
     public void save() {
 
+        LOGGER.info("Saving color properties to file..");
+
         Iterator keys = properties.getKeys();
         while (keys.hasNext()) {
             String key = (String) keys.next();
@@ -105,6 +107,8 @@ public class PropertiesHolder {
         } catch (ConfigurationException e) {
             LOGGER.error(e);
         }
+
+        LOGGER.info("Done.");
     }
 
 

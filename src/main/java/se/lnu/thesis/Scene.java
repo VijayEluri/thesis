@@ -5,6 +5,7 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
+import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
 import se.lnu.thesis.paint.ClusterController;
 import se.lnu.thesis.paint.GOController;
 import se.lnu.thesis.paint.GraphController;
@@ -29,6 +30,7 @@ public class Scene {
 
     private MainWindow mainWindow;
     private GeneListDialog geneListDialog;
+    private ColorPropertiesDialog colorPropertiesDialog;
 
     private MyGraph goGraph = null;
     private MyGraph clusterGraph = null;
@@ -52,6 +54,8 @@ public class Scene {
         geneListDialog = new GeneListDialog();
         geneListDialog.registerObserver(goController);
         geneListDialog.registerObserver(clusterController);
+
+        colorPropertiesDialog = new ColorPropertiesDialog();
 
         extractor = new Extractor();
     }
@@ -112,5 +116,9 @@ public class Scene {
 
     public GeneListDialog getGeneListDialog() {
         return geneListDialog;
+    }
+
+    public ColorPropertiesDialog getColorPropertiesDialog() {
+        return colorPropertiesDialog;
     }
 }

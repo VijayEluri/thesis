@@ -5,12 +5,11 @@
     <artifactId>GoClusterViz</artifactId>
     <name>GoClusterViz</name>
     <packaging>jar</packaging>
-    <version>1.0-RC</version>
+    <version>1.0</version>
 
     <developers>
         <developer>
             <name>Vladyslav Aleksakhin</name>
-            <email>vladyslav.aleksakhinatgmail.com</email>
             <organization>Linneuniversitetet</organization>
             <organizationUrl>http://lnu.se</organizationUrl>
             <roles>
