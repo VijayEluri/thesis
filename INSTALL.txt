@@ -2,7 +2,7 @@
 
 
 Some libraries used in project do not exist in the Maven Repository.
-You should add them to yout local repository manualy from "lib" directory
+You should add them to your local repository manually from "lib" directory
 
 
     JUNG library

@@ -1,13 +1,13 @@
 
-Master thesis "Visualisation of the Gene Ontology and cluster analysis results"
-IsoVis Group in  Linneuniversitetet, Vaxjo, Sweden (http://lnu.se)
+MASTER THESIS "VISUALISATION OF THE GENE ONTOLOGY AND CLUSTER ANALYSIS RESULTS"
+ISOVIS GROUP IN  LINNEUNIVERSITETET, VAXJO, SWEDEN (HTTP://LNU.SE)
 
 
 
-by Vladyslav Aleksakhin (vladyslav.aleksakhinatgmail.com)
+BY VLADYSLAV ALEKSAKHIN
 
-Superviser: Prof. Dr. Andreas Kerren (andreas.kerrenatlnu.se)
-Co-Superviser: Ph.D student Ilir Jusufi (ilir.jusufiatlnu.se)
+SUPERVISER: PROF. DR. ANDREAS KERREN
+CO-SUPERVISER: PH.D STUDENT ILIR JUSUFI
 
 2009 - 2011
 
