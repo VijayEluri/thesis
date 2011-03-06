@@ -1,10 +1,15 @@
 
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
+import se.lnu.thesis.utils.FileChecksumUtil;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.zip.CRC32;
@@ -17,26 +22,18 @@ import java.util.zip.CRC32;
  */
 public class TestChecksum {
 
+    public static final Logger LOGGER = Logger.getLogger(TestChecksum.class);
+
     @Test
-    public void crc32() {
-        CRC32 crc32 = new CRC32();
+    public void crc32() throws URISyntaxException {
 
-        try {
-            BufferedInputStream is = new BufferedInputStream(getClass().getClassLoader().getResourceAsStream("cluster.graphml"));
-            byte[] bytes = new byte[1024];
-            int len = 0;
+        File file = new File(getClass().getResource("cluster.graphml").toURI());
 
-            while ((len = is.read(bytes)) >= 0) {
-                crc32.update(bytes, 0, len);
-            }
+        long checksum = FileChecksumUtil.crc32(file);
 
-            is.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        Assert.assertEquals(73970639L, checksum);
 
-        System.out.println(crc32.getValue());
+        LOGGER.info(checksum);
 
     }
 

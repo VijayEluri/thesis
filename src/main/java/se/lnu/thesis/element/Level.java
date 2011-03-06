@@ -3,7 +3,7 @@ package se.lnu.thesis.element;
 import com.google.common.collect.ImmutableSet;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
-import se.lnu.thesis.utils.IdUtils;
+import se.lnu.thesis.utils.IdGenerator;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.util.Collection;
@@ -20,7 +20,7 @@ public class Level extends DimensionalContainer implements Visualizable {
         Level result = new Level();
 
         result.setObject(o);
-        result.setId(IdUtils.next());
+        result.setId(IdGenerator.next());
 
         result.objects = ImmutableSet.copyOf(objects);
 

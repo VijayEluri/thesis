@@ -1,5 +1,4 @@
 
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +6,7 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
+import se.lnu.thesis.utils.GraphMaker;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,58 +16,10 @@ import se.lnu.thesis.io.graphml.MyGraphYedHandler;
  */
 public class TestExtractor {
 
-    /**
-     * ___1
-     * ___|
-     * ___2
-     * ___|
-     * ___3
-     * ___|
-     * ___4
-     * ___|
-     * ___5
-     * ___|
-     * ___6
-     * __/_\
-     * _7___8
-     * _____|
-     * _____9
-     * _____|
-     * ____10
-     *
-     * @return DirectedSparceGraph
-     */
-    private Graph createGraph() {
-        Graph graph = new DirectedSparseGraph();
-
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-
-        graph.addEdge("1->2", 1, 2);
-        graph.addEdge("2->3", 2, 3);
-        graph.addEdge("3->4", 3, 4);
-        graph.addEdge("4->5", 4, 5);
-        graph.addEdge("5->6", 5, 6);
-        graph.addEdge("6->7", 6, 7);
-        graph.addEdge("6->8", 6, 8);
-        graph.addEdge("8->9", 8, 9);
-        graph.addEdge("9->10", 9, 10);
-
-        return graph;
-    }
-
     @Test
     public void optimize() {
 
-        Graph graph = createGraph();
+        Graph graph = GraphMaker.createHighBinaryGraph();
 
         Assert.assertEquals(10, graph.getVertexCount());
         Assert.assertEquals(9, graph.getEdgeCount());
@@ -88,7 +40,7 @@ public class TestExtractor {
     @Test
     public void optimizeFromMiddle() {
 
-        Graph graph = createGraph();
+        Graph graph = GraphMaker.createHighBinaryGraph();
 
         Assert.assertEquals(10, graph.getVertexCount());
         Assert.assertEquals(9, graph.getEdgeCount());

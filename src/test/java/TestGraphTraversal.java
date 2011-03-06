@@ -20,7 +20,7 @@ public class TestGraphTraversal {
 
     @Test
     public void testDfs() {
-        Graph<Integer, String> binaryTree = GraphMaker.createBigBinaryTree();
+        Graph<Integer, String> binaryTree = GraphMaker.createWideBinaryTree();
 
         List result = new LinkedList();
         GraphUtils.getLeafs(binaryTree, 1, result);

@@ -2,6 +2,8 @@
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Assert;
 import org.junit.Test;
 import se.lnu.thesis.utils.Utils;
 
@@ -29,10 +31,13 @@ public class TestUtils {
     @Test
     public void testIntegerValueExtractor() {
         String s = "id     123445   ";
-        assertEquals(123445, Utils.extractIntegerValue(s, "id"));
+        Integer value = 123445;
+
+        Assert.assertEquals(value, Utils.extractIntegerValue(s, "id"));
 
         s = "       egz         123";
-        assertEquals(123, Utils.extractIntegerValue(s, "egz"));
+        value = 123;
+        Assert.assertEquals(value, Utils.extractIntegerValue(s, "egz"));
     }
 
 

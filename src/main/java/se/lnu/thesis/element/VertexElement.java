@@ -1,7 +1,7 @@
 package se.lnu.thesis.element;
 
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
-import se.lnu.thesis.utils.IdUtils;
+import se.lnu.thesis.utils.IdGenerator;
 
 import java.awt.geom.Point2D;
 
@@ -76,7 +76,7 @@ public class VertexElement extends VisualizableElement {
     public static VertexElement init(Object o, double x, double y, AbstractElementVisualizer visualizer) {
         VertexElement result = new VertexElement();
 
-        result.setId(IdUtils.next());
+        result.setId(IdGenerator.next());
 
         result.setObject(o);
         result.setPosition(new Point2D.Double(x, y));

@@ -37,7 +37,7 @@ public class EdgeElement extends VisualizableElement {
     public static EdgeElement init(Object o, Graph graph, Container root) {
         EdgeElement result = new EdgeElement();
 
-        //      result.setId(IdUtils.next()); // edges are unselectable in future
+        //      result.setId(IdGenerator.next()); // edges are unselectable in future
         result.setObject(o);
 
         Object source = graph.getSource(o);

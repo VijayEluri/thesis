@@ -1,7 +1,7 @@
 package se.lnu.thesis.element;
 
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
-import se.lnu.thesis.utils.IdUtils;
+import se.lnu.thesis.utils.IdGenerator;
 import se.lnu.thesis.utils.Utils;
 
 import java.awt.geom.Point2D;
@@ -20,7 +20,7 @@ public class PolarVertex extends VertexElement {
 
         PolarVertex result = new PolarVertex();
 
-        result.setId(IdUtils.next());
+        result.setId(IdGenerator.next());
 
         result.setObject(o);
         result.setPosition(position);

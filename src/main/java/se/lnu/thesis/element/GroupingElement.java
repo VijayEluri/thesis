@@ -3,7 +3,7 @@ package se.lnu.thesis.element;
 import com.google.common.collect.ImmutableSet;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
-import se.lnu.thesis.utils.IdUtils;
+import se.lnu.thesis.utils.IdGenerator;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
@@ -22,7 +22,7 @@ public class GroupingElement extends DimensionalContainer implements Visualizabl
     public static GroupingElement init(Object o, Point2D position, ElementVisualizer visualizer, Collection<Object> objects) {
         GroupingElement result = new GroupingElement();
 
-        result.setId(IdUtils.next());
+        result.setId(IdGenerator.next());
         result.setObject(o);
         result.setPosition(position);
         result.setVisualizer(visualizer);

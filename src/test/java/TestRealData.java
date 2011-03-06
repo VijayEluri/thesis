@@ -1,11 +1,11 @@
-
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import org.apache.log4j.Logger;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
@@ -27,11 +27,15 @@ public class TestRealData {
 
     private static final Logger LOGGER = Logger.getLogger(TestRealData.class);
 
+    final int CLUSTER_NODE_COUNT = 14623;
+    final int CLUSTER_EDGE_COUNT = 14622;
+
+    final int DAG_NODE_COUNT = 10042;
+    final int DAG_EDGE_COUNT = 24155;
 
     @Test
     public void testDagDataQuantity() {
-        final int DAG_NODE_COUNT = 10042;
-        final int DAG_EDGE_COUNT = 24155;
+
 
         IOFacade ioFacade = new IOFacade();
         MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
@@ -44,8 +48,7 @@ public class TestRealData {
 
     @Test
     public void testClusterDataQuantity() {
-        final int CLUSTER_NODE_COUNT = 14623;
-        final int CLUSTER_EDGE_COUNT = 14622;
+
 
         IOFacade ioFacade = new IOFacade();
         MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());

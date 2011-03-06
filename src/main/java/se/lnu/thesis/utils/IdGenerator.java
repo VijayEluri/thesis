@@ -9,7 +9,7 @@ package se.lnu.thesis.utils;
  * <p/>
  * Use this class to get unique id for drawing elements
  */
-public class IdUtils {
+public class IdGenerator {
 
     public static final int START_ID = 1;
 

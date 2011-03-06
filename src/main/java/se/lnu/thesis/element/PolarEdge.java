@@ -17,7 +17,7 @@ public class PolarEdge extends EdgeElement {
     public static PolarEdge init(PolarDendrogramLayout layout, Object o) {
         PolarEdge result = new PolarEdge();
 
-        //     result.setId(IdUtils.next()); // edges are unselectable in future
+        //     result.setId(IdGenerator.next()); // edges are unselectable in future
         result.setObject(o);
 
         Object source = layout.getGraph().getSource(o);
