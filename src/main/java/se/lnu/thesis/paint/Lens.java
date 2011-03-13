@@ -4,7 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GroupingElement;
-import se.lnu.thesis.layout.AbstractLayout;
+import se.lnu.thesis.layout.Layout;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.GraphUtils;
@@ -40,7 +40,7 @@ public class Lens implements Drawable {
     private double lensRadius = LENS_RADIUS;
     private double layoutRadius = LAYOUT_RADIUS;
 
-    private AbstractLayout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
+    private Layout layout = new PolarDendrogramLayout(LAYOUT_RADIUS);
 
     private GroupingElement root = null;
 

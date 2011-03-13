@@ -151,4 +151,13 @@ public class DrawingUtils {
         return wcoord;
     }
 
+    public static void square(GL gl, double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        gl.glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
+        gl.glBegin(GL.GL_QUADS);
+        gl.glVertex2d(x0, y0);
+        gl.glVertex2d(x1, y1);
+        gl.glVertex2d(x2, y2);
+        gl.glVertex2d(x3, y3);
+        gl.glEnd();
+    }
 }

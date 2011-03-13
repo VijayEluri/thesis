@@ -5,8 +5,10 @@ package se.lnu.thesis.element;
  * User: vady
  * Date: 27.11.2010
  * Time: 21:37:00
- * <p/>
+ *
+ * <p>
  * Container for a graph
+ * </p>
  */
 public abstract class GraphContainer extends DimensionalContainer {
 

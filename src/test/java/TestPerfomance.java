@@ -5,6 +5,7 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,9 +24,8 @@ import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -139,11 +139,18 @@ public class TestPerfomance {
     @Test
     @Category(PerfomanceTest.class)
     public void measureJungYedHandlerClusterLoading() {
+        String file = getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath();
+
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
         long start = System.currentTimeMillis();
-        Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
+        List list = parser.load(file);
         long end = System.currentTimeMillis();
+
+        assertNotNull(list);
+        Assert.assertFalse(list.isEmpty());
+
+        Graph graph = (Graph) list.get(0);
 
         assertEquals(14623, graph.getVertexCount());
         assertEquals(14622, graph.getEdgeCount());
@@ -151,37 +158,22 @@ public class TestPerfomance {
         LOGGER.info("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "ms");
     }
 
-   /* @Test      TODO implement this test for some graph
-    public void measurePolarDendrogramLayoutComputationForCluster() {
-        GraphMLParser parser = new GraphMLParser(new JungYedHandler());
-        Graph graph = (Graph) parser.load("RealClusterGraph.graphml").get(0);
-
-        GraphContainer root = ClusterGraphContainer.init();
-
-        PolarDendrogramLayout layout = new PolarDendrogramLayout();
-        layout.setRadius(0.9);
-        layout.setGraph(graph);
-        layout.setRoot(root);
-
-        System.gc();
-
-        long start = System.currentTimeMillis();
-        layout.compute();
-        long end = System.currentTimeMillis();
-
-        LOGGER.info("Initialize layout using Graph done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "ms");
-
-    }*/
-
-
     @Test
     @Category(PerfomanceTest.class)
     public void measureJungYedHandlerGOLoading() {
+        String file = getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath();
+
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
         long start = System.currentTimeMillis();
-        Graph graph = (Graph) parser.load("RealGOGraph.graphml").get(0);
+        List list = parser.load(file);
         long end = System.currentTimeMillis();
+
+        assertNotNull(list);
+        Assert.assertFalse(list.isEmpty());
+
+        Graph graph = (Graph) list.get(0);
+        assertNotNull(graph);
 
         LOGGER.info("Loading graph from file done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
     }
@@ -225,6 +217,7 @@ public class TestPerfomance {
         LOGGER.info("Computing layout done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
     }
 
+    @Deprecated
     public void measureJungKKLayoutForGO() {
         IOFacade facade = new IOFacade();
         Graph graph = facade.loadFromGml("RealGOGraph.graphml");

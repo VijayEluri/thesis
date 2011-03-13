@@ -74,15 +74,24 @@ public class EdgeElement extends VisualizableElement {
 
     }
 
+    /**
+     * Check if object <code>from</code> or <code>to</code> edge equals to corresponded object.
+     * @param o Object to check with.
+     * @return True if any edge vertex is equal, False otherwise.
+     */
     @Override
     public boolean has(Object o) {
         return from.equals(o) || to.equals(o);
     }
 
-
+    /**
+     * Check does BOTH edge vertices contain in objects collection
+     * @param objects Collection to check in
+     * @return True if BOTH edge vertices contain in objects collection, False otherwise
+     */
     @Override
-    public boolean hasAny(Collection nodes) {
-        return nodes.contains(from) && nodes.contains(to);
+    public boolean hasAny(Collection objects) {
+        return objects.contains(from) && objects.contains(to);
     }
 
     public ElementType getType() {

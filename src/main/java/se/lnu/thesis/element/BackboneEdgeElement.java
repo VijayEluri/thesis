@@ -44,7 +44,7 @@ public class BackboneEdgeElement extends EdgeElement {
     }
 
     @Override
-    public int getDrawingOrder() {
+    public final int getDrawingOrder() {
         return BACKBONE_EDGE_DRAWING_ORDER;
     }
 }

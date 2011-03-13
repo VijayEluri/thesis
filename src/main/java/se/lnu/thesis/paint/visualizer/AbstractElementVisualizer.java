@@ -42,7 +42,7 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
             gl().glPushName(element.getId()); // set tag id
         }
 
-        drawingColor(element); // set tag levelBackgroud
+        drawingColor(element); // set drawing color
         drawShape(element); // draw object
 
         if (element.getId() != null) {
@@ -52,7 +52,7 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
     protected abstract void drawShape(Element element);
 
-    protected void drawingColor(Element element) {
+    protected void  drawingColor(Element element) {
         if (element.isFocused()) {
             gl().glColor3f(getFocusedColor().getRed(), getFocusedColor().getGreen(), getFocusedColor().getBlue());
         } else {

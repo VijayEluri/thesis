@@ -7,8 +7,11 @@ import java.util.Comparator;
  * User: vady
  * Date: 28.08.2010
  * Time: 0:34:49
- * <p/>
+ *
+ *
+ * <p>
  * This interface summarize drawing order for elements
+ * </p>
  */
 public interface Orderable {
 

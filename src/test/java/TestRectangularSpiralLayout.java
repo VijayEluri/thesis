@@ -58,7 +58,7 @@ public class TestRectangularSpiralLayout {
                             groupElementsOverlapping.add(element2);
                         }
 
-                        if (element1.getType() == ElementType.NODE && element2.getType() == ElementType.NODE) {
+                        if (element1.getType() == ElementType.VERTEX && element2.getType() == ElementType.VERTEX) {
                             nodeElementsOverlapping.add(element1);
                             nodeElementsOverlapping.add(element2);
                         }

@@ -186,8 +186,7 @@ public class PolarDendrogramLayout extends RadialLayout {
             Object dest = graph.getDest(edge);
 
             if (root.has(source) && root.has(dest)) {
-                //root.addElement(EdgeElement.nullVariables(edge, source, target, ((VertexElement) (root.getElementByObject(source))).getPosition(), ((VertexElement) (root.getElementByObject(target))).getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer()););
-                root.addElement(PolarEdge.init(this, edge));
+                root.addElement(PolarEdge.init(this, edge, source, dest));
             }
         }
     }

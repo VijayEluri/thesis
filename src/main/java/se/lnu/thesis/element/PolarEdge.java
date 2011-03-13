@@ -1,8 +1,9 @@
 package se.lnu.thesis.element;
 
 import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
-import static se.lnu.thesis.utils.GraphUtils.isRoot;
+import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
 
@@ -14,51 +15,45 @@ import java.awt.geom.Point2D;
  */
 public class PolarEdge extends EdgeElement {
 
-    public static PolarEdge init(PolarDendrogramLayout layout, Object o) {
-        PolarEdge result = new PolarEdge();
+    public static PolarEdge init(PolarDendrogramLayout layout, Object o, Object from, Object to) {
+        return PolarEdge.init(
+                o,
+                from,
+                to,
 
-        //     result.setId(IdGenerator.next()); // edges are unselectable in future
-        result.setObject(o);
+                GraphUtils.isRoot(layout.getGraph(), from),
 
-        Object source = layout.getGraph().getSource(o);
-        result.setFrom(source);
+                layout.getRoot().getElementByObject(from).getPosition(),
+                layout.getDummyNode(from, to),
+                layout.getRoot().getElementByObject(to).getPosition(),
 
-        Object target = layout.getGraph().getDest(o);
-        result.setTo(target);
+                layout.getNodeRadius(from),
 
-        result.setFromRoot(isRoot(layout.getGraph(), source));
+                layout.getNodeAngle().get(from),
+                layout.getNodeAngle().get(to),
 
-        result.setStartPosition(layout.getRoot().getElementByObject(source).getPosition());
-        result.setDummyNodePosition(layout.getDummyNode(source, target));
-        result.setEndPosition(layout.getRoot().getElementByObject(target).getPosition());
-
-        result.setSourceRadius(layout.getNodeRadius(source));
-
-        result.setSourceAngle(layout.getNodeAngle().get(source));
-        result.setDestAngle(layout.getNodeAngle().get(target));
-
-        result.setVisualizer(ElementVisualizerFactory.getInstance().getPolarDendrogramEdgeVisializer());
-
-        return result;
+                ElementVisualizerFactory.getInstance().getPolarDendrogramEdgeVisializer()
+        );
     }
 
     public static PolarEdge init(Object o,
-                                 Object source,
-                                 Object target,
+                                 Object from,
+                                 Object to,
                                  boolean isFromRoot,
                                  Point2D start,
                                  Point2D dummyNode,
                                  Point2D end,
-                                 double sourceRadius,
-                                 double sourceAngle,
-                                 double destAngle) {
+                                 double fromRadius,
+                                 double fromAngle,
+                                 double toAngle,
+                                 ElementVisualizer visualizer) {
 
         PolarEdge result = new PolarEdge();
 
         result.setObject(o);
 
-        result.setFrom(source);
-        result.setTo(target);
+        result.setFrom(from);
+        result.setTo(to);
 
         result.setFromRoot(isFromRoot);
 
@@ -66,10 +61,12 @@ public class PolarEdge extends EdgeElement {
         result.setDummyNodePosition(dummyNode);
         result.setEndPosition(end);
 
-        result.setSourceRadius(sourceRadius);
+        result.setSourceRadius(fromRadius);
 
-        result.setSourceAngle(sourceAngle);
-        result.setDestAngle(destAngle);
+        result.setSourceAngle(fromAngle);
+        result.setDestAngle(toAngle);
+
+        result.setVisualizer(visualizer);
 
         return result;
     }

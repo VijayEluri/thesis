@@ -19,7 +19,7 @@ public class LevelPreviewVisualizer extends LevelVisualizer {
 
         DimensionalContainer container = (DimensionalContainer) element;
 
-        if (container.isDrawed()) {
+        if (container.isDrawn()) {
 
             if (element.getId() != null) {
                 gl.glPushName(element.getId()); // set id for background

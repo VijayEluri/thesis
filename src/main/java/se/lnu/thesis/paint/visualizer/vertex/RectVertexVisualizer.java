@@ -1,10 +1,8 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
 import se.lnu.thesis.element.Element;
+import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
-
-import javax.media.opengl.GL;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,14 +30,9 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
 
         gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
-        gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
-        gl().glBegin(GL.GL_QUADS);
-        gl().glVertex2d(-getRadius(), getRadius());
-        gl().glVertex2d(getRadius(), getRadius());
-        gl().glVertex2d(getRadius(), -getRadius());
-        gl().glVertex2d(-getRadius(), -getRadius());
-        gl().glEnd();
+        DrawingUtils.square(gl(), -getRadius(), getRadius(), getRadius(), getRadius(), getRadius(), -getRadius(), -getRadius(), -getRadius());
 
         gl().glPopMatrix();
     }
+
 }

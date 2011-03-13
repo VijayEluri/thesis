@@ -82,12 +82,12 @@ public abstract class AbstractElement implements Element {
         this.selected = selected;
     }
 
-    public boolean isDrawed() {
+    public boolean isDrawn() {
         return drawed;
     }
 
-    public void setDrawed(boolean drawed) {
-        this.drawed = drawed;
+    public void setDrawn(boolean drawn) {
+        this.drawed = drawn;
     }
 
     public Point2D getPosition() {

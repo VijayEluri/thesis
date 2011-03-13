@@ -34,13 +34,14 @@ public class GroupingElement extends DimensionalContainer implements Visualizabl
 
     private ElementVisualizer visualizer;
 
-    @Deprecated
-    public GroupingElement() {
+    private int highlightedVerticesCount = 0;
+
+    protected GroupingElement() {
 
     }
 
     public void draw(GLAutoDrawable drawable) {
-        if (isDrawed() && visualizer != null) {
+        if (isDrawn() && visualizer != null) {
             visualizer.draw(drawable, this);
         }
     }
@@ -51,5 +52,29 @@ public class GroupingElement extends DimensionalContainer implements Visualizabl
 
     public void setVisualizer(ElementVisualizer visualizer) {
         this.visualizer = visualizer;
+    }
+
+    @Override
+    public void setHighlighted(Collection objects) {
+        super.setHighlighted(objects);
+
+        if (isHighlighted()) {
+            highlightedVerticesCount = 0;
+            for (Object o : objects) {
+                if (getObjects().contains(o)) {
+                    highlightedVerticesCount++;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void resetHighlighting() {
+        super.resetHighlighting();
+        highlightedVerticesCount = 0;
+    }
+
+    public int getHighlightedVerticesCount() {
+        return highlightedVerticesCount;
     }
 }

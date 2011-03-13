@@ -1,19 +1,28 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 
 public class RadialLayout extends AbstractLayout {
 
-    private double radius = 0.9;
+    public static final double DEFAULT_RADIUS = 0.9;
+
+    private double radius = DEFAULT_RADIUS;
 
     public RadialLayout() {
     }
 
-    public RadialLayout(Graph graph, GroupingElement root) {
+    public RadialLayout(Graph graph, Container root) {
         super(graph, root);
+    }
+
+    public RadialLayout(Graph graph, Container root, double radius) {
+        super(graph, root);
+        setRadius(radius);
     }
 
     public void compute() {
@@ -31,6 +40,7 @@ public class RadialLayout extends AbstractLayout {
             root.addElement(VertexElement.init(node, x, y));
         }
 
+        root.setLayoutComputed(true);
     }
 
     public double getRadius() {

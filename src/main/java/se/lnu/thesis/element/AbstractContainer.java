@@ -37,9 +37,8 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         return objects != null ? objects.size() : 0;
     }
 
-    @Deprecated
     public Iterator<Element> getElements() {
-        return elements.iterator();
+        return iterator();
     }
 
     public Iterator<Integer> getIds() {
@@ -84,18 +83,16 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     @Override
-    public boolean hasAny(Collection nodes) {
+    public boolean hasAny(Collection collection) {
 
-        for (Object o : nodes) {
+        for (Object o : collection) {
             if (has(o) || obj2Element.containsKey(o)) {
                 return true;
             }
         }
 
-        for (Iterator<Element> i = getElements(); i.hasNext();) {
-            Element element = i.next();
-
-            if (element.hasAny(nodes)) {
+        for (Element element : this) {
+            if (element.hasAny(collection)) {
                 return true;
             }
         }
@@ -103,14 +100,21 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         return false;
     }
 
+    /**
+     *
+     * Highlight graph elements with specified object ids inside this container
+     *
+     * @param objects Collection with object ids to highlight
+     */
     @Override
     public void setHighlighted(Collection objects) {
         if (hasAny(objects)) {
-            setHighlighted(true);
-            for (Iterator<Element> i = getElements(); i.hasNext();) {
-                Element element = i.next();
+            Iterator<Element> iterator = iterator();
+            while (iterator.hasNext()) {
+                Element element = iterator.next();
                 element.setHighlighted(objects);
             }
+            setHighlighted(true);
         }
     }
 
@@ -134,6 +138,12 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         }
     }
 
+    /**
+     *
+     * Get iterator for all elements inside this container.
+     *
+     * @return Returns read only Iterator object
+     */
     public Iterator<Element> iterator() {
         final Iterator<Element> i = elements.iterator();
 
@@ -152,4 +162,16 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         };
     }
 
+    /**
+     * Return how many elements contain current container
+     * @return Elements count
+     */
+    public int getElementsCount() {
+        if (elements != null) {
+            return elements.size();
+        } else {
+            return 0;
+        }
+
+    }
 }

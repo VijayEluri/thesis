@@ -10,7 +10,7 @@ import se.lnu.thesis.element.Container;
  * Date: 15.07.2010
  * Time: 16:41:46
  */
-public abstract class AbstractLayout {
+public abstract class AbstractLayout implements Layout {
 
     protected Graph graph;
     protected Container root;
@@ -28,8 +28,6 @@ public abstract class AbstractLayout {
         setGraph(graph);
         setRoot(root);
     }
-
-    public abstract void compute();
 
     public void reset() {
         setGraph(null);

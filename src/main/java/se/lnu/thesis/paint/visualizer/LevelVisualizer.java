@@ -3,14 +3,12 @@ package se.lnu.thesis.paint.visualizer;
 import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
-import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
 
@@ -45,7 +43,7 @@ public class LevelVisualizer implements ElementVisualizer {
 
         DimensionalContainer container = (DimensionalContainer) element;
 
-        if (container.isDrawed()) {
+        if (container.isDrawn()) {
 
             if (element.getId() != null) {
                 gl.glPushName(element.getId()); // set id

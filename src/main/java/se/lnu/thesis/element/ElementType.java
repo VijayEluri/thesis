@@ -11,7 +11,7 @@ public enum ElementType {
 
     EDGE,
 
-    ROOT, LEAF, NODE,
+    ROOT, NODE, LEAF, VERTEX,
 
     CONTAINER
 

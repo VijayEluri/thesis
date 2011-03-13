@@ -1,7 +1,10 @@
 package se.lnu.thesis.element;
 
+import com.google.common.collect.ImmutableSet;
+
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -9,6 +12,10 @@ import java.util.HashSet;
  * User: vady
  * Date: 13.10.2010
  * Time: 14:24:22
+ *
+ * <p>
+ * Container for drawing elements that has width and height (dimensions)
+ * </p>
  */
 public class DimensionalContainer extends AbstractContainer implements Dimensional {
 
@@ -18,6 +25,16 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
         result.setObject(o);
 
         result.objects = new HashSet<Object>();
+
+        return result;
+    }
+
+    public static DimensionalContainer init(Object o, Collection objects) {
+        DimensionalContainer result = new DimensionalContainer();
+
+        result.setObject(o);
+
+        result.objects = ImmutableSet.copyOf(objects);
 
         return result;
     }
@@ -43,7 +60,7 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
     }
 
     public void draw(GLAutoDrawable drawable) {
-        if (isDrawed()) {
+        if (isDrawn()) {
             super.drawContent(drawable);
         }
     }

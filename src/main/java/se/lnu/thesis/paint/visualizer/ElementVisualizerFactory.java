@@ -3,10 +3,7 @@ package se.lnu.thesis.paint.visualizer;
 import com.google.common.collect.ImmutableMap;
 import se.lnu.thesis.paint.visualizer.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.PolarDendrogramEdgeVisualizer;
-import se.lnu.thesis.paint.visualizer.vertex.CircleVertexVisualizer;
-import se.lnu.thesis.paint.visualizer.vertex.GOPointVertexVisualizer;
-import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
-import se.lnu.thesis.paint.visualizer.vertex.RectVertexVisualizer;
+import se.lnu.thesis.paint.visualizer.vertex.*;
 import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
@@ -129,7 +126,8 @@ public class ElementVisualizerFactory {
         } else {
             double size = (MAX_GROUP_VERTEX_SIZE - MIN_GROUP_VERTEX_SIZE) / (maxGroupSize - minGroupSize) * (thisGroupSize - minGroupSize) + MIN_GROUP_VERTEX_SIZE;
 
-            rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(colorSchema.getClusterNodes(), size));
+//            rectVisualizers.put(thisGroupSize, new RectVertexVisualizer(colorSchema.getClusterNodes(), size));
+            rectVisualizers.put(thisGroupSize, new GroupingElementSmartHighlightVisualizer(colorSchema.getClusterNodes(), size));
 
             return (RectVertexVisualizer) rectVisualizers.get(thisGroupSize);
         }

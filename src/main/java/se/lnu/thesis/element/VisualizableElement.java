@@ -15,7 +15,7 @@ public abstract class VisualizableElement extends AbstractElement implements Vis
     protected ElementVisualizer visualizer;
 
     public void draw(GLAutoDrawable drawable) {
-        if (isDrawed() && visualizer != null) {
+        if (isDrawn() && visualizer != null) {
             visualizer.draw(drawable, this);
         }
     }

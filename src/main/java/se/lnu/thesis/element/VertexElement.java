@@ -109,10 +109,10 @@ public class VertexElement extends VisualizableElement {
     }
 
     public ElementType getType() {
-        return ElementType.NODE;
+        return ElementType.VERTEX;
     }
 
-    public int getDrawingOrder() {
+    public final int getDrawingOrder() {
         return VERTEX_DRAWING_ORDER;
     }
 
