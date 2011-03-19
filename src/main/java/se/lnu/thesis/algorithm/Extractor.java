@@ -1,9 +1,11 @@
 package se.lnu.thesis.algorithm;
 
+import com.google.common.collect.MapMaker;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -11,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,6 +31,8 @@ import java.util.Set;
 public class Extractor {
 
     public static final Logger LOGGER = Logger.getLogger(Extractor.class);
+
+    public static final int CACHE_MAXIMUM_SIZE = 10;
 
     private Graph goSubGraph;
     private Graph clusterSubGraph;
@@ -115,18 +120,18 @@ public class Extractor {
             clusterCache.put(goVertex, clusterSubGraph);
 
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Subgraphs extraction tooked " + (endTime - startTime) / 1000 + "s");
+            LOGGER.info("Subgraphs extraction tooked " + (endTime - startTime) / CACHE_MAXIMUM_SIZE + "s");
         }
 
     }
 
     protected void initVariables() {
         if (goCache == null) {
-            goCache = new HashMap<Object, Graph>();
+            goCache = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(1, TimeUnit.MINUTES).makeMap();
         }
 
         if (clusterCache == null) {
-            clusterCache = new HashMap<Object, Graph>();
+            clusterCache = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(1, TimeUnit.MINUTES).makeMap();
         }
 
         goSubGraph = null;
