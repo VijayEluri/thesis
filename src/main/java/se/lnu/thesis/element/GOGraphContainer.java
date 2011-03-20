@@ -1,6 +1,10 @@
 package se.lnu.thesis.element;
 
+import se.lnu.thesis.Scene;
+import se.lnu.thesis.utils.GraphUtils;
+
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +31,8 @@ public class GOGraphContainer extends GraphContainer {
 
         return result;
     }
+
+    protected boolean showUnconnectedLeaf = true;
 
     public int getZoomedLevels(Level level, List<Level> levels) {
         if (!levels.isEmpty()) {
@@ -68,6 +74,40 @@ public class GOGraphContainer extends GraphContainer {
         levels.add((Level) ((List) elements).get(topLevelIndex + 2));
 
         return topLevelIndex;
+    }
+
+    public boolean isShowUnconnectedLeaf() {
+        return showUnconnectedLeaf;
+    }
+
+    public void hideUnconnectedLeaf() {
+        Iterator<Element> iterator = getElements();
+        while (iterator.hasNext()) {
+            Level level = (Level) iterator.next();
+
+            for (Object o: level.getObjects()) {
+                if (GraphUtils.isLeaf(Scene.getInstance().getGoGraph(), o) && GraphUtils.isRoot(Scene.getInstance().getGoGraph(), o)) {
+                    level.getElementByObject(o).setDrawn(false);
+                }
+            }
+        }
+
+        showUnconnectedLeaf = false;
+    }
+
+    public void showUnconnectedLeaf() {
+        Iterator<Element> iterator = getElements();
+        while (iterator.hasNext()) {
+            Level level = (Level) iterator.next();
+
+            for (Object o: level.getObjects()) {
+                if (GraphUtils.isLeaf(Scene.getInstance().getGoGraph(), o) && GraphUtils.isRoot(Scene.getInstance().getGoGraph(), o)) {
+                    level.getElementByObject(o).setDrawn(true);
+                }
+            }
+        }
+
+        showUnconnectedLeaf = false;
     }
 
 

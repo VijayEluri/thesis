@@ -4,7 +4,10 @@ import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.VertexElement;
+import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
+import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
+import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -29,16 +32,20 @@ public class UniformDistributionLayout extends AbstractLayout {
     protected Point2D start;
     protected Point2D dimension;
 
+    protected AbstractElementVisualizer vertexVisualizer;
+
     public UniformDistributionLayout() {
 
     }
 
     public UniformDistributionLayout(Graph graph) {
         super(graph);
+        setVertexVisualizer(ElementVisualizerFactory.getInstance().getPointVisualizer());
     }
 
     public UniformDistributionLayout(Graph graph, Container root) {
         super(graph, root);
+        setVertexVisualizer(ElementVisualizerFactory.getInstance().getPointVisualizer());
     }
 
     public void compute() {
@@ -123,7 +130,15 @@ public class UniformDistributionLayout extends AbstractLayout {
     }
 
     protected void setElementPosition(Object o) {
-        root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getPointVisualizer()));
+        root.addElement(VertexElement.init(o, p.getX(), p.getY(), getVertexVisualizer()));
+    }
+
+    public AbstractElementVisualizer getVertexVisualizer() {
+        return vertexVisualizer;
+    }
+
+    public void setVertexVisualizer(AbstractElementVisualizer vertexVisualizer) {
+        this.vertexVisualizer = vertexVisualizer;
     }
 
     public void setObjects(Collection nodes) {

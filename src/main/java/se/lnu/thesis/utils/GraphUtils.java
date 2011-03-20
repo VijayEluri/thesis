@@ -100,7 +100,7 @@ public class GraphUtils {
         Integer level;
 
         for (V node : graph.getVertices()) {
-            level = GraphUtils.getNodeHeight(graph, node, 0);
+            level = GraphUtils.getNodeHeight(graph, node);
             levels.put(level, node);
 
             if (level > maxHeight) {
@@ -110,6 +110,25 @@ public class GraphUtils {
 
         return maxHeight + 1;
     }
+
+    public static <V, E> void moveAllLeafBottomLevel(Graph<V, E> graph, Multimap<Integer, V> levels) {
+
+        Set<V> leafs = new HashSet<V>();
+
+        Integer leafsLevelIndex = levels.keySet().size() - 1;
+
+        for (V v: levels.values()) {
+            if (GraphUtils.isLeaf(graph, v)) {
+                leafs.add(v);
+            }
+        }
+
+        levels.values().removeAll(leafs);
+        levels.putAll(leafsLevelIndex, leafs);
+
+    }
+
+
 
     public static <V, E> int getNodeHeight(Graph<V, E> graph, V node) {
         return getNodeHeight(graph, node, 0);

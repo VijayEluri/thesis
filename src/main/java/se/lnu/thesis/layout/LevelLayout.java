@@ -1,7 +1,9 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.element.AbstractElement;
 import se.lnu.thesis.element.VertexElement;
+import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -13,12 +15,18 @@ import se.lnu.thesis.utils.GraphUtils;
  */
 public class LevelLayout extends UniformDistributionLayout {
 
-    public LevelLayout() {
+    protected AbstractElementVisualizer leafVisualizer;
 
+    public LevelLayout() {
+        setVertexVisualizer(ElementVisualizerFactory.getInstance().getGONodeCircleVisualizer());
+        setLeafVisualizer(ElementVisualizerFactory.getInstance().getGOLeafCircleVisualizer());
     }
 
     public LevelLayout(Graph graph) {
         super(graph);
+
+        setVertexVisualizer(ElementVisualizerFactory.getInstance().getGONodeCircleVisualizer());
+        setLeafVisualizer(ElementVisualizerFactory.getInstance().getGOLeafCircleVisualizer());
     }
 
 
@@ -26,11 +34,18 @@ public class LevelLayout extends UniformDistributionLayout {
     protected void setElementPosition(Object o) {
 
         if (GraphUtils.isLeaf(graph, o)) {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGOLeafCircleVisualizer()));
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), getLeafVisualizer()));
         } else {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), ElementVisualizerFactory.getInstance().getGONodeCircleVisualizer()));
+            root.addElement(VertexElement.init(o, p.getX(), p.getY(), getVertexVisualizer()));
         }
 
     }
 
+    public AbstractElementVisualizer getLeafVisualizer() {
+        return leafVisualizer;
+    }
+
+    public void setLeafVisualizer(AbstractElementVisualizer leafVisualizer) {
+        this.leafVisualizer = leafVisualizer;
+    }
 }

@@ -56,6 +56,11 @@ public class LevelBarLayout extends UniformDistributionLayout {
         super(graph, root);
     }
 
+    public LevelBarLayout(Graph graph, UniformDistributionLayout layout) {
+        setGraph(graph);
+        setPartsLayout(layout);
+    }
+
     public void compute() {
 
         extractLeavesAndNodes();
@@ -84,14 +89,14 @@ public class LevelBarLayout extends UniformDistributionLayout {
         Point2D p = new Point2D.Double(getStart().getX() + leftBorder, getStart().getY() - topBorder); // start position including border
 
 
-        double percentage = leaves.size() * 100 / objects.size();
-        leavesDimension = new Point2D.Double(d.getX() / 100 * percentage, d.getY());
+        double leafPercentage  = leaves.size() * 100 / objects.size();
+        double nodesPercentage = 100 - leafPercentage;
 
-        percentage = 100 - percentage;
-        nodesDimension = new Point2D.Double(d.getX() / 100 * percentage, d.getY());
+        leavesDimension = new Point2D.Double(d.getX() / 100 * leafPercentage,  d.getY());
+        nodesDimension  = new Point2D.Double(d.getX() / 100 * nodesPercentage, d.getY());
 
-        leavesStartPosition = new Point2D.Double(p.getX(), p.getY());
-        nodesStartPosition = new Point2D.Double(p.getX() + leavesDimension.getX(), p.getY());
+        leavesStartPosition = new Point2D.Double(p.getX(),                          p.getY());
+        nodesStartPosition  = new Point2D.Double(p.getX() + leavesDimension.getX(), p.getY());
     }
 
     private void computePositions() {

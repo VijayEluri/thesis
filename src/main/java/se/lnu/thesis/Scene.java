@@ -36,7 +36,7 @@ public class Scene {
     private MyGraph clusterGraph = null;
 
     private GOController goController;
-    private GraphController clusterController;
+    private ClusterController clusterController;
 
     private Extractor extractor;
 
@@ -106,7 +106,7 @@ public class Scene {
         return goController;
     }
 
-    public GraphController getClusterController() {
+    public ClusterController getClusterController() {
         return clusterController;
     }
 

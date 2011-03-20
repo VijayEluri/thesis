@@ -68,7 +68,7 @@ public class Extractor {
         setSelectedNode(goVertex);
 
         if (goCache.containsKey(goVertex) && clusterCache.containsKey(goVertex)) {
-            LOGGER.info("Allready computed. Loading from cache..");
+            LOGGER.info("Already computed. Loading from cache..");
 
             goSubGraph = goCache.get(goVertex);
             clusterSubGraph = clusterCache.get(goVertex);

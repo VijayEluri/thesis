@@ -5,7 +5,9 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
+import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.HierarchyLayout;
+import se.lnu.thesis.layout.HierarchyLayout2;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.state.NormalGOState;
 import se.lnu.thesis.paint.state.ZoomGOState;
@@ -24,8 +26,10 @@ public class GOController extends GraphController {
     private Element previewElement;
     private Element selectedElement;
 
-    public GOController() {
+    private HierarchyLayout graphLayout;
 
+    public GOController() {
+        setGraphLayout(new HierarchyLayout());
     }
 
     public void init() {
@@ -34,10 +38,16 @@ public class GOController extends GraphController {
         root = GOGraphContainer.init();
 
         try {
-            HierarchyLayout layout = new HierarchyLayout(graph, root);
-            layout.compute();
+            if (getGraphLayout() == null) {
+                LOGGER.error("Graph layout is not set!");
+                return;
+            }
 
-            Scene.getInstance().getMainWindow().setScrollBarMax(layout.getLevelCount());
+            getGraphLayout().setGraph(graph);
+            getGraphLayout().setRoot(root);
+            getGraphLayout().compute();
+
+            Scene.getInstance().getMainWindow().setScrollBarMax(getGraphLayout().getLevelCount());
         } catch (Exception e) {
             LOGGER.error("Initialization error!");
             LOGGER.error(e);
@@ -51,6 +61,10 @@ public class GOController extends GraphController {
         setState(new NormalGOState(this));
 
         LOGGER.info("Done.");
+    }
+
+    public void reinit() {
+
     }
 
     /**
@@ -128,4 +142,11 @@ public class GOController extends GraphController {
         }
     }
 
+    public HierarchyLayout getGraphLayout() {
+        return graphLayout;
+    }
+
+    public void setGraphLayout(HierarchyLayout graphLayout) {
+        this.graphLayout = graphLayout;
+    }
 }
