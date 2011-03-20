@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.core.MyGraph;
 
 import java.util.*;
 
@@ -302,4 +303,15 @@ public class GraphUtils {
         LOGGER.info("***********************************");
     }
 
+    /**
+     *
+     * Check if vertex does not have neither predecessors nor successors
+     *
+     * @param graph Graph where vertex is
+     * @param vertex Corresponded vertex object id to check
+     * @return True if unconnected, False otherwise
+     */
+    public static <V,E> boolean isUnconnectedComponent(Graph<V,E> graph, V vertex) {
+        return isRoot(graph, vertex) && isLeaf(graph, vertex);
+    }
 }

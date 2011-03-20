@@ -29,10 +29,12 @@ public class GOGraphContainer extends GraphContainer {
         result.objects = new LinkedList<Object>();
         result.elements = new LinkedList<Element>();
 
+        result.showUnconnectedComponents = true;
+
         return result;
     }
 
-    protected boolean showUnconnectedLeaf = true;
+    protected boolean showUnconnectedComponents = true;
 
     public int getZoomedLevels(Level level, List<Level> levels) {
         if (!levels.isEmpty()) {
@@ -76,39 +78,35 @@ public class GOGraphContainer extends GraphContainer {
         return topLevelIndex;
     }
 
-    public boolean isShowUnconnectedLeaf() {
-        return showUnconnectedLeaf;
-    }
-
-    public void hideUnconnectedLeaf() {
+    public void hideUnconnectedComponents() {
         Iterator<Element> iterator = getElements();
         while (iterator.hasNext()) {
             Level level = (Level) iterator.next();
 
             for (Object o: level.getObjects()) {
-                if (GraphUtils.isLeaf(Scene.getInstance().getGoGraph(), o) && GraphUtils.isRoot(Scene.getInstance().getGoGraph(), o)) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(false);
+                    level.getPreviewElementByObject(o).setDrawn(false);
                 }
             }
         }
-
-        showUnconnectedLeaf = false;
     }
 
-    public void showUnconnectedLeaf() {
+    public void showUnconnectedComponents() {
         Iterator<Element> iterator = getElements();
         while (iterator.hasNext()) {
             Level level = (Level) iterator.next();
 
             for (Object o: level.getObjects()) {
-                if (GraphUtils.isLeaf(Scene.getInstance().getGoGraph(), o) && GraphUtils.isRoot(Scene.getInstance().getGoGraph(), o)) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(true);
+                    level.getPreviewElementByObject(o).setDrawn(true);
                 }
             }
         }
-
-        showUnconnectedLeaf = false;
     }
 
-
+    public boolean isShowUnconnectedComponents() {
+        return showUnconnectedComponents;
+    }
 }
