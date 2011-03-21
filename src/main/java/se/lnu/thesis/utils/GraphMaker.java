@@ -177,4 +177,38 @@ public class GraphMaker {
 
         return graph;
     }
+
+    /**
+     * ___1___6__7__8__9
+     * __/_\
+     * _2___3
+     * _____|
+     * _____4
+     * _____|
+     * _____5
+     *
+     * @return DirectedSparceGraph
+     */
+    public static Graph createGraphWithUnconnectedComponents() {
+        Graph graph = new DirectedSparseGraph();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addVertex(5);
+        graph.addVertex(6);
+        graph.addVertex(7);
+        graph.addVertex(8);
+        graph.addVertex(9);
+
+        graph.addEdge("1->2", 1, 2);
+        graph.addEdge("1->3", 1, 3);
+        graph.addEdge("3->4", 3, 4);
+        graph.addEdge("4->5", 4, 5);
+
+        return graph;
+    }
+
+
 }

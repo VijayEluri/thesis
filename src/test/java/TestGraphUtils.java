@@ -10,6 +10,7 @@ import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
+import sun.jvm.hotspot.utilities.Assert;
 
 import java.io.File;
 import java.util.HashMap;
@@ -235,5 +236,31 @@ public class TestGraphUtils {
 
     }
 
+    @Test
+    public void noUnconnectedComponents() {
+        Graph<Integer, String> graph = GraphMaker.createTestBinaryTree();
+
+        for (Integer vertex: graph.getVertices()) {
+            assertFalse(GraphUtils.isUnconnectedComponent(graph, vertex));
+        }
+    }
+
+    @Test
+    public void checkUnconnectedComponents() {
+        Graph<Integer, String> graph = GraphMaker.createGraphWithUnconnectedComponents();
+
+        assertEquals(9, graph.getVertexCount());
+        assertEquals(4, graph.getEdgeCount());
+
+        int unconnectedComponentsCount = 0;
+        for (Integer vertex: graph.getVertices()) {
+            if (GraphUtils.isUnconnectedComponent(graph, vertex)) {
+                unconnectedComponentsCount++;
+            }
+        }
+
+        assertEquals(4, unconnectedComponentsCount);
+
+    }
 
 }
