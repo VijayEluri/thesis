@@ -243,6 +243,10 @@
                             <target>
                                 <!-- CREATE PLATFORM DIRECTORIES -->
                                 <mkdir dir="${project.basedir}/build/"/>
+
+                                <delete dir="${project.basedir}/build/latest/"/>
+                                <mkdir dir="${project.basedir}/build/latest/"/>
+
                                 <mkdir dir="${thesis.release.directory}"/>
                                 <mkdir dir="${thesis.release.windows.directory}"/>
                                 <mkdir dir="${thesis.release.linux.directory}"/>
