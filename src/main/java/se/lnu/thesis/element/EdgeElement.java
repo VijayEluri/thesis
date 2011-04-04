@@ -34,7 +34,7 @@ public class EdgeElement extends VisualizableElement {
     }
 
 
-    public static EdgeElement init(Object o, Graph graph, Container root) {
+    public static EdgeElement init(Object o, Graph graph, Container root, ElementVisualizer visualizer) {
         EdgeElement result = new EdgeElement();
 
         //      result.setId(IdGenerator.next()); // edges are unselectable in future
@@ -60,7 +60,7 @@ public class EdgeElement extends VisualizableElement {
             LOGGER.error("Cant find vertex for object '" + source + "'");
         }
 
-        result.setVisualizer(ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+        result.setVisualizer(visualizer);
 
         return result;
     }

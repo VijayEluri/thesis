@@ -3,12 +3,12 @@ package se.lnu.thesis.paint.visualizer;
 import com.google.common.collect.ImmutableMap;
 import se.lnu.thesis.paint.visualizer.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.PolarDendrogramEdgeVisualizer;
+import se.lnu.thesis.paint.visualizer.graph_level.LevelPreviewVisualizer;
+import se.lnu.thesis.paint.visualizer.graph_level.LevelVisualizer;
 import se.lnu.thesis.paint.visualizer.vertex.*;
-import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +72,7 @@ public class ElementVisualizerFactory {
 
             .build();
 
-    private Map<Object, AbstractElementVisualizer> rectVisualizers = new HashMap<Object, AbstractElementVisualizer>();
+    private Map<Integer, GroupingElementSmartHighlightVisualizer> rectVisualizers = new HashMap<Integer, GroupingElementSmartHighlightVisualizer>();
 
     private ElementVisualizerFactory() {
     }
@@ -119,7 +119,7 @@ public class ElementVisualizerFactory {
         return (RectVertexVisualizer) visualizers.get(RECT_VERTEX_VISUALIZER);
     }
 
-    public RectVertexVisualizer getRectVisualizer(int minGroupSize, int maxGroupSize, int thisGroupSize) {
+    public RectVertexVisualizer getRectVisualizer(int minGroupSize, int maxGroupSize, Integer thisGroupSize) {
 
         if (rectVisualizers.containsKey(thisGroupSize)) {
             return (RectVertexVisualizer) rectVisualizers.get(thisGroupSize);

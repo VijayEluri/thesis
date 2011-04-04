@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint;
+package se.lnu.thesis.paint.controller;
 
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;

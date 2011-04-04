@@ -3,7 +3,7 @@ package se.lnu.thesis.paint.state;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.element.ElementType;
 import se.lnu.thesis.element.GroupingElement;
-import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import java.awt.*;
 

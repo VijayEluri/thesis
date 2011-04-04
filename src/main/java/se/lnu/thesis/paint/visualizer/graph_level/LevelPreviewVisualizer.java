@@ -1,4 +1,4 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint.visualizer.graph_level;
 
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;

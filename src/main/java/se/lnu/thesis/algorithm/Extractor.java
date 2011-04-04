@@ -5,11 +5,9 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,13 +31,13 @@ public class Extractor {
     public static final Logger LOGGER = Logger.getLogger(Extractor.class);
 
     public static final int CACHE_MAXIMUM_SIZE = 10;
+    public static final int CACHE_EXPIRE_TIME = 1;
 
     private Graph goSubGraph;
     private Graph clusterSubGraph;
 
     private Object selectedNode;
 
-    // TODO make smarter cache!
     private Map<Object, Graph> goCache;
     private Map<Object, Graph> clusterCache;
 
@@ -48,7 +46,7 @@ public class Extractor {
     }
 
     public void extractSubGraphs(MyGraph goGraph, MyGraph clusterGraph, Object goVertex) {
-        initVariables();
+        initCache();
 
         if (goGraph == null) {
             LOGGER.error("Gene Ontology graph is null");
@@ -125,13 +123,24 @@ public class Extractor {
 
     }
 
-    protected void initVariables() {
+    /**
+     *          All extracted subgraphs stored in the cache.
+     *      One <code>Map</code> for Gene Ontology subgraph and one for Cluster subgraph.
+     *      As cache instance used Google smart map (<code>MapMaker</code> which stores <code>Extractor.CACHE_MAXIMUM_SIZE</code> for
+     *      <code>Extractor.CACHE_EXPIRE_TIME</code> in minutes after last READ(!) access.
+     *
+     *      <code>new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES).makeMap();</code>
+     *
+     */
+    protected void initCache() {
+        MapMaker cacheMaker = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES);
+
         if (goCache == null) {
-            goCache = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(1, TimeUnit.MINUTES).makeMap();
+            goCache = cacheMaker.makeMap();
         }
 
         if (clusterCache == null) {
-            clusterCache = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(1, TimeUnit.MINUTES).makeMap();
+            clusterCache = cacheMaker.makeMap();
         }
 
         goSubGraph = null;

@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
-import se.lnu.thesis.paint.GOController;
-import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.controller.GOController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

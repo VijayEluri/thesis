@@ -5,7 +5,7 @@ import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.Level;
-import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import java.awt.*;
 

@@ -1,8 +1,7 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.paint.GraphController;
-import se.lnu.thesis.paint.GOController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

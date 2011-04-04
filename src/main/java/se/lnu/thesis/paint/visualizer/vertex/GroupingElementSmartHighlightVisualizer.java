@@ -80,7 +80,7 @@ public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualize
 
         gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
-        DrawingUtils.square(gl(), -boxRadius, boxRadius, boxRadius, boxRadius, boxRadius, -boxRadius, -boxRadius, -boxRadius);
+        DrawingUtils.rect(gl(), -boxRadius, boxRadius, boxRadius, boxRadius, boxRadius, -boxRadius, -boxRadius, -boxRadius);
 
         gl().glPopMatrix();
     }

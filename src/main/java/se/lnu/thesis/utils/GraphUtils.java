@@ -173,7 +173,7 @@ public class GraphUtils {
 
     public static <V, E> int getLeafs(Graph<V, E> graph, V node, Collection<V> leafs) {
         if (leafs == null) {
-            throw new IllegalArgumentException("Argument 'leafs' cannt be null! Initialize it before method start.");
+            throw new IllegalArgumentException("Argument 'leafs' cannt be null! Initialize it before method lensMovingCursorStartPosition.");
         }
 
         Stack stack = new Stack();

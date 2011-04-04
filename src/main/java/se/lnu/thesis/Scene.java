@@ -6,9 +6,9 @@ import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
-import se.lnu.thesis.paint.ClusterController;
-import se.lnu.thesis.paint.GOController;
-import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.controller.ClusterController;
+import se.lnu.thesis.paint.controller.GOController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import java.awt.*;
 

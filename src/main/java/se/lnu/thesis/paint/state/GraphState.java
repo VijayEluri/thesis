@@ -2,7 +2,7 @@ package se.lnu.thesis.paint.state;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
-import se.lnu.thesis.paint.GraphController;
+import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;

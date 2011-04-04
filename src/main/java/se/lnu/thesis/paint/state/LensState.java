@@ -4,8 +4,9 @@ import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
-import se.lnu.thesis.paint.GraphController;
-import se.lnu.thesis.paint.Lens;
+import se.lnu.thesis.paint.controller.GraphController;
+import se.lnu.thesis.paint.lens.Lens;
+import se.lnu.thesis.paint.lens.RadialLens;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.nio.IntBuffer;
 
 import com.sun.opengl.util.BufferUtil;
+import se.lnu.thesis.paint.lens.RectLens;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,7 +38,8 @@ public class LensState extends NormalClusterState {
     public LensState(GraphController controller, GroupingElement element) {
         super(controller);
 
-        lens = new Lens();
+//        lens = new RadialLens();
+        lens = new RectLens();
         lens.setGraph(controller.getGraph());
 
         select(element);

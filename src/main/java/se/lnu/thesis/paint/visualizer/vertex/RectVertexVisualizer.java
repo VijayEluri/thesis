@@ -30,7 +30,7 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
 
         gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
-        DrawingUtils.square(gl(), -getRadius(), getRadius(), getRadius(), getRadius(), getRadius(), -getRadius(), -getRadius(), -getRadius());
+        DrawingUtils.rect(gl(), -getRadius(), getRadius(), getRadius(), getRadius(), getRadius(), -getRadius(), -getRadius(), -getRadius());
 
         gl().glPopMatrix();
     }

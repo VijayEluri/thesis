@@ -105,19 +105,6 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
-/*
-    public static void colord(GL gl, Color color) {
-        colord(gl, color, 1.0);
-    }
-
-    public static void colord(GL gl, Color color, double alfa) {
-        gl.glColor4f(
-                MyColor.colorAsDouble(color.getRed()),
-                MyColor.colorAsDouble(color.getGreen()),
-                MyColor.colorAsDouble(color.getBlue()),
-                alfa);
-    }
-*/
 
     /**
      * Convert point coordinates from the window coordinate system to the OpenGL world coordinates.
@@ -151,7 +138,47 @@ public class DrawingUtils {
         return wcoord;
     }
 
-    public static void square(GL gl, double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+
+    /**
+     *
+     *      Draw rectangle by coordinates of the left lower corner, width and height
+     *
+     * @param gl OpenGL drawing context
+     * @param x0 X coordinate of the left lower corner
+     * @param y0 Y coordinate of the left lower corner
+     * @param width Rectangle width
+     * @param height Rectangle height
+     */
+    public static void rect(GL gl, double x0, double y0, double width, double height) {
+        rect(gl,
+                x0,         y0,
+                x0 + width, y0,
+                x0 + width, y0 + height,
+                x0,         y0 + height);
+    }
+
+    /**
+     *
+     *      Draw rectangle by four corner coordinates.
+     *
+     *      (x3,y3) ------- (x2,y2)
+     *         |               |
+     *         |               |
+     *         |               |
+     *         |               |
+     *      (x0,y0) ------- (x1,y1)
+     *
+     * @param gl OpenGL drawing context
+     * @param x0 X coordinate of the left lower corner
+     * @param y0 Y coordinate of the left lower corner
+     * @param x1 X coordinate of the right lower corner
+     * @param y1 Y coordinate of the right lower corner
+     * @param x2 X coordinate of the right upper corner
+     * @param y2 Y coordinate of the right upper corner
+     * @param x3 X coordinate on the left upper corner
+     * @param y3 Y coordinate of the left upper corner
+     */
+    public static void rect(GL gl, double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
         gl.glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
         gl.glBegin(GL.GL_QUADS);
         gl.glVertex2d(x0, y0);

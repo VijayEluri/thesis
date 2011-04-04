@@ -87,4 +87,10 @@ public interface Container extends Element, Iterable<Element> {
      */
     void drawContent(GLAutoDrawable drawable);
 
+    /**
+     *          Delete all elements.
+     *      Also reset highlighting and layout computation.
+     */
+    void clearElements();
+
 }

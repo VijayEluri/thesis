@@ -189,7 +189,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
                     root.addElement(BackboneEdgeElement.init(edge, graph, root));
 
                 } else { // it's edge from backbone to grouping element
-                    root.addElement(EdgeElement.init(edge, graph, root));
+                    root.addElement(EdgeElement.init(edge, graph, root, ElementVisualizerFactory.getInstance().getLineEdgeVisializer()));
                 }
 
             }

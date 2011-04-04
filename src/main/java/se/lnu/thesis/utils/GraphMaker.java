@@ -210,5 +210,31 @@ public class GraphMaker {
         return graph;
     }
 
+    /**
+     * ___1_
+     * __/_\
+     * _2___3
+     * ____/_\
+     * ___4___5
+     *
+     * @return DirectedSparceGraph
+     */
+    public static Graph createSmallBinaryTree() {
+        Graph graph = new DirectedSparseGraph();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addVertex(5);
+
+        graph.addEdge("1->2", 1, 2);
+        graph.addEdge("1->3", 1, 3);
+        graph.addEdge("3->4", 3, 4);
+        graph.addEdge("3->5", 3, 5);
+
+        return graph;
+    }
+
 
 }

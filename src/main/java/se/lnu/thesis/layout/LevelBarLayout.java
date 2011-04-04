@@ -86,7 +86,7 @@ public class LevelBarLayout extends UniformDistributionLayout {
 
     private void computeSpace() {
         Point2D d = new Point2D.Double(getDimension().getX() - (leftBorder + rightBorder), getDimension().getY() - (topBorder + bottomBorder)); // layout dimension including border
-        Point2D p = new Point2D.Double(getStart().getX() + leftBorder, getStart().getY() - topBorder); // start position including border
+        Point2D p = new Point2D.Double(getStart().getX() + leftBorder, getStart().getY() - topBorder); // lensMovingCursorStartPosition position including border
 
 
         double leafPercentage  = leaves.size() * 100 / objects.size();

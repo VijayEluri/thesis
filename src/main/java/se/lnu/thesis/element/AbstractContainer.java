@@ -174,4 +174,29 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         }
 
     }
+
+    /**
+     *          Delete all elements.
+     *      Also reset highlighting and layout computation.
+     */
+    public void clearElements() {
+//        setSelected(false);
+        resetHighlighting();
+  //      setFocused(false);
+    //    setDrawn(true);
+
+        if (elements != null) {
+            elements.clear();
+
+            setLayoutComputed(false);
+        }
+
+        if (obj2Element != null) {
+            obj2Element.clear();
+        }
+
+        if (id2Element != null) {
+            id2Element.clear();
+        }
+    }
 }

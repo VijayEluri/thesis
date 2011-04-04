@@ -1,8 +1,9 @@
-package se.lnu.thesis.paint.visualizer;
+package se.lnu.thesis.paint.visualizer.graph_level;
 
 import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
+import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;

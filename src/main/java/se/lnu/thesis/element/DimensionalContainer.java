@@ -59,10 +59,13 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
         }
     }
 
+    public void setDimension(double width, double height) {
+        setDimension(new Point2D.Double(width, height));
+    }
+
     public void draw(GLAutoDrawable drawable) {
         if (isDrawn()) {
             super.drawContent(drawable);
         }
     }
-
 }
