@@ -10,9 +10,6 @@ import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
-import sun.jvm.hotspot.utilities.Assert;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

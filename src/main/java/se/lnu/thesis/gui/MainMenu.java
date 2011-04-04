@@ -3,9 +3,10 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.GOGraphContainer;
-import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.layout.HierarchyLayout2;
+import se.lnu.thesis.paint.lens.RadialLens;
+import se.lnu.thesis.paint.lens.RectLens;
 import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.core.MyGraph;
 
@@ -30,6 +31,9 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     public static final String LEAF_BOTTOM_LAYOUT = "Leaf bottom layout";
     public static final String SHOW_UNCONNECTED_COMPONENTS = "Show unconnected components";
 
+    public static final String CLUSTER = "Cluster";
+    public static final String RADIAL_LENS = "Radial lens";
+    public static final String RECT_LENS = "Rectangular lens";
 
     public static final String TOOLS = "Tools";
     public static final String SHOW_GENE_LIST = "Show GO gene list";
@@ -49,6 +53,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         initFileChooser();
         createFileMenu();
         createGOMenu();
+        createClusterMenu();
         createToolsMenu();
     }
 
@@ -92,6 +97,29 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
 
         this.add(geneOntologyMenu);
+    }
+
+    private void createClusterMenu() {
+        JMenu clusterMenu = new JMenu(CLUSTER);
+
+        JRadioButtonMenuItem radialLensMenuItem = new JRadioButtonMenuItem();
+        radialLensMenuItem.setName(RADIAL_LENS);
+        radialLensMenuItem.setText(RADIAL_LENS);
+        radialLensMenuItem.addActionListener(this);
+        radialLensMenuItem.setSelected(true);
+        clusterMenu.add(radialLensMenuItem);
+
+        JRadioButtonMenuItem rectangularLensMenuItem = new JRadioButtonMenuItem();
+        rectangularLensMenuItem.setName(RECT_LENS);
+        rectangularLensMenuItem.setText(RECT_LENS);
+        rectangularLensMenuItem.addActionListener(this);
+        clusterMenu.add(rectangularLensMenuItem);
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(radialLensMenuItem);
+        group.add(rectangularLensMenuItem);
+
+        this.add(clusterMenu);
     }
 
     private void createToolsMenu() {
@@ -169,6 +197,14 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
             switchGeneOntologyLayout(new HierarchyLayout2());
         }
 
+        if (event == RADIAL_LENS) {
+            Scene.getInstance().setRadialLens();
+        }
+
+        if (event == RECT_LENS) {
+            Scene.getInstance().setRectLens();
+        }
+
         if (event == COLOR_PROPERTIES) {
             Scene.getInstance().getColorPropertiesDialog().showIt();
         }
@@ -177,10 +213,10 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     }
 
     public void switchGeneOntologyLayout(HierarchyLayout layout) {
+        Scene.getInstance().resetSubgraphHighlighting();
+
         Scene.getInstance().getGoController().setGraphLayout(layout);
         Scene.getInstance().getGoController().init();
-
-        Scene.getInstance().getClusterController().setSubGraph(null); // reset all subgraph highlighting
 
         if (!showUnconnectedComponentsMenuItem.isSelected()) {
             GOGraphContainer goGraphContainer = (GOGraphContainer) Scene.getInstance().getGoController().getRoot();

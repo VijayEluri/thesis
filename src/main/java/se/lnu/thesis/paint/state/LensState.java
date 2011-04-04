@@ -4,6 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
+import se.lnu.thesis.paint.controller.ClusterController;
 import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
 import se.lnu.thesis.paint.lens.RadialLens;
@@ -38,8 +39,7 @@ public class LensState extends NormalClusterState {
     public LensState(GraphController controller, GroupingElement element) {
         super(controller);
 
-//        lens = new RadialLens();
-        lens = new RectLens();
+        lens = Scene.getInstance().getLens();
         lens.setGraph(controller.getGraph());
 
         select(element);
@@ -119,7 +119,7 @@ public class LensState extends NormalClusterState {
 
     }
 
-    protected void select(GroupingElement element) {
+    public void select(GroupingElement element) {
         String label = getGraphController().getGraph().getLabel(element.getObject());
 
         LOGGER.info("Selected vertex " + element.getObject() + " [" + label + "]");
@@ -137,7 +137,7 @@ public class LensState extends NormalClusterState {
         }
     }
 
-    protected void unselect() {
+    public void unselect() {
         if (selectedElement != null) {
             selectedElement.setSelected(false);
         }
@@ -152,7 +152,7 @@ public class LensState extends NormalClusterState {
         unfocus();
         unselect();
 
-        getGraphController().setState(new NormalClusterState(getGraphController()));
+        ((ClusterController) getGraphController()).setNormalState();
     }
 
     @Override

@@ -107,7 +107,7 @@ public abstract class FocusableState extends GraphState {
 
     }
 
-    protected void unfocus() {
+    public void unfocus() {
         if (getCurrent() != null) {
             getCurrent().setFocused(false);
         }

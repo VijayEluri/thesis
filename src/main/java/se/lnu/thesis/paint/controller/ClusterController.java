@@ -4,12 +4,16 @@ package se.lnu.thesis.paint.controller;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.ClusterGraphContainer;
+import se.lnu.thesis.element.Element;
+import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
+import se.lnu.thesis.paint.state.LensState;
 import se.lnu.thesis.paint.state.NormalClusterState;
 
 import javax.swing.*;
+import java.util.Iterator;
 
 
 public class ClusterController extends GraphController implements Observer {
@@ -30,6 +34,18 @@ public class ClusterController extends GraphController implements Observer {
             return;
         }
 
+        setNormalState();
+    }
+
+    /**
+     *  Set up graph controller into "normal" state:
+     *      no focused elements,
+     *      no selections,
+     *      no lens showed for cluster,
+     *      not zooming levels for GO, etc.
+     */
+    @Override
+    public void setNormalState() {
         setState(new NormalClusterState(this));
     }
 
@@ -39,6 +55,28 @@ public class ClusterController extends GraphController implements Observer {
         this.setSubGraph(extractor.getClusterSubGraph());
 
         Scene.getInstance().getMainWindow().repaint();
+    }
+
+    /**
+     *          Clear all computed layout inside GroupElement.
+     *      This method is used when changing lens instance to recompute inner elements with another layout.
+     */
+    public void clearGroupingElementElements() {
+        if (getState() instanceof LensState) {
+            ((LensState) getState()).unselect();
+            ((LensState) getState()).unfocus();
+        }
+
+
+        if (getRoot() != null) {
+            Iterator<Element> elements = getRoot().getElements();
+            while (elements.hasNext()) {
+                Element element = elements.next();
+                if (element instanceof GroupingElement) {
+                    ((GroupingElement) element).clearElements();
+                }
+            }
+        }
     }
 
 }

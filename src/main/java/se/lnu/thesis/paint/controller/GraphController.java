@@ -116,4 +116,13 @@ public abstract class GraphController implements Drawable, Observer {
     public Graph getSubGraph() {
         return subGraph;
     }
+
+    /**
+     *  Set up graph controller into "normal" state:
+     *      no focused elements,
+     *      no selections,
+     *      no lens showed for cluster,
+     *      not zooming levels for GO, etc.
+     */
+    public abstract void setNormalState();
 }

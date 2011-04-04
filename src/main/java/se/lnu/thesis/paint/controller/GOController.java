@@ -63,6 +63,19 @@ public class GOController extends GraphController {
         LOGGER.info("Done.");
     }
 
+
+     /**
+     *  Set up graph controller into "normal" state:
+     *      no focused elements,
+     *      no selections,
+     *      no lens showed for cluster,
+     *      not zooming levels for GO, etc.
+     */
+    @Override
+    public void setNormalState() {
+        setState(new NormalGOState(this));
+    }
+
     public void reinit() {
 
     }
