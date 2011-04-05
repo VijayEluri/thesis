@@ -35,6 +35,7 @@ public class GOGraphContainer extends GraphContainer {
     }
 
     protected boolean showUnconnectedComponents = true;
+    protected int levelCount = 0;
 
     public int getZoomedLevels(Level level, List<Level> levels) {
         if (!levels.isEmpty()) {
@@ -51,7 +52,7 @@ public class GOGraphContainer extends GraphContainer {
             return current;
         }
 
-        if (current == elements.size() - 1) {
+        if (current == getLevelCount() - 1) {
             levels.add((Level) ((List) elements).get(current - 2));
             levels.add((Level) ((List) elements).get(current - 1));
             levels.add((Level) ((List) elements).get(current));
@@ -84,7 +85,7 @@ public class GOGraphContainer extends GraphContainer {
             Level level = (Level) iterator.next();
 
             for (Object o: level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {  // TODO optimize reference to static field.
                     level.getElementByObject(o).setDrawn(false);
                     level.getPreview().getElementByObject(o).setDrawn(false);
                 }
@@ -98,7 +99,7 @@ public class GOGraphContainer extends GraphContainer {
             Level level = (Level) iterator.next();
 
             for (Object o: level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {  // TODO optimize reference to static field.
                     level.getElementByObject(o).setDrawn(true);
                     level.getPreview().getElementByObject(o).setDrawn(true);
                 }
@@ -106,7 +107,30 @@ public class GOGraphContainer extends GraphContainer {
         }
     }
 
+    /**
+     *      Delete all elements.
+     * Also reset highlighting and layout computation.
+     */
+    @Override
+    public void clearElements() {
+        super.clearElements();
+        levelCount = 0;
+    }
+
+    @Override
+    public void addElement(Element element) {
+        super.addElement(element);
+
+        if (element instanceof Level) { // TODO change it to something better. I thing we need new ElementType.LEVEL
+            levelCount++;
+        }
+    }
+
     public boolean isShowUnconnectedComponents() {
         return showUnconnectedComponents;
+    }
+
+    public int getLevelCount() {
+        return levelCount;
     }
 }
