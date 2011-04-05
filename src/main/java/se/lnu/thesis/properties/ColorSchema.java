@@ -68,7 +68,7 @@ public class ColorSchema {
         colors.get(COLOR_CLUSTER_EDGES).setColor(tmp);
 
         colors.get(COLOR_LENS).setColor(Color.BLACK);
-        colors.get(COLOR_LENS).setAlfa(0.53f);
+        colors.get(COLOR_LENS).setAlfa(0.7f);
     }
 
     public MyColor getColor(String key) {
