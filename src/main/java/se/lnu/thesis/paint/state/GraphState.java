@@ -81,8 +81,11 @@ public abstract class GraphState implements Drawable {
 
     }
 
+    /**
+     *      Mouse has left view port area then set current cursor position to <code>null</code>.
+     */
     public void mouseExited() {
-
+        setCursor(null);
     }
 
     public void setSubGraph(Graph subGraph) {

@@ -94,9 +94,6 @@ public abstract class FocusableState extends GraphState {
         if (element != null) {
             setCurrent(element);
             getCurrent().setFocused(true);
-        }
-
-        if (getCurrent() != null) {
 
             String label = getGraphController().getGraph().getLabel(getCurrent().getObject());
 

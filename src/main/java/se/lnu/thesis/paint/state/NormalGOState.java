@@ -44,6 +44,7 @@ public class NormalGOState extends FocusableState {
 
     @Override
     public void mouseExited() {
+        super.mouseExited();
         unfocus();
     }
 
