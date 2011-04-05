@@ -14,7 +14,9 @@ import java.awt.geom.Point2D;
  * Date: 20.03.2010
  * Time: 0:46:41
  * <p/>
- * Simple implementation of the edge visualisation as line
+ *
+ *      Simple implementation of the edge visualisation as line
+ *
  */
 public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 
@@ -24,6 +26,11 @@ public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 
     public LineEdgeVisualizer(MyColor color) {
         super(color);
+    }
+
+    public LineEdgeVisualizer(MyColor color, float lineWidth) {
+        super(color);
+        setLineWidth(lineWidth);
     }
 
     protected void drawShape(Element edgeElement) {

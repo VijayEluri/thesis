@@ -100,7 +100,7 @@ public class HierarchyLayout extends AbstractLayout {
                     destElement = ((Level) level).getElementByObject(dest);
 
                     if (sourceElement != null && destElement != null) {
-                        EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+                        EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
                         ((Level) level).addElement(edgeElement);
 
                         break;
@@ -145,7 +145,7 @@ public class HierarchyLayout extends AbstractLayout {
             }
 
             if (sourceElement != null && destElement != null) { // create edge which will be visible only during subgraph highlight
-                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
                 getRoot().addElement(edgeElement);
             }
 

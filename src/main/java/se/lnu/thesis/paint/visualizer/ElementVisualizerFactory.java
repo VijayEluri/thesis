@@ -38,6 +38,7 @@ public class ElementVisualizerFactory {
 
     private static final int LINE_EDGE_VISUALIZER = 101;
     private static final int POLAR_DENDROGRAM_EDGE_VISUALIZER = 102;
+    private static final int THIN_LINE_EDGE_VISUALIZER = 103;
 
     private static final int LEVEL_VISUALIZER = 200;
     private static final int LEVEL_PREVIEW_VISUALIZER = 201;
@@ -66,6 +67,7 @@ public class ElementVisualizerFactory {
 
             .put(LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(colorSchema.getClusterEdges()))
             .put(POLAR_DENDROGRAM_EDGE_VISUALIZER, new PolarDendrogramEdgeVisualizer(colorSchema.getClusterEdges()))
+            .put(THIN_LINE_EDGE_VISUALIZER, new LineEdgeVisualizer(colorSchema.getClusterEdges(), 1.0f))
 
             .put(LEVEL_VISUALIZER, new LevelVisualizer())
             .put(LEVEL_PREVIEW_VISUALIZER, new LevelPreviewVisualizer())
@@ -107,6 +109,10 @@ public class ElementVisualizerFactory {
 
     public PolarDendrogramEdgeVisualizer getPolarDendrogramEdgeVisializer() {
         return (PolarDendrogramEdgeVisualizer) visualizers.get(POLAR_DENDROGRAM_EDGE_VISUALIZER);
+    }
+
+    public LineEdgeVisualizer getThinLineEdgeVisializer() {
+        return (LineEdgeVisualizer) visualizers.get(THIN_LINE_EDGE_VISUALIZER);
     }
 
 /*
