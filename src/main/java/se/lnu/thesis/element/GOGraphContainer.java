@@ -86,7 +86,7 @@ public class GOGraphContainer extends GraphContainer {
             for (Object o: level.getObjects()) {
                 if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(false);
-                    level.getPreviewElementByObject(o).setDrawn(false);
+                    level.getPreview().getElementByObject(o).setDrawn(false);
                 }
             }
         }
@@ -100,7 +100,7 @@ public class GOGraphContainer extends GraphContainer {
             for (Object o: level.getObjects()) {
                 if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(true);
-                    level.getPreviewElementByObject(o).setDrawn(true);
+                    level.getPreview().getElementByObject(o).setDrawn(true);
                 }
             }
         }

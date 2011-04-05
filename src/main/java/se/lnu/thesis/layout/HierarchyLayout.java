@@ -3,11 +3,7 @@ package se.lnu.thesis.layout;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.Container;
-import se.lnu.thesis.element.DimensionalContainer;
-import se.lnu.thesis.element.GOGraphContainer;
-import se.lnu.thesis.element.Level;
-import se.lnu.thesis.paint.visualizer.ElementVisualizer;
+import se.lnu.thesis.element.*;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -67,6 +63,92 @@ public class HierarchyLayout extends AbstractLayout {
             computePositions(level, level.getObjects(), levelLayout, levelDimension, levelPosition);
 
             root.addElement(level);
+        }
+
+        computeEdges();
+
+    }
+
+    /**
+     *      Compute all Gene Ontology edges
+     */
+    protected void computeEdges() {
+
+        computeInnerLevelEdges();
+
+        computePreviewEdges();
+
+    }
+
+    /**
+     *  Compute edges for each level, but only that edges which have source and target in same level
+     *
+     *  TODO refactor this and next method
+     */
+    protected void computeInnerLevelEdges() {
+        for (Object o : getGraph().getEdges()) {
+
+            Object source = getGraph().getSource(o);
+            Object dest = getGraph().getDest(o);
+
+            Element sourceElement = null;
+            Element destElement = null;
+
+            for (Element level: getRoot()) {
+                if (level.getType() != ElementType.EDGE) {
+                    sourceElement = ((Level) level).getElementByObject(source);
+                    destElement = ((Level) level).getElementByObject(dest);
+
+                    if (sourceElement != null && destElement != null) {
+                        EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+                        ((Level) level).addElement(edgeElement);
+
+                        break;
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    /**
+     *      Compute all edges for while graph based on preview element positions
+     *      TODO: this method should be refactored and splited in several
+     */
+    protected void computePreviewEdges() {
+        for (Object o : getGraph().getEdges()) {
+
+            Object source = getGraph().getSource(o);
+            Object dest = getGraph().getDest(o);
+
+            Element sourceElement = null;
+
+            for (Element level: getRoot()) {   // find source element in all levels
+                if (level.getType() != ElementType.EDGE) {
+                    sourceElement = ((Level) level).getPreview().getElementByObject(source);
+                    if (sourceElement != null) { // found element? stop looking
+                        break;
+                    }
+                }
+            }
+
+            Element destElement = null;
+
+            for (Element level: getRoot()) {
+                if (level.getType() != ElementType.EDGE) { // find dest element in all levels
+                    destElement = ((Level) level).getPreview().getElementByObject(dest);
+                    if (destElement != null) { // found element? stop looking
+                        break;
+                    }
+                }
+            }
+
+            if (sourceElement != null && destElement != null) { // create edge which will be visible only during subgraph highlight
+                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getLineEdgeVisializer());
+                getRoot().addElement(edgeElement);
+            }
+
         }
 
     }

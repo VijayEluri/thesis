@@ -85,15 +85,6 @@ public class Level extends DimensionalContainer implements Visualizable {
         this.visualizer = visualizer;
     }
 
-    /**
-     * Return corresponded graph Element inside level preview
-     * @param o Object
-     * @return Element with corresponded object id.
-     */
-    public Element getPreviewElementByObject(Object o) {
-        return preview.getElementByObject(o);
-    }
-
     @Override
     public String toString() {
         return getObject().toString();
