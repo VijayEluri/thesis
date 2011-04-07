@@ -39,7 +39,7 @@ public class TestRealData {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
+        MyGraph go = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
         assertEquals(DAG_NODE_COUNT, go.getVertexCount());
         assertEquals(DAG_EDGE_COUNT, go.getEdgeCount());
@@ -52,7 +52,7 @@ public class TestRealData {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+        MyGraph cluster = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
 
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());

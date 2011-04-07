@@ -97,7 +97,7 @@ public class GraphStatisticUtil {
 
             Joiner joiner = Joiner.on(", ");
 
-            result.append("***********************************");
+            result.append("**********************************************************************");
             result.append("\n");
             result.append("   Graph statistic::");
             result.append("\n");
@@ -140,7 +140,7 @@ public class GraphStatisticUtil {
 
             }
 
-            result.append("***********************************");
+            result.append("**********************************************************************");
 
 
             return result.toString();
