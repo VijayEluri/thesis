@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
+import se.lnu.thesis.utils.GraphStatisticUtil;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class TestRealData {
         assertEquals(DAG_NODE_COUNT, go.getVertexCount());
         assertEquals(DAG_EDGE_COUNT, go.getEdgeCount());
 
-        GraphUtils.printGraphInfo(go);
+        GraphStatisticUtil.printGraphStatistic(go);
     }
 
     @Test
@@ -56,54 +57,54 @@ public class TestRealData {
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());
 
-        GraphUtils.printGraphInfo(cluster);
+        GraphStatisticUtil.printGraphStatistic(cluster);
     }
 
     @Test
-    public void findGeneOntologyLabelDublicates() throws Exception {
+    public void findGeneOntologyLabelDuplicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
         MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
 
-        Set<String> dublicates = new HashSet<String>();
+        Set<String> duplicates = new HashSet<String>();
 
         Collection<String> labels = go.getLabels();
         for (String label : labels) {
             if (Collections.frequency(labels, label) > 1) {
-                dublicates.add(label);
+                duplicates.add(label);
             }
         }
 
-        LOGGER.info("LABEL DUBLICATES: ");
-        for (String label : dublicates) {
-            LOGGER.info(" -> " + label);
+        LOGGER.info("LABEL DUPLICATES: ");
+        for (String label : duplicates) {
+            LOGGER.info(" -> " + label + " [" + Joiner.on(", ").join(go.getNodesByLabel(label)) + "]");
         }
 
-        assertEquals(1, dublicates.size()); // one dublicate 'biological_process'
-        assertTrue(dublicates.contains("biological_process"));
+        assertEquals(1, duplicates.size()); // one dublicate 'biological_process'
+        assertTrue(duplicates.contains("biological_process"));
 
     }
 
     @Test
-    public void findClusterLabelDublicates() throws Exception {
+    public void findClusterLabelDuplicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
         MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
 
-        Set<String> dublicates = new HashSet<String>();
+        Set<String> duplicates = new HashSet<String>();
 
         Collection<String> labels = cluster.getLabels();
         for (String label : labels) {
             if (Collections.frequency(labels, label) > 1) {
-                dublicates.add(label);
+                duplicates.add(label);
             }
         }
 
-        for (String label : dublicates) {
+        for (String label : duplicates) {
             LOGGER.info(label);
         }
 
-        assertEquals(0, dublicates.size());
+        assertEquals(0, duplicates.size());
     }
 
     @Test
@@ -122,7 +123,7 @@ public class TestRealData {
 
         assertEquals(19, subGraph.getVertexCount());
 
-        GraphUtils.printGraphInfo(subGraph);
+        GraphStatisticUtil.printGraphStatistic(subGraph);
     }
 
 
@@ -143,7 +144,7 @@ public class TestRealData {
         assertTrue(level0.containsAll(roots));
 
         for (Object key : levels.keySet()) {
-            System.out.println(key + ": " + Joiner.on(" ,").join(levels.get(key)));
+            System.out.println(key + ": " + Joiner.on(" ").join(levels.get(key)));
         }
 
 

@@ -1,7 +1,10 @@
 package se.lnu.thesis.utils;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ForwardingListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -269,38 +272,6 @@ public class GraphUtils {
 
         return path;
 
-    }
-
-    public static <V, E> void printGraphInfo(Graph<V, E> graph) {
-        Collection nodes = new LinkedList();
-        Collection roots = new LinkedList();
-        Collection leafs = new LinkedList();
-
-        for (V node : graph.getVertices()) {
-            if (graph.outDegree(node) == 0) {
-                leafs.add(node);
-            } else {
-                if (graph.inDegree(node) == 0) {
-                    roots.add(node);
-                } else {
-                    nodes.add(node);
-                }
-            }
-        }
-
-        Joiner joiner = Joiner.on(", ");
-
-        LOGGER.info("***********************************");
-        LOGGER.info("   Gene Ontology graph information:");
-        LOGGER.info("       Edge count: " + graph.getEdgeCount());
-        LOGGER.info("       Vertex count: " + graph.getVertexCount());
-        LOGGER.info("           Roots: " + roots.size());
-        LOGGER.info("               " + joiner.join(roots));
-        LOGGER.info("           Nodes: " + nodes.size());
-        LOGGER.info("               " + joiner.join(nodes));
-        LOGGER.info("           Leafs: " + leafs.size());
-        LOGGER.info("               " + joiner.join(leafs));
-        LOGGER.info("***********************************");
     }
 
     /**
