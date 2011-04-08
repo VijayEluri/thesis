@@ -5,7 +5,7 @@
     <artifactId>GoClusterViz</artifactId>
     <name>GoClusterViz</name>
     <packaging>jar</packaging>
-    <version>1.4</version>
+    <version>1.4.1</version>
 
     <developers>
         <developer>
