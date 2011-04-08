@@ -4,6 +4,8 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
+import java.util.Vector;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -12,6 +14,32 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public class GraphMaker {
 
+    /**
+     *
+     *      Create and add to graph directed edge from vertex1 to vertex2.
+     *      Equats to:
+     *      <code>
+     *          graph.addEdge(vertex1 + "->" + vertex2, vertex1, vertex2, EdgeType.DIRECTED);
+     *      </code>
+     *
+     *      If corresponded vertices do not exist in the graph they will be created.
+     *
+     * @param graph Graph where to add vertex.
+     * @param vertex1 Source vertex object.
+     * @param vertex2 Target vertex object.
+     */
+    protected static void createDirectedEdge(Graph<Integer, String> graph, Integer vertex1, Integer vertex2) {
+        if (!graph.containsVertex(vertex1)) {
+            graph.addVertex(vertex1);
+        }
+
+        if (!graph.containsVertex(vertex2)) {
+            graph.addVertex(vertex2);
+        }
+
+        java.lang.String edge = vertex1 + "->" + vertex2;
+        graph.addEdge(edge, vertex1, vertex2, EdgeType.DIRECTED);
+    }
 
     /**
      * ______1
@@ -33,32 +61,20 @@ public class GraphMaker {
     public static Graph<Integer, String> createTestBinaryTree() {
         Graph<Integer, String> graph = new DirectedSparseGraph();
 
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-        graph.addVertex(10);
+        createDirectedEdge(graph, 1, 2);
+        createDirectedEdge(graph, 1, 3);
 
-        graph.addEdge("1->2", 1, 2, EdgeType.DIRECTED);
-        graph.addEdge("1->3", 1, 3, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 3, 5);
+        createDirectedEdge(graph, 3, 4);
 
-        graph.addEdge("3->5", 3, 5, EdgeType.DIRECTED);
-        graph.addEdge("3->4", 3, 4, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 5, 6);
+        createDirectedEdge(graph, 6, 7);
+        createDirectedEdge(graph, 7, 8);
 
-        graph.addEdge("5->6", 5, 6, EdgeType.DIRECTED);
-        graph.addEdge("6->7", 6, 7, EdgeType.DIRECTED);
-        graph.addEdge("7->8", 7, 8, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 8, 10);
+        createDirectedEdge(graph, 8, 9);
 
-        graph.addEdge("8->10", 8, 10, EdgeType.DIRECTED);
-        graph.addEdge("8->9", 8, 9, EdgeType.DIRECTED);
-
-        graph.addEdge("10->11", 10, 11, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 10, 11);
 
         return graph;
     }
@@ -77,54 +93,34 @@ public class GraphMaker {
     public static Graph<Integer, String> createWideBinaryTree() {
         Graph<Integer, String> graph = new DirectedSparseGraph();
 
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-        graph.addVertex(11);
-        graph.addVertex(12);
-        graph.addVertex(13);
-        graph.addVertex(14);
-        graph.addVertex(15);
-        graph.addVertex(16);
-        graph.addVertex(17);
-        graph.addVertex(18);
-        graph.addVertex(19);
-
-        graph.addEdge("1->3", 1, 3, EdgeType.DIRECTED);
-        graph.addEdge("1->2", 1, 2, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 1, 3);
+        createDirectedEdge(graph, 1, 2);
 
 
-        graph.addEdge("3->7", 3, 7, EdgeType.DIRECTED);
-        graph.addEdge("3->6", 3, 6, EdgeType.DIRECTED);
-        graph.addEdge("6->15", 6, 15, EdgeType.DIRECTED);
-        graph.addEdge("6->16", 6, 16, EdgeType.DIRECTED);
-        graph.addEdge("7->9", 7, 9, EdgeType.DIRECTED);
-        graph.addEdge("7->19", 7, 19, EdgeType.DIRECTED);
-        graph.addEdge("9->17", 9, 17, EdgeType.DIRECTED);
-        graph.addEdge("9->18", 9, 18, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 3, 7);
+        createDirectedEdge(graph, 3, 6);
+        createDirectedEdge(graph, 6, 15);
+        createDirectedEdge(graph, 6, 16);
+        createDirectedEdge(graph, 7, 9);
+        createDirectedEdge(graph, 7, 19);
+        createDirectedEdge(graph, 9, 17);
+        createDirectedEdge(graph, 9, 18);
 
 
-        graph.addEdge("2->4", 2, 4, EdgeType.DIRECTED);
-        graph.addEdge("2->5", 2, 5, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 2, 4);
+        createDirectedEdge(graph, 2, 5);
 
-        graph.addEdge("3->6", 3, 6, EdgeType.DIRECTED);
-        graph.addEdge("3->7", 3, 7, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 3, 6);
+        createDirectedEdge(graph, 3, 7);
 
-        graph.addEdge("4->10", 4, 10, EdgeType.DIRECTED);
-        graph.addEdge("4->11", 4, 11, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 4, 10);
+        createDirectedEdge(graph, 4, 11);
 
-        graph.addEdge("5->8", 5, 8, EdgeType.DIRECTED);
-        graph.addEdge("5->14", 5, 14, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 5, 8);
+        createDirectedEdge(graph, 5, 14);
 
-        graph.addEdge("8->12", 8, 12, EdgeType.DIRECTED);
-        graph.addEdge("8->13", 8, 13, EdgeType.DIRECTED);
+        createDirectedEdge(graph, 8, 12);
+        createDirectedEdge(graph, 8, 13);
 
 
         return graph;
@@ -149,31 +145,20 @@ public class GraphMaker {
      * _____|
      * ____10
      *
-     * @return DirectedSparceGraph
+     * @return Instance of DirectedSparseGraph<Integer,String>
      */
-    public static Graph createHighBinaryGraph() {
+    public static Graph<Integer, String>createHighBinaryTree() {
         Graph graph = new DirectedSparseGraph();
 
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
-        graph.addVertex(6);
-        graph.addVertex(7);
-        graph.addVertex(8);
-        graph.addVertex(9);
-        graph.addVertex(10);
-
-        graph.addEdge("1->2", 1, 2);
-        graph.addEdge("2->3", 2, 3);
-        graph.addEdge("3->4", 3, 4);
-        graph.addEdge("4->5", 4, 5);
-        graph.addEdge("5->6", 5, 6);
-        graph.addEdge("6->7", 6, 7);
-        graph.addEdge("6->8", 6, 8);
-        graph.addEdge("8->9", 8, 9);
-        graph.addEdge("9->10", 9, 10);
+        createDirectedEdge(graph, 1, 2);
+        createDirectedEdge(graph, 2, 3);
+        createDirectedEdge(graph, 3, 4);
+        createDirectedEdge(graph, 4, 5);
+        createDirectedEdge(graph, 5, 6);
+        createDirectedEdge(graph, 6, 7);
+        createDirectedEdge(graph, 6, 8);
+        createDirectedEdge(graph, 8, 9);
+        createDirectedEdge(graph, 9, 10);
 
         return graph;
     }
@@ -187,25 +172,22 @@ public class GraphMaker {
      * _____|
      * _____5
      *
-     * @return DirectedSparceGraph
+     * @return Instance of DirectedSparseGraph<Integer,String>
      */
     public static Graph createGraphWithUnconnectedComponents() {
         Graph graph = new DirectedSparseGraph();
 
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
+        createDirectedEdge(graph, 1, 2);
+        createDirectedEdge(graph, 1, 3);
+        createDirectedEdge(graph, 3, 4);
+        createDirectedEdge(graph, 4, 5);
+
+        // unconnected vertices
         graph.addVertex(6);
         graph.addVertex(7);
         graph.addVertex(8);
         graph.addVertex(9);
 
-        graph.addEdge("1->2", 1, 2);
-        graph.addEdge("1->3", 1, 3);
-        graph.addEdge("3->4", 3, 4);
-        graph.addEdge("4->5", 4, 5);
 
         return graph;
     }
@@ -217,21 +199,45 @@ public class GraphMaker {
      * ____/_\
      * ___4___5
      *
-     * @return DirectedSparceGraph
+     * @return Instance of DirectedSparseGraph<Integer,String>
      */
-    public static Graph createSmallBinaryTree() {
-        Graph graph = new DirectedSparseGraph();
+    public static Graph<Integer, String>createSmallBinaryTree() {
+        Graph<Integer, String>graph = new DirectedSparseGraph();
 
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addVertex(5);
+        createDirectedEdge(graph, 1, 2);
+        createDirectedEdge(graph, 1, 3);
+        createDirectedEdge(graph, 3, 4);
+        createDirectedEdge(graph, 3, 5);
 
-        graph.addEdge("1->2", 1, 2);
-        graph.addEdge("1->3", 1, 3);
-        graph.addEdge("3->4", 3, 4);
-        graph.addEdge("3->5", 3, 5);
+        return graph;
+    }
+
+    /**
+     *       1      8  9
+     *     /   \
+     *    2     3
+     *    \   /  |
+     *      4    |
+     *   /  |  \ |
+     *  7   6 -> 5
+     *
+     * @return Instance of DirectedSparseGraph
+     */
+    public static Graph<Integer, String> createSmallDAGWithUnconnectedComponents() {
+        Graph<Integer, String>graph = new DirectedSparseGraph();
+
+        createDirectedEdge(graph, 1, 2);
+        createDirectedEdge(graph, 1, 3);
+        createDirectedEdge(graph, 2, 4);
+        createDirectedEdge(graph, 3, 4);
+        createDirectedEdge(graph, 3, 5);
+        createDirectedEdge(graph, 4, 6);
+        createDirectedEdge(graph, 4, 5);
+        createDirectedEdge(graph, 4, 7);
+        createDirectedEdge(graph, 6, 5);
+
+        graph.addVertex(8);
+        graph.addVertex(9);
 
         return graph;
     }

@@ -1,8 +1,11 @@
 
 
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import edu.uci.ics.jung.graph.util.EdgeType;
 import org.junit.Test;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.JungYedHandler;
@@ -93,6 +96,17 @@ public class TestGraphHeight {
         int height = GraphUtils.computeLevelsV2(graph, levels);
 
         assertEquals(8, height);
+    }
+
+    @Test
+    public void computeHeightForSmallDAG() {
+        Graph graph = GraphMaker.createSmallDAGWithUnconnectedComponents();
+
+        assertEquals(9, graph.getVertexCount());
+        assertEquals(9, graph.getEdgeCount());
+        assertTrue(graph.containsVertex(5));
+
+        assertEquals(4, GraphUtils.getMaxNodeHeight(graph, 5, 0));
     }
 
 }

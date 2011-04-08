@@ -73,9 +73,11 @@ public class UniformDistributionLayout extends AbstractLayout {
                 if (more == 1) {
                     rows++;
                 } else {
-                    rows += more / columns;
-                    if (more % columns > 0) {
-                        rows++;
+                    if (columns != 0) {
+                        rows += more / columns;
+                        if (more % columns > 0) {
+                            rows++;
+                        }
                     }
                 }
             }

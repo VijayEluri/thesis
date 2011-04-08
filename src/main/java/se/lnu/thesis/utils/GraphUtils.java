@@ -104,7 +104,8 @@ public class GraphUtils {
         Integer level;
 
         for (V node : graph.getVertices()) {
-            level = GraphUtils.getNodeHeight(graph, node);
+            //level = GraphUtils.getNodeHeight(graph, node);
+            level = GraphUtils.getMaxNodeHeight(graph, node);
             levels.put(level, node);
 
             if (level > maxHeight) {
@@ -144,6 +145,25 @@ public class GraphUtils {
         }
 
         return start;
+    }
+
+    public static <V, E> int getMaxNodeHeight(Graph<V, E> graph, V node) {
+        return getMaxNodeHeight(graph, node, 0);
+    }
+
+    public static <V, E> int getMaxNodeHeight(Graph<V, E> graph, V node, int start) {
+        if (graph.getPredecessorCount(node) == 0) {
+            return start;
+        } else {
+            int max = start;
+
+            for (V parent: graph.getPredecessors(node)) {
+                int nodeHeight = getMaxNodeHeight(graph, parent, start+1);
+                max = Math.max(nodeHeight, max);
+            }
+
+            return max;
+        }
     }
 
     public static <V, E> int getDistance(Graph<V, E> graph, V node1, V node2) {

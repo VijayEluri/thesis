@@ -137,7 +137,9 @@ public class TestRealData {
         System.out.println("Roots: " + Joiner.on(" ,").join(roots));
 
         Multimap levels = TreeMultimap.create();
-        GraphUtils.computeLevels(graph, levels);
+        int i = GraphUtils.computeLevels(graph, levels);
+
+        assertEquals(17, i);
 
         Collection level0 = levels.get(0);
         assertTrue(level0.size() == roots.size());

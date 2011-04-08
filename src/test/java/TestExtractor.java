@@ -19,7 +19,7 @@ public class TestExtractor {
     @Test
     public void optimize() {
 
-        Graph graph = GraphMaker.createHighBinaryGraph();
+        Graph graph = GraphMaker.createHighBinaryTree();
 
         Assert.assertEquals(10, graph.getVertexCount());
         Assert.assertEquals(9, graph.getEdgeCount());
@@ -40,7 +40,7 @@ public class TestExtractor {
     @Test
     public void optimizeFromMiddle() {
 
-        Graph graph = GraphMaker.createHighBinaryGraph();
+        Graph graph = GraphMaker.createHighBinaryTree();
 
         Assert.assertEquals(10, graph.getVertexCount());
         Assert.assertEquals(9, graph.getEdgeCount());

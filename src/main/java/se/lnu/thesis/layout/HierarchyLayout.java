@@ -67,6 +67,7 @@ public class HierarchyLayout extends AbstractLayout {
 
         computeEdges();
 
+        root.setLayoutComputed(true);
     }
 
     /**

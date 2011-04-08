@@ -52,6 +52,8 @@ public class GOController extends GraphController {
             LOGGER.error("Initialization error!");
             LOGGER.error(e);
 
+            e.printStackTrace();
+
             JOptionPane.showMessageDialog(null, "Incorrect input graph structure!", "Layout computation error", JOptionPane.ERROR_MESSAGE);
 
             root = null;
