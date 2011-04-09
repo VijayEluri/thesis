@@ -284,20 +284,20 @@
                                 </copy>
                                 <!--******************************************************************************-->
 
-                                <!-- COPY LAUCHERS-->
+                                <!-- COPY LAUNCHERS-->
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.bat"
+                                        file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
                                         toFile="${thesis.release.windows.directory}/GoClusterViz.bat">
                                 </copy>
 
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.sh"
+                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
                                         toFile="${thesis.release.linux.directory}/GoClusterViz.sh">
                                 </copy>
 
 
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.sh"
+                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
                                         toFile="${thesis.release.macosx.directory}/GoClusterViz.sh">
                                 </copy>
                                 <!--******************************************************************************-->
@@ -315,7 +315,7 @@
 
                                 <zip
                                         destfile="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
-                                     basedir="${thesis.release.directory}"/>
+                                        basedir="${thesis.release.directory}"/>
                                 <!--******************************************************************************-->
 
                             </target>
@@ -324,40 +324,51 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-2</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.7</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>2.1</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>cobertura-maven-plugin</artifactId>
+                            <version>2.4</version>
+                            <configuration>
+                                <formats>
+                                    <format>xml</format>
+                                    <format>html</format>
+                                </formats>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>emma-maven-plugin</artifactId>
+                            <version>1.0-alpha-3</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <formats>
-                        <format>xml</format>
-                        <format>html</format>
-                    </formats>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>emma-maven-plugin</artifactId>
-                <version>1.0-alpha-3</version>
-            </plugin>
+
         </plugins>
     </reporting>
 
