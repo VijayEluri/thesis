@@ -144,7 +144,7 @@
                         </goals>
                         <configuration>
                             <finalName>GoClusterViz</finalName>
-                            <outputDirectory>${thesis.build.directory}</outputDirectory>
+                            <outputDirectory>${thesis.build.directory}/lib</outputDirectory>
                             <archive>
                                 <manifestFile>src/main/META-INF/MANIFEST.MF</manifestFile>
                             </archive>
@@ -170,7 +170,8 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
-                            <excludeArtifactIds>junit,jogl,gluegen-rt</excludeArtifactIds>
+                            <!-- TODO add here any library entry to exclude from copying to "lib" folder -->
+                            <excludeArtifactIds>junit,jogl,gluegen-rt,mockito-core</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -283,19 +284,19 @@
 
                                 <!-- COPY LAUCHERS-->
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/run.bat"
-                                        toFile="${thesis.release.windows.directory}/run.bat">
+                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.bat"
+                                        toFile="${thesis.release.windows.directory}/GoClusterViz.bat">
                                 </copy>
 
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/run.sh"
-                                        toFile="${thesis.release.linux.directory}/run.sh">
+                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.sh"
+                                        toFile="${thesis.release.linux.directory}/GoClusterViz.sh">
                                 </copy>
 
 
                                 <copy
-                                        file="${project.basedir}/src/main/lauchers/run.sh"
-                                        toFile="${thesis.release.macosx.directory}/run.sh">
+                                        file="${project.basedir}/src/main/lauchers/GoClusterViz.sh"
+                                        toFile="${thesis.release.macosx.directory}/GoClusterViz.sh">
                                 </copy>
                                 <!--******************************************************************************-->
 
