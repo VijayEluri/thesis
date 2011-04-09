@@ -21,6 +21,8 @@
     <properties>
         <maven.build.timestamp.format>ddMMyyyy-HHmm</maven.build.timestamp.format>
 
+        <thesis.releases.directory>${project.basedir}/releases</thesis.releases.directory>
+
         <thesis.build.directory>${project.build.directory}/build</thesis.build.directory>
         <thesis.release.directory>${project.build.directory}/release</thesis.release.directory>
 
@@ -242,11 +244,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <!-- CREATE PLATFORM DIRECTORIES -->
-                                <mkdir dir="${project.basedir}/build/"/>
+                                <!-- CREATE DIRECTORIES -->
+                                <mkdir dir="${thesis.releases.directory}"/>
 
-                                <delete dir="${project.basedir}/build/latest/"/>
-                                <mkdir dir="${project.basedir}/build/latest/"/>
+                                <delete dir="${thesis.releases.directory}/latest/"/>
+                                <mkdir dir="${thesis.releases.directory}/latest/"/>
 
                                 <mkdir dir="${thesis.release.directory}"/>
                                 <mkdir dir="${thesis.release.windows.directory}"/>
@@ -302,13 +304,18 @@
 
                                 <!--COPY LATEST BUILD BUILD-->
                                 <copy
-                                        todir="${project.basedir}/build/latest">
+                                        todir="${thesis.releases.directory}/latest">
                                     <fileset dir="${thesis.release.directory}"/>
                                 </copy>
+
                                 <copy
-                                        todir="${project.basedir}/build/${project.artifactId}-${project.version}-${maven.build.timestamp}">
+                                        todir="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}">
                                     <fileset dir="${thesis.release.directory}"/>
                                 </copy>
+
+                                <zip
+                                        destfile="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
+                                     basedir="${thesis.release.directory}"/>
                                 <!--******************************************************************************-->
 
                             </target>
