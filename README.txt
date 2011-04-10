@@ -16,4 +16,26 @@ CO-SUPERVISER: PH.D STUDENT ILIR JUSUFI (ilir.jusufi@lnu.se)
 2009 - 2011
 
 
+1. Requirements
+
+GoClusterViz is Java application make sure you have installed JRE version 5.0 or above and configured java in path.
+
+
+2. HOW TO RUN
+
+GoClusterViz has builds for three main platform: Windows, Linux and MacOSX.
+
+Under Windows just start GoClusterViz.bat
+
+On Linux and MacOSX run GoClusterViz.sh from terminal.
+
+
+3. LOAD DATA
+
+Data graphs available on the sourceforge.net, location url is above.
+
+To load Gene Ontology graph use main menu "File -> Open GO graph" and select downloaded RealGOGraph.gml.
+For cluster graph "File -> Open cluster graph" and select RealClusterGraph.gml
+
+
 

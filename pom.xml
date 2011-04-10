@@ -270,6 +270,12 @@
                                 </copy>
                                 <!--******************************************************************************-->
 
+                                <!-- COPY README -->
+                                <copy file="${project.basedir}/README.txt"
+                                    toFile="${thesis.build.directory}/README.txt">
+                                </copy>
+                                <!--******************************************************************************-->
+
                                 <!-- COPY BUILD -->
                                 <copy todir="${thesis.release.windows.directory}">
                                     <fileset dir="${thesis.build.directory}"/>
