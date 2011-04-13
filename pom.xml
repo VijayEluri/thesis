@@ -26,15 +26,25 @@
         <thesis.build.directory>${project.build.directory}/build</thesis.build.directory>
         <thesis.release.directory>${project.build.directory}/release</thesis.release.directory>
 
-        <thesis.release.windows.directory>
+        <thesis.release.windows.i586.directory>
             ${thesis.release.directory}/${project.artifactId}-${project.version}-win-i586
-        </thesis.release.windows.directory>
+        </thesis.release.windows.i586.directory>
+
+        <thesis.release.windows.amd64.directory>
+            ${thesis.release.directory}/${project.artifactId}-${project.version}-win-amd64
+        </thesis.release.windows.amd64.directory>
+
         <thesis.release.macosx.directory>
             ${thesis.release.directory}/${project.artifactId}-${project.version}-macosx-universal
         </thesis.release.macosx.directory>
-        <thesis.release.linux.directory>
+
+        <thesis.release.linux.i586.directory>
             ${thesis.release.directory}/${project.artifactId}-${project.version}-linux-i586
-        </thesis.release.linux.directory>
+        </thesis.release.linux.i586.directory>
+
+        <thesis.release.linux.amd64.directory>
+            ${thesis.release.directory}/${project.artifactId}-${project.version}-linux-amd64
+        </thesis.release.linux.amd64.directory>
     </properties>
 
     <dependencies>
@@ -251,18 +261,28 @@
                                 <mkdir dir="${thesis.releases.directory}/latest/"/>
 
                                 <mkdir dir="${thesis.release.directory}"/>
-                                <mkdir dir="${thesis.release.windows.directory}"/>
-                                <mkdir dir="${thesis.release.linux.directory}"/>
+                                <mkdir dir="${thesis.release.windows.i586.directory}"/>
+                                <mkdir dir="${thesis.release.windows.amd64.directory}"/>
+                                <mkdir dir="${thesis.release.linux.i586.directory}"/>
+                                <mkdir dir="${thesis.release.linux.amd64.directory}"/>
                                 <mkdir dir="${thesis.release.macosx.directory}"/>
                                 <!--******************************************************************************-->
 
                                 <!-- COPY NATIVE LIBRARIES -->
-                                <copy todir="${thesis.release.windows.directory}/native">
+                                <copy todir="${thesis.release.windows.i586.directory}/native">
                                     <fileset dir="${project.basedir}/native/win-i586-native"/>
                                 </copy>
 
-                                <copy todir="${thesis.release.linux.directory}/native">
+                                <copy todir="${thesis.release.windows.amd64.directory}/native">
+                                    <fileset dir="${project.basedir}/native/win-amd64-native"/>
+                                </copy>
+
+                                <copy todir="${thesis.release.linux.i586.directory}/native">
                                     <fileset dir="${project.basedir}/native/linux-i586-native"/>
+                                </copy>
+
+                                <copy todir="${thesis.release.linux.amd64.directory}/native">
+                                    <fileset dir="${project.basedir}/native/linux-amd64-native"/>
                                 </copy>
 
                                 <copy todir="${thesis.release.macosx.directory}/native">
@@ -277,11 +297,19 @@
                                 <!--******************************************************************************-->
 
                                 <!-- COPY BUILD -->
-                                <copy todir="${thesis.release.windows.directory}">
+                                <copy todir="${thesis.release.windows.i586.directory}">
                                     <fileset dir="${thesis.build.directory}"/>
                                 </copy>
 
-                                <copy todir="${thesis.release.linux.directory}">
+                                <copy todir="${thesis.release.windows.amd64.directory}">
+                                    <fileset dir="${thesis.build.directory}"/>
+                                </copy>
+
+                                <copy todir="${thesis.release.linux.i586.directory}">
+                                    <fileset dir="${thesis.build.directory}"/>
+                                </copy>
+
+                                <copy todir="${thesis.release.linux.amd64.directory}">
                                     <fileset dir="${thesis.build.directory}"/>
                                 </copy>
 
@@ -293,12 +321,22 @@
                                 <!-- COPY LAUNCHERS-->
                                 <copy
                                         file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
-                                        toFile="${thesis.release.windows.directory}/GoClusterViz.bat">
+                                        toFile="${thesis.release.windows.i586.directory}/GoClusterViz.bat">
+                                </copy>
+
+                                <copy
+                                        file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
+                                        toFile="${thesis.release.windows.amd64.directory}/GoClusterViz.bat">
                                 </copy>
 
                                 <copy
                                         file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
-                                        toFile="${thesis.release.linux.directory}/GoClusterViz.sh">
+                                        toFile="${thesis.release.linux.i586.directory}/GoClusterViz.sh">
+                                </copy>
+
+                                <copy
+                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
+                                        toFile="${thesis.release.linux.amd64.directory}/GoClusterViz.sh">
                                 </copy>
 
 
