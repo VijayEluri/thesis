@@ -21,8 +21,8 @@ public class TestHierarchyLayout {
         Graph graph = new IOFacade().loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
-        Assert.assertEquals(10042, graph.getVertexCount());
-        Assert.assertEquals(24155, graph.getEdgeCount());
+        Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());
+        Assert.assertEquals(TestRealData.GO_EDGE_COUNT, graph.getEdgeCount());
 
         GOGraphContainer graphContainer = GOGraphContainer.init();
 

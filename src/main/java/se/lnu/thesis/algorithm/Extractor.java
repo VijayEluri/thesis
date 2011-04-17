@@ -178,6 +178,8 @@ public class Extractor {
     }
 
     public void setSelectedNode(Object selectedNode) {
+        LOGGER.info("Selected GO vertex: " + selectedNode);
+
         this.selectedNode = selectedNode;
     }
 }

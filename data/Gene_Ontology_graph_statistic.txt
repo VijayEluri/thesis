@@ -1,27 +1,27 @@
 **********************************************************************
    Graph statistic::
-       Vertex count 10042
+       Vertex count 10041
            Roots 1
                7321
-           Nodes 2730
+           Nodes 2729
            Leafs 3394
        Unconnected components: 3918
-       Edge count 24155
-           Maximum predecessor count is 5, this vertex amount is  3
+       Edge count 24153
+           Maximum predecessor count is 5, vertex amount is  3
            Predecessor statistic [predecessor_count -> vertex_count]
              0 -> 1
-             1 -> 1815
+             1 -> 1814
              2 -> 772
              3 -> 122
              4 -> 17
              5 -> 3
 
-           Maximum successors count is 1136, this vertex amount is 1
+           Maximum successors count is 1136, vertex amount is 1
            Successors statistic [successor_count -> vertex_count]
-             1 -> 1251
+             1 -> 1250
              2 -> 483
-             3 -> 255
-             4 -> 155
+             3 -> 256
+             4 -> 154
              5 -> 100
              6 -> 65
              7 -> 38

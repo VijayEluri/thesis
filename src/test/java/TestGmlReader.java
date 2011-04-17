@@ -75,8 +75,8 @@ public class TestGmlReader {
         MyGraph graph = reader.read(getClass().getClassLoader().getResourceAsStream("RealGOGraph.gml"));
 
         assertNotNull(graph);
-        assertEquals(10042, graph.getVertexCount());
-        assertEquals(24155, graph.getEdgeCount());
+        assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());
+        assertEquals(TestRealData.GO_EDGE_COUNT, graph.getEdgeCount());
 
     }
 
@@ -86,14 +86,14 @@ public class TestGmlReader {
 
         MyGraph gmlGraph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getFile());
         assertNotNull(gmlGraph);
-        assertEquals(10042, gmlGraph.getVertexCount());
-        assertEquals(24155, gmlGraph.getEdgeCount());
+        assertEquals(TestRealData.GO_NODE_COUNT, gmlGraph.getVertexCount());
+        assertEquals(TestRealData.GO_EDGE_COUNT, gmlGraph.getEdgeCount());
 
 
         MyGraph graphmlGraph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
         assertNotNull(graphmlGraph);
-        assertEquals(10042, graphmlGraph.getVertexCount());
-        assertEquals(24155, graphmlGraph.getEdgeCount());
+        assertEquals(TestRealData.GO_NODE_COUNT, graphmlGraph.getVertexCount());
+        assertEquals(TestRealData.GO_EDGE_COUNT, graphmlGraph.getEdgeCount());
 
 
         assertEquals(graphmlGraph.getVertexCount(), gmlGraph.getVertexCount());
@@ -110,14 +110,14 @@ public class TestGmlReader {
 
         MyGraph gmlGraph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
         assertNotNull(gmlGraph);
-        assertEquals(14623, gmlGraph.getVertexCount());
-        assertEquals(14622, gmlGraph.getEdgeCount());
+        assertEquals(TestRealData.CLUSTER_NODE_COUNT, gmlGraph.getVertexCount());
+        assertEquals(TestRealData.CLUSTER_EDGE_COUNT, gmlGraph.getEdgeCount());
 
 
         MyGraph graphmlGraph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
         assertNotNull(graphmlGraph);
-        assertEquals(14623, graphmlGraph.getVertexCount());
-        assertEquals(14622, graphmlGraph.getEdgeCount());
+        assertEquals(TestRealData.CLUSTER_NODE_COUNT, graphmlGraph.getVertexCount());
+        assertEquals(TestRealData.CLUSTER_EDGE_COUNT, graphmlGraph.getEdgeCount());
 
 
         assertEquals(graphmlGraph.getVertexCount(), gmlGraph.getVertexCount());

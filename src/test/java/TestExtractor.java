@@ -66,12 +66,12 @@ public class TestExtractor {
     public void extract() {
 
         MyGraph goGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath()).get(0);
-        Assert.assertEquals(10042, goGraph.getVertexCount());
-        Assert.assertEquals(24155, goGraph.getEdgeCount());
+        Assert.assertEquals(TestRealData.GO_NODE_COUNT, goGraph.getVertexCount());
+        Assert.assertEquals(TestRealData.GO_EDGE_COUNT, goGraph.getEdgeCount());
 
         MyGraph clusterGraph = (MyGraph) new GraphMLParser(new MyGraphYedHandler()).load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
-        Assert.assertEquals(14623, clusterGraph.getVertexCount());
-        Assert.assertEquals(14622, clusterGraph.getEdgeCount());
+        Assert.assertEquals(TestRealData.CLUSTER_NODE_COUNT, clusterGraph.getVertexCount());
+        Assert.assertEquals(TestRealData.CLUSTER_EDGE_COUNT, clusterGraph.getEdgeCount());
 
         Object node = goGraph.getNodeByLabel("tetrapyrrole metabolic process");
         Assert.assertNotNull(node != null);

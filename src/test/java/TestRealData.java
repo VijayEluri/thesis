@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
@@ -28,11 +29,11 @@ public class TestRealData {
 
     private static final Logger LOGGER = Logger.getLogger(TestRealData.class);
 
-    final int CLUSTER_NODE_COUNT = 14623;
-    final int CLUSTER_EDGE_COUNT = 14622;
+    public static final int CLUSTER_NODE_COUNT = 14623;
+    public static final int CLUSTER_EDGE_COUNT = 14622;
 
-    final int DAG_NODE_COUNT = 10042;
-    final int DAG_EDGE_COUNT = 24155;
+    public static final int GO_NODE_COUNT = 10041;
+    public static final int GO_EDGE_COUNT = 24153;
 
     @Test
     public void testDagDataQuantity() {
@@ -41,8 +42,8 @@ public class TestRealData {
         IOFacade ioFacade = new IOFacade();
         MyGraph go = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
-        assertEquals(DAG_NODE_COUNT, go.getVertexCount());
-        assertEquals(DAG_EDGE_COUNT, go.getEdgeCount());
+        assertEquals(GO_NODE_COUNT, go.getVertexCount());
+        assertEquals(GO_EDGE_COUNT, go.getEdgeCount());
 
         GraphStatisticUtil.printGraphStatistic(go);
     }
@@ -64,7 +65,7 @@ public class TestRealData {
     public void findGeneOntologyLabelDuplicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
+        MyGraph go = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
         Set<String> duplicates = new HashSet<String>();
 
@@ -80,8 +81,8 @@ public class TestRealData {
             LOGGER.info(" -> " + label + " [" + Joiner.on(", ").join(go.getNodesByLabel(label)) + "]");
         }
 
-        assertEquals(1, duplicates.size()); // one dublicate 'biological_process'
-        assertTrue(duplicates.contains("biological_process"));
+        assertEquals(0, duplicates.size()); // no more duplicates 'biological_process'
+        assertFalse(duplicates.contains("biological_process"));
 
     }
 
@@ -132,6 +133,9 @@ public class TestRealData {
 
         IOFacade ioFacade = new IOFacade();
         MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
+
+        assertEquals(GO_NODE_COUNT, graph.getVertexCount());
+        assertEquals(GO_EDGE_COUNT, graph.getEdgeCount());
 
         Set roots = GraphUtils.getRoots(graph);
         System.out.println("Roots: " + Joiner.on(" ,").join(roots));

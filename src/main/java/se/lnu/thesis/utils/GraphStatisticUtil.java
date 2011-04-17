@@ -118,7 +118,7 @@ public class GraphStatisticUtil {
             result.append("       Edge count " + getEdgeCount());
             result.append("\n");
 
-            result.append("           Maximum predecessor count is " + getMaxPredecessorCount() + ", this vertex amount is  " + predecessorsStatistic.get(getMaxPredecessorCount()).size());
+            result.append("           Maximum predecessor count is " + getMaxPredecessorCount() + ", vertex amount is  " + predecessorsStatistic.get(getMaxPredecessorCount()).size());
             result.append("\n");
 
             result.append("           Predecessor statistic [predecessor_count -> vertex_count]");
@@ -130,7 +130,7 @@ public class GraphStatisticUtil {
 
             result.append("\n");
 
-            result.append("           Maximum successors count is " + getMaxSuccessorCount() + ", this vertex amount is " + successorsStatistic.get(getMaxSuccessorCount()).size());
+            result.append("           Maximum successors count is " + getMaxSuccessorCount() + ", vertex amount is " + successorsStatistic.get(getMaxSuccessorCount()).size());
             result.append("\n");
 
             result.append("           Successors statistic [successor_count -> vertex_count]");
