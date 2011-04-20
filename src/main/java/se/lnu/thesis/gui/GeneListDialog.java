@@ -12,9 +12,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -29,11 +28,9 @@ public class GeneListDialog extends JFrame implements Subject {
 
     public static final Logger LOGGER = Logger.getLogger(GeneListDialog.class);
 
-    private JList list;
-
     private MyGraph graph;
-    private Map<Integer, Object> indexNode;
 
+    private JList list;
     private DefaultListModel labels;
 
     private Set<Observer> observers;
@@ -44,18 +41,18 @@ public class GeneListDialog extends JFrame implements Subject {
         observers = new HashSet<Observer>();
     }
 
-    private void initGUI() {
+    protected void initGUI() {
         this.setSize(150, 300);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         this.setLayout(new BorderLayout());
 
-        this.add(searchField(), BorderLayout.NORTH);
+        this.add(createSearchField(), BorderLayout.NORTH);
 
-        this.add(geneList(), BorderLayout.CENTER);
+        this.add(createGeneList(), BorderLayout.CENTER);
     }
 
-    protected JComponent geneList() {
+    protected JComponent createGeneList() {
         labels = new DefaultListModel();
 
         list = new JList();
@@ -75,7 +72,7 @@ public class GeneListDialog extends JFrame implements Subject {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (list.getSelectedIndex() > -1) {
-                    LOGGER.info("User selected node.. " + list.getSelectedValue());
+                    LOGGER.info("User selected label: " + getSelectedLabel());
 
                     LOGGER.info("Extracting subgraph..");
 
@@ -105,51 +102,57 @@ public class GeneListDialog extends JFrame implements Subject {
         return scrollPane;
     }
 
-    private JTextField searchField() {
+    protected JTextField createSearchField() {
         JTextField search = new JTextField();
         search.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent keyEvent) {
-                String search = ((JTextField) keyEvent.getSource()).getText();
+                String match = ((JTextField) keyEvent.getSource()).getText();
 
-                LOGGER.debug("User typed in the search field: " + search);
+                LOGGER.debug("User typed in the search field: " + match);
 
-                fillContent(search);
+                filterLabels(match);
             }
         });
         return search;
     }
 
-    protected void fillContent(String match) {        // TODO split it into two methonds: filter and fill
+    /**
+     * Show only labels that contain matching substring
+     * @param match String to filter by
+     */
+    public void filterLabels(String match) {
+        clearContent();
+
         if (graph != null) {
-            labels.clear();
-
-            if (indexNode == null) {
-                indexNode = new HashMap<Integer, Object>();
-            } else {
-                indexNode.clear();
-            }
-
-            int i = 0;
-            for (Object o : graph.getVertices()) {
-                String label = graph.getLabel(o);
-                if (match != null) {
-                    if (label.contains(match)) {
-                        labels.add(i, label);
-                        indexNode.put(i, o);
-                        i++;
-                    }
-                } else {
-                    labels.add(i, label);
-                    indexNode.put(i, o);
-                    i++;
+            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
+                String label = iterator.next();
+                if (label.contains(match)) {
+                    labels.addElement(label);
                 }
             }
         }
     }
 
-    protected void fillContent() {
-        fillContent(null); // TODO use newly created fillContent method
+    /**
+     *  Fill labels list with all labels from graph
+     */
+    public void fillContent() {
+        clearContent();
+
+        if (graph != null) {
+            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
+                String label = iterator.next();
+                labels.addElement(label);
+            }
+        }
+    }
+
+    /**
+     *  Remove all labels from the list
+     */
+    public void clearContent() {
+        labels.clear();
     }
 
     public void setGraph(MyGraph graph) {
@@ -173,30 +176,23 @@ public class GeneListDialog extends JFrame implements Subject {
 
 
     /**
-     * Get selected node key object if selected otherwise null
-     *
-     * @return Node key object or null
+     * @return Get selected vertex id object if selected otherwise null
      */
     public Object getSelectedNode() {
-        int index = list.getSelectedIndex();
+        String selectedLabel = getSelectedLabel();
 
-        if (index > -1) {
-            return indexNode.get(index);
+        if (selectedLabel != null) {
+            return graph.getNodeByLabel(selectedLabel);
         } else {
             return null;
         }
     }
 
-    public Object getSelectedLabel() {
-        if (getSelectedNode() != null) {
-            return graph.getLabel(getSelectedNode());
-        } else {
-            return null;
-        }
-    }
-
-    public void showIt() {
-        setVisible(true);
+    /**
+     * @return Get current selected labelm if not selected then null.
+     */
+    public String getSelectedLabel() {
+        return (String) list.getSelectedValue();
     }
 
     /**
@@ -215,7 +211,6 @@ public class GeneListDialog extends JFrame implements Subject {
         GeneListDialog geneListDialog = new GeneListDialog();
         geneListDialog.setGraph(graph);
         geneListDialog.setVisible(true);
-
     }
 
 }
