@@ -82,45 +82,7 @@ public class HierarchyLayout extends AbstractLayout {
     }
 
     /**
-     *  Compute edges for each level, but only that edges which have source and target in same level
-     *
-     *  TODO refactor this and next method
-     *
-     *  THIS METHOD IS DEPRECATED BECAUSE OF GRAPH STRUCTURE - DOES NOT CONTAIN EDGES INSIDE SAME LEVEL!
-     */
-
-/*
-    protected void computeInnerLevelEdges() {
-        for (Object o : getGraph().getEdges()) {
-
-            Object source = getGraph().getSource(o);
-            Object dest = getGraph().getDest(o);
-
-            Element sourceElement = null;
-            Element destElement = null;
-
-            for (Element level: getRoot()) {
-                if (level.getType() != ElementType.EDGE) {
-                    sourceElement = ((Level) level).getElementByObject(source);
-                    destElement = ((Level) level).getElementByObject(dest);
-
-                    if (sourceElement != null && destElement != null) {
-                        EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
-                        ((Level) level).addElement(edgeElement);
-
-                        break;
-                    }
-                }
-            }
-
-
-        }
-    }
-*/
-
-    /**
      *      Compute all edges for while graph based on preview element positions
-     *      TODO: this method should be refactored and splited in several
      */
     protected void computePreviewEdges() {
         for (Object o : getGraph().getEdges()) {
@@ -128,35 +90,40 @@ public class HierarchyLayout extends AbstractLayout {
             Object source = getGraph().getSource(o);
             Object dest = getGraph().getDest(o);
 
-            Element sourceElement = null;
+            Element sourceElement = findElementInLevelPreviw(source);
+            Element destElement = findElementInLevelPreviw(dest);
 
-            for (Element level: getRoot()) {   // find source element in all levels
-                if (level.getType() != ElementType.EDGE) {
-                    sourceElement = ((Level) level).getPreview().getElementByObject(source);
-                    if (sourceElement != null) { // found element? stop looking
-                        break;
-                    }
-                }
-            }
-
-            Element destElement = null;
-
-            for (Element level: getRoot()) {
-                if (level.getType() != ElementType.EDGE) { // find dest element in all levels
-                    destElement = ((Level) level).getPreview().getElementByObject(dest);
-                    if (destElement != null) { // found element? stop looking
-                        break;
-                    }
-                }
-            }
-
-            if (sourceElement != null && destElement != null) { // create edge which will be visible only during subgraph highlight
+            if (sourceElement != null && destElement != null) {
+                // create edge which will be visible only during subgraph highlight
                 EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
+
                 getRoot().addElement(edgeElement);
             }
 
         }
 
+    }
+
+    public Element findElementInLevelPreviw(Object o) {
+        Element result = null;
+
+        if (root != null) {
+            for (Element element: getRoot()) {
+                if (element instanceof Level) { // TODO provide a new element type
+                    Level level = (Level) element;
+
+                    result = level.getPreview().getElementByObject(o);
+
+                    if (result != null) {
+                        return result;
+                    }
+
+                }
+            }
+
+        }
+
+        return null;
     }
 
     protected void initPreviewLevelLayout() {
