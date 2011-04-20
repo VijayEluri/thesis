@@ -157,10 +157,7 @@ public class HVTreeLayout extends AbstractLayout {
         double x = start.getX();
         double y = start.getY();
 
-        Iterator<Element> elements = getRoot().getElements();
-        while (elements.hasNext()) {
-            Element element = elements.next();
-
+        for (Element element: getRoot()) {
             if (element.getType() == ElementType.VERTEX) {
                 if (element.getPosition().getX() > x) {
                     x = element.getPosition().getX();
@@ -170,7 +167,6 @@ public class HVTreeLayout extends AbstractLayout {
                     y = element.getPosition().getY();
                 }
             }
-
         }
 
         Point2D.Double dimension = new Point2D.Double(Math.abs(x - start.getX()), Math.abs(y + start.getY()));

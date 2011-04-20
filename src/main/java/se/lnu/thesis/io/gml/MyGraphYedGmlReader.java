@@ -8,7 +8,7 @@ import se.lnu.thesis.core.MyGraph;
  * Date: 26.10.2010
  * Time: 1:35:24
  */
-public class YedGmlReader extends GmlReader {
+public class MyGraphYedGmlReader extends MyGraphGmlReader {
 
     @Override
     protected void init() {

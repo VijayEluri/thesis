@@ -5,7 +5,8 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.gml.GmlReader;
 import se.lnu.thesis.io.gml.GmlWriter;
-import se.lnu.thesis.io.gml.YedGmlReader;
+import se.lnu.thesis.io.gml.MyGraphGmlReader;
+import se.lnu.thesis.io.gml.MyGraphYedGmlReader;
 import se.lnu.thesis.io.graphml.AbstractHandler;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,11 +49,11 @@ public class IOFacade {
         return result;
     }
 
-    public void writeToGmlFile(Graph graph, File file) {
-        writeToGmlFile(graph, new GmlWriter(), file);
+    public void writeGraphToGml(Graph graph, File file) {
+        writeToGml(graph, new GmlWriter(), file);
     }
 
-    protected void writeToGmlFile(Graph graph, GmlWriter writer, File file) {
+    protected void writeToGml(Graph graph, GmlWriter writer, File file) {
         try {
             writer.write(graph, new FileOutputStream(file));
         } catch (FileNotFoundException e) {
@@ -58,8 +61,8 @@ public class IOFacade {
         }
     }
 
-    protected MyGraph loadFromGml(GmlReader reader, File file) {
-        MyGraph result = null;
+    protected Graph loadFromGml(GmlReader reader, File file) {
+        Graph result = null;
 
         try {
             result = reader.read(new FileInputStream(file));
@@ -70,19 +73,40 @@ public class IOFacade {
         return result;
     }
 
-    public MyGraph loadFromGml(String file) {
-        return loadFromGml(new GmlReader(), new File(file));
+    public MyGraph loadMyGraphFromGml(URL url) {
+        try {
+            return (MyGraph) loadFromGml(new MyGraphGmlReader(), new File(url.toURI()));
+        } catch (URISyntaxException e) {
+            LOGGER.error(e);
+        }
+
+        return null;
     }
 
-    public MyGraph loadFromGml(File file) {
-        return loadFromGml(new GmlReader(), file);
+    public MyGraph loadMyGraphFromGml(String file) {
+        return (MyGraph) loadFromGml(new MyGraphGmlReader(), new File(file));
     }
 
-    public MyGraph loadFromYedGml(String file) {
-        return loadFromGml(new YedGmlReader(), new File(file));
+    public MyGraph loadMyGraphFromGml(File file) {
+        return (MyGraph) loadFromGml(new MyGraphGmlReader(), file);
     }
 
-    public MyGraph loadFromYedGml(File file) {
-        return loadFromGml(new YedGmlReader(), file);
+    public MyGraph loadMyGraphFromYedGml(String file) {
+        return (MyGraph) loadFromGml(new MyGraphYedGmlReader(), new File(file));
+    }
+
+    public MyGraph loadMyGraphFromYedGml(File file) {
+        return (MyGraph) loadFromGml(new MyGraphYedGmlReader(), file);
+    }
+
+
+    public Graph loadGraphFromGml(URL url) {
+        try {
+            return loadFromGml(new GmlReader(), new File(url.toURI()));
+        } catch (URISyntaxException e) {
+            LOGGER.error(e);
+        }
+
+        return null;
     }
 }

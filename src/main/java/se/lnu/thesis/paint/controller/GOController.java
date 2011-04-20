@@ -105,8 +105,8 @@ public class GOController extends GraphController {
     protected void select(Object object) {
         unselect();
 
-        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
-            Level level = (Level) i.next();
+        for (Element e: this.root) {
+            Level level = (Level) e;
 
             Element element = level.getElementByObject(object);
             if (element != null) {
@@ -125,8 +125,8 @@ public class GOController extends GraphController {
     public void select(Element element) {
         unselect();
 
-        for (Iterator<Element> i = this.root.getElements(); i.hasNext();) {
-            Level level = (Level) i.next();
+        for (Element e: this.root) {
+            Level level = (Level) e;
 
             Element foundedPreviewElement = level.getPreview().getElementByObject(element.getObject());
             if (foundedPreviewElement != null) {

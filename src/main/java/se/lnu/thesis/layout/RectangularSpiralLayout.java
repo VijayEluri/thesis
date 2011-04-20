@@ -167,9 +167,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
     }
 
     private void normalizeGroupingElementsSize() {
-        for (Iterator<Element> i = root.getElements(); i.hasNext();) {
-            Element element = i.next();
-
+        for (Element element: root) {
             if (element instanceof GroupingElement) {
                 ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(minGroupElementSize, maxGroupElementSize, ((Container) element).getSize()));
             }

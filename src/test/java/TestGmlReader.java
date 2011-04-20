@@ -6,11 +6,9 @@ import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.gml.GmlReader;
+import se.lnu.thesis.io.gml.MyGraphGmlReader;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,7 +44,7 @@ public class TestGmlReader {
     public void readAsterix() throws IOException {
         GmlReader reader = new GmlReader();
 
-        MyGraph graph = reader.read(getClass().getClassLoader().getResourceAsStream("Asterix.gml"));
+        Graph graph = reader.read(getClass().getClassLoader().getResourceAsStream("Asterix.gml"));
 
         assertEquals(100, graph.getVertexCount());
 
@@ -60,17 +58,11 @@ public class TestGmlReader {
         assertNotNull(graph.findEdge(62, 71));
         assertNotNull(graph.findEdge(68, 75));
         assertNotNull(graph.findEdge(72, 79));
-
-        assertEquals(100, graph.getLabelCount());
-
-        for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
-            System.out.println(iterator.next());
-        }
     }
 
     @Test
     public void readRealGO() throws IOException {
-        GmlReader reader = new GmlReader();
+        MyGraphGmlReader reader = new MyGraphGmlReader();
 
         MyGraph graph = reader.read(getClass().getClassLoader().getResourceAsStream("RealGOGraph.gml"));
 
@@ -84,7 +76,7 @@ public class TestGmlReader {
     public void testRealGeneOntology() throws IOException {
         IOFacade ioFacade = new IOFacade();
 
-        MyGraph gmlGraph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getFile());
+        MyGraph gmlGraph = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getFile());
         assertNotNull(gmlGraph);
         assertEquals(TestRealData.GO_NODE_COUNT, gmlGraph.getVertexCount());
         assertEquals(TestRealData.GO_EDGE_COUNT, gmlGraph.getEdgeCount());
@@ -108,7 +100,7 @@ public class TestGmlReader {
     public void testRealCluster() throws IOException {
         IOFacade ioFacade = new IOFacade();
 
-        MyGraph gmlGraph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
+        MyGraph gmlGraph = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
         assertNotNull(gmlGraph);
         assertEquals(TestRealData.CLUSTER_NODE_COUNT, gmlGraph.getVertexCount());
         assertEquals(TestRealData.CLUSTER_EDGE_COUNT, gmlGraph.getEdgeCount());

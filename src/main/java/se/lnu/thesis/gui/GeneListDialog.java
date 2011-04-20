@@ -120,7 +120,7 @@ public class GeneListDialog extends JFrame implements Subject {
         return search;
     }
 
-    protected void fillContent(String match) {
+    protected void fillContent(String match) {        // TODO split it into two methonds: filter and fill
         if (graph != null) {
             labels.clear();
 
@@ -131,7 +131,7 @@ public class GeneListDialog extends JFrame implements Subject {
             }
 
             int i = 0;
-            for (Object o : graph.getVertices()) { // TODO LabelsIterator after fixing dublicates in the Gene Ontology data file
+            for (Object o : graph.getVertices()) {
                 String label = graph.getLabel(o);
                 if (match != null) {
                     if (label.contains(match)) {
@@ -149,7 +149,7 @@ public class GeneListDialog extends JFrame implements Subject {
     }
 
     protected void fillContent() {
-        fillContent(null);
+        fillContent(null); // TODO use newly created fillContent method
     }
 
     public void setGraph(MyGraph graph) {

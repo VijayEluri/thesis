@@ -2,6 +2,9 @@
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 
@@ -25,6 +28,29 @@ public class TestMyGraph {
 
         assertEquals(5, graph.getVertexCount());
         assertEquals(4, graph.getEdgeCount());
+    }
+
+    @Test
+    public void checkLabelDuplicates() {
+        MyGraph graph = new MyGraph();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+
+        graph.addLabel(1, "1");
+        graph.addLabel(2, "2");
+
+        try {
+            graph.addLabel(4, "2");
+        } catch (IllegalArgumentException e) {
+            assertEquals(2, graph.getLabelCount());
+            assertEquals(3, graph.getVertexCount());
+
+            return;
+        }
+
+        fail();
     }
 
 }

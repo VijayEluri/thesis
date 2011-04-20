@@ -49,11 +49,11 @@ public class GraphChooser extends JFileChooser {
             }
 
             if (this.getFileFilter().getDescription().equals(YedGMLFileFilter.DESCRIPTION)) {
-                return ioFacade.loadFromYedGml(this.getSelectedFile());
+                return ioFacade.loadMyGraphFromYedGml(this.getSelectedFile());
             }
 
             if (this.getFileFilter().getDescription().equals(GMLFileFilter.DESCRIPTION)) {
-                return ioFacade.loadFromGml(this.getSelectedFile());
+                return ioFacade.loadMyGraphFromGml(this.getSelectedFile());
             }
         }
 

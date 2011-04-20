@@ -1,12 +1,18 @@
 package se.lnu.thesis.element;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
+import com.sun.istack.internal.Nullable;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.utils.GraphUtils;
 
+import javax.swing.text.html.HTMLDocument;
 import java.awt.geom.Point2D;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -80,12 +86,11 @@ public class GOGraphContainer extends GraphContainer {
     }
 
     public void hideUnconnectedComponents() {
-        Iterator<Element> iterator = getElements();
-        while (iterator.hasNext()) {
-            Level level = (Level) iterator.next();
+        for (Iterator<Element> i = getLevels(); i.hasNext();) {
+            Level level = (Level) i.next();
 
-            for (Object o: level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {  // TODO optimize reference to static field.
+            for (Object o : level.getObjects()) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(false);
                     level.getPreview().getElementByObject(o).setDrawn(false);
                 }
@@ -94,12 +99,11 @@ public class GOGraphContainer extends GraphContainer {
     }
 
     public void showUnconnectedComponents() {
-        Iterator<Element> iterator = getElements();
-        while (iterator.hasNext()) {
-            Level level = (Level) iterator.next();
+        for (Iterator<Element> i = getLevels(); i.hasNext();) {
+            Level level = (Level) i.next();
 
-            for (Object o: level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {  // TODO optimize reference to static field.
+            for (Object o : level.getObjects()) {
+                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
                     level.getElementByObject(o).setDrawn(true);
                     level.getPreview().getElementByObject(o).setDrawn(true);
                 }
@@ -108,7 +112,20 @@ public class GOGraphContainer extends GraphContainer {
     }
 
     /**
-     *      Delete all elements.
+     *      Return iterator over only Level elements of the GO container
+     * @return
+     */
+    public UnmodifiableIterator<Element> getLevels() {
+        return Iterators.unmodifiableIterator(Iterators.filter(getElements(), new Predicate<Element>() {
+            public boolean apply(Element input) {
+                return input instanceof Level;
+
+            }
+        }));
+    }
+
+    /**
+     * Delete all elements.
      * Also reset highlighting and layout computation.
      */
     @Override
@@ -133,4 +150,23 @@ public class GOGraphContainer extends GraphContainer {
     public int getLevelCount() {
         return levelCount;
     }
+
+
+    public void showSubgraphEdges() {
+        showSubgraphEdges(true);
+    }
+
+    public void showSubgraphEdges(boolean b) {
+        for (Element element : this) {
+            if (element.getType() == ElementType.EDGE) {
+                ((GOEdgeElement) element).setShowHighlightedEdge(b);
+            }
+        }
+
+    }
+
+    public void hideSubgraphEdges() {
+        showSubgraphEdges(false);
+    }
+
 }

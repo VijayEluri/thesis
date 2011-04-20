@@ -7,7 +7,6 @@ import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
 
 import java.awt.geom.Point2D;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +23,7 @@ public class TestPolarDendrogramLayout {
         String file = getClass().getClassLoader().getResource("test_tree_15_14.gml").getPath();
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGml(file);
+        MyGraph graph = ioFacade.loadMyGraphFromYedGml(file);
 
         Assert.assertNotNull(graph);
 

@@ -3,10 +3,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import org.apache.log4j.Logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
 import org.junit.Test;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
@@ -14,9 +10,9 @@ import se.lnu.thesis.utils.GraphStatisticUtil;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -34,13 +30,14 @@ public class TestRealData {
 
     public static final int GO_NODE_COUNT = 10041;
     public static final int GO_EDGE_COUNT = 24153;
+    public static final int GO_LEVEL_COUNT = 17;
 
     @Test
     public void testDagDataQuantity() {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
         assertEquals(GO_NODE_COUNT, go.getVertexCount());
         assertEquals(GO_EDGE_COUNT, go.getEdgeCount());
@@ -53,7 +50,7 @@ public class TestRealData {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
+        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
 
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());
@@ -65,24 +62,14 @@ public class TestRealData {
     public void findGeneOntologyLabelDuplicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
-        Set<String> duplicates = new HashSet<String>();
+        try {
+            ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
 
-        Collection<String> labels = go.getLabels();
-        for (String label : labels) {
-            if (Collections.frequency(labels, label) > 1) {
-                duplicates.add(label);
-            }
+            fail();
         }
-
-        LOGGER.info("LABEL DUPLICATES: ");
-        for (String label : duplicates) {
-            LOGGER.info(" -> " + label + " [" + Joiner.on(", ").join(go.getNodesByLabel(label)) + "]");
-        }
-
-        assertEquals(0, duplicates.size()); // no more duplicates 'biological_process'
-        assertFalse(duplicates.contains("biological_process"));
 
     }
 
@@ -90,22 +77,14 @@ public class TestRealData {
     public void findClusterLabelDuplicates() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
 
-        Set<String> duplicates = new HashSet<String>();
+        try {
+            ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
 
-        Collection<String> labels = cluster.getLabels();
-        for (String label : labels) {
-            if (Collections.frequency(labels, label) > 1) {
-                duplicates.add(label);
-            }
+            fail();
         }
-
-        for (String label : duplicates) {
-            LOGGER.info(label);
-        }
-
-        assertEquals(0, duplicates.size());
     }
 
     @Test
@@ -143,7 +122,7 @@ public class TestRealData {
         Multimap levels = TreeMultimap.create();
         int i = GraphUtils.computeLevels(graph, levels);
 
-        assertEquals(17, i);
+        assertEquals(GO_LEVEL_COUNT, i);
 
         Collection level0 = levels.get(0);
         assertTrue(level0.size() == roots.size());

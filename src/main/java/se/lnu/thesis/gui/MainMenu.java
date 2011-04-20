@@ -30,6 +30,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     public static final String LEVEL_LAYOUT = "Levels layout";
     public static final String LEAF_BOTTOM_LAYOUT = "Leaf bottom layout";
     public static final String SHOW_UNCONNECTED_COMPONENTS = "Show unconnected components";
+    public static final String SHOW_SUBGRAPH_EDGES = "Show subgraph edges";
 
     public static final String CLUSTER = "Cluster";
     public static final String RADIAL_LENS = "Radial lens";
@@ -94,6 +95,13 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         showUnconnectedComponentsMenuItem.addItemListener(this);
         showUnconnectedComponentsMenuItem.setSelected(true);
         geneOntologyMenu.add(showUnconnectedComponentsMenuItem);
+
+        JCheckBoxMenuItem showSubgraphEdgesMenuItem = new JCheckBoxMenuItem(SHOW_SUBGRAPH_EDGES);
+        showSubgraphEdgesMenuItem.setName(SHOW_SUBGRAPH_EDGES);
+        showSubgraphEdgesMenuItem.setText(SHOW_SUBGRAPH_EDGES);
+        showSubgraphEdgesMenuItem.addItemListener(this);
+        showSubgraphEdgesMenuItem.setSelected(true);
+        geneOntologyMenu.add(showSubgraphEdgesMenuItem);
 
 
         this.add(geneOntologyMenu);
@@ -228,15 +236,34 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         GOGraphContainer goGraphContainer = (GOGraphContainer) Scene.getInstance().getGoController().getRoot();
 
         if (itemEvent.getItem() instanceof JCheckBoxMenuItem) {
-            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                if (goGraphContainer != null) {
-                    goGraphContainer.showUnconnectedComponents();
+
+            JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) itemEvent.getItem();
+            if (checkBoxMenuItem.getName().equals(SHOW_UNCONNECTED_COMPONENTS)) {
+                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                    if (goGraphContainer != null) {
+                        goGraphContainer.showUnconnectedComponents();
+                    }
+                }
+
+                if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+                    goGraphContainer.hideUnconnectedComponents();
                 }
             }
 
-            if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
-                goGraphContainer.hideUnconnectedComponents();
+            if (checkBoxMenuItem.getName().equals(SHOW_SUBGRAPH_EDGES)) {
+                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                    if (goGraphContainer != null) {
+                        goGraphContainer.showSubgraphEdges();
+                    }
+                }
+
+                if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+                    if (goGraphContainer != null) {
+                        goGraphContainer.hideSubgraphEdges();
+                    }
+                }
             }
+
         }
     }
 }

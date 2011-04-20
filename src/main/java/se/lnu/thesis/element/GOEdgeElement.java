@@ -20,10 +20,13 @@ public class GOEdgeElement extends EdgeElement {
 
         result.setVisualizer(visualizer);
 
-        result.setHighlighted(false); // do not draw and highlight in default state
+        result.setHighlighted(false); // do not highlight in default state
+        result.setShowHighlightedEdge(true); // should ne drawn if highlighted
 
         return result;
     }
+
+    protected boolean showHighlightedEdge = true;
 
     /**
      *
@@ -34,8 +37,32 @@ public class GOEdgeElement extends EdgeElement {
     @Override
     public void setHighlighted(boolean b) {
         super.setHighlighted(b);
-        setDrawn(b);
+        if (isShowHighlightedEdge()) {
+            setDrawn(b);
+        }
     }
 
+    /**
+     *      Check if edge should be drawn in highlighted mode or never drawn
+     * @return <code>True</code> or <code>False</code>
+     */
+    public boolean isShowHighlightedEdge() {
+        return showHighlightedEdge;
+    }
 
+    /**
+     *      Set if edge should be drawn if in highlighted mode.
+     * @param showHighlightedEdge <code>True</code> or <code>False</code>
+     */
+    public void setShowHighlightedEdge(boolean showHighlightedEdge) {
+        this.showHighlightedEdge = showHighlightedEdge;
+
+        if (!isShowHighlightedEdge()) {
+            setDrawn(false);
+        }
+
+        if (isShowHighlightedEdge() && isHighlighted()) {
+            setDrawn(true);
+        }
+    }
 }

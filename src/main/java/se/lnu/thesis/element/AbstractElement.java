@@ -114,10 +114,22 @@ public abstract class AbstractElement implements Element {
         this.focused = focused;
     }
 
+    /**
+     *
+     *      Two Elements are equal if their id objects are equal and if there have same <code>ElementType</code>
+     *
+     * @param o Element to compare with.
+     * @return <code>True</code> or <code>False</code>
+     * @exception IllegalArgumentException if class instances are incompatible
+     */
     @Override
     public boolean equals(Object o) {
+        if (! (o instanceof Element)) {
+            throw new IllegalArgumentException("Incompatible types for comparison! Should be instance of Element class but got: " + o.getClass());
+        }
+
         Element element = (Element) o;
 
-        return this.object.equals(element.getObject());
+        return this.object.equals(element.getObject()) && this.getType() == element.getType();
     }
 }

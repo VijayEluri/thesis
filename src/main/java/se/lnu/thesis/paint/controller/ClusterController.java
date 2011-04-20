@@ -69,9 +69,7 @@ public class ClusterController extends GraphController implements Observer {
 
 
         if (getRoot() != null) {
-            Iterator<Element> elements = getRoot().getElements();
-            while (elements.hasNext()) {
-                Element element = elements.next();
+            for (Element element: getRoot()) {
                 if (element instanceof GroupingElement) {
                     ((GroupingElement) element).clearElements();
                 }

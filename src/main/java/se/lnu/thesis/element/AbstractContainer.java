@@ -1,5 +1,10 @@
 package se.lnu.thesis.element;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
+import com.sun.istack.internal.Nullable;
 import org.apache.log4j.Logger;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -37,15 +42,17 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         return objects != null ? objects.size() : 0;
     }
 
-    public Iterator<Element> getElements() {
+    public UnmodifiableIterator<Element> getElements() {
         return iterator();
     }
 
-    public Iterator<Integer> getIds() {
-        return id2Element.keySet().iterator();
+    public UnmodifiableIterator<Integer> getIds() {
+        return Iterators.unmodifiableIterator(id2Element.keySet().iterator());
     }
 
     public void addElement(Element element) {
+        Preconditions.checkNotNull(element);
+
         elements.add(element);
 
         if (element.getId() != null) {
@@ -62,6 +69,8 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     public Element getElementByObject(Object o) {
+        Preconditions.checkNotNull(o);
+
         return obj2Element.get(o);
     }
 
@@ -85,13 +94,13 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     @Override
     public boolean hasAny(Collection collection) {
 
-        for (Object o : collection) {
+        for (Object o : collection) {                    // TODO refactor it using Guave intersection check
             if (has(o) || obj2Element.containsKey(o)) {
                 return true;
             }
         }
 
-        for (Element element : this) {
+        for (Element element : this) { // TODO here all check how to remove loop and use lib intersection
             if (element.hasAny(collection)) {
                 return true;
             }
@@ -109,9 +118,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     @Override
     public void setHighlighted(Collection objects) {
         if (hasAny(objects)) {
-            Iterator<Element> iterator = iterator();
-            while (iterator.hasNext()) {
-                Element element = iterator.next();
+            for (Element element : this) {
                 element.setHighlighted(objects);
             }
             setHighlighted(true);
@@ -121,8 +128,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     @Override
     public void resetHighlighting() {
         setHighlighted(false);
-        for (Iterator<Element> i = getElements(); i.hasNext();) {
-            Element element = i.next();
+        for (Element element : this) {
             element.resetHighlighting();
         }
     }
@@ -132,8 +138,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     public void drawContent(GLAutoDrawable drawable) {
-        for (Iterator<Element> i = getElements(); i.hasNext();) {
-            Element element = i.next();
+        for (Element element : this) {
             element.draw(drawable);
         }
     }
@@ -144,22 +149,8 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
      *
      * @return Returns read only Iterator object
      */
-    public Iterator<Element> iterator() {
-        final Iterator<Element> i = elements.iterator();
-
-        return new Iterator<Element>() {
-            public boolean hasNext() {
-                return i.hasNext();
-            }
-
-            public Element next() {
-                return i.next();
-            }
-
-            public void remove() {
-                throw new UnsupportedOperationException("This iterator does not allow removing operation!");
-            }
-        };
+    public UnmodifiableIterator<Element> iterator() {
+        return Iterators.unmodifiableIterator(elements.iterator());
     }
 
     /**
@@ -198,5 +189,39 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
         if (id2Element != null) {
             id2Element.clear();
         }
+    }
+
+
+    /**
+     *
+     *      Returns unmodifiable iterator over all elements inside current container and
+     *      inside containers belongs to this container.
+     *
+     * @return Instance of <code>UnmodifiableIterator</code> class.
+     */
+    public UnmodifiableIterator<Element> getAllElements() {
+        Iterator<Element> result = getElements();
+
+        for (Element element : this) {
+            if (element.getType() == ElementType.CONTAINER) {
+                result = Iterators.concat(result, ((Container) element).getAllElements());
+            }
+        }
+
+        return Iterators.unmodifiableIterator(result);
+    }
+
+    /**
+     * Return iterator over all edge elements for container and inner container elements.
+     *
+     * @return Iterator over edge elements in the GO graph container.
+     */
+    public UnmodifiableIterator<Element> getAllEdgeElements() {
+        return Iterators.filter(getAllElements(), new Predicate<Element>() {
+            public boolean apply(Element input) {
+                return input.getType() == ElementType.EDGE;
+
+            }
+        });
     }
 }

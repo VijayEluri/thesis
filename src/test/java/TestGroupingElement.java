@@ -26,7 +26,7 @@ public class TestGroupingElement {
         String file = getClass().getClassLoader().getResource("test_tree_15_14.gml").getPath();
 
         IOFacade ioFacade = new IOFacade();
-        graph = ioFacade.loadFromYedGml(file);
+        graph = ioFacade.loadMyGraphFromYedGml(file);
     }
 
     @After

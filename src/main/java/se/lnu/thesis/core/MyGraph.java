@@ -1,8 +1,6 @@
 package se.lnu.thesis.core;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.*;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 import java.util.*;
@@ -18,18 +16,41 @@ import java.util.*;
 public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
 
 
-    private Map<V, String> nodeLabel = new HashMap<V, String>(); // TODO use GoogleCollection Bidirectional Map
+    private BiMap<V, String> node2Label = HashBiMap.create();
 
+    /**
+     *      Add label for specific vertex.
+     * @param o Vertex object id.
+     * @param label Label string.
+     * @return <code>True</code> if label successfully added for vertex, <code>False</code> otherwise.
+     * @throws IllegalArgumentException Throws exception if label is already exist for another vertex.
+     */
     public boolean addLabel(V o, String label) {
-        nodeLabel.put(o, label);
+        if (node2Label.containsValue(label)) {
+            throw new IllegalArgumentException("There is vertex with same label! " + node2Label.inverse().get(label) + " -> '" + label + "'");
+        }
 
-        return nodeLabel.containsKey(o);
+        node2Label.put(o, label);
+
+        return node2Label.containsKey(o) && node2Label.containsValue(label);
+    }
+
+    /**
+     *      Change label for specific vertex, if label does not exist for vertex then it will be added.
+     * @param o Vertex object id.
+     * @param label String label.
+     * @return <code>True</code> if changed successfully, <code>False</code> otherwise.
+     */
+    public boolean changeLabel(V o, String label) {
+        node2Label.put(o, label);
+
+        return node2Label.containsKey(o) && node2Label.containsValue(label);
     }
 
     @Override
     public boolean removeVertex(V v) {
         if (super.removeVertex(v)) {
-            nodeLabel.remove(v);
+            node2Label.remove(v);
 
             return true;
         }
@@ -38,102 +59,59 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     public boolean removeLabel(V v) {
-        nodeLabel.remove(v);
+        node2Label.remove(v);
 
-        return !nodeLabel.containsKey(v);
+        return !node2Label.containsKey(v);
     }
 
+    /**
+     *
+     *      Return copy of all labels for this graph
+     *
+     * @return Immutable collection of labels
+     */
     public ImmutableCollection<String> getLabels() {
-        return ImmutableMultiset.copyOf(nodeLabel.values()); // TODO use ImmutableSet after switching to BiMap
+        return ImmutableSet.copyOf(node2Label.values());
     }
 
-    public Iterator<String> getLabelsIterator() {
-
-        final Iterator<String> labelsIterator = nodeLabel.values().iterator();
-
-        return new Iterator() {
-
-            public void remove() {
-                throw new UnsupportedOperationException("This iterator doesnt allow collection modifications");
-            }
-
-            public boolean hasNext() {
-                return labelsIterator.hasNext();
-            }
-
-            public Object next() {
-                return labelsIterator.next();
-            }
-
-        };
-
-    }
-
-
-    /**
-     * Returns all nodes with selected label in graph
-     *
-     * @param label Label string
-     * @return Set of node keys
-     */
-    public ImmutableSet<V> getNodesByLabel(String label) {
-        Set result = new HashSet();
-
-        for (V v : nodeLabel.keySet()) {
-            if (label.compareTo(nodeLabel.get(v)) == 0) {
-                result.add(v);
-            }
-        }
-
-        return ImmutableSet.copyOf(result);
+    public UnmodifiableIterator<String> getLabelsIterator() {
+        return Iterators.unmodifiableIterator(node2Label.values().iterator());
     }
 
     /**
-     * Returns all leafs with selected label in graph
+     *      Get vertex with specified label
      *
-     * @param label Label string
-     * @return Set of node keys
-     */
-    public ImmutableSet<V> getLeafsByLabel(String label) {
-        Set result = new HashSet();
-
-        for (V v : nodeLabel.keySet()) {
-            if (label.compareTo(nodeLabel.get(v)) == 0) {
-                if (outDegree(v) == 0) {
-                    result.add(v);
-                }
-            }
-        }
-
-        return ImmutableSet.copyOf(result);
-    }
-
-    /**
-     * Get first node with selected label
-     *
-     * @param label Node label string
-     * @return node key
+     * @param label String label
+     * @return node Vertex object id
      */
     public V getNodeByLabel(String label) {
-
-        for (V v : nodeLabel.keySet()) {
-            if (label.compareTo(nodeLabel.get(v)) == 0) {
-                return v;
-            }
-        }
-
-        return null;
+        return node2Label.inverse().get(label);
     }
 
+    /**
+     *
+     *      Get label for vertex
+     *
+     * @param node Vertex object id
+     * @return String label
+     */
     public String getLabel(V node) {
-        return nodeLabel.get(node);
+        return node2Label.get(node);
     }
 
+    /**
+     * @return Label count for this graph
+     */
     public int getLabelCount() {
-        return nodeLabel.values().size();
+        return node2Label.values().size();
     }
 
+    /**
+     *      Check if graph contains label.
+     * @param label String label to check.
+     * @return True if graph contains label, False otherwise.
+     */
     public boolean containsLabel(String label) {
-        return nodeLabel.values().contains(label);
+        return node2Label.values().contains(label);
     }
 }

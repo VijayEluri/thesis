@@ -45,7 +45,7 @@ public class TestGraphStatistic {
     public void computeAsterixGeneralTree() {
         IOFacade ioFacade = new IOFacade();
 
-        Graph graph = ioFacade.loadFromGml(getClass().getClassLoader().getResource("Asterix.gml").getPath());
+        Graph graph = ioFacade.loadGraphFromGml(getClass().getClassLoader().getResource("Asterix.gml"));
 
         assertEquals(100, graph.getVertexCount());
         assertEquals(99, graph.getEdgeCount());

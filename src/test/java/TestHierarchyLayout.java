@@ -5,7 +5,6 @@ import se.lnu.thesis.element.*;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.HierarchyLayout2;
 
-import javax.lang.model.util.Elements;
 import java.util.Iterator;
 
 /**
@@ -18,7 +17,7 @@ public class TestHierarchyLayout {
 
     @Test
     public void checkHierarchyLayout2() {
-        Graph graph = new IOFacade().loadFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
         Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());
@@ -39,26 +38,16 @@ public class TestHierarchyLayout {
         int vertexElements = 0;
         int edgeElements = 0;
 
-        Iterator<Element> iterator1 = graphContainer.getElements();
-        while (iterator1.hasNext()) {
-
-            Element element = iterator1.next();
+        for (Element element : graphContainer) {
             if (element.getType() == ElementType.EDGE) {
-
                 edgeElements++;
-
             } else {
                 Level level = (Level) element;
 
-                Iterator<Element> iterator2 = level.getElements();
-                while (iterator2.hasNext()) {
-                    Element e = iterator2.next();
-
+                for (Element e : level) {
                     if (e.getType() == ElementType.VERTEX) {
                         vertexElements++;
                     }
-
-
                 }
             }
         }

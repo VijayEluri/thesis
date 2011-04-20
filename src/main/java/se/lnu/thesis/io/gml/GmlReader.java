@@ -1,5 +1,7 @@
 package se.lnu.thesis.io.gml;
 
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,11 +28,10 @@ public class GmlReader {
     protected String tagEdge;
 
     protected String tagID;
-    protected String tagLabel;
     protected String tagSource;
     protected String tagTarget;
 
-    protected MyGraph result = null;
+    protected Graph result = null;
 
     protected boolean node = false;
     protected boolean edge = false;
@@ -40,7 +41,7 @@ public class GmlReader {
     protected Integer source = null;
 
 
-    public MyGraph<Integer, String> read(InputStream inputStream) {
+    public Graph<Integer, String> read(InputStream inputStream) {
         init();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -55,8 +56,6 @@ public class GmlReader {
                 if (tagNode(s)) continue;
 
                 if (tagId(s)) continue;
-
-                if (tagLabel(s)) continue;
 
                 if (tagEdge(s)) continue;
 
@@ -79,7 +78,6 @@ public class GmlReader {
         tagEdge = "edge [";
 
         tagID = "id ";
-        tagLabel = "label ";
         tagSource = "source ";
         tagTarget = "target ";
 
@@ -98,7 +96,7 @@ public class GmlReader {
 
     protected boolean tagGraph(String s) {
         if (s.startsWith(tagGraph)) {
-            result = new MyGraph<Integer, String>();
+            result = new DirectedSparseGraph<Integer, String>();
 
             return true;
         }
@@ -127,21 +125,6 @@ public class GmlReader {
 
             return true;
         }
-        return false;
-    }
-
-    protected boolean tagLabel(String s) {
-        if (s.startsWith(tagLabel) && node && id != null) { // node label
-            String label = Utils.extractStringValue(s, tagLabel);
-
-            result.addLabel(id, label);
-
-            node = false;
-            id = null;
-
-            return true;
-        }
-
         return false;
     }
 

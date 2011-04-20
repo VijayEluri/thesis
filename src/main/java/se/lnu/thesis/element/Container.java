@@ -1,5 +1,7 @@
 package se.lnu.thesis.element;
 
+import com.google.common.collect.UnmodifiableIterator;
+
 import javax.media.opengl.GLAutoDrawable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,10 +27,10 @@ public interface Container extends Element, Iterable<Element> {
     void addElement(Element element);
 
     /**
-     * Get Iterator object for all elements inside container
+     * Get Iterator object for all elements inside container. Same as <code>iterator()</code>
      * @return Iterator object
      */
-    Iterator<Element> getElements();
+    UnmodifiableIterator<Element> getElements();
 
 
     /**
@@ -41,7 +43,7 @@ public interface Container extends Element, Iterable<Element> {
      * Get read only Iterator object for all elements inside container
      * @return Read only iterator
      */
-    Iterator<Element> iterator();
+    UnmodifiableIterator<Element> iterator();
 
     /**
      * Get Iterator object for all element ids inside container
@@ -93,4 +95,19 @@ public interface Container extends Element, Iterable<Element> {
      */
     void clearElements();
 
+    /**
+     *
+     *      Returns unmodifiable iterator over all elements inside current container and
+     *      inside containers belongs to this container.
+     *
+     * @return Instance of <code>UnmodifiableIterator</code> class.
+     */
+    UnmodifiableIterator<Element> getAllElements();
+
+    /**
+     * Return iterator over all edge elements for container and inner container elements.
+     *
+     * @return Iterator over edge elements in the GO graph container.
+     */
+    UnmodifiableIterator<Element> getAllEdgeElements();
 }

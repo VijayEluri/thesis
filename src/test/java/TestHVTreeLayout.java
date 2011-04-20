@@ -68,7 +68,7 @@ public class TestHVTreeLayout {
         IOFacade ioFacade = new IOFacade();
 
 
-        Graph cluster = ioFacade.loadFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
+        Graph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
         Object root = GraphUtils.getRoot(cluster);
         DimensionalContainer container = DimensionalContainer.init(root);
 

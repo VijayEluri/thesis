@@ -75,7 +75,7 @@ public class HierarchyLayout extends AbstractLayout {
      */
     protected void computeEdges() {
 
-        computeInnerLevelEdges();
+        // computeInnerLevelEdges();
 
         computePreviewEdges();
 
@@ -85,7 +85,11 @@ public class HierarchyLayout extends AbstractLayout {
      *  Compute edges for each level, but only that edges which have source and target in same level
      *
      *  TODO refactor this and next method
+     *
+     *  THIS METHOD IS DEPRECATED BECAUSE OF GRAPH STRUCTURE - DOES NOT CONTAIN EDGES INSIDE SAME LEVEL!
      */
+
+/*
     protected void computeInnerLevelEdges() {
         for (Object o : getGraph().getEdges()) {
 
@@ -112,6 +116,7 @@ public class HierarchyLayout extends AbstractLayout {
 
         }
     }
+*/
 
     /**
      *      Compute all edges for while graph based on preview element positions

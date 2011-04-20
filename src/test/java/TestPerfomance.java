@@ -7,23 +7,17 @@ import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.ClusterGraphContainer;
-import se.lnu.thesis.element.Dimensional;
-import se.lnu.thesis.element.GraphContainer;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.JungTreeYedHandler;
 import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
-import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -220,7 +214,7 @@ public class TestPerfomance {
     @Deprecated
     public void measureJungKKLayoutForGO() {
         IOFacade facade = new IOFacade();
-        Graph graph = facade.loadFromGml("RealGOGraph.graphml");
+        Graph graph = facade.loadMyGraphFromGml("RealGOGraph.graphml");
 
         KKLayout layout = new KKLayout(graph);
         layout.setSize(new Dimension(800, 600));

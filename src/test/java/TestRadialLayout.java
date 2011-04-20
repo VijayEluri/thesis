@@ -4,7 +4,6 @@ import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.layout.PolarDendrogramLayout;
 import se.lnu.thesis.layout.RadialLayout;
 
 import java.awt.geom.Point2D;
@@ -22,7 +21,7 @@ public class TestRadialLayout {
         String file = getClass().getClassLoader().getResource("test_tree_15_14.gml").getPath();
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGml(file);
+        MyGraph graph = ioFacade.loadMyGraphFromYedGml(file);
 
         Assert.assertNotNull(graph);
 

@@ -80,17 +80,17 @@ public class Extractor {
             Object clusterSubGraphRoot = null;
             for (Object goLeaf : goSubGraphLeafs) {
 
-                String label = goGraph.getLabel(goLeaf);
+                String leafLabel = goGraph.getLabel(goLeaf);
 
-                Set leafs = clusterGraph.getLeafsByLabel(label);
+                Object leaf = clusterGraph.getNodeByLabel(leafLabel);
 
-                if (leafs.size() > 1) {
-                    String error = "Error! Found couple leafs with label '" + label + "'!!";
+                if (leaf == null) {
+                    String error = "Error! Can't find leaf in the cluster graph with label '" + leafLabel + "'!!";
                     LOGGER.error(error);
                     throw new IllegalStateException(error);
                 }
 
-                List connectedNodes = GraphTraversalUtils.invertDfs(clusterGraph, leafs.iterator().next());
+                List connectedNodes = GraphTraversalUtils.invertDfs(clusterGraph, leaf);
                 for (int i = 0; i <= connectedNodes.size() - 1; i++) {
                     Object node1, node2 = null;
 
