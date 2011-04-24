@@ -1,12 +1,13 @@
 package se.lnu.thesis.layout;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.TreeMultimap;
+import com.google.common.collect.*;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
+import se.lnu.thesis.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 
@@ -75,55 +76,9 @@ public class HierarchyLayout extends AbstractLayout {
      */
     protected void computeEdges() {
 
-        // computeInnerLevelEdges();
+     //   computeStraitEdges();
+        computeBundledEdges();
 
-        computePreviewEdges();
-
-    }
-
-    /**
-     *      Compute all edges for while graph based on preview element positions
-     */
-    protected void computePreviewEdges() {
-        for (Object o : getGraph().getEdges()) {
-
-            Object source = getGraph().getSource(o);
-            Object dest = getGraph().getDest(o);
-
-            Element sourceElement = findElementInLevelPreviw(source);
-            Element destElement = findElementInLevelPreviw(dest);
-
-            if (sourceElement != null && destElement != null) {
-                // create edge which will be visible only during subgraph highlight
-                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
-
-                getRoot().addElement(edgeElement);
-            }
-
-        }
-
-    }
-
-    public Element findElementInLevelPreviw(Object o) {
-        Element result = null;
-
-        if (root != null) {
-            for (Element element: getRoot()) {
-                if (element instanceof Level) { // TODO provide a new element type
-                    Level level = (Level) element;
-
-                    result = level.getPreview().getElementByObject(o);
-
-                    if (result != null) {
-                        return result;
-                    }
-
-                }
-            }
-
-        }
-
-        return null;
     }
 
     protected void initPreviewLevelLayout() {
@@ -159,5 +114,158 @@ public class HierarchyLayout extends AbstractLayout {
 
     public int getLevelCount() {
         return levelCount;
+    }
+
+     /**
+     *      Compute all edges for while graph based on preview element positions
+     */
+    protected void computeStraitEdges() {
+        for (Object o : getGraph().getEdges()) {
+
+            Object source = getGraph().getSource(o);
+            Object dest = getGraph().getDest(o);
+
+            Element sourceElement = findElementInLevelPreview(source);
+            Element destElement = findElementInLevelPreview(dest);
+
+            if (sourceElement != null && destElement != null) {
+                // create edge which will be visible only during subgraph highlight
+                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
+
+                getRoot().addElement(edgeElement);
+            }
+
+        }
+
+    }
+
+    public Element findElementInLevelPreview(Object o) {
+        Element result = null;
+
+        if (root != null) {
+            for (Element element: getRoot()) {
+                if (element instanceof Level) {
+                    Level level = (Level) element;
+
+                    result = level.getPreview().getElementByObject(o);
+
+                    if (result != null) {
+                        return result;
+                    }
+
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+    public Level findLevelByObjectInLevelPreview(Object o) {
+        Element result = null;
+
+        if (root != null) {
+            for (Element element: getRoot()) {
+                if (element instanceof Level) {
+                    Level level = (Level) element;
+
+                    result = level.getPreview().getElementByObject(o);
+
+                    if (result != null) {
+                        return level;
+                    }
+
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+    protected void computeBundledEdges() {
+
+        for (Object o: getGraph().getVertices()) {
+            if (GraphUtils.isNode(getGraph(), o)) {
+                Element element = findElementInLevelPreview(o);
+
+                Point2D start = element.getPosition();
+
+                Multimap<Level, Element> level2Successors = extractSuccessorsByLevels(element);
+
+                for (Level level: level2Successors.keySet()) {
+                    Collection<Element> successors = level2Successors.get(level);
+
+                    Object source = element.getObject();
+
+                    if (successors.size() == 1) { // for one successor draw direct line
+                        Element successor = successors.iterator().next();
+
+                        Point2D end = successor.getPosition();
+
+                        Object target = successor.getObject();
+                        Object edge = getGraph().findEdge(source, target);
+
+                        GOEdgeElement directEdge = GOEdgeElement.init(edge, source, target, start, end, ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
+
+                        getRoot().addElement(directEdge);
+
+                    } else { // if more successors than draw through dummy node
+                        Point2D dummyNode = computeDummyNode(level, successors);
+
+                        for (Element successor: successors) {
+                            Point2D end = successor.getPosition();
+
+                            Object target = successor.getObject();
+                            Object edge = getGraph().findEdge(source, target);
+
+
+                            GOBundledEdge bundledEdge = GOBundledEdge.init(edge, source, target, start, dummyNode, end);
+
+                            getRoot().addElement(bundledEdge);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    protected Point2D computeDummyNode(Level level, Collection<Element> elements) {
+        Point2D result = new Point2D.Double();
+
+        double y = level.getPreview().getPosition().getY();
+        double x;
+
+        if (elements.size() == 1) {
+            x = elements.iterator().next().getPosition().getX();
+        } else {
+            double minX = 1;
+            double maxX = -1;
+
+            for (Element element: elements) {
+                minX = Math.min(minX, element.getPosition().getX());
+                maxX = Math.max(maxX, element.getPosition().getX());
+            }
+
+            x = (maxX + minX) / 2;
+        }
+
+        result.setLocation(x, y);
+
+        return result;
+    }
+
+    private Multimap<Level, Element> extractSuccessorsByLevels(Element parent) {
+        Multimap<Level, Element> result = HashMultimap.create();
+
+        for (Object successor: getGraph().getSuccessors(parent.getObject())) {
+            Level level = findLevelByObjectInLevelPreview(successor);
+            Element successorElement = findElementInLevelPreview(successor);
+
+            result.put(level, successorElement);
+        }
+
+        return result;
     }
 }

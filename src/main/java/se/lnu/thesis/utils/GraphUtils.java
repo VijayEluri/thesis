@@ -186,6 +186,28 @@ public class GraphUtils {
         return graph.inDegree(node) == 0;
     }
 
+    /**
+     *
+     * Check if vertex does not have neither predecessors nor successors
+     *
+     * @param graph Graph where vertex is
+     * @param vertex Corresponded vertex object id to check
+     * @return True if unconnected, False otherwise
+     */
+    public static <V,E> boolean isUnconnectedComponent(Graph<V,E> graph, V vertex) {
+        return isRoot(graph, vertex) && isLeaf(graph, vertex);
+    }
+
+    /**
+     *  Check if current vertex is node: has outgoing edges.
+     * @param graph Graph to check vertex in
+     * @param o Vertex id object
+     * @return True if it's node, False otherwise
+     */
+    public static boolean isNode(Graph graph, Object o) {
+        return graph.outDegree(o) > 0;
+    }
+
     public static <V, E> Set<V> getLeafs(Graph<V, E> graph, V node) {
         Set result = new HashSet();
 
@@ -294,15 +316,4 @@ public class GraphUtils {
 
     }
 
-    /**
-     *
-     * Check if vertex does not have neither predecessors nor successors
-     *
-     * @param graph Graph where vertex is
-     * @param vertex Corresponded vertex object id to check
-     * @return True if unconnected, False otherwise
-     */
-    public static <V,E> boolean isUnconnectedComponent(Graph<V,E> graph, V vertex) {
-        return isRoot(graph, vertex) && isLeaf(graph, vertex);
-    }
 }

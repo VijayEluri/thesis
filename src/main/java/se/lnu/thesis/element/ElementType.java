@@ -16,7 +16,3 @@ public enum ElementType {
     CONTAINER
 
 }
-
-enum ContainerElementType {
-    CONTAINER,
-}

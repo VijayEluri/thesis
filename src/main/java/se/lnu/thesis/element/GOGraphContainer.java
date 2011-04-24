@@ -112,8 +112,7 @@ public class GOGraphContainer extends GraphContainer {
     }
 
     /**
-     *      Return iterator over only Level elements of the GO container
-     * @return
+     * @return Return iterator over only Level elements of the GO container
      */
     public UnmodifiableIterator<Element> getLevels() {
         return Iterators.unmodifiableIterator(Iterators.filter(getElements(), new Predicate<Element>() {
