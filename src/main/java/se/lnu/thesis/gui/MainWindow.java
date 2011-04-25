@@ -5,6 +5,7 @@ import se.lnu.thesis.Scene;
 
 import javax.media.opengl.GLJPanel;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -14,6 +15,8 @@ public class MainWindow extends JFrame {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
 
+    JLabel goStatusBar;
+    JLabel clusterStatusBar;
     JLabel statusBar;
     JScrollBar scrollBar;
 
@@ -35,13 +38,28 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
-    private JLabel statusBar() {
-        statusBar = new JLabel(" ");
+    private JComponent statusBar() {
+        JPanel result = new JPanel();
+        result.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        result.setPreferredSize(new Dimension(this.getWidth(), 16));
+        result.setLayout(new BoxLayout(result, BoxLayout.X_AXIS));
 
-        return statusBar;
+        goStatusBar = new JLabel(" ");
+        goStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
+        result.add(goStatusBar);
+
+        clusterStatusBar = new JLabel(" ");
+        clusterStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
+        result.add(clusterStatusBar);
+
+        statusBar = new JLabel(" ");
+        statusBar.setHorizontalAlignment(SwingConstants.LEFT);
+        result.add(statusBar);
+
+        return result;
     }
 
-    private Component centralPanel() {
+    private JComponent centralPanel() {
         JPanel result = new JPanel();
 
         result.setLayout(new GridLayout(1, 2));
@@ -52,7 +70,7 @@ public class MainWindow extends JFrame {
         return result;
     }
 
-    private Component goPanel() {
+    private JComponent goPanel() {
         JPanel result = new JPanel(new BorderLayout());
 
         result.add(goDrawingPanel(), BorderLayout.CENTER);
@@ -104,12 +122,16 @@ public class MainWindow extends JFrame {
         return gljPanel;
     }
 
-    public void setStatusBarText(String text) {
-        statusBar.setText(text);
+    public void setGOStatusBarText(String text) {
+        goStatusBar.setText(text);
     }
 
-    public void clearStatusBar() {
-        setStatusBarText(" ");
+    public void setClusterStatusBarText(String text) {
+        clusterStatusBar.setText(text);
+    }
+
+    public void setStatusBarText(String text) {
+        statusBar.setText(text);
     }
 
     public void setScrollBarValue(int index) {
