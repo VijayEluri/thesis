@@ -22,11 +22,13 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
     protected JPanel selection;
     protected JPanel focusing;
     protected JPanel subgraph;
+    protected JPanel verticesTooltips;
 
     protected JPanel goLevelNumbers;
     protected JPanel goLevelLines;
     protected JPanel goLeaves;
     protected JPanel goNodes;
+    protected JPanel goEdges;
 
     protected JPanel clusterLeaves;
     protected JPanel clusterNodes;
@@ -48,6 +50,7 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
         selection.setBackground(colorSchema.getSelection().asAWTColor());
         focusing.setBackground(colorSchema.getFocusing().asAWTColor());
         subgraph.setBackground(colorSchema.getSubgraph().asAWTColor());
+        verticesTooltips.setBackground(colorSchema.getVerticesTooltips().asAWTColor());
 
         goLevelNumbers.setBackground(colorSchema.getGoLevelNumbers().asAWTColor());
         goLevelLines.setBackground(colorSchema.getGoLevelLines().asAWTColor());
@@ -62,7 +65,7 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
     }
 
     protected void createGUI() {
-        setLayout(new GridLayout(13, 1));
+        setLayout(new GridLayout(14, 1));
 
         panelMouseAdapter = new ColorPanelMouseAdapter();
 
@@ -78,6 +81,9 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
         subgraph = createColorPanel(ColorSchema.COLOR_SUBGRAPH);
         add(colorPropertyPanel("Subgraph ", subgraph));
 
+        verticesTooltips = createColorPanel(ColorSchema.COLOR_VERTICES_TOOLTIPS);
+        add(colorPropertyPanel("Tooltips ", verticesTooltips));
+
         goLevelNumbers = createColorPanel(ColorSchema.COLOR_GO_LEVEL_NUMBERS);
         add(colorPropertyPanel("GO level numbers ", goLevelNumbers));
 
@@ -89,6 +95,10 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
 
         goNodes = createColorPanel(ColorSchema.COLOR_GO_NODES);
         add(colorPropertyPanel("GO nodes ", goNodes));
+
+/*        goEdges = createColorPanel(ColorSchema.COLOR_GO_EDGES);
+        add(colorPropertyPanel("GO edges ", goEdges));*/
+
 
         clusterLeaves = createColorPanel(ColorSchema.COLOR_CLUSTER_LEAVES);
         add(colorPropertyPanel("Cluster leaves ", clusterLeaves));

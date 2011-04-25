@@ -55,6 +55,7 @@ public class TestMyColor {
         LOGGER.info("selection = " + colorSchema.getSelection().asAWTColor().getRGB());
         LOGGER.info("focusing = " + colorSchema.getFocusing().asAWTColor().getRGB());
         LOGGER.info("subgraph = " + colorSchema.getSubgraph().asAWTColor().getRGB());
+        LOGGER.info("tooltips = " + colorSchema.getVerticesTooltips().asAWTColor().getRGB());
 
         LOGGER.info("GO level numbers = " + colorSchema.getGoLevelNumbers().asAWTColor().getRGB());
         LOGGER.info("GO level lines = " + colorSchema.getGoLevelLines().asAWTColor().getRGB());

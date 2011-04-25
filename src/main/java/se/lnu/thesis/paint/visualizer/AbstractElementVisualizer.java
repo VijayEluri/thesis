@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
  */
 public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
-    protected ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
+    protected ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema(); // TODO move initialization to constructor
 
     private GLAutoDrawable drawable; // OpenGL drawing context
 
@@ -26,11 +26,11 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
     private GLUT glut;
 
     private MyColor mainColor;
-    private MyColor selectionColor = colorSchema.getSelection();
-    private MyColor subgraphColor = colorSchema.getSubgraph();
-    private MyColor focusedColor = colorSchema.getFocusing();
+    private MyColor selectionColor = colorSchema.getSelection(); // TODO move initialization to constructor
+    private MyColor subgraphColor = colorSchema.getSubgraph(); // TODO move initialization to constructor
+    private MyColor focusedColor = colorSchema.getFocusing();// TODO move initialization to constructor
 
-    private MyColor tooltipColor = new MyColor(Color.CYAN); // TODO Fix it
+    private MyColor tooltipColor = colorSchema.getVerticesTooltips();
 
     protected AbstractElementVisualizer() {
 

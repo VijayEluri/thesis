@@ -19,11 +19,13 @@ public class ColorSchema {
     public static final String COLOR_SELECTION = "color.selection";
     public static final String COLOR_FOCUSING = "color.focusing";
     public static final String COLOR_SUBGRAPH = "color.subgraph";
+    public static final String COLOR_VERTICES_TOOLTIPS = "color.verticesTooltips";
 
     public static final String COLOR_GO_LEVEL_NUMBERS = "color.goLevelNumbers";
     public static final String COLOR_GO_LEVEL_LINES = "color.goLevelLines";
     public static final String COLOR_GO_LEAVES = "color.goLeaves";
     public static final String COLOR_GO_NODES = "color.goNodes";
+    public static final String COLOR_GO_EDGES = "color.goEdges";
 
     public static final String COLOR_CLUSTER_LEAVES = "color.clusterLeaves";
     public static final String COLOR_CLUSTER_NODES = "color.clusterNodes";
@@ -36,13 +38,18 @@ public class ColorSchema {
             .put(COLOR_SELECTION, new MyColor())
             .put(COLOR_FOCUSING, new MyColor())
             .put(COLOR_SUBGRAPH, new MyColor())
+            .put(COLOR_VERTICES_TOOLTIPS, new MyColor())
+
             .put(COLOR_GO_LEVEL_NUMBERS, new MyColor())
             .put(COLOR_GO_LEVEL_LINES, new MyColor())
             .put(COLOR_GO_LEAVES, new MyColor())
             .put(COLOR_GO_NODES, new MyColor())
+            .put(COLOR_GO_EDGES, new MyColor())
+
             .put(COLOR_CLUSTER_LEAVES, new MyColor())
             .put(COLOR_CLUSTER_NODES, new MyColor())
             .put(COLOR_CLUSTER_EDGES, new MyColor())
+
             .put(COLOR_LENS, new MyColor())
             
             .build();
@@ -56,6 +63,7 @@ public class ColorSchema {
         colors.get(COLOR_SELECTION).setColor(Color.GREEN);
         colors.get(COLOR_FOCUSING).setColor(Color.BLUE);
         colors.get(COLOR_SUBGRAPH).setColor(Color.YELLOW);
+        colors.get(COLOR_VERTICES_TOOLTIPS).setColor(Color.CYAN);
 
         colors.get(COLOR_GO_LEVEL_NUMBERS).setColor(Color.WHITE);
         colors.get(COLOR_GO_LEVEL_LINES).setColor(Color.GRAY);
@@ -63,6 +71,7 @@ public class ColorSchema {
         colors.get(COLOR_GO_NODES).setColor(Color.WHITE);
 
         Color grey = new Color(100, 100, 100);
+        colors.get(COLOR_GO_EDGES).setColor(grey);
         colors.get(COLOR_CLUSTER_LEAVES).setColor(grey);
         colors.get(COLOR_CLUSTER_NODES).setColor(grey);
         colors.get(COLOR_CLUSTER_EDGES).setColor(grey);
@@ -91,6 +100,10 @@ public class ColorSchema {
         return getColor(COLOR_SUBGRAPH);
     }
 
+    public MyColor getVerticesTooltips() {
+        return getColor(COLOR_VERTICES_TOOLTIPS);
+    }
+
     public MyColor getGoLevelNumbers() {
         return getColor(COLOR_GO_LEVEL_NUMBERS);
     }
@@ -105,6 +118,10 @@ public class ColorSchema {
 
     public MyColor getGoNodes() {
         return getColor(COLOR_GO_NODES);
+    }
+
+    public MyColor getGoEdges() {
+        return getColor(COLOR_GO_EDGES);
     }
 
     public MyColor getClusterLeaves() {
