@@ -62,10 +62,10 @@ public class ColorSchema {
         colors.get(COLOR_GO_LEAVES).setColor(Color.RED);
         colors.get(COLOR_GO_NODES).setColor(Color.WHITE);
 
-        Color tmp = new Color(100, 100, 100);
-        colors.get(COLOR_CLUSTER_LEAVES).setColor(tmp);
-        colors.get(COLOR_CLUSTER_NODES).setColor(tmp);
-        colors.get(COLOR_CLUSTER_EDGES).setColor(tmp);
+        Color grey = new Color(100, 100, 100);
+        colors.get(COLOR_CLUSTER_LEAVES).setColor(grey);
+        colors.get(COLOR_CLUSTER_NODES).setColor(grey);
+        colors.get(COLOR_CLUSTER_EDGES).setColor(grey);
 
         colors.get(COLOR_LENS).setColor(Color.BLACK);
         colors.get(COLOR_LENS).setAlfa(0.7f);

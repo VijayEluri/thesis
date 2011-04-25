@@ -10,6 +10,12 @@ import javax.media.opengl.GLAutoDrawable;
  */
 public interface Drawable {
 
+    /**
+     *
+     *      Draw using OpenGL
+     *
+     * @param drawable OpenGL drawing context
+     */
     void draw(GLAutoDrawable drawable);
 
 }

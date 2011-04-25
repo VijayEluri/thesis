@@ -40,7 +40,7 @@ public abstract class Lens implements Drawable {
 
     protected GroupingElement root = null;
 
-    protected Graph clusterGraph;
+    protected MyGraph clusterGraph;
 
     protected Point2D position;
     protected Point2D lensDimension;
@@ -90,7 +90,7 @@ public abstract class Lens implements Drawable {
     }
 
     protected void computeGroupingElementLayout(GroupingElement root) {
-        Graph groupGraph = new MyGraph();
+        MyGraph groupGraph = new MyGraph();
         GraphUtils.extractSubgraph(clusterGraph, groupGraph, root.getObject());
 
         layout.setGraph(groupGraph);
@@ -163,7 +163,7 @@ public abstract class Lens implements Drawable {
 
     }
 
-    public void setGraph(Graph graph) {
+    public void setGraph(MyGraph graph) {
         clusterGraph = graph;
     }
 

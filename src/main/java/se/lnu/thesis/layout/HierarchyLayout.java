@@ -7,7 +7,6 @@ import se.lnu.thesis.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 
@@ -130,7 +129,7 @@ public class HierarchyLayout extends AbstractLayout {
 
             if (sourceElement != null && destElement != null) {
                 // create edge which will be visible only during subgraph highlight
-                EdgeElement edgeElement = GOEdgeElement.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
+                EdgeElement edgeElement = GOEdge.init(o, source, dest, sourceElement.getPosition(), destElement.getPosition(), ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
 
                 getRoot().addElement(edgeElement);
             }
@@ -206,7 +205,7 @@ public class HierarchyLayout extends AbstractLayout {
                         Object target = successor.getObject();
                         Object edge = getGraph().findEdge(source, target);
 
-                        GOEdgeElement directEdge = GOEdgeElement.init(edge, source, target, start, end, ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
+                        GOEdge directEdge = GOEdge.init(edge, source, target, start, end, ElementVisualizerFactory.getInstance().getThinLineEdgeVisializer());
 
                         getRoot().addElement(directEdge);
 

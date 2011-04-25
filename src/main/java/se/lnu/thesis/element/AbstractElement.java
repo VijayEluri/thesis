@@ -1,5 +1,7 @@
 package se.lnu.thesis.element;
 
+import com.google.common.base.Strings;
+import com.sun.xml.internal.ws.util.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -18,6 +20,8 @@ public abstract class AbstractElement implements Element {
 
     private Integer id;
     private Object object;
+
+    private String tooltip;
 
     private boolean selected = false;
     private boolean highlighted = false;
@@ -131,5 +135,19 @@ public abstract class AbstractElement implements Element {
         Element element = (Element) o;
 
         return this.object.equals(element.getObject()) && this.getType() == element.getType();
+    }
+
+    /**
+     * @param tooltip Set a tooltip
+     */
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    /**
+     * @return Return current tooltip. Never return null, always empty string if no tooltip.
+     */
+    public String getTooltip() {
+        return Strings.nullToEmpty(this.tooltip);
     }
 }

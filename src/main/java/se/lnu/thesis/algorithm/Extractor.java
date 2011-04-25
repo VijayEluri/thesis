@@ -33,13 +33,13 @@ public class Extractor {
     public static final int CACHE_MAXIMUM_SIZE = 10;
     public static final int CACHE_EXPIRE_TIME = 1;
 
-    private Graph goSubGraph;
-    private Graph clusterSubGraph;
+    private MyGraph goSubGraph;
+    private MyGraph clusterSubGraph;
 
     private Object selectedNode;
 
-    private Map<Object, Graph> goCache;
-    private Map<Object, Graph> clusterCache;
+    private Map<Object, MyGraph> goCache;
+    private Map<Object, MyGraph> clusterCache;
 
     public Extractor() {
 
@@ -73,10 +73,10 @@ public class Extractor {
         } else {
             long startTime = System.currentTimeMillis();
 
-            goSubGraph = new DirectedSparseGraph();
+            goSubGraph = new MyGraph();
             Set goSubGraphLeafs = GraphUtils.extractSubgraph(goGraph, goSubGraph, goVertex);
 
-            clusterSubGraph = new DirectedSparseGraph();
+            clusterSubGraph = new MyGraph();
             Object clusterSubGraphRoot = null;
             for (Object goLeaf : goSubGraphLeafs) {
 
@@ -167,10 +167,6 @@ public class Extractor {
 
     public Graph getClusterSubGraph() {
         return clusterSubGraph;
-    }
-
-    public void setClusterSubGraph(Graph clusterSubGraph) {
-        this.clusterSubGraph = clusterSubGraph;
     }
 
     public Object getSelectedNode() {

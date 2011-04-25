@@ -1,5 +1,6 @@
 package se.lnu.thesis.core;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
@@ -26,6 +27,9 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
      * @throws IllegalArgumentException Throws exception if label is already exist for another vertex.
      */
     public boolean addLabel(V o, String label) {
+        Preconditions.checkNotNull(o);
+        Preconditions.checkNotNull(label);
+
         if (node2Label.containsValue(label)) {
             throw new IllegalArgumentException("There is vertex with same label! " + node2Label.inverse().get(label) + " -> '" + label + "'");
         }

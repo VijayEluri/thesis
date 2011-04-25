@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * Date: 21.04.11
  * Time: 23:47
  */
-public class GOBundledEdge extends GOEdgeElement {
+public class GOBundledEdge extends GOEdge {
 
     public static GOBundledEdge init(Object o, Object source, Object target, Point2D start, Point2D dummy, Point2D end) {
         GOBundledEdge result = new GOBundledEdge();

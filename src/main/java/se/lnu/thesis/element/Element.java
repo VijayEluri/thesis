@@ -13,7 +13,7 @@ import java.util.Collection;
  *
  *
  */
-public interface Element extends Drawable, Orderable, Positionable {
+public interface Element extends Drawable, Orderable, Positionable, Tooltipable {
 
     Integer getId();
 

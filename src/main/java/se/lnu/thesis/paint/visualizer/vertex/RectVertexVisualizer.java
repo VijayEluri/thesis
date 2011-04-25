@@ -1,8 +1,11 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
+import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
+
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,9 +29,11 @@ public class RectVertexVisualizer extends CircleVertexVisualizer {
 
     @Override
     protected void drawShape(Element element) {
+        Point2D p = element.getPosition();
+
         gl().glPushMatrix();
 
-        gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
+        gl().glTranslated(p.getX(), p.getY(), 0.0);
 
         DrawingUtils.rect(gl(), -getRadius(), getRadius(), getRadius(), getRadius(), getRadius(), -getRadius(), -getRadius(), -getRadius());
 

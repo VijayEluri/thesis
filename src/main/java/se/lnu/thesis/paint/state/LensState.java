@@ -152,7 +152,7 @@ public class LensState extends NormalClusterState {
         unfocus();
         unselect();
 
-        ((ClusterController) getGraphController()).setNormalState();
+        getGraphController().setNormalState();
     }
 
     @Override

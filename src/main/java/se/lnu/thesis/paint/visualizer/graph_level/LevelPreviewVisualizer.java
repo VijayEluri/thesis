@@ -15,14 +15,14 @@ public class LevelPreviewVisualizer extends LevelVisualizer {
 
     @Override
     public void draw(GLAutoDrawable drawable, Element element) {
-        gl = drawable.getGL(); // update GL context
+        setDrawable(drawable);
 
         DimensionalContainer container = (DimensionalContainer) element;
 
         if (container.isDrawn()) {
 
             if (element.getId() != null) {
-                gl.glPushName(element.getId()); // set id for background
+                gl().glPushName(element.getId()); // set id for background
             }
 
             drawLevelBackground(container);
@@ -38,7 +38,7 @@ public class LevelPreviewVisualizer extends LevelVisualizer {
             drawContent(drawable, container);
 
             if (element.getId() != null) {
-                gl.glPopName();
+                gl().glPopName();
             }
 
         }

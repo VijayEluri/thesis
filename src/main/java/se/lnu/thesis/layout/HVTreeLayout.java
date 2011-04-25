@@ -1,6 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
@@ -99,6 +100,8 @@ public class HVTreeLayout extends AbstractLayout {
      */
     protected void addVertexElementToContainer(Object o, double x, double y) {
         VertexElement vertex = VertexElement.init(o, x, y, ElementVisualizerFactory.getInstance().getCircleVisualizer());
+        vertex.setTooltip(((MyGraph) getGraph()).getLabel(o));
+
         root.addElement(vertex);
     }
 

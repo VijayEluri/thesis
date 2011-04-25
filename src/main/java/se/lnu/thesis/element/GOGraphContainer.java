@@ -1,16 +1,11 @@
 package se.lnu.thesis.element;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.AbstractIterator;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
-import com.sun.istack.internal.Nullable;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.utils.GraphUtils;
 
-import javax.swing.text.html.HTMLDocument;
 import java.awt.geom.Point2D;
 import java.util.*;
 
@@ -158,7 +153,7 @@ public class GOGraphContainer extends GraphContainer {
     public void showSubgraphEdges(boolean b) {
         for (Element element : this) {
             if (element.getType() == ElementType.EDGE) {
-                ((GOEdgeElement) element).setShowHighlightedEdge(b);
+                ((GOEdge) element).setShowHighlightedEdge(b);
             }
         }
 

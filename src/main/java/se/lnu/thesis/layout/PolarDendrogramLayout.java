@@ -2,6 +2,7 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.element.PolarEdge;
 import se.lnu.thesis.element.PolarVertex;
@@ -165,13 +166,15 @@ public class PolarDendrogramLayout extends RadialLayout {
 
     }
 
-    protected void setNodeCoordinate(Object node) {
+    protected void setNodeCoordinate(Object o) {
 
-        double angle = nodeAngle.get(node);
-        double radius = getNodeRadius(node);
+        double angle = nodeAngle.get(o);
+        double radius = getNodeRadius(o);
 
-        PolarVertex vertex = PolarVertex.init(node, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer());
-        root.addElement(vertex);
+        PolarVertex polarVertex = PolarVertex.init(o, angle, radius, center, ElementVisualizerFactory.getInstance().getCircleVisualizer());
+        polarVertex.setTooltip(((MyGraph) getGraph()).getLabel(o));
+
+        root.addElement(polarVertex);
     }
 
 /*

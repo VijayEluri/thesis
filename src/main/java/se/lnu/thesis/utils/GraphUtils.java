@@ -122,7 +122,7 @@ public class GraphUtils {
 
         Integer leafsLevelIndex = levels.keySet().size() - 1;
 
-        for (V v: levels.values()) {
+        for (V v : levels.values()) {
             if (GraphUtils.isLeaf(graph, v)) {
                 leafs.add(v);
             }
@@ -132,7 +132,6 @@ public class GraphUtils {
         levels.putAll(leafsLevelIndex, leafs);
 
     }
-
 
 
     public static <V, E> int getNodeHeight(Graph<V, E> graph, V node) {
@@ -157,8 +156,8 @@ public class GraphUtils {
         } else {
             int max = start;
 
-            for (V parent: graph.getPredecessors(node)) {
-                int nodeHeight = getMaxNodeHeight(graph, parent, start+1);
+            for (V parent : graph.getPredecessors(node)) {
+                int nodeHeight = getMaxNodeHeight(graph, parent, start + 1);
                 max = Math.max(nodeHeight, max);
             }
 
@@ -187,21 +186,21 @@ public class GraphUtils {
     }
 
     /**
-     *
      * Check if vertex does not have neither predecessors nor successors
      *
-     * @param graph Graph where vertex is
+     * @param graph  Graph where vertex is
      * @param vertex Corresponded vertex object id to check
      * @return True if unconnected, False otherwise
      */
-    public static <V,E> boolean isUnconnectedComponent(Graph<V,E> graph, V vertex) {
+    public static <V, E> boolean isUnconnectedComponent(Graph<V, E> graph, V vertex) {
         return isRoot(graph, vertex) && isLeaf(graph, vertex);
     }
 
     /**
-     *  Check if current vertex is node: has outgoing edges.
+     * Check if current vertex is node: has outgoing edges.
+     *
      * @param graph Graph to check vertex in
-     * @param o Vertex id object
+     * @param o     Vertex id object
      * @return True if it's node, False otherwise
      */
     public static boolean isNode(Graph graph, Object o) {
@@ -253,15 +252,15 @@ public class GraphUtils {
      *
      * @param graph    Graph from which to extract subgraph
      * @param subGraph Extracted subgraph
-     * @param node     Root node for subgraph
+     * @param root     Root node for subgraph
      * @return Leafs from subgraph
      */
-    public static <V, E> Set<V> extractSubgraph(Graph<V, E> graph, Graph<V, E> subGraph, V node) {
+    public static <V, E> Set<V> extractSubgraph(Graph<V, E> graph, Graph<V, E> subGraph, V root) {
         Stack stack = new Stack();
         Set visited = new HashSet();
         Set<V> subGraphLeafs = new HashSet<V>();
 
-        stack.push(node);
+        stack.push(root);
 
         while (!stack.isEmpty()) {
             V parent = (V) stack.pop();
@@ -282,6 +281,55 @@ public class GraphUtils {
                     }
                 }
 
+            }
+        }
+
+        return subGraphLeafs;
+    }
+
+    /**
+     * Extract subgraph from @graph to @subGraph starting root node @node and copy vertex label.
+     *
+     * @param graph    Graph from which to extract subgraph
+     * @param subGraph Extracted subgraph
+     * @param root     Root node for subgraph
+     * @return Leafs from subgraph
+     */
+    public static <V, E> Set<V> extractSubgraph(MyGraph<V, E> graph, MyGraph<V, E> subGraph, V root) {
+        Stack stack = new Stack();
+        Set visited = new HashSet();
+        Set<V> subGraphLeafs = new HashSet<V>();
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            V parent = (V) stack.pop();
+
+            if (visited.add(parent)) {
+
+                subGraph.addVertex(parent);
+
+                if (isLeaf(graph, parent)) {
+                    subGraphLeafs.add(parent);
+                } else {
+                    for (V child : graph.getSuccessors(parent)) {
+                        if (!visited.contains(child)) {
+                            stack.push(child);
+
+                            subGraph.addVertex(child);
+
+                            subGraph.addEdge((E) (parent + "->" + child), parent, child);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        for (V o: subGraph.getVertices()) {
+            String label = graph.getLabel(o);
+            if (label != null) {
+                subGraph.addLabel(o, label);
             }
         }
 

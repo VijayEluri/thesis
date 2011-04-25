@@ -2,6 +2,7 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
@@ -119,6 +120,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
 
     private void addGroupingNode(Object o, Point2D p) {
         GroupingElement groupingElement = GroupingElement.init(o, p, null, GraphTraversalUtils.dfs(graph, o));
+        groupingElement.setTooltip(((MyGraph) getGraph()).getLabel(o));
 
         root.addElement(groupingElement);
 

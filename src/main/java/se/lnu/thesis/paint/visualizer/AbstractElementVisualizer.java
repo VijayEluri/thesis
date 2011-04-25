@@ -1,5 +1,6 @@
 package se.lnu.thesis.paint.visualizer;
 
+import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
@@ -9,6 +10,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,16 +18,19 @@ import java.awt.*;
  */
 public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
-    private ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
+    protected ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
 
     private GLAutoDrawable drawable; // OpenGL drawing context
 
     private GLU glu;
+    private GLUT glut;
 
     private MyColor mainColor;
     private MyColor selectionColor = colorSchema.getSelection();
     private MyColor subgraphColor = colorSchema.getSubgraph();
     private MyColor focusedColor = colorSchema.getFocusing();
+
+    private MyColor tooltipColor = new MyColor(Color.CYAN); // TODO Fix it
 
     protected AbstractElementVisualizer() {
 
@@ -48,24 +53,41 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
         if (element.getId() != null) {
             gl().glPopName();
         }
+
+        showTooltip(element);
+    }
+
+    public void showTooltip(Element element) {
+        if (element.isFocused()) {
+            Point2D p = element.getPosition();
+
+            setCurrentDrawingColor(tooltipColor);
+            gl().glRasterPos2d(p.getX(), p.getY());
+            glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+        }
+
     }
 
     protected abstract void drawShape(Element element);
 
-    protected void  drawingColor(Element element) {
+    protected void drawingColor(Element element) {
         if (element.isFocused()) {
-            gl().glColor3f(getFocusedColor().getRed(), getFocusedColor().getGreen(), getFocusedColor().getBlue());
+            setCurrentDrawingColor(getFocusedColor());
         } else {
             if (element.isSelected()) {
-                gl().glColor3f(getSelectionColor().getRed(), getSelectionColor().getGreen(), getSelectionColor().getBlue());
+                setCurrentDrawingColor(getSelectionColor());
             } else {
                 if (element.isHighlighted()) {
-                    gl().glColor3f(getSubgraphColor().getRed(), getSubgraphColor().getGreen(), getSubgraphColor().getBlue());
+                    setCurrentDrawingColor(getSubgraphColor());
                 } else {
-                    gl().glColor3f(getMainColor().getRed(), getMainColor().getGreen(), getMainColor().getBlue());
+                    setCurrentDrawingColor(getMainColor());
                 }
             }
         }
+    }
+
+    public void setCurrentDrawingColor(MyColor color) {
+        gl().glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlfa());
     }
 
     public MyColor getSubgraphColor() {
@@ -92,11 +114,11 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
         this.drawable = drawable;
     }
 
-    protected GL gl() {
+    public GL gl() {
         return getDrawable().getGL();
     }
 
-    protected GLU glu() {
+    public GLU glu() {
         if (glu == null) {
             glu = new GLU();
         }
@@ -104,5 +126,11 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
         return glu;
     }
 
+    public GLUT glut() {
+        if (glut == null) {
+            glut = new GLUT();
+        }
 
+        return glut;
+    }
 }

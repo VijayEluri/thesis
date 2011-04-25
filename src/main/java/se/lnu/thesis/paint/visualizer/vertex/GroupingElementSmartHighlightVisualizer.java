@@ -39,21 +39,21 @@ public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualize
         }
 
         if (element.isFocused()) {
-            gl().glColor3f(getFocusedColor().getRed(), getFocusedColor().getGreen(), getFocusedColor().getBlue());
+            setCurrentDrawingColor(getFocusedColor());
             drawShape(element); // draw main shape
         } else {
             if (element.isSelected()) {
-                gl().glColor3f(getSelectionColor().getRed(), getSelectionColor().getGreen(), getSelectionColor().getBlue());
+                setCurrentDrawingColor(getSelectionColor());
                 drawShape(element); // draw main shape
             } else {
                 if (element.isHighlighted()) {
-                    gl().glColor3f(getMainColor().getRed(), getMainColor().getGreen(), getMainColor().getBlue());
+                    setCurrentDrawingColor(getMainColor());
                     drawShape(element); // draw main shape
 
-                    gl().glColor3f(getSubgraphColor().getRed(), getSubgraphColor().getGreen(), getSubgraphColor().getBlue());
+                    setCurrentDrawingColor(getSubgraphColor());
                     drawHighlightingBox(element); // draw inner highlighting box
                 } else {
-                    gl().glColor3f(getMainColor().getRed(), getMainColor().getGreen(), getMainColor().getBlue());
+                    setCurrentDrawingColor(getMainColor());
                     drawShape(element); // draw main shape
                 }
             }
@@ -62,6 +62,8 @@ public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualize
         if (element.getId() != null) {
             gl().glPopName();
         }
+
+        showTooltip(element);
     }
 
     protected void drawHighlightingBox(Element element) {

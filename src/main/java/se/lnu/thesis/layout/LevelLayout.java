@@ -1,6 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.AbstractElement;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
@@ -32,13 +33,16 @@ public class LevelLayout extends UniformDistributionLayout {
 
     @Override
     protected void setElementPosition(Object o) {
+        VertexElement vertexElement = VertexElement.init(o, p.getX(), p.getY());
+        vertexElement.setTooltip(((MyGraph) getGraph()).getLabel(o));
 
         if (GraphUtils.isLeaf(graph, o)) {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), getLeafVisualizer()));
+            vertexElement.setVisualizer(getLeafVisualizer());
         } else {
-            root.addElement(VertexElement.init(o, p.getX(), p.getY(), getVertexVisualizer()));
+            vertexElement.setVisualizer(getVertexVisualizer());
         }
 
+        root.addElement(vertexElement);
     }
 
     public AbstractElementVisualizer getLeafVisualizer() {

@@ -5,10 +5,10 @@ import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 
 import java.awt.geom.Point2D;
 
-public class GOEdgeElement extends EdgeElement {
+public class GOEdge extends EdgeElement {
 
-    public static GOEdgeElement init(Object o, Object source, Object target, Point2D start, Point2D end, ElementVisualizer visualizer) {
-        GOEdgeElement result = new GOEdgeElement();
+    public static GOEdge init(Object o, Object source, Object target, Point2D start, Point2D end, ElementVisualizer visualizer) {
+        GOEdge result = new GOEdge();
 
         result.setObject(o);
 
