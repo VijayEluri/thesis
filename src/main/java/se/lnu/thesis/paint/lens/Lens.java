@@ -1,5 +1,6 @@
 package se.lnu.thesis.paint.lens;
 
+import com.sun.opengl.util.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -48,6 +49,7 @@ public abstract class Lens implements Drawable {
 
     private Point lensMovingCursorStartPosition;
     private Point lensMovingCursorEndPosition;
+    protected GLUT glut;
 
     public abstract void draw(GLAutoDrawable drawable);
 
@@ -210,4 +212,12 @@ public abstract class Lens implements Drawable {
      * @return Return computed Y coordinate.
      */
     protected abstract double checkTopBorder(double moveY);
+
+    public GLUT glut() {
+        if (glut == null) {
+            glut = new GLUT();
+        }
+
+        return glut;
+    }
 }

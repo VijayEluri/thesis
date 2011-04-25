@@ -1,5 +1,6 @@
 package se.lnu.thesis.paint.state;
 
+import com.sun.opengl.util.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.controller.GraphController;
@@ -19,6 +20,7 @@ import java.awt.*;
 public abstract class GraphState implements Drawable {
 
     private GLU glu;
+    private GLUT glut;
 
     private GraphController graphController;
 
@@ -107,11 +109,19 @@ public abstract class GraphState implements Drawable {
         this.cursor = cursor;
     }
 
-    public GLU getGlu() {
+    public GLU glu() {
         if (glu == null) {
             glu = new GLU();
         }
 
         return glu;
+    }
+
+    public GLUT glut() {
+        if (glut == null) {
+            glut = new GLUT();
+        }
+
+        return glut;
     }
 }

@@ -1,7 +1,11 @@
 package se.lnu.thesis.paint.lens;
 
+import com.sun.opengl.util.GLUT;
+import se.lnu.thesis.element.Element;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
+import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -47,12 +51,28 @@ public class RadialLens extends Lens {
 
         getRoot().drawContent(drawable);
 
+        drawTooltip(drawable);
+
         gl.glPopMatrix();
     }
 
+    public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class
+        GL gl = drawable.getGL();
+
+        for (Element element : getRoot()) {
+            if (element.isFocused()) {
+                MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
+                gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+
+                Point2D p = element.getPosition();
+                gl.glRasterPos2d(p.getX(), p.getY());
+                glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+            }
+        }
+    }
+
     /**
-     *
-     *      Set lens near the selected vertex.
+     * Set lens near the selected vertex.
      *
      * @param p Position of the selected vertex
      */
@@ -76,8 +96,7 @@ public class RadialLens extends Lens {
 
 
     /**
-     *
-     *      Check if intersection with right border of the view port accured.
+     * Check if intersection with right border of the view port accured.
      *
      * @param moveX X value of moving vector.
      * @return Return computed X coordinate.
@@ -96,8 +115,7 @@ public class RadialLens extends Lens {
     }
 
     /**
-     *
-     *      Check if intersection with left border of the view port accured.
+     * Check if intersection with left border of the view port accured.
      *
      * @param moveX X value of moving vector.
      * @return Return computed X coordinate.
@@ -114,8 +132,7 @@ public class RadialLens extends Lens {
     }
 
     /**
-     *
-     *      Check if intersection with top border of the view port accured.
+     * Check if intersection with top border of the view port accured.
      *
      * @param moveY X value of moving vector.
      * @return Return computed Y coordinate.
@@ -132,8 +149,7 @@ public class RadialLens extends Lens {
     }
 
     /**
-     *
-     *      Check if intersection with left border of the view port accured.
+     * Check if intersection with left border of the view port accured.
      *
      * @param moveY Y value of moving vector.
      * @return Return computed Y coordinate.
@@ -156,4 +172,5 @@ public class RadialLens extends Lens {
     public void setLayoutRadius(double layoutRadius) {
         this.layoutRadius = layoutRadius;
     }
+
 }

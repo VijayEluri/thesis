@@ -30,8 +30,6 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
     private MyColor subgraphColor = colorSchema.getSubgraph(); // TODO move initialization to constructor
     private MyColor focusedColor = colorSchema.getFocusing();// TODO move initialization to constructor
 
-    private MyColor tooltipColor = colorSchema.getVerticesTooltips();
-
     protected AbstractElementVisualizer() {
 
     }
@@ -52,18 +50,6 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
 
         if (element.getId() != null) {
             gl().glPopName();
-        }
-
-        showTooltip(element);
-    }
-
-    public void showTooltip(Element element) {
-        if (element.isFocused()) {
-            Point2D p = element.getPosition();
-
-            setCurrentDrawingColor(tooltipColor);
-            gl().glRasterPos2d(p.getX(), p.getY());
-            glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
         }
 
     }

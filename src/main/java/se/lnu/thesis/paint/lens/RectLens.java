@@ -1,8 +1,12 @@
 package se.lnu.thesis.paint.lens;
 
+import com.sun.opengl.util.GLUT;
+import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.layout.HVTreeLayout;
+import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.DrawingUtils;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -39,8 +43,26 @@ public class RectLens extends Lens {
 
         getRoot().drawContent(drawable);
 
+        drawTooltip(drawable);
+
         gl.glPopMatrix();
     }
+
+    public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class
+        GL gl = drawable.getGL();
+
+        for (Element element : getRoot()) {
+            if (element.isFocused()) {
+                MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
+                gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+
+                Point2D p = element.getPosition();
+                gl.glRasterPos2d(p.getX(), p.getY());
+                glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+            }
+        }
+    }
+
 
     @Override
     public void setRoot(GroupingElement root) {

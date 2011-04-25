@@ -4,10 +4,8 @@ import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
-import se.lnu.thesis.paint.controller.ClusterController;
 import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
-import se.lnu.thesis.paint.lens.RadialLens;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
@@ -15,7 +13,6 @@ import java.awt.*;
 import java.nio.IntBuffer;
 
 import com.sun.opengl.util.BufferUtil;
-import se.lnu.thesis.paint.lens.RectLens;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,7 +51,7 @@ public class LensState extends NormalClusterState {
         }
 
         if (moveLens) {
-            lens.move(gl, getGlu());
+            lens.move(gl, glu());
         }
 
         getContainer().draw(drawable);
@@ -81,7 +78,7 @@ public class LensState extends NormalClusterState {
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
-        getGlu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+        glu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
         lens.draw(drawable);
 

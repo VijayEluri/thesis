@@ -97,10 +97,6 @@ public abstract class GraphController implements Drawable, Observer {
         return background;
     }
 
-    public void setBackground(MyColor background) {
-        this.background = background;
-    }
-
     public Container getRoot() {
         return root;
     }

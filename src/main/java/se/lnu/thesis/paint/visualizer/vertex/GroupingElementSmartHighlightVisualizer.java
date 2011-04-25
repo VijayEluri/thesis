@@ -62,8 +62,6 @@ public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualize
         if (element.getId() != null) {
             gl().glPopName();
         }
-
-        showTooltip(element);
     }
 
     protected void drawHighlightingBox(Element element) {

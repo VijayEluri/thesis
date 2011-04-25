@@ -1,16 +1,21 @@
 package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
+import com.sun.opengl.util.GLUT;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
 import se.lnu.thesis.paint.controller.GOController;
 import se.lnu.thesis.paint.controller.GraphController;
+import se.lnu.thesis.properties.PropertiesHolder;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,7 +82,26 @@ public class ZoomGOState extends FocusableState {
         gl.glPushMatrix();
         gl.glTranslated(0.0, shiftY, 0.0);
         level.drawContent(drawable);
+
+        if (getCurrent() != null) {
+            if (level.has(getCurrent().getObject())) {
+                drawTooltip(drawable, getCurrent());
+            }
+        }
         gl.glPopMatrix();
+    }
+
+    public void drawTooltip(GLAutoDrawable drawable, Element element) {
+        GL gl = drawable.getGL();
+        GLUT glut = new GLUT();
+        if (element.isFocused()) {
+            MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
+            gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+
+            Point2D p = element.getPosition();
+            gl.glRasterPos2d(p.getX(), p.getY());
+            glut.glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+        }
     }
 
     protected void focusing(GLAutoDrawable drawable) {
@@ -98,7 +122,7 @@ public class ZoomGOState extends FocusableState {
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
-        getGlu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
+        glu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
 
         drawTopLevel(drawable);
