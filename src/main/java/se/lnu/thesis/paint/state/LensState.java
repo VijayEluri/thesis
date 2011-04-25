@@ -121,7 +121,7 @@ public class LensState extends NormalClusterState {
 
         LOGGER.info("Selected vertex " + element.getObject() + " [" + label + "]");
 
-        Scene.getInstance().getMainWindow().setClusterStatusBarText("   Cluster: selected vertex " + label + "   ");
+        Scene.getInstance().getMainWindow().setClusterStatusBarText("Cluster: selected vertex " + label);
 
         this.selectedElement = element;
         this.selectedElement.setSelected(true);
@@ -141,7 +141,7 @@ public class LensState extends NormalClusterState {
 
         selectedElement = null;
 
-        Scene.getInstance().getMainWindow().setClusterStatusBarText("   ");
+        Scene.getInstance().getMainWindow().setClusterStatusBarText("");
     }
 
     @Override

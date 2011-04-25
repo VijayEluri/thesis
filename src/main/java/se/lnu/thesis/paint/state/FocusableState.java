@@ -126,7 +126,7 @@ public abstract class FocusableState extends GraphState {
 
             LOGGER.debug("Focused vertex " + getCurrent().getObject() + " [" + label + "]");
 
-            Scene.getInstance().getMainWindow().setStatusBarText("  Focused vertex " + label + "  ");
+            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
         }
 
     }
@@ -138,7 +138,7 @@ public abstract class FocusableState extends GraphState {
 
         setCurrent(null);
 
-        Scene.getInstance().getMainWindow().setStatusBarText("  ");
+        Scene.getInstance().getMainWindow().setStatusBarText("");
     }
 
     /**

@@ -1,5 +1,6 @@
 package se.lnu.thesis.gui;
 
+import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 
@@ -14,6 +15,7 @@ import java.awt.event.AdjustmentListener;
 public class MainWindow extends JFrame {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
+    public static final String STATUS_MESSAGE_FRAME = "   ";
 
     JLabel goStatusBar;
     JLabel clusterStatusBar;
@@ -123,15 +125,30 @@ public class MainWindow extends JFrame {
     }
 
     public void setGOStatusBarText(String text) {
-        goStatusBar.setText(text);
+        goStatusBar.setText(frameMessage(text));
     }
 
     public void setClusterStatusBarText(String text) {
-        clusterStatusBar.setText(text);
+        clusterStatusBar.setText(frameMessage(text));
     }
 
     public void setStatusBarText(String text) {
-        statusBar.setText(text);
+        statusBar.setText(frameMessage(text));
+    }
+
+    /**
+     *
+     *      Frame from left and right message text with spaces:
+     *      <code>
+     *          "    " + @text + "    "
+     *      </code>
+     *
+     *
+     * @param text Source message to frame
+     * @return Framed message
+     */
+    public String frameMessage(String text) {
+        return STATUS_MESSAGE_FRAME + text + STATUS_MESSAGE_FRAME;
     }
 
     public void setScrollBarValue(int index) {

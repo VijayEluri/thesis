@@ -117,8 +117,7 @@ public class GOController extends GraphController {
                 previewElement = element;
                 previewElement.setSelected(true);
 
-                String label = getGraph().getLabel(selectedElement.getObject());
-                Scene.getInstance().getMainWindow().setGOStatusBarText("   GO: selected vertex " + label + "   ");
+                updateGOStatusbar();
 
                 return;
             }
@@ -139,11 +138,22 @@ public class GOController extends GraphController {
                 previewElement = foundedPreviewElement;
                 previewElement.setSelected(true);
 
-                String label = getGraph().getLabel(selectedElement.getObject());
-                Scene.getInstance().getMainWindow().setGOStatusBarText("   GO: selected vertex " + label + "   ");
+                updateGOStatusbar();
 
                 return;
             }
+        }
+    }
+
+    /**
+     *  Set GO status bar message: is vertex been selected - about selected node, if unselected - clear status bar
+     */
+    public void updateGOStatusbar() {
+        if (selectedElement != null) {
+            String label = getGraph().getLabel(selectedElement.getObject());
+            Scene.getInstance().getMainWindow().setGOStatusBarText("GO: selected vertex " + label);
+        } else {
+            Scene.getInstance().getMainWindow().setGOStatusBarText("");
         }
     }
 
@@ -156,7 +166,7 @@ public class GOController extends GraphController {
         selectedElement = null;
         previewElement = null;
 
-        Scene.getInstance().getMainWindow().setGOStatusBarText("   ");
+        updateGOStatusbar();
     }
 
     public void scrollBarValueChanged(int index) {
