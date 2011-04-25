@@ -3,6 +3,7 @@ package se.lnu.thesis.utils;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import se.lnu.thesis.core.MyGraph;
 
 import java.util.Vector;
 
@@ -201,8 +202,8 @@ public class GraphMaker {
      *
      * @return Instance of DirectedSparseGraph<Integer,String>
      */
-    public static Graph<Integer, String>createSmallBinaryTree() {
-        Graph<Integer, String>graph = new DirectedSparseGraph();
+    public static MyGraph<Integer, String> createSmallBinaryTree() {
+        MyGraph<Integer, String>graph = new MyGraph<Integer, String>();
 
         createDirectedEdge(graph, 1, 2);
         createDirectedEdge(graph, 1, 3);
