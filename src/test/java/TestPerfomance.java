@@ -1,14 +1,15 @@
-
-
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.io.graphml.GraphMLParser;
@@ -228,6 +229,58 @@ public class TestPerfomance {
         long end = System.currentTimeMillis();
 
         LOGGER.info("Computing layout done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
+    }
+
+
+    /**
+     *      Try to compute subgraphs for all Gene Ontology nodes.
+     */
+    public void computeAllSubgraphs() {
+        IOFacade ioFacade = new IOFacade();
+        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
+
+        System.gc();
+
+        Extractor extractor = new Extractor() {
+            @Override
+            public void initCache() {
+                if (goCache == null) {
+                    goCache = new HashMap<Object, MyGraph>();
+                }
+
+                if (clusterCache == null) {
+                    clusterCache = new HashMap<Object, MyGraph>();
+                }
+
+
+                goSubGraph = null;
+                clusterSubGraph = null;
+                selectedNode = null;
+            }
+        };
+
+        int subgraphs = 0;
+        int vertices = 0;
+        long startTime = System.currentTimeMillis();
+        try {
+            for (Object o : go.getVertices()) {
+                if (GraphUtils.isNode(go, o)) {
+                    subgraphs++;
+                    extractor.extractSubGraphs(go, cluster, o);
+                    vertices += extractor.getGoSubGraph().getVertexCount() + extractor.getClusterSubGraph().getVertexCount();
+                }
+            }
+        } catch (Throwable e) {
+            long end = System.currentTimeMillis();
+
+            System.out.println("Subgraph extracted: " + subgraphs);
+            System.out.println("Total vertex count: " + vertices);
+            System.out.println(TimeUnit.SECONDS.convert(end - startTime, TimeUnit.MILLISECONDS));
+
+            System.out.println(e.getStackTrace());
+        }
+
     }
 
 

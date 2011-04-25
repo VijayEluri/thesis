@@ -1,5 +1,6 @@
 package se.lnu.thesis.algorithm;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.MapMaker;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
@@ -33,13 +34,13 @@ public class Extractor {
     public static final int CACHE_MAXIMUM_SIZE = 10;
     public static final int CACHE_EXPIRE_TIME = 1;
 
-    private MyGraph goSubGraph;
-    private MyGraph clusterSubGraph;
+    protected MyGraph goSubGraph;
+    protected MyGraph clusterSubGraph;
 
-    private Object selectedNode;
+    protected Object selectedNode;
 
-    private Map<Object, MyGraph> goCache;
-    private Map<Object, MyGraph> clusterCache;
+    protected Map<Object, MyGraph> goCache;
+    protected Map<Object, MyGraph> clusterCache;
 
     public Extractor() {
 
@@ -118,7 +119,7 @@ public class Extractor {
             clusterCache.put(goVertex, clusterSubGraph);
 
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Subgraphs extraction tooked " + (endTime - startTime) / CACHE_MAXIMUM_SIZE + "s");
+            LOGGER.info("Subgraphs extraction tooked " + TimeUnit.SECONDS.convert(endTime-startTime, TimeUnit.MILLISECONDS) + "s");
         }
 
     }
@@ -132,15 +133,17 @@ public class Extractor {
      *      <code>new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES).makeMap();</code>
      *
      */
-    protected void initCache() {
-        MapMaker cacheMaker = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES);
+    public void initCache() {
+        if (goCache == null || clusterCache == null) {
+            MapMaker cacheMaker = new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES);
 
-        if (goCache == null) {
-            goCache = cacheMaker.makeMap();
-        }
+            if (goCache == null) {
+                goCache = cacheMaker.makeMap();
+            }
 
-        if (clusterCache == null) {
-            clusterCache = cacheMaker.makeMap();
+            if (clusterCache == null) {
+                clusterCache = cacheMaker.makeMap();
+            }
         }
 
         goSubGraph = null;
