@@ -4,6 +4,7 @@ import com.sun.opengl.util.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.layout.Layout;
 import se.lnu.thesis.paint.Drawable;
@@ -219,5 +220,24 @@ public abstract class Lens implements Drawable {
         }
 
         return glut;
+    }
+
+    /**
+     *  Find in the goor container focused element and draw tooltip for it
+     * @param drawable OpenGL drawing context
+     */
+    public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class
+        GL gl = drawable.getGL();
+
+        for (Element element : getRoot()) {
+            if (element.isFocused()) {
+                MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
+                gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+
+                Point2D p = element.getPosition();
+                gl.glRasterPos2d(p.getX(), p.getY());
+                glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+            }
+        }
     }
 }

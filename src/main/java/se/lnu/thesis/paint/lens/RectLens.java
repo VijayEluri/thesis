@@ -48,22 +48,6 @@ public class RectLens extends Lens {
         gl.glPopMatrix();
     }
 
-    public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class
-        GL gl = drawable.getGL();
-
-        for (Element element : getRoot()) {
-            if (element.isFocused()) {
-                MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
-                gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
-
-                Point2D p = element.getPosition();
-                gl.glRasterPos2d(p.getX(), p.getY());
-                glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
-            }
-        }
-    }
-
-
     @Override
     public void setRoot(GroupingElement root) {
         this.root = root;
