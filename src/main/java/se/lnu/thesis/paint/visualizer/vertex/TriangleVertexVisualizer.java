@@ -1,12 +1,10 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
 import se.lnu.thesis.element.AbstractElement;
-import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.

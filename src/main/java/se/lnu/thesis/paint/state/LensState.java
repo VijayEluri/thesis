@@ -1,5 +1,6 @@
 package se.lnu.thesis.paint.state;
 
+import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
@@ -7,12 +8,10 @@ import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
 
-import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.nio.IntBuffer;
-
-import com.sun.opengl.util.BufferUtil;
 
 /**
  * Created by IntelliJ IDEA.

@@ -4,8 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
-import java.util.*;
-
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -20,8 +18,9 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     private BiMap<V, String> node2Label = HashBiMap.create();
 
     /**
-     *      Add label for specific vertex.
-     * @param o Vertex object id.
+     * Add label for specific vertex.
+     *
+     * @param o     Vertex object id.
      * @param label Label string.
      * @return <code>True</code> if label successfully added for vertex, <code>False</code> otherwise.
      * @throws IllegalArgumentException Throws exception if label is already exist for another vertex.
@@ -40,8 +39,9 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     /**
-     *      Change label for specific vertex, if label does not exist for vertex then it will be added.
-     * @param o Vertex object id.
+     * Change label for specific vertex, if label does not exist for vertex then it will be added.
+     *
+     * @param o     Vertex object id.
      * @param label String label.
      * @return <code>True</code> if changed successfully, <code>False</code> otherwise.
      */
@@ -69,8 +69,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     /**
-     *
-     *      Return copy of all labels for this graph
+     * Return copy of all labels for this graph
      *
      * @return Immutable collection of labels
      */
@@ -83,7 +82,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     /**
-     *      Get vertex with specified label
+     * Get vertex with specified label
      *
      * @param label String label
      * @return node Vertex object id
@@ -93,8 +92,7 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     /**
-     *
-     *      Get label for vertex
+     * Get label for vertex
      *
      * @param node Vertex object id
      * @return String label
@@ -111,7 +109,8 @@ public class MyGraph<V, E> extends DirectedSparseGraph<V, E> {
     }
 
     /**
-     *      Check if graph contains label.
+     * Check if graph contains label.
+     *
      * @param label String label to check.
      * @return True if graph contains label, False otherwise.
      */

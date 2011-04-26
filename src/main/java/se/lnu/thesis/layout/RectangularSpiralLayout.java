@@ -11,7 +11,6 @@ import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -169,7 +168,7 @@ public class RectangularSpiralLayout extends AbstractLayout {
     }
 
     private void normalizeGroupingElementsSize() {
-        for (Element element: root) {
+        for (Element element : root) {
             if (element instanceof GroupingElement) {
                 ((GroupingElement) element).setVisualizer(ElementVisualizerFactory.getInstance().getRectVisualizer(minGroupElementSize, maxGroupElementSize, ((Container) element).getSize()));
             }

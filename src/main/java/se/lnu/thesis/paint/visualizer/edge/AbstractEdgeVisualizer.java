@@ -3,8 +3,6 @@ package se.lnu.thesis.paint.visualizer.edge;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.MyColor;
 
-import java.awt.*;
-
 /**
  * Created by IntelliJ IDEA.
  * User: vady

@@ -2,7 +2,6 @@ package se.lnu.thesis.element;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
-import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -76,6 +75,7 @@ public class EdgeElement extends VisualizableElement {
 
     /**
      * Check if object <code>from</code> or <code>to</code> edge equals to corresponded object.
+     *
      * @param o Object to check with.
      * @return True if any edge vertex is equal, False otherwise.
      */
@@ -86,6 +86,7 @@ public class EdgeElement extends VisualizableElement {
 
     /**
      * Check does BOTH edge vertices contain in objects collection
+     *
      * @param objects Collection to check in
      * @return True if BOTH edge vertices contain in objects collection, False otherwise
      */

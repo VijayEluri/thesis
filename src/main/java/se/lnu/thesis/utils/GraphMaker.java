@@ -5,8 +5,6 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import se.lnu.thesis.core.MyGraph;
 
-import java.util.Vector;
-
 /**
  * Created by IntelliJ IDEA.
  * User: vady
@@ -16,16 +14,15 @@ import java.util.Vector;
 public class GraphMaker {
 
     /**
+     * Create and add to graph directed edge from vertex1 to vertex2.
+     * Equats to:
+     * <code>
+     * graph.addEdge(vertex1 + "->" + vertex2, vertex1, vertex2, EdgeType.DIRECTED);
+     * </code>
+     * <p/>
+     * If corresponded vertices do not exist in the graph they will be created.
      *
-     *      Create and add to graph directed edge from vertex1 to vertex2.
-     *      Equats to:
-     *      <code>
-     *          graph.addEdge(vertex1 + "->" + vertex2, vertex1, vertex2, EdgeType.DIRECTED);
-     *      </code>
-     *
-     *      If corresponded vertices do not exist in the graph they will be created.
-     *
-     * @param graph Graph where to add vertex.
+     * @param graph   Graph where to add vertex.
      * @param vertex1 Source vertex object.
      * @param vertex2 Target vertex object.
      */
@@ -148,7 +145,7 @@ public class GraphMaker {
      *
      * @return Instance of DirectedSparseGraph<Integer,String>
      */
-    public static Graph<Integer, String>createHighBinaryTree() {
+    public static Graph<Integer, String> createHighBinaryTree() {
         Graph graph = new DirectedSparseGraph();
 
         createDirectedEdge(graph, 1, 2);
@@ -203,7 +200,7 @@ public class GraphMaker {
      * @return Instance of DirectedSparseGraph<Integer,String>
      */
     public static MyGraph<Integer, String> createSmallBinaryTree() {
-        MyGraph<Integer, String>graph = new MyGraph<Integer, String>();
+        MyGraph<Integer, String> graph = new MyGraph<Integer, String>();
 
         createDirectedEdge(graph, 1, 2);
         createDirectedEdge(graph, 1, 3);
@@ -214,18 +211,18 @@ public class GraphMaker {
     }
 
     /**
-     *       1      8  9
-     *     /   \
-     *    2     3
-     *    \   /  |
-     *      4    |
-     *   /  |  \ |
-     *  7   6 -> 5
+     * 1      8  9
+     * /   \
+     * 2     3
+     * \   /  |
+     * 4    |
+     * /  |  \ |
+     * 7   6 -> 5
      *
      * @return Instance of DirectedSparseGraph
      */
     public static Graph<Integer, String> createSmallDAGWithUnconnectedComponents() {
-        Graph<Integer, String>graph = new DirectedSparseGraph();
+        Graph<Integer, String> graph = new DirectedSparseGraph();
 
         createDirectedEdge(graph, 1, 2);
         createDirectedEdge(graph, 1, 3);

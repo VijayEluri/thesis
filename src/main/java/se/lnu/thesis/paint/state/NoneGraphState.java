@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.state;
 
 import se.lnu.thesis.paint.controller.GraphController;
-import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.media.opengl.GLAutoDrawable;
 

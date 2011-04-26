@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -105,6 +106,87 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
+    /**
+     * Draw quadratic Bezier curve based on start, control point and end with specified line thickness.
+     *
+     * @param gl            OpenGL drawing context.
+     * @param start         Start point position
+     * @param controlPoint  Control point position
+     * @param end           End point position
+     * @param lineThickness Line thickness
+     */
+    public static void quadraticBezierCurve(GL gl, Point2D start, Point2D controlPoint, Point2D end, float lineThickness) {
+        gl.glLineWidth(lineThickness);
+
+        gl.glBegin(GL.GL_LINE_STRIP);
+        for (double t = 0.0; t <= 1.0; t += 0.001) {
+            Point2D p = pointOnQuadranticBezierCurve(start, controlPoint, end, t);
+            gl.glVertex2d(p.getX(), p.getY());
+        }
+        gl.glEnd();
+
+    }
+
+    /**
+     * Compute point on quadratic Bezier curve.
+     *
+     * @param start        Start point position.
+     * @param controlPoint Control point position.
+     * @param end          End point position.
+     * @param t            t is in range 0..1
+     * @return Return point position based on three points and t v.
+     */
+    public static Point2D pointOnQuadranticBezierCurve(Point2D start, Point2D controlPoint, Point2D end, double t) {
+        Point2D result = new Point2D.Double();
+
+        result.setLocation(
+                Math.pow((1 - t), 2) * start.getX() + 2 * (1 - t) * t * controlPoint.getX() + Math.pow(t, 2) * end.getX(),
+                Math.pow((1 - t), 2) * start.getY() + 2 * (1 - t) * t * controlPoint.getY() + Math.pow(t, 2) * end.getY());
+
+        return result;
+    }
+
+    /**
+     * Draw cubic Bezier curve based on start, control point and end with specified line thickness.
+     *
+     * @param gl            OpenGL drawing context.
+     * @param start         Start point position
+     * @param controlPoint1 First control point position
+     * @param controlPoint2 Second control point position
+     * @param end           End point position
+     * @param lineThickness Line thickness
+     */
+    public static void cubicBezierCurve(GL gl, Point2D start, Point2D controlPoint1, Point2D controlPoint2, Point2D end, float lineThickness) {
+        gl.glLineWidth(lineThickness);
+
+        gl.glBegin(GL.GL_LINE_STRIP);
+        for (double t = 0.0; t <= 1.0; t += 0.001) {
+            Point2D p = pointOnCubicBezierCurve(start, controlPoint1, controlPoint2, end, t);
+            gl.glVertex2d(p.getX(), p.getY());
+        }
+        gl.glEnd();
+    }
+
+
+    /**
+     * Compute point on quadratic Bezier curve.
+     *
+     * @param start         Start point position.
+     * @param controlPoint1 First control point position.
+     * @param controlPoint2 Second control point position.
+     * @param end           End point position.
+     * @param t             t is in range 0..1
+     * @return
+     */
+    public static Point2D pointOnCubicBezierCurve(Point2D start, Point2D controlPoint1, Point2D controlPoint2, Point2D end, double t) {
+        Point2D result = new Point2D.Double();
+
+        result.setLocation(
+                Math.pow((1 - t), 3) * start.getX() + 3 * Math.pow((1 - t), 2) * t * controlPoint1.getX() + 3 * (1 - t) * Math.pow(t, 2) * controlPoint2.getX() + Math.pow(t, 3) * end.getX(),
+                Math.pow((1 - t), 3) * start.getY() + 3 * Math.pow((1 - t), 2) * t * controlPoint1.getY() + 3 * (1 - t) * Math.pow(t, 2) * controlPoint2.getY() + Math.pow(t, 3) * end.getY());
+
+        return result;
+    }
 
     /**
      * Convert point coordinates from the window coordinate system to the OpenGL world coordinates.
@@ -140,33 +222,31 @@ public class DrawingUtils {
 
 
     /**
+     * Draw rectangle by coordinates of the left lower corner, width and height
      *
-     *      Draw rectangle by coordinates of the left lower corner, width and height
-     *
-     * @param gl OpenGL drawing context
-     * @param x0 X coordinate of the left lower corner
-     * @param y0 Y coordinate of the left lower corner
-     * @param width Rectangle width
+     * @param gl     OpenGL drawing context
+     * @param x0     X coordinate of the left lower corner
+     * @param y0     Y coordinate of the left lower corner
+     * @param width  Rectangle width
      * @param height Rectangle height
      */
     public static void rect(GL gl, double x0, double y0, double width, double height) {
         rect(gl,
-                x0,         y0,
+                x0, y0,
                 x0 + width, y0,
                 x0 + width, y0 + height,
-                x0,         y0 + height);
+                x0, y0 + height);
     }
 
     /**
-     *
-     *      Draw rectangle by four corner coordinates.
-     *
-     *      (x3,y3) ------- (x2,y2)
-     *         |               |
-     *         |               |
-     *         |               |
-     *         |               |
-     *      (x0,y0) ------- (x1,y1)
+     * Draw rectangle by four corner coordinates.
+     * <p/>
+     * (x3,y3) ------- (x2,y2)
+     * |               |
+     * |               |
+     * |               |
+     * |               |
+     * (x0,y0) ------- (x1,y1)
      *
      * @param gl OpenGL drawing context
      * @param x0 X coordinate of the left lower corner

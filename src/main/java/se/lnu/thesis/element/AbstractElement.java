@@ -1,7 +1,6 @@
 package se.lnu.thesis.element;
 
 import com.google.common.base.Strings;
-import com.sun.xml.internal.ws.util.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -119,16 +118,15 @@ public abstract class AbstractElement implements Element {
     }
 
     /**
-     *
-     *      Two Elements are equal if their id objects are equal and if there have same <code>ElementType</code>
+     * Two Elements are equal if their id objects are equal and if there have same <code>ElementType</code>
      *
      * @param o Element to compare with.
      * @return <code>True</code> or <code>False</code>
-     * @exception IllegalArgumentException if class instances are incompatible
+     * @throws IllegalArgumentException if class instances are incompatible
      */
     @Override
     public boolean equals(Object o) {
-        if (! (o instanceof Element)) {
+        if (!(o instanceof Element)) {
             throw new IllegalArgumentException("Incompatible types for comparison! Should be instance of Element class but got: " + o.getClass());
         }
 

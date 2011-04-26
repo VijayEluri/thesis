@@ -5,7 +5,7 @@
     <artifactId>GoClusterViz</artifactId>
     <name>GoClusterViz</name>
     <packaging>jar</packaging>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
 
     <developers>
         <developer>
@@ -292,7 +292,7 @@
 
                                 <!-- COPY README -->
                                 <copy file="${project.basedir}/README.txt"
-                                    toFile="${thesis.build.directory}/README.txt">
+                                      toFile="${thesis.build.directory}/README.txt">
                                 </copy>
                                 <!--******************************************************************************-->
 

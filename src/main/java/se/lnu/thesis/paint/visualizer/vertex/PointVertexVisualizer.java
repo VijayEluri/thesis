@@ -5,7 +5,6 @@ import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.

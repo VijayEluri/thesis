@@ -1,9 +1,7 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
-import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.utils.Utils;
 

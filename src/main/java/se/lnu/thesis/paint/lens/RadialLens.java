@@ -1,11 +1,7 @@
 package se.lnu.thesis.paint.lens;
 
-import com.sun.opengl.util.GLUT;
-import se.lnu.thesis.element.Element;
 import se.lnu.thesis.layout.PolarDendrogramLayout;
-import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.DrawingUtils;
-import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;

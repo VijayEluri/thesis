@@ -1,6 +1,5 @@
 package se.lnu.thesis.paint.visualizer.vertex;
 
-import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;

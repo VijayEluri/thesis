@@ -8,11 +8,12 @@ import se.lnu.thesis.element.PolarEdge;
 import se.lnu.thesis.element.PolarVertex;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
-import static se.lnu.thesis.utils.GraphUtils.isLeaf;
 import se.lnu.thesis.utils.Utils;
 
 import java.awt.geom.Point2D;
 import java.util.*;
+
+import static se.lnu.thesis.utils.GraphUtils.isLeaf;
 
 public class PolarDendrogramLayout extends RadialLayout {
 

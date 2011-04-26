@@ -5,7 +5,6 @@ import se.lnu.thesis.element.Element;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -14,9 +13,8 @@ import java.awt.geom.Point2D;
  * Date: 20.03.2010
  * Time: 0:46:41
  * <p/>
- *
- *      Simple implementation of the edge visualisation as line
- *
+ * <p/>
+ * Simple implementation of the edge visualisation as line
  */
 public class LineEdgeVisualizer extends AbstractEdgeVisualizer {
 

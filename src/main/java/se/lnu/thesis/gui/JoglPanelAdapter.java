@@ -2,6 +2,7 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.paint.controller.GraphController;
+
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.swing.*;

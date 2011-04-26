@@ -1,25 +1,20 @@
 package se.lnu.thesis.gui.properties;
 
-import se.lnu.thesis.gui.properties.ColorPanel;
-import se.lnu.thesis.properties.ColorSchema;
-import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
+import se.lnu.thesis.properties.ColorSchema;
+import se.lnu.thesis.properties.PropertiesHolder;
 
 import javax.swing.*;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by IntelliJ IDEA.
  * User: vady
  * Date: 13.12.2010
  * Time: 23:32:36
- *
- *
- *
  */
 public class ColorPanelMouseAdapter extends MouseAdapter {
 

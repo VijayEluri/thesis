@@ -1,8 +1,5 @@
 package se.lnu.thesis.io.gml;
 
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.util.EdgeType;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.Utils;
@@ -73,7 +70,6 @@ public class MyGraphGmlReader extends GmlReader {
 
         tagLabel = "label ";
     }
-
 
 
     protected boolean tagLabel(String s) {

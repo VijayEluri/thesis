@@ -1,6 +1,5 @@
 package se.lnu.thesis.gui;
 
-import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 
@@ -137,12 +136,10 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     *
-     *      Frame from left and right message text with spaces:
-     *      <code>
-     *          "    " + @text + "    "
-     *      </code>
-     *
+     * Frame from left and right message text with spaces:
+     * <code>
+     * "    " + @text + "    "
+     * </code>
      *
      * @param text Source message to frame
      * @return Framed message

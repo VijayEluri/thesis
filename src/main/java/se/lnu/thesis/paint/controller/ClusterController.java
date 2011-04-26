@@ -13,7 +13,6 @@ import se.lnu.thesis.paint.state.LensState;
 import se.lnu.thesis.paint.state.NormalClusterState;
 
 import javax.swing.*;
-import java.util.Iterator;
 
 
 public class ClusterController extends GraphController implements Observer {
@@ -38,11 +37,11 @@ public class ClusterController extends GraphController implements Observer {
     }
 
     /**
-     *  Set up graph controller into "normal" state:
-     *      no focused elements,
-     *      no selections,
-     *      no lens showed for cluster,
-     *      not zooming levels for GO, etc.
+     * Set up graph controller into "normal" state:
+     * no focused elements,
+     * no selections,
+     * no lens showed for cluster,
+     * not zooming levels for GO, etc.
      */
     @Override
     public void setNormalState() {
@@ -58,8 +57,8 @@ public class ClusterController extends GraphController implements Observer {
     }
 
     /**
-     *          Clear all computed layout inside GroupElement.
-     *      This method is used when changing lens instance to recompute inner elements with another layout.
+     * Clear all computed layout inside GroupElement.
+     * This method is used when changing lens instance to recompute inner elements with another layout.
      */
     public void clearGroupingElementElements() {
         if (getState() instanceof LensState) {
@@ -69,7 +68,7 @@ public class ClusterController extends GraphController implements Observer {
 
 
         if (getRoot() != null) {
-            for (Element element: getRoot()) {
+            for (Element element : getRoot()) {
                 if (element instanceof GroupingElement) {
                     ((GroupingElement) element).clearElements();
                 }

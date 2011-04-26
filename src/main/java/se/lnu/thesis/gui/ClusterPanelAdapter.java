@@ -1,12 +1,10 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
-
-import java.awt.event.MouseEvent;
-
 import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by IntelliJ IDEA.

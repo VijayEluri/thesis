@@ -6,9 +6,7 @@ import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
-import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
-import se.lnu.thesis.paint.visualizer.vertex.PointVertexVisualizer;
 
 import java.awt.geom.Point2D;
 import java.util.Collection;

@@ -5,15 +5,12 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
-import se.lnu.thesis.layout.AbstractLayout;
 import se.lnu.thesis.layout.HierarchyLayout;
-import se.lnu.thesis.layout.HierarchyLayout2;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.state.NormalGOState;
 import se.lnu.thesis.paint.state.ZoomGOState;
 
 import javax.swing.*;
-import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -66,12 +63,12 @@ public class GOController extends GraphController {
     }
 
 
-     /**
-     *  Set up graph controller into "normal" state:
-     *      no focused elements,
-     *      no selections,
-     *      no lens showed for cluster,
-     *      not zooming levels for GO, etc.
+    /**
+     * Set up graph controller into "normal" state:
+     * no focused elements,
+     * no selections,
+     * no lens showed for cluster,
+     * not zooming levels for GO, etc.
      */
     @Override
     public void setNormalState() {
@@ -105,7 +102,7 @@ public class GOController extends GraphController {
     protected void select(Object object) {
         unselect();
 
-        for (Element e: this.root) {
+        for (Element e : this.root) {
             Level level = (Level) e;
 
             Element element = level.getElementByObject(object);
@@ -127,7 +124,7 @@ public class GOController extends GraphController {
     public void select(Element element) {
         unselect();
 
-        for (Element e: this.root) {
+        for (Element e : this.root) {
             Level level = (Level) e;
 
             Element foundedPreviewElement = level.getPreview().getElementByObject(element.getObject());
@@ -146,7 +143,7 @@ public class GOController extends GraphController {
     }
 
     /**
-     *  Set GO status bar message: is vertex been selected - about selected node, if unselected - clear status bar
+     * Set GO status bar message: is vertex been selected - about selected node, if unselected - clear status bar
      */
     public void updateGOStatusbar() {
         if (selectedElement != null) {

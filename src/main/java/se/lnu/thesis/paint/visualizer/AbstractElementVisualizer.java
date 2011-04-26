@@ -2,15 +2,13 @@ package se.lnu.thesis.paint.visualizer;
 
 import com.sun.opengl.util.GLUT;
 import se.lnu.thesis.element.Element;
-import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.

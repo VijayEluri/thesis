@@ -6,8 +6,6 @@ import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.

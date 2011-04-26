@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.lens;
 
 import com.sun.opengl.util.GLUT;
-import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Element;
@@ -109,19 +108,16 @@ public abstract class Lens implements Drawable {
     }
 
     /**
-     *
-     *      Set lens near the selected vertex.
+     * Set lens near the selected vertex.
      *
      * @param p Position of the selected vertex
      */
     public abstract void setLensNearSelectedNodePosition(Point2D p);
 
     /**
+     * Cursor moving event accured.
      *
-     *      Cursor moving event accured.
-     *
-     *
-     * @param gl OpenGL drawing context
+     * @param gl  OpenGL drawing context
      * @param glu GLU library. Used to convert coordinates from window coordinate system to OpenGL.
      */
     public void move(GL gl, GLU glu) {
@@ -139,8 +135,7 @@ public abstract class Lens implements Drawable {
     }
 
     /**
-     *
-     *      Check that lens should stay inside of the view port
+     * Check that lens should stay inside of the view port
      *
      * @param moveX X value of the moving vector in OpenGL system coordinates converted from cursor coordinates
      * @param moveY Y value of the moving vector in OpenGL system coordinates converted from cursor coordinates
@@ -151,7 +146,7 @@ public abstract class Lens implements Drawable {
         if (moveX > 0) { // moving right?
             x = checkRightBorder(moveX);
 
-        } else  { // moving left
+        } else { // moving left
             x = checkLeftBorder(moveX);
         }
 
@@ -179,8 +174,7 @@ public abstract class Lens implements Drawable {
     }
 
     /**
-     *
-     *      Check if intersection with left border of the view port accured.
+     * Check if intersection with left border of the view port accured.
      *
      * @param moveX X value of moving vector.
      * @return Return computed X coordinate.
@@ -188,8 +182,7 @@ public abstract class Lens implements Drawable {
     protected abstract double checkLeftBorder(double moveX);
 
     /**
-     *
-     *      Check if intersection with right border of the view port accured.
+     * Check if intersection with right border of the view port accured.
      *
      * @param moveX X value of moving vector.
      * @return Return computed X coordinate.
@@ -197,8 +190,7 @@ public abstract class Lens implements Drawable {
     protected abstract double checkRightBorder(double moveX);
 
     /**
-     *
-     *      Check if intersection with left border of the view port accured.
+     * Check if intersection with left border of the view port accured.
      *
      * @param moveY Y value of moving vector.
      * @return Return computed Y coordinate.
@@ -206,8 +198,7 @@ public abstract class Lens implements Drawable {
     protected abstract double checkBottomBorder(double moveY);
 
     /**
-     *
-     *      Check if intersection with top border of the view port accured.
+     * Check if intersection with top border of the view port accured.
      *
      * @param moveY X value of moving vector.
      * @return Return computed Y coordinate.
@@ -223,7 +214,8 @@ public abstract class Lens implements Drawable {
     }
 
     /**
-     *  Find in the goor container focused element and draw tooltip for it
+     * Find in the goor container focused element and draw tooltip for it
+     *
      * @param drawable OpenGL drawing context
      */
     public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class

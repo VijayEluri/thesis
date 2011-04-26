@@ -7,7 +7,9 @@ import se.lnu.thesis.Scene;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

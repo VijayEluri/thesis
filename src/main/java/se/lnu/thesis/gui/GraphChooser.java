@@ -2,10 +2,10 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.gui.filter.GMLFileFilter;
-import se.lnu.thesis.gui.filter.YedGraphmlFileFilter;
 import se.lnu.thesis.gui.filter.YedGMLFileFilter;
+import se.lnu.thesis.gui.filter.YedGraphmlFileFilter;
+import se.lnu.thesis.io.IOFacade;
 
 import javax.swing.*;
 

@@ -2,13 +2,11 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.layout.HierarchyLayout2;
-import se.lnu.thesis.paint.lens.RadialLens;
-import se.lnu.thesis.paint.lens.RectLens;
 import se.lnu.thesis.properties.PropertiesHolder;
-import se.lnu.thesis.core.MyGraph;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

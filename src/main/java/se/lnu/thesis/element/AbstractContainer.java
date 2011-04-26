@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
-import com.sun.istack.internal.Nullable;
 import org.apache.log4j.Logger;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -110,7 +109,6 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     /**
-     *
      * Highlight graph elements with specified object ids inside this container
      *
      * @param objects Collection with object ids to highlight
@@ -144,7 +142,6 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     /**
-     *
      * Get iterator for all elements inside this container.
      *
      * @return Returns read only Iterator object
@@ -155,6 +152,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
 
     /**
      * Return how many elements contain current container
+     *
      * @return Elements count
      */
     public int getElementsCount() {
@@ -167,14 +165,14 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     /**
-     *          Delete all elements.
-     *      Also reset highlighting and layout computation.
+     * Delete all elements.
+     * Also reset highlighting and layout computation.
      */
     public void clearElements() {
 //        setSelected(false);
         resetHighlighting();
-  //      setFocused(false);
-    //    setDrawn(true);
+        //      setFocused(false);
+        //    setDrawn(true);
 
         if (elements != null) {
             elements.clear();
@@ -193,9 +191,8 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
 
 
     /**
-     *
-     *      Returns unmodifiable iterator over all elements inside current container and
-     *      inside containers belongs to this container.
+     * Returns unmodifiable iterator over all elements inside current container and
+     * inside containers belongs to this container.
      *
      * @return Instance of <code>UnmodifiableIterator</code> class.
      */

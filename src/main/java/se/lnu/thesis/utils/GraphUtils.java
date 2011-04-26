@@ -1,10 +1,6 @@
 package se.lnu.thesis.utils;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ForwardingListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.TreeMultimap;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -326,7 +322,7 @@ public class GraphUtils {
             }
         }
 
-        for (V o: subGraph.getVertices()) {
+        for (V o : subGraph.getVertices()) {
             String label = graph.getLabel(o);
             if (label != null) {
                 subGraph.addLabel(o, label);

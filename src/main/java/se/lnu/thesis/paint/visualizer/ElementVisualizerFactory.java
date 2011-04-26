@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.visualizer;
 
 import com.google.common.collect.ImmutableMap;
-import se.lnu.thesis.element.GOBundledEdge;
 import se.lnu.thesis.paint.visualizer.edge.BundledEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.LineEdgeVisualizer;
 import se.lnu.thesis.paint.visualizer.edge.PolarDendrogramEdgeVisualizer;

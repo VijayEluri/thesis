@@ -1,8 +1,6 @@
 package se.lnu.thesis.algorithm;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.MapMaker;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -119,19 +117,18 @@ public class Extractor {
             clusterCache.put(goVertex, clusterSubGraph);
 
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Subgraphs extraction tooked " + TimeUnit.SECONDS.convert(endTime-startTime, TimeUnit.MILLISECONDS) + "s");
+            LOGGER.info("Subgraphs extraction tooked " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.MILLISECONDS) + "s");
         }
 
     }
 
     /**
-     *          All extracted subgraphs stored in the cache.
-     *      One <code>Map</code> for Gene Ontology subgraph and one for Cluster subgraph.
-     *      As cache instance used Google smart map (<code>MapMaker</code> which stores <code>Extractor.CACHE_MAXIMUM_SIZE</code> for
-     *      <code>Extractor.CACHE_EXPIRE_TIME</code> in minutes after last READ(!) access.
-     *
-     *      <code>new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES).makeMap();</code>
-     *
+     * All extracted subgraphs stored in the cache.
+     * One <code>Map</code> for Gene Ontology subgraph and one for Cluster subgraph.
+     * As cache instance used Google smart map (<code>MapMaker</code> which stores <code>Extractor.CACHE_MAXIMUM_SIZE</code> for
+     * <code>Extractor.CACHE_EXPIRE_TIME</code> in minutes after last READ(!) access.
+     * <p/>
+     * <code>new MapMaker().maximumSize(CACHE_MAXIMUM_SIZE).expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES).makeMap();</code>
      */
     public void initCache() {
         if (goCache == null || clusterCache == null) {

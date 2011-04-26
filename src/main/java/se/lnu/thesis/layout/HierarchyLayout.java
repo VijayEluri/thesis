@@ -1,9 +1,10 @@
 package se.lnu.thesis.layout;
 
-import com.google.common.collect.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
-import se.lnu.thesis.element.Container;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
@@ -23,7 +24,6 @@ public class HierarchyLayout extends AbstractLayout {
 
     protected UniformDistributionLayout levelLayout;
     protected UniformDistributionLayout levelPreviewLayout;
-
 
 
     public HierarchyLayout(MyGraph graph, Container root) {
@@ -71,11 +71,11 @@ public class HierarchyLayout extends AbstractLayout {
     }
 
     /**
-     *      Compute all Gene Ontology edges
+     * Compute all Gene Ontology edges
      */
     protected void computeEdges() {
 
-     //   computeStraitEdges();
+        //   computeStraitEdges();
         computeBundledEdges();
 
     }
@@ -115,8 +115,8 @@ public class HierarchyLayout extends AbstractLayout {
         return levelCount;
     }
 
-     /**
-     *      Compute all edges for while graph based on preview element positions
+    /**
+     * Compute all edges for while graph based on preview element positions
      */
     protected void computeStraitEdges() {
         for (Object o : getGraph().getEdges()) {
@@ -142,7 +142,7 @@ public class HierarchyLayout extends AbstractLayout {
         Element result = null;
 
         if (root != null) {
-            for (Element element: getRoot()) {
+            for (Element element : getRoot()) {
                 if (element instanceof Level) {
                     Level level = (Level) element;
 
@@ -164,7 +164,7 @@ public class HierarchyLayout extends AbstractLayout {
         Element result = null;
 
         if (root != null) {
-            for (Element element: getRoot()) {
+            for (Element element : getRoot()) {
                 if (element instanceof Level) {
                     Level level = (Level) element;
 
@@ -184,7 +184,7 @@ public class HierarchyLayout extends AbstractLayout {
 
     protected void computeBundledEdges() {
 
-        for (Object o: getGraph().getVertices()) {
+        for (Object o : getGraph().getVertices()) {
             if (GraphUtils.isNode(getGraph(), o)) {
                 Element element = findElementInLevelPreview(o);
 
@@ -192,7 +192,7 @@ public class HierarchyLayout extends AbstractLayout {
 
                 Multimap<Level, Element> level2Successors = extractSuccessorsByLevels(element);
 
-                for (Level level: level2Successors.keySet()) {
+                for (Level level : level2Successors.keySet()) {
                     Collection<Element> successors = level2Successors.get(level);
 
                     Object source = element.getObject();
@@ -212,7 +212,7 @@ public class HierarchyLayout extends AbstractLayout {
                     } else { // if more successors than draw through dummy node
                         Point2D dummyNode = computeDummyNode(level, successors);
 
-                        for (Element successor: successors) {
+                        for (Element successor : successors) {
                             Point2D end = successor.getPosition();
 
                             Object target = successor.getObject();
@@ -242,7 +242,7 @@ public class HierarchyLayout extends AbstractLayout {
             double minX = 1;
             double maxX = -1;
 
-            for (Element element: elements) {
+            for (Element element : elements) {
                 minX = Math.min(minX, element.getPosition().getX());
                 maxX = Math.max(maxX, element.getPosition().getX());
             }
@@ -258,7 +258,7 @@ public class HierarchyLayout extends AbstractLayout {
     private Multimap<Level, Element> extractSuccessorsByLevels(Element parent) {
         Multimap<Level, Element> result = HashMultimap.create();
 
-        for (Object successor: getGraph().getSuccessors(parent.getObject())) {
+        for (Object successor : getGraph().getSuccessors(parent.getObject())) {
             Level level = findLevelByObjectInLevelPreview(successor);
             Element successorElement = findElementInLevelPreview(successor);
 

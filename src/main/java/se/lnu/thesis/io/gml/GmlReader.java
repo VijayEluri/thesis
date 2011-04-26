@@ -5,7 +5,6 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.Utils;
 
 import java.io.BufferedReader;

@@ -4,7 +4,6 @@ import com.sun.opengl.util.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.controller.GraphController;
-import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -84,7 +83,7 @@ public abstract class GraphState implements Drawable {
     }
 
     /**
-     *      Mouse has left view port area then set current cursor position to <code>null</code>.
+     * Mouse has left view port area then set current cursor position to <code>null</code>.
      */
     public void mouseExited() {
         setCursor(null);

@@ -1,22 +1,19 @@
 package se.lnu.thesis.properties;
 
-import org.apache.log4j.Logger;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
+import se.lnu.thesis.utils.MyColor;
 
 import java.util.Iterator;
-
-import se.lnu.thesis.utils.MyColor;
 
 /**
  * Created by IntelliJ IDEA.
  * User: vady
  * Date: 09.12.2010
- *
- *          This class stores all program properties.
- *      Property file stores in user directory .GoClusterViz/program.properties
- *
- *
+ * <p/>
+ * This class stores all program properties.
+ * Property file stores in user directory .GoClusterViz/program.properties
  */
 public class PropertiesHolder {
 

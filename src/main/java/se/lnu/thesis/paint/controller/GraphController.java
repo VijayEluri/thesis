@@ -8,8 +8,8 @@ import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.state.GraphState;
 import se.lnu.thesis.paint.state.NoneGraphState;
-import se.lnu.thesis.utils.MyColor;
 import se.lnu.thesis.properties.PropertiesHolder;
+import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
@@ -114,11 +114,11 @@ public abstract class GraphController implements Drawable, Observer {
     }
 
     /**
-     *  Set up graph controller into "normal" state:
-     *      no focused elements,
-     *      no selections,
-     *      no lens showed for cluster,
-     *      not zooming levels for GO, etc.
+     * Set up graph controller into "normal" state:
+     * no focused elements,
+     * no selections,
+     * no lens showed for cluster,
+     * not zooming levels for GO, etc.
      */
     public abstract void setNormalState();
 }

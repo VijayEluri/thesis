@@ -2,7 +2,6 @@ package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.core.MyGraph;
-import se.lnu.thesis.element.AbstractElement;
 import se.lnu.thesis.element.VertexElement;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
