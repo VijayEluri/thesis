@@ -54,13 +54,15 @@ public class HierarchyLayout extends AbstractLayout {
         for (int i = 0; i < levelCount; i++) {
             Point2D previewPosition = new Point2D.Double(p.getX(), p.getY() - previewDimension.getY() * i);
 
-            Level level = Level.init(i, levels.get(i));
+            Collection objects = levels.get(i);
+
+            Level level = Level.init(i, objects);
 
             // compute elements positions for level preview
-            computePositions(level.getPreview(), level.getObjects(), levelPreviewLayout, previewDimension, previewPosition);
+            computePositions(level.getPreview(), objects, levelPreviewLayout, previewDimension, previewPosition);
 
             // compute elements positions for level
-            computePositions(level, level.getObjects(), levelLayout, levelDimension, levelPosition);
+            computePositions(level, objects, levelLayout, levelDimension, levelPosition);
 
             root.addElement(level);
         }

@@ -204,11 +204,23 @@ public class GraphStatisticUtil {
      * @param <E>
      */
     public static <V, E> void printGraphStatistic(Graph<V, E> graph) {
-
-        GraphStatistic graphStatistic = new GraphStatistic();
-        graphStatistic.compute(graph);
+        GraphStatistic<V, E> graphStatistic = computeGraphStatistic(graph);
 
         System.out.println(graphStatistic);
+
+    }
+
+    /**
+     * Compute and return graph statistic for specific graph.
+     *
+     * @param graph Graph to compute statistic for.
+     * @return GraphStatistic object.
+     */
+    public static <V, E> GraphStatistic<V, E> computeGraphStatistic(Graph<V, E> graph) {
+        GraphStatistic<V, E> result = new GraphStatistic<V, E>();
+        result.compute(graph);
+
+        return result;
 
     }
 }

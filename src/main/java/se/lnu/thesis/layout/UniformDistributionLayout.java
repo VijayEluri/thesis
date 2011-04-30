@@ -1,5 +1,6 @@
 package se.lnu.thesis.layout;
 
+import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -51,63 +52,72 @@ public class UniformDistributionLayout extends AbstractLayout {
 
         checkArguments();
 
-        if (nodes.size() == 1) { // find place for only one node?
-            p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() - (dimension.getY() / 2));
-            setElementPosition(nodes.iterator().next());
-        } else {
-            double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
+        if (nodes.size() > 0) {
 
-            int columns = (int) (dimension.getX() / pixelPerElement);
-            int rows = (int) (dimension.getY() / pixelPerElement);
+            if (nodes.size() == 1) { // find place for only one node?
+                p = new Point2D.Double(start.getX() + (dimension.getX() / 2), start.getY() - (dimension.getY() / 2));
+                setElementPosition(nodes.iterator().next());
+            } else {
+                double pixelPerElement = Math.sqrt((dimension.getX() * dimension.getY()) / nodes.size());
 
-            LOGGER.debug("columns " + columns);
-            LOGGER.debug("rows " + rows);
+                int columns = (int) (dimension.getX() / pixelPerElement);
+                if (columns == 0) {   // we should always have at lease one column
+                    columns = 1;
+                }
+
+                int rows = (int) (dimension.getY() / pixelPerElement);
+                if (rows == 0) {   // we should always have at lease one row
+                    rows = 1;
+                }
+
+                LOGGER.debug("columns " + columns);
+                LOGGER.debug("rows " + rows);
 
 
-            int more = nodes.size() - (columns * rows); // is this row x columns count is enouph?
+                int more = nodes.size() - (columns * rows); // is this row x columns count is enouph?
 
-            if (more > 0) { // No! More elements needs to be disctributed
-                LOGGER.debug("Find more space for " + more + " count");
+                if (more > 0) { // No! More elements needs to be disctributed
+                    LOGGER.debug("Find more space for " + more + " count");
 
-                if (more == 1) {
-                    rows++;
-                } else {
-                    if (columns != 0) {
+                    if (more == 1) {
+                        rows++;
+                    } else {
                         rows += more / columns;
                         if (more % columns > 0) {
                             rows++;
                         }
                     }
                 }
-            }
 
 
-            LOGGER.debug("columns " + columns);
-            LOGGER.debug("rows " + rows);
+                LOGGER.debug("columns " + columns);
+                LOGGER.debug("rows " + rows);
 
-            step = new Point2D.Double(dimension.getX() / columns, dimension.getY() / rows);
-            LOGGER.debug("step [" + step.getX() + ", " + step.getY() + "]");
+                step = new Point2D.Double(dimension.getX() / columns, dimension.getY() / rows);
+                LOGGER.debug("step [" + step.getX() + ", " + step.getY() + "]");
 
-            p = new Point2D.Double(start.getX(), start.getY());
+                p = new Point2D.Double(start.getX(), start.getY());
 
-            int count = 0;
-            Iterator element = nodes.iterator();
-            for (int j = 0; j < rows; j++) {
-                if (j == (rows - 1)) { // last row
-                    step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
-                }
-
-                for (int i = 0; i < columns; i++) {
-                    if (count < nodes.size()) {
-                        setElementPosition(element.next());
-                        count++;
+                int count = 0;
+                Iterator element = nodes.iterator();
+                for (int j = 0; j < rows; j++) {
+                    if (j == (rows - 1)) { // last row
+                        step.setLocation(dimension.getX() / (nodes.size() - count), step.getY());
                     }
 
-                    p.setLocation(p.getX() + step.getX(), p.getY());
-                }
+                    for (int i = 0; i < columns; i++) {
+                        if (count < nodes.size()) {
+                            setElementPosition(element.next());
+                            count++;
+                        }
 
-                p.setLocation(start.getX(), p.getY() - step.getY());
+                        p.setLocation(p.getX() + step.getX(), p.getY());
+                    }
+
+                    p.setLocation(start.getX(), p.getY() - step.getY());
+                }
             }
+
         }
 
 
@@ -116,18 +126,13 @@ public class UniformDistributionLayout extends AbstractLayout {
     @Override
     protected boolean checkArguments() {
         if (super.checkArguments()) {
-            if (getStart() == null) {
-                throw new IllegalStateException("No start position been set!");
-            }
-
-            if (getDimension() == null) {
-                throw new IllegalStateException("No dimension been set!");
-            }
+            Preconditions.checkNotNull(getStart());
+            Preconditions.checkNotNull(getDimension());
 
             return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     protected void setElementPosition(Object o) {

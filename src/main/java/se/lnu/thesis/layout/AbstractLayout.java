@@ -1,5 +1,6 @@
 package se.lnu.thesis.layout;
 
+import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.element.Container;
@@ -35,13 +36,8 @@ public abstract class AbstractLayout implements Layout {
     }
 
     protected boolean checkArguments() {
-        if (getGraph() == null) {
-            throw new IllegalStateException("No graph!!");
-        }
-
-        if (getRoot() == null) {
-            throw new IllegalStateException("No root container!!");
-        }
+        Preconditions.checkNotNull(getGraph());
+        Preconditions.checkNotNull(getRoot());
 
         return true;
     }

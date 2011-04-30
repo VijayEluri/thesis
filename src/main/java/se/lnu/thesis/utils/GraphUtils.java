@@ -44,6 +44,13 @@ public class GraphUtils {
         return result;
     }
 
+    /**
+     * This method computes level for every vertex in @graph and store into map vertex -> level
+     *
+     * @param graph  Specified graph to process
+     * @param levels Result map (vertex object -> level value)
+     * @return Graph height (maximum level value + 1).
+     */
     public static <V, E> int computeLevels(Graph<V, E> graph, Map<V, Integer> levels) {
 
         Integer maxHeight = 0;
@@ -70,6 +77,14 @@ public class GraphUtils {
         return maxHeight + 1;
     }
 
+    /**
+     * It is improved version of the method @GraphUtils.computeLevels
+     * This method computes level for every vertex in @graph and store into map vertex -> level
+     *
+     * @param graph  Specified graph to process
+     * @param levels Result map (vertex object -> level value)
+     * @return Graph height (maximum level value + 1).
+     */
     public static <V, E> int computeLevelsV2(Graph<V, E> graph, Map<V, Integer> levels) {
 
         int maxHeight = 0;
@@ -94,6 +109,13 @@ public class GraphUtils {
         return maxHeight + 1;
     }
 
+    /**
+     * Method computes all levels for specific graph and extracts them to map level number -> vertices
+     *
+     * @param graph  Graph to extract levels for.
+     * @param levels Result map.
+     * @return Graph height (maximum level value + 1).
+     */
     public static <V, E> int computeLevels(Graph<V, E> graph, Multimap<Integer, V> levels) {
 
         int maxHeight = 0;
