@@ -130,7 +130,7 @@ public abstract class Lens implements Drawable {
 
             keepLensInsideWindow(moveX, moveY);
 
-            start = null;
+            lensMovingCursorStartPosition = null;
         }
     }
 
