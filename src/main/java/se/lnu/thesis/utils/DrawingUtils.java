@@ -198,22 +198,22 @@ public class DrawingUtils {
      * @return converted point in OpenGL world coordinate system
      */
     public static double[] window2world(GL2 gl, GLU glu, Point point) {
-        int viewport[] = new int[4];
-        double mvmatrix[] = new double[16];
-        double projmatrix[] = new double[16];
+        int viewport[] = new int[4];       // [0,0,960,1020]
+        double mvmatrix[] = new double[16];  // [1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0]
+        double projmatrix[] = new double[16];  // [1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0]
 
         double wcoord[] = new double[4]; // wx, wy, wz
 
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl.glGetIntegerv(GL2.GL_VIEWPORT, viewport, 0);
         gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, mvmatrix, 0);
         gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, projmatrix, 0);
 
-        /* note viewport[3] is height of window in pixels */
+
         double x = point.getX();
-        double y = point.getY();
+        double y = viewport[3] - point.getY(); /* note viewport[3] is height of window in pixels */
 
 
-        glu.gluUnProject(x, viewport[3] - y - 1, 0.0, mvmatrix, 0, projmatrix, 0, viewport, 0, wcoord, 0);
+        glu.gluUnProject(x, y, 0.0, mvmatrix, 0, projmatrix, 0, viewport, 0, wcoord, 0);
 
         LOGGER.debug("Cursot window coordinates: [" + point.getX() + ";" + point.getY() + "]");
         LOGGER.debug("Cursor World coordinates: [" + wcoord[0] + ";" + wcoord[1] + "]");

@@ -9,6 +9,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.gl2.GLUgl2;
 import java.awt.*;
 
 /**
@@ -124,7 +125,7 @@ public abstract class GraphState implements Drawable {
 
     public GLU glu() {
         if (glu == null) {
-            glu = new GLU();
+            glu = new GLUgl2();
         }
 
         return glu;
