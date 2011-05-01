@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.lens;
 
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Element;
@@ -12,7 +12,7 @@ import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.GraphUtils;
 import se.lnu.thesis.utils.MyColor;
 
-import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import java.awt.*;
@@ -120,7 +120,7 @@ public abstract class Lens implements Drawable {
      * @param gl  OpenGL drawing context
      * @param glu GLU library. Used to convert coordinates from window coordinate system to OpenGL.
      */
-    public void move(GL gl, GLU glu) {
+    public void move(GL2 gl, GLU glu) {
         if (lensMovingCursorStartPosition != null && lensMovingCursorEndPosition != null) {
             double[] start = DrawingUtils.window2world(gl, glu, this.lensMovingCursorStartPosition);
             double[] end = DrawingUtils.window2world(gl, glu, this.lensMovingCursorEndPosition);
@@ -219,7 +219,7 @@ public abstract class Lens implements Drawable {
      * @param drawable OpenGL drawing context
      */
     public void drawTooltip(GLAutoDrawable drawable) {  // TODO move it to separate class
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         for (Element element : getRoot()) {
             if (element.isFocused()) {

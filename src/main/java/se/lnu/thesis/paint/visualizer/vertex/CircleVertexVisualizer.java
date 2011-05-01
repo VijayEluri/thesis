@@ -6,6 +6,7 @@ import se.lnu.thesis.utils.DrawingUtils;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,7 +38,7 @@ public class CircleVertexVisualizer extends AbstractElementVisualizer {
 
         gl().glTranslated(element.getPosition().getX(), element.getPosition().getY(), 0.0);
 
-        gl().glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
+        gl().glPolygonMode(GL.GL_FRONT_FACE, GL2.GL_FILL);
 
         DrawingUtils.circle(gl(), getRadius(), SEGMENT_COUNT);
 

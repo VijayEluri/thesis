@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
@@ -10,6 +10,7 @@ import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
 import java.nio.IntBuffer;
@@ -51,14 +52,13 @@ public abstract class FocusableState extends GraphState {
     }
 
     /**
-     *
-     *      Draw tooltip for focused element
+     * Draw tooltip for focused element
      *
      * @param drawable OpenGL drawing context
-     * @param element Focused element
+     * @param element  Focused element
      */
     public void drawTooltip(GLAutoDrawable drawable, Element element) {   // TODO ,ove it to separate class
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
         if (element.isFocused()) {
             MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
             gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
@@ -70,7 +70,7 @@ public abstract class FocusableState extends GraphState {
     }
 
     protected void focusing(GLAutoDrawable drawable, Container container) {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
 
@@ -79,11 +79,11 @@ public abstract class FocusableState extends GraphState {
         gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
 
         gl.glSelectBuffer(BUFSIZE, selectBuffer);
-        gl.glRenderMode(GL.GL_SELECT);
+        gl.glRenderMode(GL2.GL_SELECT);
 
         gl.glInitNames();
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
@@ -93,12 +93,12 @@ public abstract class FocusableState extends GraphState {
         container.drawContent(drawable);
 
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
         gl.glFlush();
 
 
-        int hits = gl.glRenderMode(GL.GL_RENDER);
+        int hits = gl.glRenderMode(GL2.GL_RENDER);
 
         LOGGER.debug("There are " + hits + " ids found.");
 
@@ -142,8 +142,8 @@ public abstract class FocusableState extends GraphState {
     }
 
     /**
-     *      Mouse has left view port area then set current cursor position to <code>null</code>.
-     *      And unfocus elements.
+     * Mouse has left view port area then set current cursor position to <code>null</code>.
+     * And unfocus elements.
      */
     @Override
     public void mouseExited() {

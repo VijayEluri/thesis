@@ -119,14 +119,26 @@
 
         <dependency>
             <groupId>jogl</groupId>
-            <artifactId>jogl</artifactId>
-            <version>1.1.1</version>
+            <artifactId>jogl.all</artifactId>
+            <version>2.0-beta10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jogl</groupId>
+            <artifactId>newt.all</artifactId>
+            <version>2.0-beta10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jogl</groupId>
+            <artifactId>nativewindow.all</artifactId>
+            <version>2.0-beta10</version>
         </dependency>
 
         <dependency>
             <groupId>gluegen-rt</groupId>
             <artifactId>gluegen-rt</artifactId>
-            <version>1.0</version>
+            <version>2.0-beta07</version>
         </dependency>
 
     </dependencies>

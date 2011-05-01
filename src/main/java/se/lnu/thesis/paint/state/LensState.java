@@ -9,6 +9,7 @@ import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.nio.IntBuffer;
@@ -43,14 +44,14 @@ public class LensState extends NormalClusterState {
 
     @Override
     protected void drawCurrentState(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        setGl(drawable);
 
         if (getCursor() != null && !moveLens) {
             focusing(drawable, selectedElement);
         }
 
         if (moveLens) {
-            lens.move(gl, glu());
+            lens.move(gl2(), glu());
         }
 
         getContainer().draw(drawable);
@@ -60,34 +61,34 @@ public class LensState extends NormalClusterState {
 
     @Override
     protected void focusing(GLAutoDrawable drawable, Container container) {
-        GL gl = drawable.getGL();
+        setGl(drawable);
 
         IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
 
         int viewport[] = new int[4];
 
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl2().glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
 
-        gl.glSelectBuffer(BUFSIZE, selectBuffer);
-        gl.glRenderMode(GL.GL_SELECT);
+        gl2().glSelectBuffer(BUFSIZE, selectBuffer);
+        gl2().glRenderMode(GL2.GL_SELECT);
 
-        gl.glInitNames();
+        gl2().glInitNames();
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
+        gl2().glMatrixMode(GL2.GL_PROJECTION);
+        gl2().glPushMatrix();
+        gl2().glLoadIdentity();
 
         glu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
         lens.draw(drawable);
 
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPopMatrix();
-        gl.glFlush();
+        gl2().glMatrixMode(GL2.GL_PROJECTION);
+        gl2().glPopMatrix();
+        gl2().glFlush();
 
 
-        int hits = gl.glRenderMode(GL.GL_RENDER);
+        int hits = gl2().glRenderMode(GL2.GL_RENDER);
 
         LOGGER.debug("There are " + hits + " ids found.");
 

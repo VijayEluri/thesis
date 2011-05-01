@@ -44,8 +44,12 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 
     }
 
+    public void dispose(GLAutoDrawable drawable) {
+        LOGGER.debug("DISPOSE");
+    }
+
     public void display(GLAutoDrawable drawable) {
-        //LOGGER.debug("DISPLAY");
+        LOGGER.debug("DISPLAY");
 
         if (getGraphController() != null) {
             getGraphController().draw(drawable);
@@ -58,7 +62,7 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         LOGGER.debug("RESHAPE");
 /*
-        GL gl = drawable.getGL();
+        GL gl2 = drawable.getGL();
 */
 
 /*
@@ -67,15 +71,15 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
             length = height;
             shift = (width - height) / 2;
 
-            gl.glViewport(0, shift, length, length);
+            gl2.glViewport(0, shift, length, length);
         } else {
             length = width;
             shift = (height - width) / 2;
 
-            gl.glViewport(shift, 0, length, length);
+            gl2.glViewport(shift, 0, length, length);
         }
 */
-//        gl.glViewport(0, 0, width, height);
+//        gl2.glViewport(0, 0, width, height);
 
         getFrame().repaint();
     }

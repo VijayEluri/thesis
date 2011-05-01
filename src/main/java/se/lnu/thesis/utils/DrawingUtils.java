@@ -3,6 +3,7 @@ package se.lnu.thesis.utils;
 import org.apache.log4j.Logger;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -26,12 +27,12 @@ public class DrawingUtils {
      * @param radius   Circle radius
      * @param segments Number of outer elements
      */
-    public static void circle(GL gl, double radius, int segments) {
+    public static void circle(GL2 gl, double radius, int segments) {
 
         double step = 360.0 / segments;
         double angle;
 
-        gl.glBegin(GL.GL_POLYGON);
+        gl.glBegin(GL2.GL_POLYGON);
         for (int i = 0; i < segments; i++) {
             angle = step * i;
 
@@ -51,7 +52,7 @@ public class DrawingUtils {
      * @param segments  Number of outer elements
      * @param thickness Ring thickness
      */
-    public static void ring(GL gl, double radius, int segments, float thickness) {
+    public static void ring(GL2 gl, double radius, int segments, float thickness) {
 
         double step = 360.0 / segments;
         double angle;
@@ -70,7 +71,7 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
-    public static void arc(GL gl, double startAngle, double endAngle, double radius, int segments) {
+    public static void arc(GL2 gl, double startAngle, double endAngle, double radius, int segments) {
 
         double step = (endAngle - startAngle) / segments;
         double angle;
@@ -87,14 +88,14 @@ public class DrawingUtils {
         gl.glEnd();
     }
 
-    public static void spiral(GL gl, double step, int elements) {
+    public static void spiral(GL2 gl, double step, int elements) {
 
         final double a = 1.0;
 
         double angle;
 
         gl.glBegin(GL.GL_LINE_STRIP);
-        //gl.glBegin(GL.GL_POINTS);
+        //gl2.glBegin(GL.GL_POINTS);
         for (int i = 0; i < elements; i++) {
             angle = Utils.inRadians(i * step);
 
@@ -115,7 +116,7 @@ public class DrawingUtils {
      * @param end           End point position
      * @param lineThickness Line thickness
      */
-    public static void quadraticBezierCurve(GL gl, Point2D start, Point2D controlPoint, Point2D end, float lineThickness) {
+    public static void quadraticBezierCurve(GL2 gl, Point2D start, Point2D controlPoint, Point2D end, float lineThickness) {
         gl.glLineWidth(lineThickness);
 
         gl.glBegin(GL.GL_LINE_STRIP);
@@ -156,7 +157,7 @@ public class DrawingUtils {
      * @param end           End point position
      * @param lineThickness Line thickness
      */
-    public static void cubicBezierCurve(GL gl, Point2D start, Point2D controlPoint1, Point2D controlPoint2, Point2D end, float lineThickness) {
+    public static void cubicBezierCurve(GL2 gl, Point2D start, Point2D controlPoint1, Point2D controlPoint2, Point2D end, float lineThickness) {
         gl.glLineWidth(lineThickness);
 
         gl.glBegin(GL.GL_LINE_STRIP);
@@ -196,7 +197,7 @@ public class DrawingUtils {
      * @param point Point coordinates in window
      * @return converted point in OpenGL world coordinate system
      */
-    public static double[] window2world(GL gl, GLU glu, Point point) {
+    public static double[] window2world(GL2 gl, GLU glu, Point point) {
         int viewport[] = new int[4];
         double mvmatrix[] = new double[16];
         double projmatrix[] = new double[16];
@@ -204,8 +205,8 @@ public class DrawingUtils {
         double wcoord[] = new double[4]; // wx, wy, wz
 
         gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-        gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, mvmatrix, 0);
-        gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, projmatrix, 0);
+        gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, mvmatrix, 0);
+        gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, projmatrix, 0);
 
         /* note viewport[3] is height of window in pixels */
         double x = point.getX();
@@ -230,7 +231,7 @@ public class DrawingUtils {
      * @param width  Rectangle width
      * @param height Rectangle height
      */
-    public static void rect(GL gl, double x0, double y0, double width, double height) {
+    public static void rect(GL2 gl, double x0, double y0, double width, double height) {
         rect(gl,
                 x0, y0,
                 x0 + width, y0,
@@ -258,9 +259,9 @@ public class DrawingUtils {
      * @param x3 X coordinate on the left upper corner
      * @param y3 Y coordinate of the left upper corner
      */
-    public static void rect(GL gl, double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
-        gl.glPolygonMode(GL.GL_FRONT_FACE, GL.GL_FILL);
-        gl.glBegin(GL.GL_QUADS);
+    public static void rect(GL2 gl, double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3) {
+        gl.glPolygonMode(GL.GL_FRONT_FACE, GL2.GL_FILL);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2d(x0, y0);
         gl.glVertex2d(x1, y1);
         gl.glVertex2d(x2, y2);

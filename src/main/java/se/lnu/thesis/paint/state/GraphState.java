@@ -1,11 +1,12 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import java.awt.*;
@@ -18,6 +19,7 @@ import java.awt.*;
  */
 public abstract class GraphState implements Drawable {
 
+    private GL2 gl2;
     private GLU glu;
     private GLUT glut;
 
@@ -26,27 +28,27 @@ public abstract class GraphState implements Drawable {
     private Point cursor;
 
     public final void draw(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        setGl2((GL2) drawable.getGL());
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
+        gl2().glMatrixMode(GL2.GL_PROJECTION);
+        gl2().glLoadIdentity();
 
-        gl.glEnable(GL.GL_LINE_SMOOTH);
-        gl.glEnable(GL.GL_BLEND);
+        gl2().glEnable(GL.GL_LINE_SMOOTH);
+        gl2().glEnable(GL.GL_BLEND);
 
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+        gl2().glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl2().glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
 
-        gl.glClearDepth(1.0);                     // Enables Clearing Of The Depth Buffer
-        gl.glEnable(GL.GL_DEPTH_TEST);            // Enables Depth Testing
-        gl.glDepthFunc(GL.GL_LEQUAL);             // The Type Of Depth Test To Do
+        gl2().glClearDepth(1.0);                     // Enables Clearing Of The Depth Buffer
+        gl2().glEnable(GL.GL_DEPTH_TEST);            // Enables Depth Testing
+        gl2().glDepthFunc(GL.GL_LEQUAL);             // The Type Of Depth Test To Do
 
         // Really Nice Perspective Calculations
-        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+        gl2().glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
 
 
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        gl.glClearColor(graphController.getBackground().getRed(),
+        gl2().glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl2().glClearColor(graphController.getBackground().getRed(),
                 graphController.getBackground().getGreen(),
                 graphController.getBackground().getBlue(),
                 1.0f); // background color
@@ -106,6 +108,18 @@ public abstract class GraphState implements Drawable {
 
     public void setCursor(Point cursor) {
         this.cursor = cursor;
+    }
+
+    public void setGl2(GL2 gl2) {
+        this.gl2 = gl2;
+    }
+
+    public void setGl(GLAutoDrawable drawable) {
+        setGl2((GL2) drawable.getGL());
+    }
+
+    public GL2 gl2() {
+        return gl2;
     }
 
     public GLU glu() {

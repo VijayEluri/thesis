@@ -4,7 +4,7 @@ import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.layout.HVTreeLayout;
 import se.lnu.thesis.utils.DrawingUtils;
 
-import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
 
@@ -22,7 +22,7 @@ public class RectLens extends Lens {
 
     @Override
     public void draw(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         gl.glPushMatrix();
         gl.glTranslated(position.getX(), position.getY(), 0.0);
