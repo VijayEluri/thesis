@@ -5,7 +5,7 @@
     <artifactId>GoClusterViz</artifactId>
     <name>GoClusterViz</name>
     <packaging>jar</packaging>
-    <version>1.4.4</version>
+    <version>1.4.4-jogl2</version>
 
     <developers>
         <developer>
@@ -119,14 +119,26 @@
 
         <dependency>
             <groupId>jogl</groupId>
-            <artifactId>jogl</artifactId>
-            <version>1.1.1</version>
+            <artifactId>jogl.all</artifactId>
+            <version>2.0-beta10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jogl</groupId>
+            <artifactId>newt.all</artifactId>
+            <version>2.0-beta10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jogl</groupId>
+            <artifactId>nativewindow.all</artifactId>
+            <version>2.0-beta10</version>
         </dependency>
 
         <dependency>
             <groupId>gluegen-rt</groupId>
             <artifactId>gluegen-rt</artifactId>
-            <version>1.0</version>
+            <version>2.0-beta07</version>
         </dependency>
 
     </dependencies>
@@ -183,7 +195,8 @@
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <!-- TODO add here any library entry to exclude from copying to "lib" folder -->
-                            <excludeArtifactIds>junit,jogl,gluegen-rt,mockito-core</excludeArtifactIds>
+                            <excludeArtifactIds>junit,,mockito-core,jogl.all,newt.all,nativewindow.all,gluegen-rt
+                            </excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -203,8 +216,18 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>jogl</groupId>
-                                    <artifactId>jogl</artifactId>
-                                    <destFileName>jogl.jar</destFileName>
+                                    <artifactId>jogl.all</artifactId>
+                                    <destFileName>jogl.all.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jogl</groupId>
+                                    <artifactId>newt.all</artifactId>
+                                    <destFileName>newt.all.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jogl</groupId>
+                                    <artifactId>nativewindow.all</artifactId>
+                                    <destFileName>nativewindow.all.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>gluegen-rt</groupId>

@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Element;
@@ -13,6 +13,7 @@ import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -77,10 +78,10 @@ public class ZoomGOState extends FocusableState {
     }
 
     private void shiftAndDrawLevel(GLAutoDrawable drawable, Level level, double shiftY) {
-        GL gl = drawable.getGL();
+        setGl(drawable);
 
-        gl.glPushMatrix();
-        gl.glTranslated(0.0, shiftY, 0.0);
+        gl2().glPushMatrix();
+        gl2().glTranslated(0.0, shiftY, 0.0);
         level.drawContent(drawable);
 
         if (getCurrent() != null) {
@@ -88,39 +89,39 @@ public class ZoomGOState extends FocusableState {
                 drawTooltip(drawable, getCurrent());
             }
         }
-        gl.glPopMatrix();
+        gl2().glPopMatrix();
     }
 
     public void drawTooltip(GLAutoDrawable drawable, Element element) {
-        GL gl = drawable.getGL();
-        GLUT glut = new GLUT();
+        setGl(drawable);
+
         if (element.isFocused()) {
             MyColor color = PropertiesHolder.getInstance().getColorSchema().getVerticesTooltips();
-            gl.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+            gl2().glColor3f(color.getRed(), color.getGreen(), color.getBlue());
 
             Point2D p = element.getPosition();
-            gl.glRasterPos2d(p.getX(), p.getY());
-            glut.glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
+            gl2().glRasterPos2d(p.getX(), p.getY());
+            glut().glutBitmapString(GLUT.BITMAP_8_BY_13, element.getTooltip());
         }
     }
 
     protected void focusing(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        setGl(drawable);
 
         IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
 
         int viewport[] = new int[4];
 
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl2().glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
 
-        gl.glSelectBuffer(BUFSIZE, selectBuffer);
-        gl.glRenderMode(GL.GL_SELECT);
+        gl2().glSelectBuffer(BUFSIZE, selectBuffer);
+        gl2().glRenderMode(GL2.GL_SELECT);
 
-        gl.glInitNames();
+        gl2().glInitNames();
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
+        gl2().glMatrixMode(GL2.GL_PROJECTION);
+        gl2().glPushMatrix();
+        gl2().glLoadIdentity();
 
         glu().gluPickMatrix(getCursor().getX(), (viewport[3] - getCursor().getY()), CURSOR_X_SIZE, CURSOR_Y_SIZE, viewport, 0);
 
@@ -130,12 +131,12 @@ public class ZoomGOState extends FocusableState {
         drawBottomLevel(drawable);
 
 
-        gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glPopMatrix();
-        gl.glFlush();
+        gl2().glMatrixMode(GL2.GL_PROJECTION);
+        gl2().glPopMatrix();
+        gl2().glFlush();
 
 
-        int hits = gl.glRenderMode(GL.GL_RENDER);
+        int hits = gl2().glRenderMode(GL2.GL_RENDER);
 
         LOGGER.debug("There are " + hits + " ids found.");
 

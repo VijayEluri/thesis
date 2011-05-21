@@ -1,14 +1,15 @@
 package se.lnu.thesis.paint.visualizer;
 
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.MyColor;
 
-import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.gl2.GLUgl2;
 
 /**
  * Created by IntelliJ IDEA.
@@ -98,13 +99,13 @@ public abstract class AbstractElementVisualizer implements ElementVisualizer {
         this.drawable = drawable;
     }
 
-    public GL gl() {
-        return getDrawable().getGL();
+    public GL2 gl() {
+        return (GL2) getDrawable().getGL();
     }
 
     public GLU glu() {
         if (glu == null) {
-            glu = new GLU();
+            glu = new GLUgl2();
         }
 
         return glu;

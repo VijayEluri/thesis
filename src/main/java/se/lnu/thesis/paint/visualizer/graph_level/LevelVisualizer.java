@@ -1,12 +1,13 @@
 package se.lnu.thesis.paint.visualizer.graph_level;
 
-import com.sun.opengl.util.GLUT;
+import com.sun.opengl.util.gl2.GLUT;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.MyColor;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
 
@@ -65,7 +66,7 @@ public class LevelVisualizer extends AbstractElementVisualizer {
     }
 
     protected void drawContent(GLAutoDrawable drawable, DimensionalContainer container) {
-        for (Element element: container) {
+        for (Element element : container) {
             element.draw(drawable);
         }
     }
@@ -104,7 +105,7 @@ public class LevelVisualizer extends AbstractElementVisualizer {
 
         setCurrentDrawingColor(getBackground());
 
-        gl().glBegin(GL.GL_POLYGON);
+        gl().glBegin(GL2.GL_POLYGON);
         gl().glVertex2d(p.getX(), p.getY());
         gl().glVertex2d(p.getX() + d.getX(), p.getY());
         gl().glVertex2d(p.getX() + d.getX(), p.getY() - d.getY());

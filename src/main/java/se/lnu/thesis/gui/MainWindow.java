@@ -3,7 +3,7 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.Scene;
 
-import javax.media.opengl.GLJPanel;
+import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
