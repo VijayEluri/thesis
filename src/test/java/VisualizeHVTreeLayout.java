@@ -1,6 +1,4 @@
-import com.sun.xml.internal.rngom.digested.DInterleavePattern;
 import edu.uci.ics.jung.graph.Graph;
-import org.junit.Test;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.layout.HVTreeLayout;
 import se.lnu.thesis.utils.GraphMaker;
@@ -14,10 +12,9 @@ import java.awt.geom.Point2D;
  * User: Vlad
  * Date: 26.03.11
  * Time: 21:58
- *
- *
- *      Run some test methods to test how HVTreeLayout works on different sample graphs.
- *
+ * <p/>
+ * <p/>
+ * Run some test methods to test how HVTreeLayout works on different sample graphs.
  */
 public class VisualizeHVTreeLayout {
 
