@@ -49,6 +49,7 @@
 
     <dependencies>
 
+        <!-- ************************* TESTING DEPENDENCIES ************************* -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -62,7 +63,9 @@
             <version>1.8.5</version>
             <scope>test</scope>
         </dependency>
+        <!-- ************************* ************************* ************************* -->
 
+        <!-- ************************* GENERAL DEPENDENCIES ************************* -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -98,7 +101,9 @@
             <artifactId>guava</artifactId>
             <version>r08</version>
         </dependency>
+        <!-- ************************* ************************* ************************* -->
 
+        <!-- ************************* CORE DEPENDENCIES ************************* -->
         <dependency>
             <groupId>jung-algorithms</groupId>
             <artifactId>jung-algorithms</artifactId>
@@ -140,7 +145,7 @@
             <artifactId>gluegen-rt</artifactId>
             <version>2.0-beta07</version>
         </dependency>
-
+        <!-- ************************* ************************* ************************* -->
     </dependencies>
 
 
@@ -174,6 +179,7 @@
                             </archive>
                             <excludes>
                                 <exclude>program.properties</exclude>
+                                <exclude>log4j.properties</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -256,136 +262,10 @@
                                     <directory>${basedir}/src/main/resources</directory>
                                     <includes>
                                         <include>program.properties</include>
+                                        <include>log4j.properties</include>
                                     </includes>
                                 </resource>
                             </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>make-platform-releases</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <!-- CREATE DIRECTORIES -->
-                                <mkdir dir="${thesis.releases.directory}"/>
-
-                                <delete dir="${thesis.releases.directory}/latest/"/>
-                                <mkdir dir="${thesis.releases.directory}/latest/"/>
-
-                                <mkdir dir="${thesis.release.directory}"/>
-                                <mkdir dir="${thesis.release.windows.i586.directory}"/>
-                                <mkdir dir="${thesis.release.windows.amd64.directory}"/>
-                                <mkdir dir="${thesis.release.linux.i586.directory}"/>
-                                <mkdir dir="${thesis.release.linux.amd64.directory}"/>
-                                <mkdir dir="${thesis.release.macosx.directory}"/>
-                                <!--******************************************************************************-->
-
-                                <!-- COPY NATIVE LIBRARIES -->
-                                <copy todir="${thesis.release.windows.i586.directory}/native">
-                                    <fileset dir="${project.basedir}/native/win-i586-native"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.windows.amd64.directory}/native">
-                                    <fileset dir="${project.basedir}/native/win-amd64-native"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.linux.i586.directory}/native">
-                                    <fileset dir="${project.basedir}/native/linux-i586-native"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.linux.amd64.directory}/native">
-                                    <fileset dir="${project.basedir}/native/linux-amd64-native"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.macosx.directory}/native">
-                                    <fileset dir="${project.basedir}/native/macosx-universal-native"/>
-                                </copy>
-                                <!--******************************************************************************-->
-
-                                <!-- COPY README -->
-                                <copy file="${project.basedir}/README.txt"
-                                      toFile="${thesis.build.directory}/README.txt">
-                                </copy>
-                                <!--******************************************************************************-->
-
-                                <!-- COPY BUILD -->
-                                <copy todir="${thesis.release.windows.i586.directory}">
-                                    <fileset dir="${thesis.build.directory}"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.windows.amd64.directory}">
-                                    <fileset dir="${thesis.build.directory}"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.linux.i586.directory}">
-                                    <fileset dir="${thesis.build.directory}"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.linux.amd64.directory}">
-                                    <fileset dir="${thesis.build.directory}"/>
-                                </copy>
-
-                                <copy todir="${thesis.release.macosx.directory}">
-                                    <fileset dir="${thesis.build.directory}"/>
-                                </copy>
-                                <!--******************************************************************************-->
-
-                                <!-- COPY LAUNCHERS-->
-                                <copy
-                                        file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
-                                        toFile="${thesis.release.windows.i586.directory}/GoClusterViz.bat">
-                                </copy>
-
-                                <copy
-                                        file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
-                                        toFile="${thesis.release.windows.amd64.directory}/GoClusterViz.bat">
-                                </copy>
-
-                                <copy
-                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
-                                        toFile="${thesis.release.linux.i586.directory}/GoClusterViz.sh">
-                                </copy>
-
-                                <copy
-                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
-                                        toFile="${thesis.release.linux.amd64.directory}/GoClusterViz.sh">
-                                </copy>
-
-
-                                <copy
-                                        file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
-                                        toFile="${thesis.release.macosx.directory}/GoClusterViz.sh">
-                                </copy>
-                                <!--******************************************************************************-->
-
-                                <!--COPY LATEST BUILD BUILD-->
-                                <copy
-                                        todir="${thesis.releases.directory}/latest">
-                                    <fileset dir="${thesis.release.directory}"/>
-                                </copy>
-
-                                <copy
-                                        todir="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}">
-                                    <fileset dir="${thesis.release.directory}"/>
-                                </copy>
-
-                                <zip
-                                        destfile="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
-                                        basedir="${thesis.release.directory}"/>
-                                <!--******************************************************************************-->
-
-                            </target>
                         </configuration>
                     </execution>
                 </executions>
@@ -429,15 +309,143 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>make-platform-releases</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- CREATE DIRECTORIES -->
+                                        <mkdir dir="${thesis.releases.directory}"/>
 
-        </plugins>
-    </reporting>
+                                        <delete dir="${thesis.releases.directory}/latest/"/>
+                                        <mkdir dir="${thesis.releases.directory}/latest/"/>
+
+                                        <mkdir dir="${thesis.release.directory}"/>
+                                        <mkdir dir="${thesis.release.windows.i586.directory}"/>
+                                        <mkdir dir="${thesis.release.windows.amd64.directory}"/>
+                                        <mkdir dir="${thesis.release.linux.i586.directory}"/>
+                                        <mkdir dir="${thesis.release.linux.amd64.directory}"/>
+                                        <mkdir dir="${thesis.release.macosx.directory}"/>
+                                        <!--******************************************************************************-->
+
+                                        <!-- COPY NATIVE LIBRARIES -->
+                                        <copy todir="${thesis.release.windows.i586.directory}/native">
+                                            <fileset dir="${project.basedir}/native/win-i586-native"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.windows.amd64.directory}/native">
+                                            <fileset dir="${project.basedir}/native/win-amd64-native"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.linux.i586.directory}/native">
+                                            <fileset dir="${project.basedir}/native/linux-i586-native"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.linux.amd64.directory}/native">
+                                            <fileset dir="${project.basedir}/native/linux-amd64-native"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.macosx.directory}/native">
+                                            <fileset dir="${project.basedir}/native/macosx-universal-native"/>
+                                        </copy>
+                                        <!--******************************************************************************-->
+
+                                        <!-- COPY README -->
+                                        <copy file="${project.basedir}/README.txt"
+                                              toFile="${thesis.build.directory}/README.txt">
+                                        </copy>
+                                        <!--******************************************************************************-->
+
+                                        <!-- COPY BUILD -->
+                                        <copy todir="${thesis.release.windows.i586.directory}">
+                                            <fileset dir="${thesis.build.directory}"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.windows.amd64.directory}">
+                                            <fileset dir="${thesis.build.directory}"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.linux.i586.directory}">
+                                            <fileset dir="${thesis.build.directory}"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.linux.amd64.directory}">
+                                            <fileset dir="${thesis.build.directory}"/>
+                                        </copy>
+
+                                        <copy todir="${thesis.release.macosx.directory}">
+                                            <fileset dir="${thesis.build.directory}"/>
+                                        </copy>
+                                        <!--******************************************************************************-->
+
+                                        <!-- COPY LAUNCHERS-->
+                                        <copy
+                                                file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
+                                                toFile="${thesis.release.windows.i586.directory}/GoClusterViz.bat">
+                                        </copy>
+
+                                        <copy
+                                                file="${project.basedir}/src/main/launchers/GoClusterViz.bat"
+                                                toFile="${thesis.release.windows.amd64.directory}/GoClusterViz.bat">
+                                        </copy>
+
+                                        <copy
+                                                file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
+                                                toFile="${thesis.release.linux.i586.directory}/GoClusterViz.sh">
+                                        </copy>
+
+                                        <copy
+                                                file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
+                                                toFile="${thesis.release.linux.amd64.directory}/GoClusterViz.sh">
+                                        </copy>
+
+
+                                        <copy
+                                                file="${project.basedir}/src/main/launchers/GoClusterViz.sh"
+                                                toFile="${thesis.release.macosx.directory}/GoClusterViz.sh">
+                                        </copy>
+                                        <!--******************************************************************************-->
+
+                                        <!--COPY LATEST BUILD BUILD-->
+                                        <copy
+                                                todir="${thesis.releases.directory}/latest">
+                                            <fileset dir="${thesis.release.directory}"/>
+                                        </copy>
+
+                                        <copy
+                                                todir="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}">
+                                            <fileset dir="${thesis.release.directory}"/>
+                                        </copy>
+
+                                        <zip
+                                                destfile="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
+                                                basedir="${thesis.release.directory}"/>
+                                        <!--******************************************************************************-->
+
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
