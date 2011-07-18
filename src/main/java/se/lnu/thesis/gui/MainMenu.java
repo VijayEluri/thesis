@@ -1,20 +1,24 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.layout.HierarchyLayout2;
+import se.lnu.thesis.paint.controller.GOController;
 import se.lnu.thesis.properties.PropertiesHolder;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-
+@Component
 public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
     public static final Logger LOGGER = Logger.getLogger(MainMenu.class);
@@ -47,8 +51,16 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     protected JMenu geneOntologyMenu;
     protected JCheckBoxMenuItem showUnconnectedComponentsMenuItem;
 
+    @Autowired
+    private Scene scene;
+
 
     public MainMenu() {
+
+    }
+
+    @PostConstruct
+    public void init() {
         initFileChooser();
         createFileMenu();
         createGOMenu();
@@ -168,7 +180,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         if (event == OPEN_GO_GRAPH) {
             MyGraph graph = graphChooser.open();
             if (graph != null) {
-                Scene.getInstance().setGoGraph(graph);
+                scene.setGoGraph(graph);
 
                 geneOntologyMenu.setEnabled(true);
             }
@@ -177,12 +189,12 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         if (event == OPEN_CLUSTER_GRAPH) {
             MyGraph graph = graphChooser.open();
             if (graph != null) {
-                Scene.getInstance().setClusterGraph(graph);
+                scene.setClusterGraph(graph);
             }
         }
 
         if (event == SHOW_GENE_LIST) {
-            Scene.getInstance().showGeneList();
+            scene.showGeneList();
         }
 
         if (event == DEFAULT_BLACK_COLOR_SCHEMA) {
@@ -204,64 +216,66 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         }
 
         if (event == RADIAL_LENS) {
-            Scene.getInstance().setRadialLens();
+            scene.setRadialLens();
         }
 
         if (event == RECT_LENS) {
-            Scene.getInstance().setRectLens();
+            scene.setRectLens();
         }
 
         if (event == COLOR_PROPERTIES) {
-            Scene.getInstance().getColorPropertiesDialog().showIt();
+            scene.getColorPropertiesDialog().showIt();
         }
 
-        Scene.getInstance().getMainWindow().repaint();
+        scene.getMainWindow().repaint();
     }
 
     public void switchGeneOntologyLayout(HierarchyLayout layout) {
-        Scene.getInstance().resetSubgraphHighlighting();
+        scene.resetSubgraphHighlighting();
 
-        Scene.getInstance().getGoController().setGraphLayout(layout);
-        Scene.getInstance().getGoController().init();
+        scene.getGoController().setGraphLayout(layout);
+        scene.getGoController().init();
 
         if (!showUnconnectedComponentsMenuItem.isSelected()) {
-            GOGraphContainer goGraphContainer = (GOGraphContainer) Scene.getInstance().getGoController().getRoot();
-            goGraphContainer.hideUnconnectedComponents();
+            scene.hideUnconnectedComponents();
         }
     }
 
     public void itemStateChanged(ItemEvent itemEvent) {
-        GOGraphContainer goGraphContainer = (GOGraphContainer) Scene.getInstance().getGoController().getRoot();
+        GOController goController = scene.getGoController();
 
-        if (itemEvent.getItem() instanceof JCheckBoxMenuItem) {
+        if (goController != null) {
+            GOGraphContainer goGraphContainer = (GOGraphContainer) goController.getRoot();
 
-            JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) itemEvent.getItem();
-            if (checkBoxMenuItem.getName().equals(SHOW_UNCONNECTED_COMPONENTS)) {
-                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                    if (goGraphContainer != null) {
-                        goGraphContainer.showUnconnectedComponents();
+            if (itemEvent.getItem() instanceof JCheckBoxMenuItem) {
+
+                JCheckBoxMenuItem checkBoxMenuItem = (JCheckBoxMenuItem) itemEvent.getItem();
+                if (checkBoxMenuItem.getName().equals(SHOW_UNCONNECTED_COMPONENTS)) {
+                    if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                        scene.showUnconnectedComponents();
+                    }
+
+                    if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+                        scene.hideUnconnectedComponents();
                     }
                 }
 
-                if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
-                    goGraphContainer.hideUnconnectedComponents();
+                if (checkBoxMenuItem.getName().equals(SHOW_SUBGRAPH_EDGES)) {
+                    if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                        if (goGraphContainer != null) {
+                            goGraphContainer.showSubgraphEdges();
+                        }
+                    }
+
+                    if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+                        if (goGraphContainer != null) {
+                            goGraphContainer.hideSubgraphEdges();
+                        }
+                    }
                 }
+
             }
-
-            if (checkBoxMenuItem.getName().equals(SHOW_SUBGRAPH_EDGES)) {
-                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                    if (goGraphContainer != null) {
-                        goGraphContainer.showSubgraphEdges();
-                    }
-                }
-
-                if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
-                    if (goGraphContainer != null) {
-                        goGraphContainer.hideSubgraphEdges();
-                    }
-                }
-            }
-
         }
+
     }
 }

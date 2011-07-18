@@ -1,11 +1,13 @@
 package se.lnu.thesis.paint.controller;
 
 
-import se.lnu.thesis.Scene;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.ClusterGraphContainer;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GroupingElement;
+import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.layout.RectangularSpiralLayout;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
@@ -14,8 +16,14 @@ import se.lnu.thesis.paint.state.NormalClusterState;
 
 import javax.swing.*;
 
-
+@Component
 public class ClusterController extends GraphController implements Observer {
+
+    @Autowired
+    private Extractor extractor;
+
+    @Autowired
+    private MainWindow mainWindow;
 
     public void init() {
         root = ClusterGraphContainer.init();
@@ -49,11 +57,9 @@ public class ClusterController extends GraphController implements Observer {
     }
 
     public void notifyObserver(Subject subject, Object params) {
-        Extractor extractor = Scene.getInstance().getExtractor();
-
         this.setSubGraph(extractor.getClusterSubGraph());
 
-        Scene.getInstance().getMainWindow().repaint();
+        mainWindow.repaint();
     }
 
     /**

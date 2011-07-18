@@ -3,6 +3,7 @@ package se.lnu.thesis.algorithm;
 import com.google.common.collect.MapMaker;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.GraphTraversalUtils;
 import se.lnu.thesis.utils.GraphUtils;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  * 3. Merge. Find shared parent.
  * 4. Create graph from this structure.
  */
+@Component
 public class Extractor {
 
     public static final Logger LOGGER = Logger.getLogger(Extractor.class);

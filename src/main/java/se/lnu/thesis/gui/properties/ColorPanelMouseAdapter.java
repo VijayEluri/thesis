@@ -1,5 +1,6 @@
 package se.lnu.thesis.gui.properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.paint.visualizer.ElementVisualizerFactory;
 import se.lnu.thesis.properties.ColorSchema;
@@ -16,7 +17,11 @@ import java.awt.event.MouseEvent;
  * Date: 13.12.2010
  * Time: 23:32:36
  */
+@org.springframework.stereotype.Component
 public class ColorPanelMouseAdapter extends MouseAdapter {
+
+    @Autowired
+    private Scene scene;
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
@@ -30,8 +35,8 @@ public class ColorPanelMouseAdapter extends MouseAdapter {
                 colorPanel.setBackground(color);
 
                 if (colorPanel.getId() == ColorSchema.COLOR_BACKGROUND) {
-                    Scene.getInstance().getGoController().getBackground().setColor(color);
-                    Scene.getInstance().getClusterController().getBackground().setColor(color);
+                    scene.getGoController().getBackground().setColor(color);
+                    scene.getClusterController().getBackground().setColor(color);
 
                     ElementVisualizerFactory.getInstance().getLevelVisualizer().getBackground().setColor(color);
                     ElementVisualizerFactory.getInstance().getLevelPreviewVisualizer().getBackground().setColor(color);
@@ -41,7 +46,7 @@ public class ColorPanelMouseAdapter extends MouseAdapter {
                 }
             }
 
-            Scene.getInstance().getMainWindow().repaint();
+            scene.getMainWindow().repaint();
         }
     }
 

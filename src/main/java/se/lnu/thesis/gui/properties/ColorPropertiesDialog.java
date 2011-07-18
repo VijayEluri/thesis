@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui.properties;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
 
@@ -17,6 +18,7 @@ import java.awt.event.WindowListener;
  * Date: 06.12.2010
  * Time: 19:36:20
  */
+@org.springframework.stereotype.Component
 public class ColorPropertiesDialog extends JFrame implements WindowListener {
 
     public static final Logger LOGGER = Logger.getLogger(ColorPropertiesDialog.class);
@@ -39,6 +41,7 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
 
     protected JPanel lensColor;
 
+    @Autowired
     ColorPanelMouseAdapter panelMouseAdapter;
 
     public ColorPropertiesDialog() {

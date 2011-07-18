@@ -3,9 +3,9 @@ package se.lnu.thesis.paint.state;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.gl2.GLUT;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.Element;
+import se.lnu.thesis.event.SetStatusBarText;
 import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.utils.MyColor;
 
@@ -126,7 +126,7 @@ public abstract class FocusableState extends GraphState {
 
             LOGGER.debug("Focused vertex " + getCurrent().getObject() + " [" + label + "]");
 
-            Scene.getInstance().getMainWindow().setStatusBarText("Focused vertex " + label);
+            getGraphController().publish(new SetStatusBarText(getGraphController(), "Focused vertex " + label)); // TODO change it to another event. VertexFocused?
         }
 
     }
@@ -138,7 +138,7 @@ public abstract class FocusableState extends GraphState {
 
         setCurrent(null);
 
-        Scene.getInstance().getMainWindow().setStatusBarText("");
+        getGraphController().publish(new SetStatusBarText(getGraphController(), "")); // TODO change it to another event
     }
 
     /**

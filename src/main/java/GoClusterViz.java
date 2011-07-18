@@ -1,5 +1,5 @@
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Scene;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.swing.*;
 
@@ -34,7 +34,7 @@ public class GoClusterViz {
             LOGGER.warn(e);
         }
 
-        Scene.getInstance().initUI();
+        new AnnotationConfigApplicationContext("se.lnu.thesis").start();
     }
 
 

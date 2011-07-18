@@ -1,8 +1,15 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Scene;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import se.lnu.thesis.event.SetStatusBarText;
+import se.lnu.thesis.paint.controller.ClusterController;
+import se.lnu.thesis.paint.controller.GOController;
+import se.lnu.thesis.paint.controller.GraphController;
 
+import javax.annotation.PostConstruct;
 import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -10,10 +17,11 @@ import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
-
-public class MainWindow extends JFrame {
+@org.springframework.stereotype.Component
+public class MainWindow extends JFrame implements ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
+
     public static final String STATUS_MESSAGE_FRAME = "   ";
 
     JLabel goStatusBar;
@@ -21,17 +29,27 @@ public class MainWindow extends JFrame {
     JLabel statusBar;
     JScrollBar scrollBar;
 
+    @Autowired
+    private GOController goController;
+
+    @Autowired
+    private ClusterController clusterController;
+
+    @Autowired
+    private MainMenu mainMenu;
+
     public MainWindow() {
-        initUIElements();
+
     }
 
-    private void initUIElements() {
+    @PostConstruct
+    public void initUIElements() {
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setLayout(new BorderLayout());
 
-        this.setJMenuBar(new MainMenu());
+        this.setJMenuBar(mainMenu);
 
         this.add(centralPanel(), BorderLayout.CENTER);
         this.add(statusBar(), BorderLayout.SOUTH);
@@ -39,7 +57,7 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
-    private JComponent statusBar() {
+    protected JComponent statusBar() {
         JPanel result = new JPanel();
         result.setBorder(new BevelBorder(BevelBorder.LOWERED));
         result.setPreferredSize(new Dimension(this.getWidth(), 16));
@@ -60,28 +78,28 @@ public class MainWindow extends JFrame {
         return result;
     }
 
-    private JComponent centralPanel() {
+    protected JComponent centralPanel() {
         JPanel result = new JPanel();
 
         result.setLayout(new GridLayout(1, 2));
 
         result.add(goPanel());
-        result.add(clusterPanel());
+        result.add(clusterGLJPanel());
 
         return result;
     }
 
-    private JComponent goPanel() {
+    protected JComponent goPanel() {
         JPanel result = new JPanel(new BorderLayout());
 
-        result.add(goDrawingPanel(), BorderLayout.CENTER);
+        result.add(goGLJPanel(), BorderLayout.CENTER);
 
         result.add(goScrollBar(), BorderLayout.EAST);
 
         return result;
     }
 
-    private JScrollBar goScrollBar() {
+    protected JScrollBar goScrollBar() {
         scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 3, 0, Integer.MAX_VALUE);
         scrollBar.setUnitIncrement(1);
         scrollBar.setBlockIncrement(2);
@@ -93,27 +111,23 @@ public class MainWindow extends JFrame {
 
                 LOGGER.debug("Current scrollbar value is " + i);
 
-                Scene.getInstance().getGoController().scrollBarValueChanged(i);
+                goController.scrollBarValueChanged(i);
             }
         });
 
         return scrollBar;
     }
 
-    private GLJPanel goDrawingPanel() {
-        GOPanelAdapter panelAdapter = new GOPanelAdapter(Scene.getInstance().getGoController(), this);
-
-        GLJPanel gljPanel = new GLJPanel();
-        gljPanel.addGLEventListener(panelAdapter);
-        gljPanel.addMouseListener(panelAdapter);
-        gljPanel.addMouseMotionListener(panelAdapter);
-
-        return gljPanel;
+    protected GLJPanel goGLJPanel() {
+        return createGLJPanel(goController);
     }
 
-    private GLJPanel clusterPanel() {
+    protected GLJPanel clusterGLJPanel() {
+        return createGLJPanel(clusterController);
+    }
 
-        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(Scene.getInstance().getClusterController(), this);
+    protected GLJPanel createGLJPanel(GraphController graphController) {
+        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(graphController, this);
 
         GLJPanel gljPanel = new GLJPanel();
         gljPanel.addGLEventListener(panelAdapter);
@@ -164,6 +178,26 @@ public class MainWindow extends JFrame {
         scrollBar.setVisible(false);
     }
 
+    public MainMenu getMainMenu() {
+        return mainMenu;
+    }
+
+    public void setMainMenu(MainMenu mainMenu) {
+        this.mainMenu = mainMenu;
+    }
+
+    /**
+     * TODO add javadoc
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof SetStatusBarText) {
+            setStatusBarText(((SetStatusBarText) event).getText());
+        }
+    }
+
+    /**
+     * FOR TESTING PURPOSE ONLY
+     */
     public static void main(String[] args) {
         MainWindow window = new MainWindow();
         window.setVisible(true);

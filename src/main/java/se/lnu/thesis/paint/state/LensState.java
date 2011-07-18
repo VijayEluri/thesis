@@ -2,7 +2,6 @@ package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
-import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.paint.controller.GraphController;
@@ -36,7 +35,7 @@ public class LensState extends NormalClusterState {
     public LensState(GraphController controller, GroupingElement element) {
         super(controller);
 
-        lens = Scene.getInstance().getLens();
+        lens = getGraphController().getScene().getLens();
         lens.setGraph(controller.getGraph());
 
         select(element);
@@ -121,7 +120,7 @@ public class LensState extends NormalClusterState {
 
         LOGGER.info("Selected vertex " + element.getObject() + " [" + label + "]");
 
-        Scene.getInstance().getMainWindow().setClusterStatusBarText("Cluster: selected vertex " + label);
+        getGraphController().getScene().getMainWindow().setClusterStatusBarText("Cluster: selected vertex " + label);
 
         this.selectedElement = element;
         this.selectedElement.setSelected(true);
@@ -141,7 +140,7 @@ public class LensState extends NormalClusterState {
 
         selectedElement = null;
 
-        Scene.getInstance().getMainWindow().setClusterStatusBarText("");
+        getGraphController().getScene().getMainWindow().setClusterStatusBarText("");
     }
 
     @Override

@@ -1,10 +1,12 @@
 package se.lnu.thesis.paint.controller;
 
-import se.lnu.thesis.Scene;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
+import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
 import se.lnu.thesis.paint.state.NormalGOState;
@@ -18,12 +20,19 @@ import javax.swing.*;
  * Date: 19.08.2010
  * Time: 23:43:07
  */
+@Component
 public class GOController extends GraphController {
 
     private Element previewElement;
     private Element selectedElement;
 
     private HierarchyLayout graphLayout;
+
+    @Autowired
+    private MainWindow mainWindow;
+
+    @Autowired
+    private Extractor extractor;
 
     public GOController() {
         setGraphLayout(new HierarchyLayout());
@@ -44,7 +53,7 @@ public class GOController extends GraphController {
             getGraphLayout().setRoot(root);
             getGraphLayout().compute();
 
-            Scene.getInstance().getMainWindow().setScrollBarMax(getGraphLayout().getLevelCount());
+            mainWindow.setScrollBarMax(getGraphLayout().getLevelCount());
         } catch (Exception e) {
             LOGGER.error("Initialization error!");
             LOGGER.error(e);
@@ -86,8 +95,6 @@ public class GOController extends GraphController {
      * @param params  Instance of class the Extractor
      */
     public void notifyObserver(Subject subject, Object params) {
-        Extractor extractor = Scene.getInstance().getExtractor();
-
         this.setSubGraph(extractor.getGoSubGraph());
 
         if (extractor.getSelectedNode() != null) {
@@ -96,7 +103,7 @@ public class GOController extends GraphController {
             unselect();
         }
 
-        Scene.getInstance().getMainWindow().repaint();
+        mainWindow.repaint();
     }
 
     protected void select(Object object) {
@@ -148,9 +155,9 @@ public class GOController extends GraphController {
     public void updateGOStatusbar() {
         if (selectedElement != null) {
             String label = getGraph().getLabel(selectedElement.getObject());
-            Scene.getInstance().getMainWindow().setGOStatusBarText("GO: selected vertex " + label);
+            mainWindow.setGOStatusBarText("GO: selected vertex " + label);
         } else {
-            Scene.getInstance().getMainWindow().setGOStatusBarText("");
+            mainWindow.setGOStatusBarText("");
         }
     }
 

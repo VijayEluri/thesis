@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.state;
 
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.Level;
@@ -36,7 +35,7 @@ public class NormalGOState extends FocusableState {
             setCurrent(element);
             getCurrent().setFocused(true);
 
-            Scene.getInstance().getMainWindow().setStatusBarText("Level: " + element.getObject());
+            getGraphController().getScene().getMainWindow().setStatusBarText("Level: " + element.getObject());
 
             LOGGER.debug("Focused level " + getCurrent());
         }

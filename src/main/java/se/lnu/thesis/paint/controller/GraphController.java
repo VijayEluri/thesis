@@ -1,7 +1,13 @@
 package se.lnu.thesis.paint.controller;
 
+import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.myobserver.Observer;
@@ -20,7 +26,7 @@ import java.awt.*;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphController implements Drawable, Observer {
+public abstract class GraphController implements Drawable, Observer, ApplicationEventPublisherAware {
 
     public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
@@ -32,6 +38,11 @@ public abstract class GraphController implements Drawable, Observer {
     protected Graph subGraph;
 
     protected Container root;
+
+    @Autowired
+    private Scene scene;
+
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public abstract void init();
 
@@ -121,4 +132,32 @@ public abstract class GraphController implements Drawable, Observer {
      * not zooming levels for GO, etc.
      */
     public abstract void setNormalState();
+
+    /**
+     * TODO add javadoc
+     */
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    /**
+     * TODO add javadoc
+     */
+    public void publish(ApplicationEvent applicationEvent) {
+        Preconditions.checkNotNull(applicationEvent);
+
+        if (applicationEventPublisher != null) {
+            applicationEventPublisher.publishEvent(applicationEvent);
+        } else {
+            LOGGER.warn("Can't publish event. 'ApplicationEventPublisher' is null.");
+        }
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 }

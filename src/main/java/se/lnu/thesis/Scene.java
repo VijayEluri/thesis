@@ -1,8 +1,13 @@
 package se.lnu.thesis;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
+import se.lnu.thesis.element.Element;
+import se.lnu.thesis.element.GOGraphContainer;
+import se.lnu.thesis.element.Level;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
@@ -12,8 +17,11 @@ import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
 import se.lnu.thesis.paint.lens.RadialLens;
 import se.lnu.thesis.paint.lens.RectLens;
+import se.lnu.thesis.utils.GraphUtils;
 
+import javax.annotation.PostConstruct;
 import java.awt.*;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,26 +29,27 @@ import java.awt.*;
  * Date: 16.07.2010
  * Time: 16:41:49
  */
+@Service
 public class Scene {
 
     public static final Logger LOGGER = Logger.getLogger(Scene.class);
 
-    private static Scene instance = new Scene();
-
-    public static Scene getInstance() {
-        return instance;
-    }
-
+    @Autowired
     private MainWindow mainWindow;
+    @Autowired
     private GeneListDialog geneListDialog;
+    @Autowired
     private ColorPropertiesDialog colorPropertiesDialog;
 
     private MyGraph goGraph = null;
     private MyGraph clusterGraph = null;
 
+    @Autowired
     private GOController goController;
+    @Autowired
     private ClusterController clusterController;
 
+    @Autowired
     private Extractor extractor;
 
     private Lens lens;
@@ -50,19 +59,10 @@ public class Scene {
 
     }
 
+    @PostConstruct
     public void initUI() {
-        goController = new GOController();
-        clusterController = new ClusterController();
-
-        mainWindow = new MainWindow();
-
-        geneListDialog = new GeneListDialog();
         geneListDialog.registerObserver(goController);
         geneListDialog.registerObserver(clusterController);
-
-        colorPropertiesDialog = new ColorPropertiesDialog();
-
-        extractor = new Extractor();
 
         setLens(new RadialLens());
     }
@@ -165,5 +165,36 @@ public class Scene {
 
     public void setRectLens() {
         setLens(new RectLens());
+    }
+
+    // TODO provide separate iterator for vertices over GO graph container.
+    public void hideUnconnectedComponents() {
+        GOGraphContainer goGraphContainer = (GOGraphContainer) getGoController().getRoot();
+
+        for (Iterator<Element> i = goGraphContainer.getLevels(); i.hasNext(); ) {
+            Level level = (Level) i.next();
+
+            for (Object o : level.getObjects()) {
+                if (GraphUtils.isUnconnectedComponent(getGoGraph(), o)) {
+                    level.getElementByObject(o).setDrawn(false);
+                    level.getPreview().getElementByObject(o).setDrawn(false);
+                }
+            }
+        }
+    }
+
+    public void showUnconnectedComponents() { // TODO provide separate iterator for vertices over GO graph container.
+        GOGraphContainer goGraphContainer = (GOGraphContainer) getGoController().getRoot();
+
+        for (Iterator<Element> i = goGraphContainer.getLevels(); i.hasNext(); ) {
+            Level level = (Level) i.next();
+
+            for (Object o : level.getObjects()) {
+                if (GraphUtils.isUnconnectedComponent(getGoGraph(), o)) {
+                    level.getElementByObject(o).setDrawn(true);
+                    level.getPreview().getElementByObject(o).setDrawn(true);
+                }
+            }
+        }
     }
 }

@@ -3,11 +3,8 @@ package se.lnu.thesis.element;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
-import se.lnu.thesis.Scene;
-import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.geom.Point2D;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,32 +77,6 @@ public class GOGraphContainer extends GraphContainer {
         levels.add((Level) ((List) elements).get(topLevelIndex + 2));
 
         return topLevelIndex;
-    }
-
-    public void hideUnconnectedComponents() {
-        for (Iterator<Element> i = getLevels(); i.hasNext();) {
-            Level level = (Level) i.next();
-
-            for (Object o : level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
-                    level.getElementByObject(o).setDrawn(false);
-                    level.getPreview().getElementByObject(o).setDrawn(false);
-                }
-            }
-        }
-    }
-
-    public void showUnconnectedComponents() {
-        for (Iterator<Element> i = getLevels(); i.hasNext();) {
-            Level level = (Level) i.next();
-
-            for (Object o : level.getObjects()) {
-                if (GraphUtils.isUnconnectedComponent(Scene.getInstance().getGoGraph(), o)) {
-                    level.getElementByObject(o).setDrawn(true);
-                    level.getPreview().getElementByObject(o).setDrawn(true);
-                }
-            }
-        }
     }
 
     /**

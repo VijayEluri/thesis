@@ -3,7 +3,6 @@ package se.lnu.thesis.paint.state;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.gl2.GLUT;
 import org.apache.log4j.Logger;
-import se.lnu.thesis.Scene;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
@@ -45,8 +44,8 @@ public class ZoomGOState extends FocusableState {
         levels = new LinkedList<Level>();
         int topLevelIndex = ((GOGraphContainer) controller.getRoot()).getZoomedLevels(level, levels);
 
-        Scene.getInstance().getMainWindow().setScrollBarValue(topLevelIndex);
-        Scene.getInstance().getMainWindow().showSrollBar();
+        controller.getScene().getMainWindow().setScrollBarValue(topLevelIndex);
+        controller.getScene().getMainWindow().showSrollBar();
     }
 
     @Override
@@ -159,28 +158,28 @@ public class ZoomGOState extends FocusableState {
     public void leftMouseButtonClicked(Point cursor) {
         GOController goController = (GOController) getGraphController();
 
-        Scene.getInstance().getMainWindow().setCursor(Cursor.WAIT_CURSOR);
+        getGraphController().getScene().getMainWindow().setCursor(Cursor.WAIT_CURSOR);
 
         if (getCurrent() == null) { // no  focused element than skip selection
             goController.unselect();
 
-            Scene.getInstance().getExtractor().extractSubGraphs(null, null, null);
+            getGraphController().getScene().getExtractor().extractSubGraphs(null, null, null);
         } else {                    // there is focused element then select it
             goController.select(getCurrent());
 
-            Scene.getInstance().getExtractor().extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getCurrent().getObject());
+            getGraphController().getScene().getExtractor().extractSubGraphs(getGraphController().getScene().getGoGraph(), getGraphController().getScene().getClusterGraph(), getCurrent().getObject());
         }
 
-        Scene.getInstance().getGeneListDialog().notifyObservers();
+        getGraphController().getScene().getGeneListDialog().notifyObservers();
 
-        Scene.getInstance().getMainWindow().setCursor(Cursor.DEFAULT_CURSOR);
+        getGraphController().getScene().getMainWindow().setCursor(Cursor.DEFAULT_CURSOR);
     }
 
     @Override
     public void rightMouseButtonClicked(Point cursor) {
         LOGGER.info("Zoom out to default view");
 
-        Scene.getInstance().getMainWindow().hideScrollBar();
+        getGraphController().getScene().getMainWindow().hideScrollBar();
         getGraphController().setState(new NormalGOState(getGraphController()));
     }
 

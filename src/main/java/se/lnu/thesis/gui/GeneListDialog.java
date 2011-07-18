@@ -1,11 +1,14 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.Scene;
+import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.myobserver.Subject;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -24,6 +27,7 @@ import java.util.Set;
  * <p/>
  * Gene Ontology node selectable list
  */
+@org.springframework.stereotype.Component
 public class GeneListDialog extends JFrame implements Subject {
 
     public static final Logger LOGGER = Logger.getLogger(GeneListDialog.class);
@@ -35,12 +39,17 @@ public class GeneListDialog extends JFrame implements Subject {
 
     private Set<Observer> observers;
 
-    public GeneListDialog() {
-        initGUI();
+    @Autowired
+    private Extractor extractor;
 
+    @Autowired
+    private Scene scene;
+
+    public GeneListDialog() {
         observers = new HashSet<Observer>();
     }
 
+    @PostConstruct
     protected void initGUI() {
         this.setSize(150, 300);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -78,7 +87,7 @@ public class GeneListDialog extends JFrame implements Subject {
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                    Scene.getInstance().getExtractor().extractSubGraphs(Scene.getInstance().getGoGraph(), Scene.getInstance().getClusterGraph(), getSelectedNode());
+                    extractor.extractSubGraphs(scene.getGoGraph(), scene.getClusterGraph(), getSelectedNode());
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
@@ -87,7 +96,7 @@ public class GeneListDialog extends JFrame implements Subject {
                 } else {
                     LOGGER.info("User unselected node.");
 
-                    Scene.getInstance().getExtractor().extractSubGraphs(null, null, null);
+                    extractor.extractSubGraphs(null, null, null);
                 }
 
                 notifyObservers();
@@ -119,13 +128,14 @@ public class GeneListDialog extends JFrame implements Subject {
 
     /**
      * Show only labels that contain matching substring
+     *
      * @param match String to filter by
      */
     public void filterLabels(String match) {
         clearContent();
 
         if (graph != null) {
-            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
+            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext(); ) {
                 String label = iterator.next();
                 if (label.contains(match)) {
                     labels.addElement(label);
@@ -135,13 +145,13 @@ public class GeneListDialog extends JFrame implements Subject {
     }
 
     /**
-     *  Fill labels list with all labels from graph
+     * Fill labels list with all labels from graph
      */
     public void fillContent() {
         clearContent();
 
         if (graph != null) {
-            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext();) {
+            for (Iterator<String> iterator = graph.getLabelsIterator(); iterator.hasNext(); ) {
                 String label = iterator.next();
                 labels.addElement(label);
             }
@@ -149,7 +159,7 @@ public class GeneListDialog extends JFrame implements Subject {
     }
 
     /**
-     *  Remove all labels from the list
+     * Remove all labels from the list
      */
     public void clearContent() {
         labels.clear();
@@ -209,6 +219,7 @@ public class GeneListDialog extends JFrame implements Subject {
         }
 
         GeneListDialog geneListDialog = new GeneListDialog();
+        geneListDialog.initGUI();
         geneListDialog.setGraph(graph);
         geneListDialog.setVisible(true);
     }
