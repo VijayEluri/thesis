@@ -35,7 +35,7 @@ public class NormalGOState extends FocusableState {
             setCurrent(element);
             getCurrent().setFocused(true);
 
-            getGraphController().getScene().getMainWindow().setStatusBarText("Level: " + element.getObject());
+            getGraphController().getScene().getMainWindow().setInfoBarText("Level: " + element.getObject());
 
             LOGGER.debug("Focused level " + getCurrent());
         }

@@ -45,7 +45,7 @@ public class ZoomGOState extends FocusableState {
         int topLevelIndex = ((GOGraphContainer) controller.getRoot()).getZoomedLevels(level, levels);
 
         controller.getScene().getMainWindow().setScrollBarValue(topLevelIndex);
-        controller.getScene().getMainWindow().showSrollBar();
+        controller.getScene().getMainWindow().showScrollBar();
     }
 
     @Override

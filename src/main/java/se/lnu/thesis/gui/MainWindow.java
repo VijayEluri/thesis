@@ -1,5 +1,6 @@
 package se.lnu.thesis.gui;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
@@ -22,11 +23,10 @@ public class MainWindow extends JFrame implements ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
 
-    public static final String STATUS_MESSAGE_FRAME = "   ";
-
     JLabel goStatusBar;
     JLabel clusterStatusBar;
-    JLabel statusBar;
+    JLabel infoStatusBar;
+
     JScrollBar scrollBar;
 
     @Autowired
@@ -71,9 +71,9 @@ public class MainWindow extends JFrame implements ApplicationListener {
         clusterStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
         result.add(clusterStatusBar);
 
-        statusBar = new JLabel(" ");
-        statusBar.setHorizontalAlignment(SwingConstants.LEFT);
-        result.add(statusBar);
+        infoStatusBar = new JLabel(" ");
+        infoStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
+        result.add(infoStatusBar);
 
         return result;
     }
@@ -109,7 +109,7 @@ public class MainWindow extends JFrame implements ApplicationListener {
             public void adjustmentValueChanged(AdjustmentEvent adjustmentEvent) {
                 int i = adjustmentEvent.getValue();
 
-                LOGGER.debug("Current scrollbar value is " + i);
+                LOGGER.debug("Current scroll bar value is " + i);
 
                 goController.scrollBarValueChanged(i);
             }
@@ -138,28 +138,31 @@ public class MainWindow extends JFrame implements ApplicationListener {
     }
 
     public void setGOStatusBarText(String text) {
-        goStatusBar.setText(frameMessage(text));
+        setStatusBarText(goStatusBar, text);
     }
 
     public void setClusterStatusBarText(String text) {
-        clusterStatusBar.setText(frameMessage(text));
+        setStatusBarText(clusterStatusBar, text);
     }
 
-    public void setStatusBarText(String text) {
-        statusBar.setText(frameMessage(text));
+    public void setInfoBarText(String text) {
+        setStatusBarText(infoStatusBar, text);
     }
 
     /**
-     * Frame from left and right message text with spaces:
+     * Pad around text with spaces and set to status bar:
      * <code>
-     * "    " + @text + "    "
+     * "     " + @text + "     "
      * </code>
      *
-     * @param text Source message to frame
-     * @return Framed message
+     * @param statusBar Status bar object to view text on
+     * @param text      Text message to view
      */
-    public String frameMessage(String text) {
-        return STATUS_MESSAGE_FRAME + text + STATUS_MESSAGE_FRAME;
+    public void setStatusBarText(JLabel statusBar, String text) {
+        text = StringUtils.leftPad(text, 5);
+        text = StringUtils.rightPad(text, 5);
+
+        statusBar.setText(text);
     }
 
     public void setScrollBarValue(int index) {
@@ -170,7 +173,7 @@ public class MainWindow extends JFrame implements ApplicationListener {
         scrollBar.setMaximum(max);
     }
 
-    public void showSrollBar() {
+    public void showScrollBar() {
         scrollBar.setVisible(true);
     }
 
@@ -191,7 +194,7 @@ public class MainWindow extends JFrame implements ApplicationListener {
      */
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof SetStatusBarText) {
-            setStatusBarText(((SetStatusBarText) event).getText());
+            setInfoBarText(((SetStatusBarText) event).getText());
         }
     }
 
@@ -202,6 +205,6 @@ public class MainWindow extends JFrame implements ApplicationListener {
         MainWindow window = new MainWindow();
         window.setVisible(true);
 
-        window.setStatusBarText("THIS IS STATUS BAR MESSAGE");
+        window.setInfoBarText("THIS IS STATUS BAR MESSAGE");
     }
 }
