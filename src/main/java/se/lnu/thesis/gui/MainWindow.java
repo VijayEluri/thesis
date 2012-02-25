@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationListener;
 import se.lnu.thesis.event.SetStatusBarText;
 import se.lnu.thesis.paint.controller.ClusterController;
 import se.lnu.thesis.paint.controller.GOController;
-import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.annotation.PostConstruct;
 import javax.media.opengl.awt.GLJPanel;
@@ -119,22 +118,25 @@ public class MainWindow extends JFrame implements ApplicationListener {
     }
 
     protected GLJPanel goGLJPanel() {
-        return createGLJPanel(goController);
+        GOPanelAdapter panelAdapter = new GOPanelAdapter(goController, this);
+
+        GLJPanel result = new GLJPanel();
+        result.addGLEventListener(panelAdapter);
+        result.addMouseListener(panelAdapter);
+        result.addMouseMotionListener(panelAdapter);
+
+        return result;
     }
 
     protected GLJPanel clusterGLJPanel() {
-        return createGLJPanel(clusterController);
-    }
+        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(clusterController, this);
 
-    protected GLJPanel createGLJPanel(GraphController graphController) {
-        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(graphController, this);
+        GLJPanel result = new GLJPanel();
+        result.addGLEventListener(panelAdapter);
+        result.addMouseListener(panelAdapter);
+        result.addMouseMotionListener(panelAdapter);
 
-        GLJPanel gljPanel = new GLJPanel();
-        gljPanel.addGLEventListener(panelAdapter);
-        gljPanel.addMouseListener(panelAdapter);
-        gljPanel.addMouseMotionListener(panelAdapter);
-
-        return gljPanel;
+        return result;
     }
 
     public void setGOStatusBarText(String text) {
