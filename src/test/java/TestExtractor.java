@@ -1,4 +1,3 @@
-
 import edu.uci.ics.jung.graph.Graph;
 import org.junit.Assert;
 import org.junit.Test;
@@ -79,9 +78,10 @@ public class TestExtractor {
 
 
         Extractor extractor = new Extractor();
+        extractor.initCache();
 
         long start = System.currentTimeMillis();
-        extractor.extractSubGraphs(goGraph, clusterGraph, "n7315");
+        extractor.extract(goGraph, clusterGraph, "n7315");
         long end = System.currentTimeMillis();
 
         Graph subGraph = extractor.getClusterSubGraph();
@@ -112,8 +112,9 @@ public class TestExtractor {
         Assert.assertEquals(8, clusterGraph.getEdgeCount());
 
         Extractor extractor = new Extractor();
+        extractor.initCache();
 
-        extractor.extractSubGraphs(goGraph, clusterGraph, goGraph.getNodeByLabel("10"));
+        extractor.extract(goGraph, clusterGraph, goGraph.getNodeByLabel("10"));
         Graph subGraph = extractor.getClusterSubGraph();
 
         Assert.assertEquals(3, subGraph.getVertexCount());
@@ -134,8 +135,9 @@ public class TestExtractor {
         Assert.assertEquals(8, clusterGraph.getEdgeCount());
 
         Extractor extractor = new Extractor();
+        extractor.initCache();
 
-        extractor.extractSubGraphs(goGraph, clusterGraph, goGraph.getNodeByLabel("1"));
+        extractor.extract(goGraph, clusterGraph, goGraph.getNodeByLabel("1"));
         Graph subGraph = extractor.getClusterSubGraph();
 
         Assert.assertEquals(9, subGraph.getVertexCount());

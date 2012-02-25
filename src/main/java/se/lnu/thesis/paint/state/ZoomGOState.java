@@ -163,11 +163,11 @@ public class ZoomGOState extends FocusableState {
         if (getCurrent() == null) { // no  focused element than skip selection
             goController.unselect();
 
-            getGraphController().getScene().getExtractor().extractSubGraphs(null, null, null);
+            getGraphController().getScene().getExtractor().reset();
         } else {                    // there is focused element then select it
             goController.select(getCurrent());
 
-            getGraphController().getScene().getExtractor().extractSubGraphs(getGraphController().getScene().getGoGraph(), getGraphController().getScene().getClusterGraph(), getCurrent().getObject());
+            getGraphController().getScene().getExtractor().extract(getGraphController().getScene().getGoGraph(), getGraphController().getScene().getClusterGraph(), getCurrent().getObject());
         }
 
         getGraphController().getScene().getGeneListDialog().notifyObservers();

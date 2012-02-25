@@ -150,7 +150,7 @@ public class GOController extends GraphController {
     }
 
     /**
-     * Set GO status bar message: is vertex been selected - about selected node, if unselected - clear status bar
+     * Set GO status bar message: is vertex been selected - about selected node, if unselected - reset status bar
      */
     public void updateGOStatusbar() {
         if (selectedElement != null) {

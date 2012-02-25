@@ -1,12 +1,8 @@
+import com.google.common.cache.CacheBuilder;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import se.lnu.thesis.algorithm.Extractor;
@@ -19,9 +15,14 @@ import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -233,7 +234,7 @@ public class TestPerfomance {
 
 
     /**
-     *      Try to compute subgraphs for all Gene Ontology nodes.
+     * Try to compute subgraphs for all Gene Ontology nodes.
      */
     public void computeAllSubgraphs() {
         IOFacade ioFacade = new IOFacade();
@@ -245,18 +246,15 @@ public class TestPerfomance {
         Extractor extractor = new Extractor() {
             @Override
             public void initCache() {
+                CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().expireAfterAccess(CACHE_EXPIRE_TIME, TimeUnit.MINUTES);
+
                 if (goCache == null) {
-                    goCache = new HashMap<Object, MyGraph>();
+                    goCache = cacheBuilder.build();
                 }
 
                 if (clusterCache == null) {
-                    clusterCache = new HashMap<Object, MyGraph>();
+                    clusterCache = cacheBuilder.build();
                 }
-
-
-                goSubGraph = null;
-                clusterSubGraph = null;
-                selectedNode = null;
             }
         };
 
@@ -267,7 +265,7 @@ public class TestPerfomance {
             for (Object o : go.getVertices()) {
                 if (GraphUtils.isNode(go, o)) {
                     subgraphs++;
-                    extractor.extractSubGraphs(go, cluster, o);
+                    extractor.extract(go, cluster, o);
                     vertices += extractor.getGoSubGraph().getVertexCount() + extractor.getClusterSubGraph().getVertexCount();
                 }
             }

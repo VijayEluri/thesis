@@ -1,6 +1,6 @@
 package se.lnu.thesis.gui;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
@@ -159,8 +159,8 @@ public class MainWindow extends JFrame implements ApplicationListener {
      * @param text      Text message to view
      */
     public void setStatusBarText(JLabel statusBar, String text) {
-        text = StringUtils.leftPad(text, 5);
-        text = StringUtils.rightPad(text, 5);
+        text = Strings.padStart(text, 5, ' ');
+        text = Strings.padEnd(text, 5, ' ');
 
         statusBar.setText(text);
     }

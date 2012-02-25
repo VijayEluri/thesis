@@ -87,7 +87,7 @@ public class GeneListDialog extends JFrame implements Subject {
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                    extractor.extractSubGraphs(scene.getGoGraph(), scene.getClusterGraph(), getSelectedNode());
+                    extractor.extract(scene.getGoGraph(), scene.getClusterGraph(), getSelectedNode());
 
                     list.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
@@ -96,7 +96,7 @@ public class GeneListDialog extends JFrame implements Subject {
                 } else {
                     LOGGER.info("User unselected node.");
 
-                    extractor.extractSubGraphs(null, null, null);
+                    extractor.reset();
                 }
 
                 notifyObservers();
