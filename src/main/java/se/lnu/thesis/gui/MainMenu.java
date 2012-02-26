@@ -2,10 +2,12 @@ package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GOGraphContainer;
+import se.lnu.thesis.event.RepaintWindowEvent;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.layout.HierarchyLayout2;
 import se.lnu.thesis.paint.controller.GOController;
@@ -46,13 +48,20 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     //    public static final String DEFAULT_WHITE_COLOR_SCHEMA = "Default white color schema";
 
 
+    @Autowired
     private GraphChooser graphChooser;
 
     protected JMenu geneOntologyMenu;
     protected JCheckBoxMenuItem showUnconnectedComponentsMenuItem;
 
     @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
     private Scene scene;
+
+    @Autowired
+    private GeneListDialog geneListDialog;
 
 
     public MainMenu() {
@@ -61,15 +70,10 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
     @PostConstruct
     public void init() {
-        initFileChooser();
         createFileMenu();
         createGOMenu();
         createClusterMenu();
         createToolsMenu();
-    }
-
-    private void initFileChooser() {
-        graphChooser = new GraphChooser();
     }
 
     private void createFileMenu() {
@@ -194,7 +198,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         }
 
         if (event == SHOW_GENE_LIST) {
-            scene.showGeneList();
+            geneListDialog.setVisible(true);
         }
 
         if (event == DEFAULT_BLACK_COLOR_SCHEMA) {
@@ -202,11 +206,6 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
             PropertiesHolder.getInstance().save();
         }
 
-/*
-        if (event == DEFAULT_WHITE_COLOR_SCHEMA) {
-
-        }
-*/
         if (event == LEVEL_LAYOUT) {
             switchGeneOntologyLayout(new HierarchyLayout());
         }
@@ -227,7 +226,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
             scene.getColorPropertiesDialog().showIt();
         }
 
-        scene.getMainWindow().repaint();
+        applicationEventPublisher.publishEvent(new RepaintWindowEvent(this));
     }
 
     public void switchGeneOntologyLayout(HierarchyLayout layout) {

@@ -26,6 +26,8 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 
     protected GraphController graphController;
 
+    protected boolean isLeftMouseButtonPressed = false;
+
     public JoglPanelAdapter() {
 
     }
@@ -61,26 +63,6 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         LOGGER.debug("RESHAPE");
-/*
-        GL gl2 = drawable.getGL();
-*/
-
-/*
-        int length, shift;
-        if (width > height) {
-            length = height;
-            shift = (width - height) / 2;
-
-            gl2.glViewport(0, shift, length, length);
-        } else {
-            length = width;
-            shift = (height - width) / 2;
-
-            gl2.glViewport(shift, 0, length, length);
-        }
-*/
-//        gl2.glViewport(0, 0, width, height);
-
         getFrame().repaint();
     }
 
@@ -89,17 +71,42 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
     }
 
     public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
-        LOGGER.debug("MOUSE CLICKED");
+        LOGGER.debug("MOUSE CLICKED..");
+
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.debug("LEFT MOUSE BUTTON");
+            graphController.leftMouseButtonClicked(mouseEvent.getPoint());
+        }
+
+        if (mouseEvent.getButton() == MouseEvent.BUTTON3) {
+            LOGGER.debug("RIGHT MOUSE BUTTON");
+            graphController.rightMouseButtonClicked(mouseEvent.getPoint());
+        }
+
         getFrame().repaint();
     }
 
     public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
-        LOGGER.debug("MOUSE PRESSED");
+        LOGGER.debug("MOUSE PRESSED..");
+
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.debug("LEFT MOUSE BUTTON PRESSED");
+            graphController.leftMouseButtonPressed(mouseEvent.getPoint());
+            isLeftMouseButtonPressed = true;
+        }
+
         getFrame().repaint();
     }
 
     public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
-        LOGGER.debug("MOUSE RELEASED");
+        LOGGER.debug("MOUSE RELEASED..");
+
+        if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+            LOGGER.debug("LEFT MOUSE BUTTON RELEASED");
+            graphController.leftMouseButtonReleased(mouseEvent.getPoint());
+            isLeftMouseButtonPressed = false;
+        }
+
         getFrame().repaint();
     }
 
@@ -110,16 +117,24 @@ public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMo
 
     public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
         LOGGER.debug("MOUSE EXITED");
+        graphController.mouseExited();
         getFrame().repaint();
     }
 
     public void mouseMoved(MouseEvent mouseEvent) {
-        LOGGER.debug("MOUSE MOVED");
+        LOGGER.debug("MOUSE MOVED [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+        graphController.mouseMove(mouseEvent.getPoint());
         getFrame().repaint();
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {
-        LOGGER.debug("MOUSE DRAGGED");
+        LOGGER.debug("MOUSE DRAGGED [" + mouseEvent.getX() + "," + mouseEvent.getY() + "]");
+
+        if (isLeftMouseButtonPressed) {
+            LOGGER.debug("LEFT MOUSE BUTTON DRAGGED");
+            graphController.leftMouseButtonDragged(mouseEvent.getPoint());
+        }
+
         getFrame().repaint();
     }
 

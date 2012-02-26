@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.Level;
+import se.lnu.thesis.event.InfoStatusBarTextEvent;
 import se.lnu.thesis.paint.controller.GraphController;
 
 import java.awt.*;
@@ -35,7 +36,7 @@ public class NormalGOState extends FocusableState {
             setCurrent(element);
             getCurrent().setFocused(true);
 
-            getGraphController().getScene().getMainWindow().setInfoBarText("Level: " + element.getObject());
+            getGraphController().publish(new InfoStatusBarTextEvent(this, "Level: " + element.getObject()));
 
             LOGGER.debug("Focused level " + getCurrent());
         }

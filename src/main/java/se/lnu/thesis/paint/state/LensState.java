@@ -4,6 +4,7 @@ import com.sun.opengl.util.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
+import se.lnu.thesis.event.ClusterStatusBarTextEvent;
 import se.lnu.thesis.paint.controller.GraphController;
 import se.lnu.thesis.paint.lens.Lens;
 
@@ -120,7 +121,7 @@ public class LensState extends NormalClusterState {
 
         LOGGER.info("Selected vertex " + element.getObject() + " [" + label + "]");
 
-        getGraphController().getScene().getMainWindow().setClusterStatusBarText("Cluster: selected vertex " + label);
+        getGraphController().publish(new ClusterStatusBarTextEvent(this, "Cluster: selected vertex " + label));
 
         this.selectedElement = element;
         this.selectedElement.setSelected(true);
@@ -140,7 +141,7 @@ public class LensState extends NormalClusterState {
 
         selectedElement = null;
 
-        getGraphController().getScene().getMainWindow().setClusterStatusBarText("");
+        getGraphController().publish(new ClusterStatusBarTextEvent(this));
     }
 
     @Override

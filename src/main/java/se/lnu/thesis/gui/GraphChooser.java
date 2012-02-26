@@ -1,12 +1,14 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.filter.GMLFileFilter;
 import se.lnu.thesis.gui.filter.YedGMLFileFilter;
 import se.lnu.thesis.gui.filter.YedGraphmlFileFilter;
 import se.lnu.thesis.io.IOFacade;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 
 /**
@@ -15,17 +17,15 @@ import javax.swing.*;
  * Date: 26.10.2010
  * Time: 14:48:12
  */
+@Service
 public class GraphChooser extends JFileChooser {
 
     public static final Logger LOGGER = Logger.getLogger(GraphChooser.class);
 
     private IOFacade ioFacade;
 
-    public GraphChooser() {
-        init();
-    }
-
-    private void init() {
+    @PostConstruct
+    public void init() {
         setAcceptAllFileFilterUsed(false);
 
         addChoosableFileFilter(new YedGraphmlFileFilter());
@@ -62,6 +62,7 @@ public class GraphChooser extends JFileChooser {
 
     public static void main(String[] args) {
         GraphChooser fileChooser = new GraphChooser();
+        fileChooser.init();
 
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             System.out.println(fileChooser.getFileFilter().getDescription());

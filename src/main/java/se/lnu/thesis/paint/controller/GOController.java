@@ -6,6 +6,7 @@ import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
+import se.lnu.thesis.event.GOStatusBarTextEvent;
 import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.layout.HierarchyLayout;
 import se.lnu.thesis.myobserver.Subject;
@@ -154,10 +155,9 @@ public class GOController extends GraphController {
      */
     public void updateGOStatusbar() {
         if (selectedElement != null) {
-            String label = getGraph().getLabel(selectedElement.getObject());
-            mainWindow.setGOStatusBarText("GO: selected vertex " + label);
+            publish(new GOStatusBarTextEvent(this, "GO: selected vertex " + getGraph().getLabel(selectedElement.getObject())));
         } else {
-            mainWindow.setGOStatusBarText("");
+            publish(new GOStatusBarTextEvent(this));
         }
     }
 
@@ -173,6 +173,11 @@ public class GOController extends GraphController {
         updateGOStatusbar();
     }
 
+    /**
+     * Users used GO scroll bar
+     *
+     * @param index Current index.
+     */
     public void scrollBarValueChanged(int index) {
         if (getState() instanceof ZoomGOState) {  // only ZoomGOState traces this event
             ((ZoomGOState) getState()).scrollBarValueChanged(index);

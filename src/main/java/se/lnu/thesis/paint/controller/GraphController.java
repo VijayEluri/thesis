@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.context.ApplicationListener;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
+import se.lnu.thesis.event.BackgroundChangedEvent;
 import se.lnu.thesis.myobserver.Observer;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.state.GraphState;
@@ -26,7 +28,7 @@ import java.awt.*;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphController implements Drawable, Observer, ApplicationEventPublisherAware {
+public abstract class GraphController implements Drawable, Observer, ApplicationEventPublisherAware, ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
@@ -125,6 +127,17 @@ public abstract class GraphController implements Drawable, Observer, Application
     }
 
     /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof BackgroundChangedEvent) {
+            getBackground().setColor(((BackgroundChangedEvent) event).getColor());
+        }
+    }
+
+    /**
      * Set up graph controller into "normal" state:
      * no focused elements,
      * no selections,
@@ -134,23 +147,19 @@ public abstract class GraphController implements Drawable, Observer, Application
     public abstract void setNormalState();
 
     /**
-     * TODO add javadoc
+     * Set application event publisher pipe for current class.
      */
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
     /**
-     * TODO add javadoc
+     * Publish event over application context pipe.
      */
     public void publish(ApplicationEvent applicationEvent) {
         Preconditions.checkNotNull(applicationEvent);
 
-        if (applicationEventPublisher != null) {
-            applicationEventPublisher.publishEvent(applicationEvent);
-        } else {
-            LOGGER.warn("Can't publish event. 'ApplicationEventPublisher' is null.");
-        }
+        applicationEventPublisher.publishEvent(applicationEvent);
     }
 
     public Scene getScene() {

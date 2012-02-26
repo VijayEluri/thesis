@@ -1,18 +1,18 @@
 package se.lnu.thesis.gui;
 
-import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import se.lnu.thesis.event.SetStatusBarText;
+import se.lnu.thesis.event.RepaintWindowEvent;
+import se.lnu.thesis.gui.component.StatusBar;
 import se.lnu.thesis.paint.controller.ClusterController;
 import se.lnu.thesis.paint.controller.GOController;
+import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.annotation.PostConstruct;
 import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -21,10 +21,6 @@ import java.awt.event.AdjustmentListener;
 public class MainWindow extends JFrame implements ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
-
-    JLabel goStatusBar;
-    JLabel clusterStatusBar;
-    JLabel infoStatusBar;
 
     JScrollBar scrollBar;
 
@@ -36,6 +32,9 @@ public class MainWindow extends JFrame implements ApplicationListener {
 
     @Autowired
     private MainMenu mainMenu;
+
+    @Autowired
+    private StatusBar statusBar;
 
     public MainWindow() {
 
@@ -51,30 +50,9 @@ public class MainWindow extends JFrame implements ApplicationListener {
         this.setJMenuBar(mainMenu);
 
         this.add(centralPanel(), BorderLayout.CENTER);
-        this.add(statusBar(), BorderLayout.SOUTH);
+        this.add(statusBar, BorderLayout.SOUTH);
 
         this.setVisible(true);
-    }
-
-    protected JComponent statusBar() {
-        JPanel result = new JPanel();
-        result.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        result.setPreferredSize(new Dimension(this.getWidth(), 16));
-        result.setLayout(new BoxLayout(result, BoxLayout.X_AXIS));
-
-        goStatusBar = new JLabel(" ");
-        goStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
-        result.add(goStatusBar);
-
-        clusterStatusBar = new JLabel(" ");
-        clusterStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
-        result.add(clusterStatusBar);
-
-        infoStatusBar = new JLabel(" ");
-        infoStatusBar.setHorizontalAlignment(SwingConstants.LEFT);
-        result.add(infoStatusBar);
-
-        return result;
     }
 
     protected JComponent centralPanel() {
@@ -83,7 +61,7 @@ public class MainWindow extends JFrame implements ApplicationListener {
         result.setLayout(new GridLayout(1, 2));
 
         result.add(goPanel());
-        result.add(clusterGLJPanel());
+        result.add(createGLJPanel(clusterController));
 
         return result;
     }
@@ -91,7 +69,7 @@ public class MainWindow extends JFrame implements ApplicationListener {
     protected JComponent goPanel() {
         JPanel result = new JPanel(new BorderLayout());
 
-        result.add(goGLJPanel(), BorderLayout.CENTER);
+        result.add(createGLJPanel(goController), BorderLayout.CENTER);
 
         result.add(goScrollBar(), BorderLayout.EAST);
 
@@ -117,8 +95,8 @@ public class MainWindow extends JFrame implements ApplicationListener {
         return scrollBar;
     }
 
-    protected GLJPanel goGLJPanel() {
-        GOPanelAdapter panelAdapter = new GOPanelAdapter(goController, this);
+    protected GLJPanel createGLJPanel(GraphController graphController) {
+        JoglPanelAdapter panelAdapter = new JoglPanelAdapter(graphController, this);
 
         GLJPanel result = new GLJPanel();
         result.addGLEventListener(panelAdapter);
@@ -126,45 +104,6 @@ public class MainWindow extends JFrame implements ApplicationListener {
         result.addMouseMotionListener(panelAdapter);
 
         return result;
-    }
-
-    protected GLJPanel clusterGLJPanel() {
-        ClusterPanelAdapter panelAdapter = new ClusterPanelAdapter(clusterController, this);
-
-        GLJPanel result = new GLJPanel();
-        result.addGLEventListener(panelAdapter);
-        result.addMouseListener(panelAdapter);
-        result.addMouseMotionListener(panelAdapter);
-
-        return result;
-    }
-
-    public void setGOStatusBarText(String text) {
-        setStatusBarText(goStatusBar, text);
-    }
-
-    public void setClusterStatusBarText(String text) {
-        setStatusBarText(clusterStatusBar, text);
-    }
-
-    public void setInfoBarText(String text) {
-        setStatusBarText(infoStatusBar, text);
-    }
-
-    /**
-     * Pad around text with spaces and set to status bar:
-     * <code>
-     * "     " + @text + "     "
-     * </code>
-     *
-     * @param statusBar Status bar object to view text on
-     * @param text      Text message to view
-     */
-    public void setStatusBarText(JLabel statusBar, String text) {
-        text = Strings.padStart(text, 5, ' ');
-        text = Strings.padEnd(text, 5, ' ');
-
-        statusBar.setText(text);
     }
 
     public void setScrollBarValue(int index) {
@@ -192,21 +131,11 @@ public class MainWindow extends JFrame implements ApplicationListener {
     }
 
     /**
-     * TODO add javadoc
+     * Analyze events from application context pipe.
      */
     public void onApplicationEvent(ApplicationEvent event) {
-        if (event instanceof SetStatusBarText) {
-            setInfoBarText(((SetStatusBarText) event).getText());
+        if (event instanceof RepaintWindowEvent) {
+            this.repaint();
         }
-    }
-
-    /**
-     * FOR TESTING PURPOSE ONLY
-     */
-    public static void main(String[] args) {
-        MainWindow window = new MainWindow();
-        window.setVisible(true);
-
-        window.setInfoBarText("THIS IS STATUS BAR MESSAGE");
     }
 }

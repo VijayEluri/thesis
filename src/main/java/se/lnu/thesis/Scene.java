@@ -36,8 +36,10 @@ public class Scene {
 
     @Autowired
     private MainWindow mainWindow;
+
     @Autowired
     private GeneListDialog geneListDialog;
+
     @Autowired
     private ColorPropertiesDialog colorPropertiesDialog;
 
@@ -91,10 +93,6 @@ public class Scene {
         getMainWindow().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         LOGGER.info("Done.");
-    }
-
-    public void showGeneList() {
-        geneListDialog.setVisible(true);
     }
 
     public MyGraph getGoGraph() {
