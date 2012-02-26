@@ -122,14 +122,6 @@ public class MainWindow extends JFrame implements ApplicationListener {
         scrollBar.setVisible(false);
     }
 
-    public MainMenu getMainMenu() {
-        return mainMenu;
-    }
-
-    public void setMainMenu(MainMenu mainMenu) {
-        this.mainMenu = mainMenu;
-    }
-
     /**
      * Analyze events from application context pipe.
      */

@@ -133,7 +133,8 @@ public abstract class GraphController implements Drawable, Observer, Application
      */
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof BackgroundChangedEvent) {
-            getBackground().setColor(((BackgroundChangedEvent) event).getColor());
+            BackgroundChangedEvent backgroundChangedEvent = (BackgroundChangedEvent) event;
+            getBackground().setColor(backgroundChangedEvent.getColor());
         }
     }
 

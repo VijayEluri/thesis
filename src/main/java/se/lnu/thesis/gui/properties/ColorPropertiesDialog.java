@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,36 +45,14 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
     @Autowired
     ColorPanelMouseAdapter panelMouseAdapter;
 
-    public ColorPropertiesDialog() {
+    @PostConstruct
+    public void init() {
         createGUI();
         initColorPanels();
     }
 
-    private void initColorPanels() {
-        ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
-
-        background.setBackground(colorSchema.getBackground().asAWTColor());
-        selection.setBackground(colorSchema.getSelection().asAWTColor());
-        focusing.setBackground(colorSchema.getFocusing().asAWTColor());
-        subgraph.setBackground(colorSchema.getSubgraph().asAWTColor());
-        verticesTooltips.setBackground(colorSchema.getVerticesTooltips().asAWTColor());
-
-        goLevelNumbers.setBackground(colorSchema.getGoLevelNumbers().asAWTColor());
-        goLevelLines.setBackground(colorSchema.getGoLevelLines().asAWTColor());
-        goLeaves.setBackground(colorSchema.getGoLeaves().asAWTColor());
-        goNodes.setBackground(colorSchema.getGoNodes().asAWTColor());
-
-        clusterLeaves.setBackground(colorSchema.getClusterLeaves().asAWTColor());
-        clusterNodes.setBackground(colorSchema.getClusterNodes().asAWTColor());
-        clusterEdges.setBackground(colorSchema.getClusterEdges().asAWTColor());
-
-        lensColor.setBackground(colorSchema.getLens().asAWTColor());
-    }
-
     protected void createGUI() {
         setLayout(new GridLayout(14, 1));
-
-        panelMouseAdapter = new ColorPanelMouseAdapter();
 
         background = createColorPanel(ColorSchema.COLOR_BACKGROUND);
         add(colorPropertyPanel("Background ", background));
@@ -127,6 +106,27 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
         addWindowListener(this);
     }
 
+    private void initColorPanels() {
+        ColorSchema colorSchema = PropertiesHolder.getInstance().getColorSchema();
+
+        background.setBackground(colorSchema.getBackground().asAWTColor());
+        selection.setBackground(colorSchema.getSelection().asAWTColor());
+        focusing.setBackground(colorSchema.getFocusing().asAWTColor());
+        subgraph.setBackground(colorSchema.getSubgraph().asAWTColor());
+        verticesTooltips.setBackground(colorSchema.getVerticesTooltips().asAWTColor());
+
+        goLevelNumbers.setBackground(colorSchema.getGoLevelNumbers().asAWTColor());
+        goLevelLines.setBackground(colorSchema.getGoLevelLines().asAWTColor());
+        goLeaves.setBackground(colorSchema.getGoLeaves().asAWTColor());
+        goNodes.setBackground(colorSchema.getGoNodes().asAWTColor());
+
+        clusterLeaves.setBackground(colorSchema.getClusterLeaves().asAWTColor());
+        clusterNodes.setBackground(colorSchema.getClusterNodes().asAWTColor());
+        clusterEdges.setBackground(colorSchema.getClusterEdges().asAWTColor());
+
+        lensColor.setBackground(colorSchema.getLens().asAWTColor());
+    }
+
     private JButton createCloseButton() {
         JButton result = new JButton();
 
@@ -166,17 +166,6 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
         setVisible(false);
     }
 
-    /**
-     * FOR TESTING ONLY
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        ColorPropertiesDialog dialog = new ColorPropertiesDialog();
-        dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        dialog.showIt();
-    }
-
     public void windowOpened(WindowEvent windowEvent) {
         LOGGER.debug("WINDOW OPENED");
     }
@@ -205,6 +194,18 @@ public class ColorPropertiesDialog extends JFrame implements WindowListener {
     public void windowDeactivated(WindowEvent windowEvent) {
         LOGGER.debug("WINDOW DEACTIVATED");
         PropertiesHolder.getInstance().save();
+    }
+
+    /**
+     * FOR TESTING ONLY
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        ColorPropertiesDialog dialog = new ColorPropertiesDialog();
+        dialog.init();
+        dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        dialog.showIt();
     }
 
 }

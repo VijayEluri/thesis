@@ -3,6 +3,7 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
@@ -21,7 +22,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 @Component
-public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
+public class MainMenu extends JMenuBar implements ActionListener, ItemListener, ApplicationEventPublisherAware {
 
     public static final Logger LOGGER = Logger.getLogger(MainMenu.class);
 
@@ -45,16 +46,12 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
     public static final String DEFAULT_BLACK_COLOR_SCHEMA = "Default black color schema";
     public static final String COLOR_PROPERTIES = "Color properties";
 
-    //    public static final String DEFAULT_WHITE_COLOR_SCHEMA = "Default white color schema";
-
-
     @Autowired
     private GraphChooser graphChooser;
 
     protected JMenu geneOntologyMenu;
     protected JCheckBoxMenuItem showUnconnectedComponentsMenuItem;
 
-    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
@@ -276,5 +273,17 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
             }
         }
 
+    }
+
+    /**
+     * Set the ApplicationEventPublisher that this object runs in.
+     * <p>Invoked after population of normal bean properties but before an init
+     * callback like InitializingBean's afterPropertiesSet or a custom init-method.
+     * Invoked before ApplicationContextAware's setApplicationContext.
+     *
+     * @param applicationEventPublisher event publisher to be used by this object
+     */
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 }

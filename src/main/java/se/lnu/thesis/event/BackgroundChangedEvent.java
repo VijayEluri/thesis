@@ -25,6 +25,8 @@ public class BackgroundChangedEvent extends ApplicationEvent {
 
     public BackgroundChangedEvent(Object source, Color color) {
         super(source);
+
+        this.color = color;
     }
 
     public Color getColor() {
