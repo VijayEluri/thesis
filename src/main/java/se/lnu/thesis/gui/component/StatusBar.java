@@ -2,13 +2,14 @@ package se.lnu.thesis.gui.component;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import se.lnu.thesis.event.ClusterStatusBarTextEvent;
 import se.lnu.thesis.event.GOStatusBarTextEvent;
 import se.lnu.thesis.event.InfoStatusBarTextEvent;
-import se.lnu.thesis.event.StatusBarTextEvent;
+import se.lnu.thesis.event.TextEvent;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
@@ -30,6 +31,8 @@ import java.awt.*;
  */
 @Component
 public class StatusBar extends JPanel implements ApplicationListener {
+
+    public static final Logger LOGGER = Logger.getLogger(StatusBar.class);
 
     private JLabel goStatusBar;
     private JLabel clusterStatusBar;
@@ -68,21 +71,21 @@ public class StatusBar extends JPanel implements ApplicationListener {
     /**
      * @param text View @text in the GO status bar part.
      */
-    public void setGOStatusBarText(String text) {
+    public void showGOInfo(String text) {
         setStatusBarText(goStatusBar, text);
     }
 
     /**
      * @param text View @text in the cluster status bar part.
      */
-    public void setClusterStatusBarText(String text) {
+    public void showClusterInfo(String text) {
         setStatusBarText(clusterStatusBar, text);
     }
 
     /**
      * @param text View @text in the info status bar part.
      */
-    public void setInfoStatusBarText(String text) {
+    public void showInfo(String text) {
         setStatusBarText(infoStatusBar, text);
     }
 
@@ -105,9 +108,9 @@ public class StatusBar extends JPanel implements ApplicationListener {
      * Clear all texts from status bar.
      */
     public void clear() {
-        setGOStatusBarText("");
-        setClusterStatusBarText("");
-        setInfoStatusBarText("");
+        showGOInfo("");
+        showClusterInfo("");
+        showInfo("");
     }
 
     /**
@@ -115,13 +118,13 @@ public class StatusBar extends JPanel implements ApplicationListener {
      */
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof GOStatusBarTextEvent) {
-            setGOStatusBarText(((StatusBarTextEvent) event).getText());
-        }
-        if (event instanceof ClusterStatusBarTextEvent) {
-            setClusterStatusBarText(((StatusBarTextEvent) event).getText());
-        }
-        if (event instanceof InfoStatusBarTextEvent) {
-            setInfoStatusBarText(((StatusBarTextEvent) event).getText());
+            showGOInfo(TextEvent.class.cast(event).getText());
+        } else if (event instanceof ClusterStatusBarTextEvent) {
+            showClusterInfo(TextEvent.class.cast(event).getText());
+        } else if (event instanceof InfoStatusBarTextEvent) {
+            showInfo(TextEvent.class.cast(event).getText());
+        } else {
+            LOGGER.warn("UNHANDLED EVENT: " + event);
         }
     }
 

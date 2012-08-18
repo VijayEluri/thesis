@@ -1,7 +1,7 @@
 package se.lnu.thesis.gui.properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 import se.lnu.thesis.event.BackgroundChangedEvent;
 import se.lnu.thesis.event.RepaintWindowEvent;
@@ -21,8 +21,9 @@ import java.awt.event.MouseEvent;
  * Time: 23:32:36
  */
 @Service
-public class ColorPanelMouseAdapter extends MouseAdapter implements ApplicationEventPublisherAware {
+public class ColorPanelMouseAdapter extends MouseAdapter {
 
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
@@ -51,15 +52,4 @@ public class ColorPanelMouseAdapter extends MouseAdapter implements ApplicationE
         }
     }
 
-    /**
-     * Set the ApplicationEventPublisher that this object runs in.
-     * <p>Invoked after population of normal bean properties but before an init
-     * callback like InitializingBean's afterPropertiesSet or a custom init-method.
-     * Invoked before ApplicationContextAware's setApplicationContext.
-     *
-     * @param applicationEventPublisher event publisher to be used by this object
-     */
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
 }

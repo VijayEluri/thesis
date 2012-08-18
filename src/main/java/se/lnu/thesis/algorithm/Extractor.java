@@ -91,6 +91,8 @@ public class Extractor {
 
         reset();
 
+        LOGGER.info("Compute sub-graphs for GO vertex: " + selectedNode);
+
         if (!loadFromCache(goVertex)) {
             long startTime = System.currentTimeMillis();
 
@@ -105,7 +107,7 @@ public class Extractor {
             clusterCache.put(goVertex, clusterSubGraph);
 
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Subgraphs extraction tooked " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.MILLISECONDS) + "s");
+            LOGGER.info("Sub-graphs extraction tooked " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.MILLISECONDS) + "s");
         }
 
     }
@@ -206,9 +208,4 @@ public class Extractor {
         return selectedNode;
     }
 
-    public void setSelectedNode(Object selectedNode) {
-        LOGGER.info("Selected GO vertex: " + selectedNode);
-
-        this.selectedNode = selectedNode;
-    }
 }

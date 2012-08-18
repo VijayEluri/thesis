@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
@@ -28,7 +27,7 @@ import java.awt.*;
  * Date: 20.08.2010
  * Time: 0:05:35
  */
-public abstract class GraphController implements Drawable, Observer, ApplicationEventPublisherAware, ApplicationListener {
+public abstract class GraphController implements Drawable, Observer, ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(GraphController.class);
 
@@ -44,6 +43,7 @@ public abstract class GraphController implements Drawable, Observer, Application
     @Autowired
     private Scene scene;
 
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     public abstract void init();
@@ -146,13 +146,6 @@ public abstract class GraphController implements Drawable, Observer, Application
      * not zooming levels for GO, etc.
      */
     public abstract void setNormalState();
-
-    /**
-     * Set application event publisher pipe for current class.
-     */
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
 
     /**
      * Publish event over application context pipe.

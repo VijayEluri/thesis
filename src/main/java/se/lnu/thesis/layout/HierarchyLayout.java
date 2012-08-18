@@ -58,10 +58,10 @@ public class HierarchyLayout extends AbstractLayout {
 
             Level level = Level.init(i, objects);
 
-            // compute elements positions for level preview
+            // compute elements positions for level preview element
             computePositions(level.getPreview(), objects, levelPreviewLayout, previewDimension, previewPosition);
 
-            // compute elements positions for level
+            // compute elements positions for level element
             computePositions(level, objects, levelLayout, levelDimension, levelPosition);
 
             root.addElement(level);
@@ -108,6 +108,9 @@ public class HierarchyLayout extends AbstractLayout {
         layout.compute();
     }
 
+    /**
+     * Compute amount of levels for the graph and corresponded graph vertices.
+     */
     protected void computeGeneOntologyLevels() {
         levels = TreeMultimap.create();
         levelCount = GraphUtils.computeLevels(graph, levels);

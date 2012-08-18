@@ -13,13 +13,13 @@ import se.lnu.thesis.utils.GraphUtils;
  * This layout does almost same visualisations as HierarchyLayout: draw vertices by levels
  * But it also move all leaf of the graph to bottom level
  */
-public class HierarchyLayout2 extends HierarchyLayout {
+public class LeafsBottomHierarchyLayout extends HierarchyLayout {
 
-    public HierarchyLayout2(MyGraph graph, Container root) {
+    public LeafsBottomHierarchyLayout(MyGraph graph, Container root) {
         super(graph, root);
     }
 
-    public HierarchyLayout2() {
+    public LeafsBottomHierarchyLayout() {
 
     }
 
@@ -40,6 +40,10 @@ public class HierarchyLayout2 extends HierarchyLayout {
         levelPreviewLayout = new LevelBarLayout(graph, layout);
     }
 
+    /**
+     * Compute amount of levels for the graph and corresponded graph vertices.
+     * Then find all leafs and move to the bottom level of the graph.
+     */
     @Override
     protected void computeGeneOntologyLevels() {
         super.computeGeneOntologyLevels();

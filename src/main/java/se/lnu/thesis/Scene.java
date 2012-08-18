@@ -10,7 +10,6 @@ import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
-import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
 import se.lnu.thesis.paint.controller.ClusterController;
 import se.lnu.thesis.paint.controller.GOController;
 import se.lnu.thesis.paint.controller.GraphController;
@@ -39,9 +38,6 @@ public class Scene {
 
     @Autowired
     private GeneListDialog geneListDialog;
-
-    @Autowired
-    private ColorPropertiesDialog colorPropertiesDialog;
 
     private MyGraph goGraph = null;
     private MyGraph clusterGraph = null;
@@ -121,10 +117,6 @@ public class Scene {
 
     public GeneListDialog getGeneListDialog() {
         return geneListDialog;
-    }
-
-    public ColorPropertiesDialog getColorPropertiesDialog() {
-        return colorPropertiesDialog;
     }
 
     public Lens getLens() {

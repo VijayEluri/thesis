@@ -3,14 +3,14 @@ package se.lnu.thesis.gui;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.event.RepaintWindowEvent;
+import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
 import se.lnu.thesis.layout.HierarchyLayout;
-import se.lnu.thesis.layout.HierarchyLayout2;
+import se.lnu.thesis.layout.LeafsBottomHierarchyLayout;
 import se.lnu.thesis.paint.controller.GOController;
 import se.lnu.thesis.properties.PropertiesHolder;
 
@@ -22,7 +22,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 @Component
-public class MainMenu extends JMenuBar implements ActionListener, ItemListener, ApplicationEventPublisherAware {
+public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
     public static final Logger LOGGER = Logger.getLogger(MainMenu.class);
 
@@ -52,6 +52,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener, 
     protected JMenu geneOntologyMenu;
     protected JCheckBoxMenuItem showUnconnectedComponentsMenuItem;
 
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
@@ -59,6 +60,9 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener, 
 
     @Autowired
     private GeneListDialog geneListDialog;
+
+    @Autowired
+    private ColorPropertiesDialog colorPropertiesDialog;
 
 
     public MainMenu() {
@@ -208,7 +212,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener, 
         }
 
         if (event == LEAF_BOTTOM_LAYOUT) {
-            switchGeneOntologyLayout(new HierarchyLayout2());
+            switchGeneOntologyLayout(new LeafsBottomHierarchyLayout());
         }
 
         if (event == RADIAL_LENS) {
@@ -220,7 +224,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener, 
         }
 
         if (event == COLOR_PROPERTIES) {
-            scene.getColorPropertiesDialog().showIt();
+            colorPropertiesDialog.showIt();
         }
 
         applicationEventPublisher.publishEvent(new RepaintWindowEvent(this));
@@ -275,15 +279,4 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener, 
 
     }
 
-    /**
-     * Set the ApplicationEventPublisher that this object runs in.
-     * <p>Invoked after population of normal bean properties but before an init
-     * callback like InitializingBean's afterPropertiesSet or a custom init-method.
-     * Invoked before ApplicationContextAware's setApplicationContext.
-     *
-     * @param applicationEventPublisher event publisher to be used by this object
-     */
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEvent;
  * Date: 17.07.11
  * Time: 01:30
  */
-public class StatusBarTextEvent extends ApplicationEvent {
+public class StatusBarTextEvent extends ApplicationEvent implements TextEvent {
 
     private String text;
 
@@ -28,6 +28,9 @@ public class StatusBarTextEvent extends ApplicationEvent {
         this.text = text;
     }
 
+    /**
+     * @return Text message
+     */
     public String getText() {
         return Strings.nullToEmpty(text);
     }

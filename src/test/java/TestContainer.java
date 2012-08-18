@@ -6,7 +6,7 @@ import org.junit.Test;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.io.IOFacade;
-import se.lnu.thesis.layout.HierarchyLayout2;
+import se.lnu.thesis.layout.LeafsBottomHierarchyLayout;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,13 +30,13 @@ public class TestContainer {
 
         graphContainer = GOGraphContainer.init();
 
-        HierarchyLayout2 layout = new HierarchyLayout2();
-        layout.setGraph(graph);
-        layout.setRoot(graphContainer);
+        LeafsBottomHierarchyLayout layoutLeafsBottom = new LeafsBottomHierarchyLayout();
+        layoutLeafsBottom.setGraph(graph);
+        layoutLeafsBottom.setRoot(graphContainer);
 
         Assert.assertFalse(graphContainer.isLayoutComputed());
 
-        layout.compute();
+        layoutLeafsBottom.compute();
 
         Assert.assertTrue(graphContainer.isLayoutComputed());
     }
@@ -51,7 +51,7 @@ public class TestContainer {
             count++;
         }
 
-        Assert.assertEquals(TestRealData.GO_NODE_COUNT+TestRealData.GO_EDGE_COUNT+TestRealData.GO_LEVEL_COUNT, count);
+        Assert.assertEquals(TestRealData.GO_NODE_COUNT + TestRealData.GO_EDGE_COUNT + TestRealData.GO_LEVEL_COUNT, count);
     }
 
 
@@ -68,7 +68,6 @@ public class TestContainer {
 
         Assert.assertEquals(TestRealData.GO_EDGE_COUNT, count);
     }
-
 
 
 }

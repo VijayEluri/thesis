@@ -8,7 +8,7 @@ import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.layout.HierarchyLayout;
-import se.lnu.thesis.layout.HierarchyLayout2;
+import se.lnu.thesis.layout.LeafsBottomHierarchyLayout;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.util.Set;
@@ -31,13 +31,13 @@ public class TestHierarchyLayout {
 
         GOGraphContainer graphContainer = GOGraphContainer.init();
 
-        HierarchyLayout2 layout = new HierarchyLayout2();
-        layout.setGraph(graph);
-        layout.setRoot(graphContainer);
+        LeafsBottomHierarchyLayout layoutLeafsBottom = new LeafsBottomHierarchyLayout();
+        layoutLeafsBottom.setGraph(graph);
+        layoutLeafsBottom.setRoot(graphContainer);
 
         Assert.assertFalse(graphContainer.isLayoutComputed());
 
-        layout.compute();
+        layoutLeafsBottom.compute();
 
         Assert.assertTrue(graphContainer.isLayoutComputed());
 
