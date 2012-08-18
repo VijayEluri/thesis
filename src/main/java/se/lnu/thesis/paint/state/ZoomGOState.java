@@ -170,7 +170,7 @@ public class ZoomGOState extends FocusableState {
             getGraphController().getScene().getExtractor().extract(getGraphController().getScene().getGoGraph(), getGraphController().getScene().getClusterGraph(), getCurrent().getObject());
         }
 
-        getGraphController().getScene().getGeneListDialog().notifyObservers();
+        getGraphController().getScene().getGeneListDialog().notifyObservers(); // TODO class knows too mach - decouple this kind behavior
 
         getGraphController().getScene().getMainWindow().setCursor(Cursor.DEFAULT_CURSOR);
     }

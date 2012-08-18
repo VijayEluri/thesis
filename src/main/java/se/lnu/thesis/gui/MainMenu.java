@@ -230,6 +230,11 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         applicationEventPublisher.publishEvent(new RepaintWindowEvent(this));
     }
 
+    /**
+     * TODO change all this direct calls to the event which <code>GOController</code> class should listen to
+     *
+     * @param layout
+     */
     public void switchGeneOntologyLayout(HierarchyLayout layout) {
         scene.resetSubgraphHighlighting();
 

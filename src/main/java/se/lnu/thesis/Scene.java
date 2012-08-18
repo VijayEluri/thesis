@@ -126,7 +126,7 @@ public class Scene {
     /**
      * Turn off showing sub-graph in both graphs.
      */
-    public void resetSubgraphHighlighting() {
+    public void resetSubgraphHighlighting() { // TODO make an event and publish event instead of direct method call
         getGoController().setSubGraph(null);
         getClusterController().setSubGraph(null);
     }

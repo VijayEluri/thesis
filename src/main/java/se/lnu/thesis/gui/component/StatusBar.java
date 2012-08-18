@@ -23,11 +23,15 @@ import java.awt.*;
  * <p/>
  * GUI class represents status bar of the window.
  * Status bar consists from three parts:
+ * </p>
+ * <p>
  * _________________________________________________________________
  * |   go status bar   |   cluster status bar |   info status bar   |
  * -----------------------------------------------------------------
  * <p/>
+ * <p>
  * Each of the three areas could show different information.
+ * </p>
  */
 @Component
 public class StatusBar extends JPanel implements ApplicationListener {
