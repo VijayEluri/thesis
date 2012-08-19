@@ -1,5 +1,6 @@
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import se.lnu.thesis.event.StartupParameters;
 
 import javax.swing.*;
 
@@ -34,7 +35,11 @@ public class GoClusterViz {
             LOGGER.warn(e);
         }
 
-        new AnnotationConfigApplicationContext("se.lnu.thesis").start();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("se.lnu.thesis");
+        context.start();
+
+        // publish program startup parameters list
+        context.publishEvent(new StartupParameters(context, args));
     }
 
 
