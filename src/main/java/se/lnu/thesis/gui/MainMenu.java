@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GOGraphContainer;
+import se.lnu.thesis.event.ClusterGraphLoaded;
+import se.lnu.thesis.event.GOGraphLoaded;
 import se.lnu.thesis.event.RepaintWindowEvent;
 import se.lnu.thesis.gui.properties.ColorPropertiesDialog;
 import se.lnu.thesis.layout.HierarchyLayout;
@@ -63,6 +65,9 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
     @Autowired
     private ColorPropertiesDialog colorPropertiesDialog;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
 
     public MainMenu() {
@@ -185,7 +190,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         if (event == OPEN_GO_GRAPH) {
             MyGraph graph = graphChooser.open();
             if (graph != null) {
-                scene.setGoGraph(graph);
+                publisher.publishEvent(new GOGraphLoaded(this, graph));
 
                 geneOntologyMenu.setEnabled(true);
             }
@@ -194,7 +199,7 @@ public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
         if (event == OPEN_CLUSTER_GRAPH) {
             MyGraph graph = graphChooser.open();
             if (graph != null) {
-                scene.setClusterGraph(graph);
+                publisher.publishEvent(new ClusterGraphLoaded(this, graph));
             }
         }
 

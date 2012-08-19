@@ -2,12 +2,17 @@ package se.lnu.thesis;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
+import se.lnu.thesis.event.ClusterGraphLoaded;
+import se.lnu.thesis.event.GOGraphLoaded;
+import se.lnu.thesis.event.GraphLoaded;
 import se.lnu.thesis.gui.GeneListDialog;
 import se.lnu.thesis.gui.MainWindow;
 import se.lnu.thesis.paint.controller.ClusterController;
@@ -29,7 +34,7 @@ import java.util.Iterator;
  * Time: 16:41:49
  */
 @Service
-public class Scene {
+public class Scene implements ApplicationListener {
 
     public static final Logger LOGGER = Logger.getLogger(Scene.class);
 
@@ -185,6 +190,20 @@ public class Scene {
                     level.getPreview().getElementByObject(o).setDrawn(true);
                 }
             }
+        }
+    }
+
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof GOGraphLoaded) {
+            setGoGraph(GraphLoaded.class.cast(event).getGraph());
+        }
+        if (event instanceof ClusterGraphLoaded) {
+            setClusterGraph(GraphLoaded.class.cast(event).getGraph());
         }
     }
 }

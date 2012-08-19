@@ -2,6 +2,7 @@ package se.lnu.thesis.io;
 
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.gml.GmlReader;
 import se.lnu.thesis.io.gml.GmlWriter;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 16.05.2010
  * Time: 17:21:29
  */
+@Service
 public class IOFacade {
 
     public static final Logger LOGGER = Logger.getLogger(IOFacade.class);

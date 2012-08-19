@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.gui.filter.GMLFileFilter;
@@ -22,6 +23,7 @@ public class GraphChooser extends JFileChooser {
 
     public static final Logger LOGGER = Logger.getLogger(GraphChooser.class);
 
+    @Autowired
     private IOFacade ioFacade;
 
     @PostConstruct
@@ -34,8 +36,6 @@ public class GraphChooser extends JFileChooser {
         GMLFileFilter gmlFileFilter = new GMLFileFilter();
         addChoosableFileFilter(gmlFileFilter);
         setFileFilter(gmlFileFilter);
-
-        ioFacade = new IOFacade();
     }
 
     public MyGraph open() {

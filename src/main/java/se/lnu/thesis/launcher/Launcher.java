@@ -7,7 +7,10 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
+import se.lnu.thesis.event.ClusterGraphLoaded;
+import se.lnu.thesis.event.GOGraphLoaded;
 import se.lnu.thesis.event.StartupParameters;
+import se.lnu.thesis.io.IOFacade;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -27,6 +30,9 @@ public class Launcher implements ApplicationListener {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private IOFacade ioFacade;
 
     protected JCommander commander;
     protected LoadCommand loadCommand;
@@ -49,6 +55,13 @@ public class Launcher implements ApplicationListener {
 
         if (commander.getParsedCommand() == LoadCommand.NAME) {
             LOGGER.info(loadCommand.toString());
+
+            if (loadCommand.getType().equals("gml")) {
+                publisher.publishEvent(new GOGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getGo())));
+                publisher.publishEvent(new ClusterGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getCluster())));
+            }
+
+
         }
 
     }
