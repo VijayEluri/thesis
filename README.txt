@@ -39,5 +39,13 @@ Real data is located under "data" directory.
 To load Gene Ontology graph use main menu "File -> Open GO graph" and select downloaded RealGOGraph.gml.
 For cluster graph "File -> Open cluster graph" and select RealClusterGraph.gml
 
+4. STARTUP PARAMETERS
+
+It if possible to load graphs immediately after start.
+
+./GoClusterViz.sh load --type=gml --go=/some/where/go.gml --cluster=/any/where/cluster.gml
+
+./GoClusterViz.sh load --t=gml --g=/some/where/go.gml --c=/any/where/cluster.gml
+
 
 
