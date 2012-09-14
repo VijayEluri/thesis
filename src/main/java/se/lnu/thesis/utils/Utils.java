@@ -1,5 +1,6 @@
 package se.lnu.thesis.utils;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.io.gml.GmlReader;
@@ -20,9 +21,7 @@ public class Utils {
     }
 
     public static void computeOnCirclePosition(Point2D position, double angle, double radius, double xCenter, double yCenter) {
-        if (position == null) {
-            throw new IllegalArgumentException("Argument 'position' cannt be null! Initialize it before method call");
-        }
+        Preconditions.checkNotNull(position);
 
         double x = Math.cos(inRadians(angle)) * radius + xCenter;
         double y = Math.sin(inRadians(angle)) * radius + yCenter;

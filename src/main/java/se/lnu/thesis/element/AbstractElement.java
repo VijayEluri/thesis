@@ -1,5 +1,6 @@
 package se.lnu.thesis.element;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 
@@ -44,9 +45,7 @@ public abstract class AbstractElement implements Element {
     }
 
     public void setObject(Object object) {
-        if (object == null) {
-            throw new IllegalArgumentException("Argument 'object' can't be null!!");
-        }
+        Preconditions.checkNotNull(object);
 
         this.object = object;
     }

@@ -105,19 +105,19 @@
 
         <!-- ************************* CORE DEPENDENCIES ************************* -->
         <dependency>
-            <groupId>jung-algorithms</groupId>
+            <groupId>net.sf.jung</groupId>
             <artifactId>jung-algorithms</artifactId>
             <version>2.0.1</version>
         </dependency>
 
         <dependency>
-            <groupId>jung-api</groupId>
+            <groupId>net.sf.jung</groupId>
             <artifactId>jung-api</artifactId>
             <version>2.0.1</version>
         </dependency>
 
         <dependency>
-            <groupId>jung-graph-impl</groupId>
+            <groupId>net.sf.jung</groupId>
             <artifactId>jung-graph-impl</artifactId>
             <version>2.0.1</version>
         </dependency>
@@ -200,8 +200,15 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
+
                             <!-- TODO add here any library entry to exclude from copying to "lib" folder -->
-                            <excludeArtifactIds>junit,,mockito-core,jogl.all,newt.all,nativewindow.all,gluegen-rt
+                            <excludeArtifactIds>
+                                junit,
+                                mockito-core,
+                                jogl.all,
+                                newt.all,
+                                nativewindow.all,
+                                gluegen-rt
                             </excludeArtifactIds>
                         </configuration>
                     </execution>

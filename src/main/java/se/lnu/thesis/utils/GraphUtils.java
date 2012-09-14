@@ -1,5 +1,6 @@
 package se.lnu.thesis.utils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
@@ -234,9 +235,7 @@ public class GraphUtils {
     }
 
     public static <V, E> int getLeafs(Graph<V, E> graph, V node, Collection<V> leafs) {
-        if (leafs == null) {
-            throw new IllegalArgumentException("Argument 'leafs' cannt be null! Initialize it before method lensMovingCursorStartPosition.");
-        }
+        Preconditions.checkNotNull(leafs);
 
         Stack stack = new Stack();
         Set visited = new HashSet();

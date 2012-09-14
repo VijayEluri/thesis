@@ -16,6 +16,6 @@ public class IdGenerator {
     private static int CURRENT_ID = START_ID;
 
     public static int next() {
-        return CURRENT_ID++;
+        return CURRENT_ID++; // TODO what about Integer.MAX_VALUE ?
     }
 }

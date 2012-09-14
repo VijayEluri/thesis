@@ -12,9 +12,6 @@ import javax.media.opengl.GLAutoDrawable;
  * User: Vlad
  * Date: 13.03.11
  * Time: 22:42
- *
- *
- *
  */
 public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualizer {
 
@@ -32,12 +29,12 @@ public class GroupingElementSmartHighlightVisualizer extends RectVertexVisualize
 
     @Override
     public void draw(GLAutoDrawable drawable, Element element) {
-         setDrawable(drawable); // update OpenGL drawing contex
+        setDrawable(drawable); // update OpenGL drawing contex
 
         if (element.getId() != null) {
             gl().glPushName(element.getId()); // set tag id
         }
-
+        // TODO refactor this code. What the hell does it do??
         if (element.isFocused()) {
             setCurrentDrawingColor(getFocusedColor());
             drawShape(element); // draw main shape

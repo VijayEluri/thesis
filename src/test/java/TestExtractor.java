@@ -73,7 +73,7 @@ public class TestExtractor {
         Assert.assertEquals(TestRealData.CLUSTER_EDGE_COUNT, clusterGraph.getEdgeCount());
 
         Object node = goGraph.getNodeByLabel("tetrapyrrole metabolic process");
-        Assert.assertNotNull(node != null);
+        Assert.assertNotNull(node);
         Assert.assertEquals("n7315", node);
 
 

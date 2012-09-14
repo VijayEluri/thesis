@@ -1,6 +1,6 @@
 
 MASTER THESIS "VISUALISATION OF THE GENE ONTOLOGY AND CLUSTER ANALYSIS RESULTS"
-ISOVIS GROUP IN  LINNEUNIVERSITETET, VAXJO, SWEDEN (http://lnu.se)
+ISOVIS GROUP IN  LINNEUNIVERSITETET, V€XJ…, SWEDEN (http://lnu.se)
 
 SOURCE CODE REPOSITORY LOCATION: git://github.com/vadyalex/thesis.git
 
@@ -33,6 +33,8 @@ On Linux and MacOSX run GoClusterViz.sh from terminal.
 3. LOAD DATA
 
 Data graphs available on the sourceforge.net, location url is above.
+
+Real data is located under "data" directory.
 
 To load Gene Ontology graph use main menu "File -> Open GO graph" and select downloaded RealGOGraph.gml.
 For cluster graph "File -> Open cluster graph" and select RealClusterGraph.gml

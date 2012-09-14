@@ -1,5 +1,6 @@
 package se.lnu.thesis.layout;
 
+import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
 import org.apache.log4j.Logger;
 import se.lnu.thesis.core.MyGraph;
@@ -68,14 +69,8 @@ public class PolarDendrogramLayout extends RadialLayout {
     }
 
     protected void init() {
-        if (graph == null) {
-            throw new IllegalStateException("No graph!");
-        }
-
-        if (root == null) {
-            throw new IllegalStateException("No root set for computing layout!");
-        }
-
+        Preconditions.checkNotNull(graph);
+        Preconditions.checkNotNull(root);
 
         if (nodeAngle == null) {
             nodeAngle = new HashMap<Object, Double>();

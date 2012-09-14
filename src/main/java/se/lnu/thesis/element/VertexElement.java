@@ -1,5 +1,6 @@
 package se.lnu.thesis.element;
 
+import com.google.common.base.Preconditions;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;
 import se.lnu.thesis.utils.IdGenerator;
 
@@ -57,9 +58,7 @@ public class VertexElement extends VisualizableElement {
      * @return New graph vertex
      */
     public static VertexElement init(Object o, Point2D position, AbstractElementVisualizer visualizer) {
-        if (position == null) {
-            throw new IllegalArgumentException("Argument 'position' cannt be null!");
-        }
+        Preconditions.checkNotNull(position);
 
         return init(o, position.getX(), position.getY(), visualizer);
     }

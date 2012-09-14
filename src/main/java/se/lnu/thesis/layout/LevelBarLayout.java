@@ -1,5 +1,6 @@
 package se.lnu.thesis.layout;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import edu.uci.ics.jung.graph.Graph;
@@ -89,14 +90,14 @@ public class LevelBarLayout extends UniformDistributionLayout {
         Point2D p = new Point2D.Double(getStart().getX() + leftBorder, getStart().getY() - topBorder); // lensMovingCursorStartPosition position including border
 
 
-        double leafPercentage  = leaves.size() * 100 / objects.size();
+        double leafPercentage = leaves.size() * 100 / objects.size();
         double nodesPercentage = 100 - leafPercentage;
 
-        leavesDimension = new Point2D.Double(d.getX() / 100 * leafPercentage,  d.getY());
-        nodesDimension  = new Point2D.Double(d.getX() / 100 * nodesPercentage, d.getY());
+        leavesDimension = new Point2D.Double(d.getX() / 100 * leafPercentage, d.getY());
+        nodesDimension = new Point2D.Double(d.getX() / 100 * nodesPercentage, d.getY());
 
-        leavesStartPosition = new Point2D.Double(p.getX(),                          p.getY());
-        nodesStartPosition  = new Point2D.Double(p.getX() + leavesDimension.getX(), p.getY());
+        leavesStartPosition = new Point2D.Double(p.getX(), p.getY());
+        nodesStartPosition = new Point2D.Double(p.getX() + leavesDimension.getX(), p.getY());
     }
 
     private void computePositions() {
@@ -109,9 +110,7 @@ public class LevelBarLayout extends UniformDistributionLayout {
 
     private void compute(Collection objects, Point2D start, Point2D dimension, Container container) {
         if (objects.size() > 0) {
-            if (partsLayout == null) {
-                throw new IllegalStateException("Layout for leafs and nodes didnt set!");
-            }
+            Preconditions.checkNotNull(partsLayout);
 
             partsLayout.setGraph(graph);
 

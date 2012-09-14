@@ -51,14 +51,14 @@ public class ColorSchema {
             .put(COLOR_CLUSTER_EDGES, new MyColor())
 
             .put(COLOR_LENS, new MyColor())
-            
+
             .build();
 
 
     public ColorSchema() {
     }
 
-    public void useDefaultBlackSchema() {
+    public void useDefaultBlackSchema() { // TODO move to separate DefaultColorSchema class?
         colors.get(COLOR_BACKGROUND).setColor(Color.BLACK);
         colors.get(COLOR_SELECTION).setColor(Color.GREEN);
         colors.get(COLOR_FOCUSING).setColor(Color.BLUE);

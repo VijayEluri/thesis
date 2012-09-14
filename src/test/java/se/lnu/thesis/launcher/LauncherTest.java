@@ -17,8 +17,7 @@ public class LauncherTest {
         String[] argv = {"load", "-t=gml", "-g=/egz/egz/go.gml", "-c=/egz/egz.gml"};
 
 
-        Launcher launcher = new Launcher();
-        launcher.parse(Arrays.asList(argv));
+        new Launcher().init().parse(Arrays.asList(argv));
 
         //Assert.assertEquals("gml");
 

@@ -13,7 +13,7 @@ import java.util.Iterator;
  * Date: 09.12.2010
  * <p/>
  * This class stores all program properties.
- * Property file stores in user directory .GoClusterViz/program.properties
+ * Property file stores in user directory .GoClusterViz/program.properties  // TODO really?
  */
 public class PropertiesHolder {
 
@@ -23,7 +23,7 @@ public class PropertiesHolder {
 
     private static final PropertiesHolder instance = new PropertiesHolder();
 
-    public static PropertiesHolder getInstance() {
+    public static PropertiesHolder getInstance() {  // TODO remove singleton pattern usage
         return instance;
     }
 

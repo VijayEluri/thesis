@@ -38,11 +38,13 @@ public class Launcher implements ApplicationListener {
     protected LoadCommand loadCommand;
 
     @PostConstruct
-    public void init() {
+    public Launcher init() {
         loadCommand = new LoadCommand();
 
         commander = new JCommander();
         commander.addCommand(LoadCommand.NAME, loadCommand);
+
+        return this;
     }
 
     public void parse(List<String> args) {
@@ -53,12 +55,16 @@ public class Launcher implements ApplicationListener {
             LOGGER.error("Error parsing startup parameters", e);
         }
 
-        if (commander.getParsedCommand() == LoadCommand.NAME) {
+        if ((commander.getParsedCommand() != null) && (commander.getParsedCommand() == LoadCommand.NAME)) {
             LOGGER.info(loadCommand.toString());
 
             if (loadCommand.getType().equals("gml")) {
-                publisher.publishEvent(new GOGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getGo())));
-                publisher.publishEvent(new ClusterGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getCluster())));
+                if (publisher != null) {
+                    publisher.publishEvent(new GOGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getGo())));
+                    publisher.publishEvent(new ClusterGraphLoaded(this, ioFacade.loadMyGraphFromGml(loadCommand.getCluster())));
+                } else {
+                    LOGGER.warn("There is no publisher to pipe event to..");
+                }
             }
 
 
