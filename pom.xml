@@ -21,7 +21,7 @@
     <properties>
         <maven.build.timestamp.format>ddMMyyyy-HHmm</maven.build.timestamp.format>
 
-        <thesis.releases.directory>${project.basedir}/releases</thesis.releases.directory>
+        <thesis.releases.directory>${project.build.directory}/releases</thesis.releases.directory>
 
         <thesis.build.directory>${project.build.directory}/build</thesis.build.directory>
         <thesis.release.directory>${project.build.directory}/release</thesis.release.directory>
@@ -126,24 +126,36 @@
             <groupId>jogl</groupId>
             <artifactId>jogl.all</artifactId>
             <version>2.0-beta10</version>
+            <scope>system</scope>
+            <type>jar</type>
+            <systemPath>${project.basedir}/lib/jogl.all.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>jogl</groupId>
             <artifactId>newt.all</artifactId>
             <version>2.0-beta10</version>
+            <scope>system</scope>
+            <type>jar</type>
+            <systemPath>${project.basedir}/lib/newt.all.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>jogl</groupId>
             <artifactId>nativewindow.all</artifactId>
             <version>2.0-beta10</version>
+            <scope>system</scope>
+            <type>jar</type>
+            <systemPath>${project.basedir}/lib/nativewindow.all.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>gluegen-rt</groupId>
             <artifactId>gluegen-rt</artifactId>
             <version>2.0-beta07</version>
+            <scope>system</scope>
+            <type>jar</type>
+            <systemPath>${project.basedir}/lib/gluegen-rt.jar</systemPath>
         </dependency>
         <!-- ************************* ************************* ************************* -->
     </dependencies>
@@ -216,38 +228,24 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-opengl</id>
+                        <id>copy-native-lib</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${thesis.build.directory}/lib</outputDirectory>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jogl</groupId>
-                                    <artifactId>jogl.all</artifactId>
-                                    <destFileName>jogl.all.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jogl</groupId>
-                                    <artifactId>newt.all</artifactId>
-                                    <destFileName>newt.all.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jogl</groupId>
-                                    <artifactId>nativewindow.all</artifactId>
-                                    <destFileName>nativewindow.all.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>gluegen-rt</groupId>
-                                    <artifactId>gluegen-rt</artifactId>
-                                    <destFileName>gluegen-rt.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/lib</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
@@ -270,6 +268,30 @@
                                     <includes>
                                         <include>program.properties</include>
                                         <include>log4j.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-graph-data</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${thesis.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/data</directory>
+                                    <includes>
+                                        <include>*.gml</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -337,11 +359,6 @@
                                 <configuration>
                                     <target>
                                         <!-- CREATE DIRECTORIES -->
-                                        <mkdir dir="${thesis.releases.directory}"/>
-
-                                        <delete dir="${thesis.releases.directory}/latest/"/>
-                                        <mkdir dir="${thesis.releases.directory}/latest/"/>
-
                                         <mkdir dir="${thesis.release.directory}"/>
                                         <mkdir dir="${thesis.release.windows.i586.directory}"/>
                                         <mkdir dir="${thesis.release.windows.amd64.directory}"/>
@@ -428,19 +445,9 @@
                                         </copy>
                                         <!--******************************************************************************-->
 
-                                        <!--COPY LATEST BUILD BUILD-->
-                                        <copy
-                                                todir="${thesis.releases.directory}/latest">
-                                            <fileset dir="${thesis.release.directory}"/>
-                                        </copy>
-
-                                        <copy
-                                                todir="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}">
-                                            <fileset dir="${thesis.release.directory}"/>
-                                        </copy>
-
+                                        <!-- ARCHIVE RELEASE -->
                                         <zip
-                                                destfile="${thesis.releases.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
+                                                destfile="${project.build.directory}/${project.artifactId}-${project.version}-${maven.build.timestamp}.zip"
                                                 basedir="${thesis.release.directory}"/>
                                         <!--******************************************************************************-->
 
