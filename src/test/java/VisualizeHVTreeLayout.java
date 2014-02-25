@@ -22,7 +22,7 @@ public class VisualizeHVTreeLayout {
         Graph tree = GraphMaker.createWideBinaryTree();
         Object root = GraphUtils.getRoot(tree);
 
-        DimensionalContainer container = DimensionalContainer.init(root);
+        DimensionalContainer container = DimensionalContainer.createContainer(root);
 
 
         HVTreeLayout layout = new HVTreeLayout(tree, container);

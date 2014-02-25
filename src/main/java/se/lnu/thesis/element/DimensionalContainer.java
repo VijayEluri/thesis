@@ -19,7 +19,7 @@ import java.util.HashSet;
  */
 public class DimensionalContainer extends AbstractContainer implements Dimensional {
 
-    public static DimensionalContainer init(Object o) {
+    public static DimensionalContainer createContainer(Object o) {
         DimensionalContainer result = new DimensionalContainer();
 
         result.setObject(o);
@@ -29,7 +29,7 @@ public class DimensionalContainer extends AbstractContainer implements Dimension
         return result;
     }
 
-    public static DimensionalContainer init(Object o, Collection objects) {
+    public static DimensionalContainer createContainer(Object o, Collection objects) {
         DimensionalContainer result = new DimensionalContainer();
 
         result.setObject(o);

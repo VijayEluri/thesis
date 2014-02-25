@@ -27,7 +27,7 @@ public class TestPolarDendrogramLayout {
 
         Assert.assertNotNull(graph);
 
-        DimensionalContainer root = DimensionalContainer.init(0, graph.getVertices());
+        DimensionalContainer root = DimensionalContainer.createContainer(0, graph.getVertices());
 
         Assert.assertEquals(0, root.getObject());
 

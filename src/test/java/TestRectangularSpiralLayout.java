@@ -31,7 +31,7 @@ public class TestRectangularSpiralLayout {
         MyGraph graph = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
         assertNotNull(graph);
 
-        Container container = DimensionalContainer.init("root");
+        Container container = DimensionalContainer.createContainer("root");
         assertEquals(0, container.getSize());
 
         RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, container);

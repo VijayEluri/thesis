@@ -56,7 +56,7 @@ public class HierarchyLayout extends AbstractLayout {
 
             Collection objects = levels.get(i);
 
-            Level level = Level.init(i, objects);
+            Level level = Level.createLevel(i, objects);
 
             // compute elements positions for level preview element
             computePositions(level.getPreview(), objects, levelPreviewLayout, previewDimension, previewPosition);

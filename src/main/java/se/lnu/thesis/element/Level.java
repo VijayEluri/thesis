@@ -16,7 +16,7 @@ import java.util.Collection;
  */
 public class Level extends DimensionalContainer implements Visualizable {
 
-    public static Level init(Object o, Collection<Object> objects) {
+    public static Level createLevel(Object o, Collection<Object> objects) {
         Level result = new Level();
 
         result.setObject(o);

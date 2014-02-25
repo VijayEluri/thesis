@@ -28,7 +28,7 @@ public class TestHVTreeLayout {
         Graph tree = GraphMaker.createSmallBinaryTree();
         Object root = GraphUtils.getRoot(tree);
 
-        DimensionalContainer container = DimensionalContainer.init(root);
+        DimensionalContainer container = DimensionalContainer.createContainer(root);
 
 
         HVTreeLayout layout = new HVTreeLayout(tree, container);
@@ -70,7 +70,7 @@ public class TestHVTreeLayout {
 
         Graph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
         Object root = GraphUtils.getRoot(cluster);
-        DimensionalContainer container = DimensionalContainer.init(root);
+        DimensionalContainer container = DimensionalContainer.createContainer(root);
 
 
         HVTreeLayout layout = new HVTreeLayout(cluster, container);

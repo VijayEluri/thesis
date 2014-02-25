@@ -24,7 +24,7 @@ public class TestGraphElementComparator {
 
         List<AbstractElement> result = new LinkedList<AbstractElement>();
 
-        assertTrue(result.add(GroupingElement.init(0)));
+        assertTrue(result.add(GroupingElement.createContainer(0)));
         assertTrue(result.add(new VertexElement()));
         assertTrue(result.add(new VertexElement()));
         assertTrue(result.add(new VertexElement()));
@@ -80,14 +80,14 @@ public class TestGraphElementComparator {
 
         SortedSet<AbstractElement> result = new TreeSet<AbstractElement>(new Orderable.ElementDrawingOrderComparator());
 
-        AbstractElement element = GroupingElement.init(1);
+        AbstractElement element = GroupingElement.createContainer(1);
         assertTrue(result.add(element));
 
         element = new PolarVertex();
         element.setObject(3);
         assertTrue(result.add(element));
 
-        element = GroupingElement.init(2);
+        element = GroupingElement.createContainer(2);
         assertTrue(result.add(element));
 
         element = new EdgeElement();
