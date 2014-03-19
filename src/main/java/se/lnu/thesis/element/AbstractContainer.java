@@ -19,6 +19,8 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
 
     public static final Logger LOGGER = Logger.getLogger(AbstractContainer.class);
 
+    public static final int CONTAINER_DRAWING_ORDER = 0;
+
     private boolean layoutComputed = false;
 
     protected Collection<Object> objects;
@@ -34,7 +36,7 @@ public abstract class AbstractContainer extends AbstractElement implements Conta
     }
 
     public int getDrawingOrder() {
-        return VertexElement.VERTEX_DRAWING_ORDER;
+        return CONTAINER_DRAWING_ORDER;
     }
 
     public int getSize() {
