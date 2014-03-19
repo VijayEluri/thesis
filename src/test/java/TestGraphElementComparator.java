@@ -61,10 +61,10 @@ public class TestGraphElementComparator {
         assertEquals(ElementType.EDGE,      result.get(3).getType());
         assertEquals(ElementType.EDGE,      result.get(4).getType());
         assertEquals(ElementType.EDGE,      result.get(5).getType());
-        assertEquals(ElementType.VERTEX,    result.get(6).getType());
+        assertEquals(ElementType.CONTAINER, result.get(6).getType());
         assertEquals(ElementType.VERTEX,    result.get(7).getType());
         assertEquals(ElementType.VERTEX,    result.get(8).getType());
-        assertEquals(ElementType.CONTAINER, result.get(9).getType());
+        assertEquals(ElementType.VERTEX,    result.get(9).getType());
 
         LOGGER.info("AFTER SORT:");
         for (AbstractElement element : result) {
