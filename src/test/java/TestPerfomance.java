@@ -39,7 +39,7 @@ public class TestPerfomance {
     public void iterate() {
         GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
 
-        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
 
         final int vertexCount = 14623;
         assertEquals(vertexCount, graph.getVertexCount());
@@ -85,7 +85,7 @@ public class TestPerfomance {
         Graph graph = null;
         long start = System.currentTimeMillis();
         try {
-            graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+            graph = (Graph) parser.load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +104,7 @@ public class TestPerfomance {
 
         Graph graph = null;
         long start = System.currentTimeMillis();
-        graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+        graph = (Graph) parser.load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         LOGGER.info("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "ms");
@@ -119,7 +119,7 @@ public class TestPerfomance {
         GraphMLParser parser = new GraphMLParser(new MyGraphYedHandler());
 
         long start = System.currentTimeMillis();
-        MyGraph graph = (MyGraph) parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+        MyGraph graph = (MyGraph) parser.load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         LOGGER.info("Done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "ms");
@@ -135,7 +135,7 @@ public class TestPerfomance {
     @Test
     @Category(PerfomanceTest.class)
     public void measureJungYedHandlerClusterLoading() {
-        String file = getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath();
+        String file = getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath();
 
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
@@ -157,7 +157,7 @@ public class TestPerfomance {
     @Test
     @Category(PerfomanceTest.class)
     public void measureJungYedHandlerGOLoading() {
-        String file = getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath();
+        String file = getClass().getClassLoader().getResource("data/RealGOGraph.graphml").getPath();
 
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
@@ -180,7 +180,7 @@ public class TestPerfomance {
         GraphMLParser parser = new GraphMLParser(new JungYedHandler());
 
         long start = System.currentTimeMillis();
-        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath()).get(0);
+        Graph graph = (Graph) parser.load(getClass().getClassLoader().getResource("data/RealGOGraph.graphml").getPath()).get(0);
         long end = System.currentTimeMillis();
 
         LOGGER.info("Loading graph from file done in " + TimeUnit.SECONDS.convert(end - start, TimeUnit.MILLISECONDS) + "s");
@@ -216,7 +216,7 @@ public class TestPerfomance {
     @Deprecated
     public void measureJungKKLayoutForGO() {
         IOFacade facade = new IOFacade();
-        Graph graph = facade.loadMyGraphFromGml("RealGOGraph.graphml");
+        Graph graph = facade.loadMyGraphFromGml("data/RealGOGraph.graphml");
 
         KKLayout layout = new KKLayout(graph);
         layout.setSize(new Dimension(800, 600));
@@ -238,8 +238,8 @@ public class TestPerfomance {
      */
     public void computeAllSubgraphs() {
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
-        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
+        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
+        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealClusterGraph.gml").getPath());
 
         System.gc();
 

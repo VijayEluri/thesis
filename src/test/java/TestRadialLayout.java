@@ -18,7 +18,7 @@ public class TestRadialLayout {
 
     @Test
     public void testCorrectComputation() {
-        String file = getClass().getClassLoader().getResource("test_tree_15_14.gml").getPath();
+        String file = getClass().getClassLoader().getResource("data/test_tree_15_14.gml").getPath();
 
         IOFacade ioFacade = new IOFacade();
         MyGraph graph = ioFacade.loadMyGraphFromYedGml(file);

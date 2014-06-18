@@ -28,7 +28,7 @@ public class TestRectangularSpiralLayout {
     @Test
     public void positionOverlappings() {
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getFile());
+        MyGraph graph = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealClusterGraph.gml").getFile());
         assertNotNull(graph);
 
         Container container = DimensionalContainer.createContainer("root");

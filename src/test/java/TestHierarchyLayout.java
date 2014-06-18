@@ -23,7 +23,7 @@ public class TestHierarchyLayout {
 
     @Test
     public void checkHierarchyLayout2() {
-        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
         Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());
@@ -65,7 +65,7 @@ public class TestHierarchyLayout {
 
     @Test
     public void checkHierarchyLayoutAmountOfElemetsComputed() {
-        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
         Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());
@@ -106,7 +106,7 @@ public class TestHierarchyLayout {
 
     @Test
     public void checkHierarchyLayoutEachLevel() {
-        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        Graph graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
         Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());

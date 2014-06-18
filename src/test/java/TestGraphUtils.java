@@ -147,7 +147,7 @@ public class TestGraphUtils {
         long start, end;
 
         start = System.currentTimeMillis();
-        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
         end = System.currentTimeMillis();
 
         System.out.println("Graph loaded in " + (end - start) / 1000 + "s");
@@ -201,7 +201,7 @@ public class TestGraphUtils {
     public void longestPathOnRealData() {
         IOFacade ioFacade = new IOFacade();
 
-        Graph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+        Graph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath());
 
         List path = GraphUtils.getLongestPath(graph);
 

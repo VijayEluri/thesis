@@ -4,15 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import se.lnu.thesis.utils.FileChecksumUtil;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.zip.CRC32;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +23,7 @@ public class TestChecksum {
     @Test
     public void crc32() throws URISyntaxException {
 
-        File file = new File(getClass().getResource("cluster.graphml").toURI());
+        File file = new File(getClass().getResource("data/cluster.graphml").toURI());
 
         long checksum = FileChecksumUtil.crc32(file);
 

@@ -45,7 +45,7 @@ public class TestGraphStatistic {
     public void computeAsterixGeneralTree() {
         IOFacade ioFacade = new IOFacade();
 
-        Graph graph = ioFacade.loadGraphFromGml(getClass().getClassLoader().getResource("Asterix.gml"));
+        Graph graph = ioFacade.loadGraphFromGml(getClass().getClassLoader().getResource("data/Asterix.gml"));
 
         assertEquals(100, graph.getVertexCount());
         assertEquals(99, graph.getEdgeCount());
@@ -75,7 +75,7 @@ public class TestGraphStatistic {
     public void computeSmallGOGraph() {
         IOFacade ioFacade = new IOFacade();
 
-        Graph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("smallGO.graphml").getPath());
+        Graph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("data/smallGO.graphml").getPath());
 
         assertEquals(10, graph.getVertexCount());
         assertEquals(12, graph.getEdgeCount());

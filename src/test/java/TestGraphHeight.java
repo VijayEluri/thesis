@@ -1,18 +1,15 @@
 
 
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import edu.uci.ics.jung.graph.util.EdgeType;
 import org.junit.Test;
 import se.lnu.thesis.io.graphml.GraphMLParser;
 import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.utils.GraphMaker;
 import se.lnu.thesis.utils.GraphUtils;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +43,7 @@ public class TestGraphHeight {
     @Test
     public void nodeHeightRealData() {
 
-        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath()).get(0);
+        Graph graph = (Graph) new GraphMLParser(new JungYedHandler()).load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath()).get(0);
 
         assertTrue(graph.containsVertex("n11732")); // root
         assertTrue(graph.containsVertex("n11733"));

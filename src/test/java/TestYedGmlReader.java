@@ -22,7 +22,7 @@ public class TestYedGmlReader {
     public void readTree_15_14() throws IOException {
         IOFacade ioFacade = new IOFacade();
 
-        MyGraph graph = ioFacade.loadMyGraphFromYedGml(getClass().getClassLoader().getResource("test_tree_15_14.gml").getFile());
+        MyGraph graph = ioFacade.loadMyGraphFromYedGml(getClass().getClassLoader().getResource("data/test_tree_15_14.gml").getFile());
 
         assertNotNull(graph);
         assertEquals(15, graph.getVertexCount());

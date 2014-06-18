@@ -11,7 +11,6 @@ import se.lnu.thesis.io.graphml.JungTreeYedHandler;
 import se.lnu.thesis.io.graphml.JungYedHandler;
 import se.lnu.thesis.io.graphml.MyGraphYedHandler;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -25,7 +24,7 @@ public class TestHandler {
     @Test
     public void jungTreeYedHandler() {
         GraphMLParser parser = new GraphMLParser(new JungTreeYedHandler());
-        Tree tree = (Tree) parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath()).get(0);
+        Tree tree = (Tree) parser.load(getClass().getClassLoader().getResource("data/cluster.graphml").getPath()).get(0);
 
         assertEquals(23, tree.getVertexCount());
         assertEquals(11, tree.getHeight());
@@ -41,7 +40,7 @@ public class TestHandler {
     public void myGraphYedHandler() {
         GraphMLParser parser = new GraphMLParser(new MyGraphYedHandler());
 
-        List graphs = parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath());
+        List graphs = parser.load(getClass().getClassLoader().getResource("data/cluster.graphml").getPath());
         assertEquals(1, graphs.size());
 
         MyGraph graph = (MyGraph) graphs.get(0);
@@ -65,7 +64,7 @@ public class TestHandler {
         MyGraphYedHandler yedHandler = new MyGraphYedHandler();
         GraphMLParser parser = new GraphMLParser(yedHandler);
 
-        List graphs = parser.load(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+        List graphs = parser.load(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath());
         assertEquals(1, graphs.size());
 
         MyGraph graph = (MyGraph) graphs.get(0);
@@ -84,7 +83,7 @@ public class TestHandler {
 
         GraphMLParser parser = new GraphMLParser(yedHandler);
 
-        List graphs = parser.load(getClass().getClassLoader().getResource("cluster.graphml").getPath());
+        List graphs = parser.load(getClass().getClassLoader().getResource("data/cluster.graphml").getPath());
         assertEquals(1, graphs.size());
 
         Graph graph = (Graph) graphs.get(0);

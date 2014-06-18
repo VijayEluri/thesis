@@ -22,7 +22,7 @@ public class TestContainer {
 
     @Before
     public void prepareGraphAndContainer() {
-        graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        graph = new IOFacade().loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
 
         Assert.assertNotNull(graph);
         Assert.assertEquals(TestRealData.GO_NODE_COUNT, graph.getVertexCount());

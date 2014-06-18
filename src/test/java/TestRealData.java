@@ -37,7 +37,7 @@ public class TestRealData {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+        MyGraph go = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
 
         assertEquals(GO_NODE_COUNT, go.getVertexCount());
         assertEquals(GO_EDGE_COUNT, go.getEdgeCount());
@@ -50,7 +50,7 @@ public class TestRealData {
 
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealClusterGraph.gml").getPath());
+        MyGraph cluster = ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealClusterGraph.gml").getPath());
 
         assertEquals(CLUSTER_NODE_COUNT, cluster.getVertexCount());
         assertEquals(CLUSTER_EDGE_COUNT, cluster.getEdgeCount());
@@ -64,7 +64,7 @@ public class TestRealData {
         IOFacade ioFacade = new IOFacade();
 
         try {
-            ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("RealGOGraph.gml").getPath());
+            ioFacade.loadMyGraphFromGml(getClass().getClassLoader().getResource("data/RealGOGraph.gml").getPath());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
 
@@ -79,7 +79,7 @@ public class TestRealData {
         IOFacade ioFacade = new IOFacade();
 
         try {
-            ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+            ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
 
@@ -91,7 +91,7 @@ public class TestRealData {
     public void checkGroupCluster() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealClusterGraph.graphml").getPath());
+        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("data/RealClusterGraph.graphml").getPath());
 
         MyGraph subGraph = new MyGraph();
 
@@ -111,7 +111,7 @@ public class TestRealData {
     public void testGeneOntologyLevels() throws Exception {
 
         IOFacade ioFacade = new IOFacade();
-        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("RealGOGraph.graphml").getPath());
+        MyGraph graph = ioFacade.loadFromYedGraphml(getClass().getClassLoader().getResource("data/RealGOGraph.graphml").getPath());
 
         assertEquals(GO_NODE_COUNT, graph.getVertexCount());
         assertEquals(GO_EDGE_COUNT, graph.getEdgeCount());
