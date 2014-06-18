@@ -4,7 +4,8 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.utils.Utils;
 
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ import java.io.InputStreamReader;
  */
 public class GmlReader {
 
-    public static final Logger LOGGER = Logger.getLogger(GmlReader.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GmlReader.class);
 
     protected String tagGraph;
     protected String tagNode;
@@ -64,7 +65,7 @@ public class GmlReader {
             }
 
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error("Can not read graph file", e);
         }
 
 

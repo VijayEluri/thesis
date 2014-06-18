@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.state;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.ElementType;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.paint.controller.GraphController;
@@ -15,7 +16,7 @@ import java.awt.*;
  */
 public class NormalClusterState extends FocusableState {
 
-    public static final Logger LOGGER = Logger.getLogger(NormalClusterState.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NormalClusterState.class);
 
     protected NormalClusterState() {
     }

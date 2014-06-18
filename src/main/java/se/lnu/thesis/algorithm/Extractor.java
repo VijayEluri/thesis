@@ -4,7 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.GraphTraversalUtils;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class Extractor {
 
-    public static final Logger LOGGER = Logger.getLogger(Extractor.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Extractor.class);
 
     public static final int CACHE_MAXIMUM_SIZE = 10;
     public static final int CACHE_EXPIRE_TIME = 1;

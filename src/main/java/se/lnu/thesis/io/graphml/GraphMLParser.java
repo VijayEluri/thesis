@@ -1,6 +1,7 @@
 package se.lnu.thesis.io.graphml;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class GraphMLParser {
 
-    private static final Logger LOGGER = Logger.getLogger(GraphMLParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphMLParser.class);
 
 
     private static final int READ_BUFFER = 4096;
@@ -40,7 +41,7 @@ public class GraphMLParser {
                 saxParser.parse(path, handler);
 
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.warn("Error parsing graph file", e);
             }
 
             graphs = handler.getGraphs();

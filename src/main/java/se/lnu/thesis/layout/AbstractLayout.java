@@ -2,7 +2,8 @@ package se.lnu.thesis.layout;
 
 import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Container;
 
 /**
@@ -15,7 +16,7 @@ public abstract class AbstractLayout implements Layout {
 
     protected Graph graph;
     protected Container root;
-    public static final Logger LOGGER = Logger.getLogger(UniformDistributionLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(UniformDistributionLayout.class);
 
     public AbstractLayout() {
     }

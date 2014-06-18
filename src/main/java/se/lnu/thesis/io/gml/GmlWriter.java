@@ -1,7 +1,8 @@
 package se.lnu.thesis.io.gml;
 
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -15,7 +16,7 @@ import java.io.*;
  */
 public class GmlWriter {
 
-    public static final Logger LOGGER = Logger.getLogger(GmlWriter.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GmlWriter.class);
 
     public static final char OPEN_SQUARE_BRACKET = '[';
     public static final char CLOSE_SQUARE_BRACKET = ']';
@@ -29,7 +30,7 @@ public class GmlWriter {
             out.write(result);
             out.flush();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error("Error writing graph to file", e);
         }
     }
 

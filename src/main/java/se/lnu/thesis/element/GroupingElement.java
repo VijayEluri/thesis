@@ -1,7 +1,8 @@
 package se.lnu.thesis.element;
 
 import com.google.common.collect.ImmutableSet;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.paint.visualizer.ElementVisualizer;
 import se.lnu.thesis.utils.IdGenerator;
 
@@ -17,7 +18,7 @@ import java.util.Collection;
  */
 public class GroupingElement extends DimensionalContainer implements Visualizable {
 
-    private static final Logger LOGGER = Logger.getLogger(GroupingElement.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupingElement.class);
 
     public static GroupingElement init(Object o, Point2D position, ElementVisualizer visualizer, Collection<Object> objects) {
         GroupingElement result = new GroupingElement();

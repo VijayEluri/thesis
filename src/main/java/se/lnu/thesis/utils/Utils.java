@@ -2,7 +2,8 @@ package se.lnu.thesis.utils;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.io.gml.GmlReader;
 
 import java.awt.geom.Point2D;
@@ -10,7 +11,7 @@ import java.awt.geom.Point2D;
 
 public class Utils {
 
-    public static final Logger LOGGER = Logger.getLogger(Utils.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
 
     public static final String SPEC_SYMBOLS = " \t\n";
 

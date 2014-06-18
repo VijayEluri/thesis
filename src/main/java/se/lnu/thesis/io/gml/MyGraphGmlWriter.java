@@ -1,7 +1,8 @@
 package se.lnu.thesis.io.gml;
 
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 
 import java.io.OutputStream;
@@ -16,7 +17,7 @@ import java.io.OutputStream;
  */
 public class MyGraphGmlWriter extends GmlWriter {
 
-    public static final Logger LOGGER = Logger.getLogger(MyGraphGmlWriter.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MyGraphGmlWriter.class);
 
     public void write(MyGraph<Integer, Object> graph, OutputStream outputStream) {
         super.write(graph, outputStream);

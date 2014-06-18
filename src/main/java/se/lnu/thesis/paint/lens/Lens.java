@@ -1,7 +1,8 @@
 package se.lnu.thesis.paint.lens;
 
 import com.sun.opengl.util.gl2.GLUT;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GroupingElement;
@@ -28,7 +29,7 @@ import java.awt.geom.Point2D;
  */
 public abstract class Lens implements Drawable {
 
-    public static final Logger LOGGER = Logger.getLogger(RadialLens.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(RadialLens.class);
 
     public static final int ID = -100;
 

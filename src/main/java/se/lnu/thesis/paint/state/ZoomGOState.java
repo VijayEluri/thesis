@@ -2,7 +2,8 @@ package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.gl2.GLUT;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.element.GOGraphContainer;
 import se.lnu.thesis.element.Level;
@@ -32,7 +33,7 @@ import java.util.List;
  */
 public class ZoomGOState extends FocusableState {
 
-    public static final Logger LOGGER = Logger.getLogger(ZoomGOState.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ZoomGOState.class);
 
     private List<Level> levels;
 

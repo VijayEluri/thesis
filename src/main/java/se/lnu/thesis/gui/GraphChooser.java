@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.lnu.thesis.core.MyGraph;
@@ -21,7 +22,7 @@ import javax.swing.*;
 @Service
 public class GraphChooser extends JFileChooser {
 
-    public static final Logger LOGGER = Logger.getLogger(GraphChooser.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GraphChooser.class);
 
     @Autowired
     private IOFacade ioFacade;

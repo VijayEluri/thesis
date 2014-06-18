@@ -56,8 +56,7 @@ public class GOController extends GraphController {
 
             mainWindow.setScrollBarMax(getGraphLayout().getLevelCount());
         } catch (Exception e) {
-            LOGGER.error("Initialization error!");
-            LOGGER.error(e);
+            LOGGER.error("Initialization error!", e);
 
             e.printStackTrace();
 

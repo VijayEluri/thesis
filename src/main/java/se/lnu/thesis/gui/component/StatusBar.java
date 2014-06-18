@@ -2,7 +2,8 @@ package se.lnu.thesis.gui.component;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ import java.awt.*;
 @Component
 public class StatusBar extends JPanel implements ApplicationListener {
 
-    public static final Logger LOGGER = Logger.getLogger(StatusBar.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(StatusBar.class);
 
     private JLabel goStatusBar;
     private JLabel clusterStatusBar;

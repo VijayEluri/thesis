@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui.properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.properties.PropertiesHolder;
@@ -22,7 +23,7 @@ import java.awt.event.WindowListener;
 @org.springframework.stereotype.Component
 public class ColorPropertiesDialog extends JFrame implements WindowListener {
 
-    public static final Logger LOGGER = Logger.getLogger(ColorPropertiesDialog.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ColorPropertiesDialog.class);
 
     protected JPanel background;
     protected JPanel selection;

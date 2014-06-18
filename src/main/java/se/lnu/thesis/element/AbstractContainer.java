@@ -4,7 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.util.*;
@@ -17,7 +18,7 @@ import java.util.*;
  */
 public abstract class AbstractContainer extends AbstractElement implements Container {
 
-    public static final Logger LOGGER = Logger.getLogger(AbstractContainer.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContainer.class);
 
     public static final int CONTAINER_DRAWING_ORDER = 0;
 

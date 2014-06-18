@@ -1,9 +1,10 @@
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
 import se.lnu.thesis.utils.GraphStatisticUtil;
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
  */
 public class TestRealData {
 
-    private static final Logger LOGGER = Logger.getLogger(TestRealData.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestRealData.class);
 
     public static final int CLUSTER_NODE_COUNT = 14623;
     public static final int CLUSTER_EDGE_COUNT = 14622;

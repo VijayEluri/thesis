@@ -1,6 +1,7 @@
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
 import se.lnu.thesis.io.IOFacade;
@@ -16,7 +17,7 @@ import java.awt.geom.Point2D;
  */
 public class TestPolarDendrogramLayout {
 
-    public static final Logger LOGGER = Logger.getLogger(TestPolarDendrogramLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestPolarDendrogramLayout.class);
 
     @Test
     public void computeForSmallTree() {

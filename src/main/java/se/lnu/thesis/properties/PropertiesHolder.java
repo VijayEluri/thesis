@@ -2,7 +2,8 @@ package se.lnu.thesis.properties;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.utils.MyColor;
 
 import java.util.Iterator;
@@ -17,7 +18,7 @@ import java.util.Iterator;
  */
 public class PropertiesHolder {
 
-    public static final Logger LOGGER = Logger.getLogger(PropertiesHolder.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PropertiesHolder.class);
 
     public static final String PROPERTIES_FILE = "program.properties";
 
@@ -53,7 +54,7 @@ public class PropertiesHolder {
 
             LOGGER.info("Done.");
         } catch (ConfigurationException e) {
-            LOGGER.error(e);
+            LOGGER.warn("Error reading configuration", e);
         }
 
         loadColorSchema();
@@ -102,7 +103,7 @@ public class PropertiesHolder {
         try {
             properties.save(PROPERTIES_FILE);
         } catch (ConfigurationException e) {
-            LOGGER.error(e);
+            LOGGER.warn("Error saving configuration to file", e);
         }
 
         LOGGER.info("Done.");

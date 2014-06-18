@@ -1,3 +1,4 @@
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.properties.PropertiesHolder;
 import se.lnu.thesis.properties.ColorSchema;
 
@@ -5,7 +6,7 @@ import java.io.File;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 public class TestPropertiesHolder {
 
-    public static final Logger LOGGER = Logger.getLogger(TestPropertiesHolder.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestPropertiesHolder.class);
 
     @Test
     public void testLoadedColorSchema() {

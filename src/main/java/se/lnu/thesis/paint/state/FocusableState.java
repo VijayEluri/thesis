@@ -2,7 +2,8 @@ package se.lnu.thesis.paint.state;
 
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.gl2.GLUT;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.event.InfoStatusBarTextEvent;
@@ -26,7 +27,7 @@ import java.nio.IntBuffer;
  */
 public abstract class FocusableState extends GraphState {
 
-    public static final Logger LOGGER = Logger.getLogger(FocusableState.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FocusableState.class);
 
     public static final int BUFSIZE = 512;
 

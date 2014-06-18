@@ -1,7 +1,8 @@
 package se.lnu.thesis.layout;
 
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.*;
 import se.lnu.thesis.element.Container;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class RectangularSpiralLayout extends AbstractLayout {
 
-    public static final Logger LOGGER = Logger.getLogger(RectangularSpiralLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(RectangularSpiralLayout.class);
 
     public static final double DEFAULT_PATH_DISTANCE = 0.045;
     public static final double DEFAULT_NODE_DISTANCE = 0.02;

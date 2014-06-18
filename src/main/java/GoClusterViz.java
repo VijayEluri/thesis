@@ -1,4 +1,5 @@
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import se.lnu.thesis.event.StartupParameters;
 
@@ -15,7 +16,7 @@ import javax.swing.*;
  */
 public class GoClusterViz {
 
-    public static final Logger LOGGER = Logger.getLogger(GoClusterViz.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GoClusterViz.class);
 
     /*
      * Program entry point.
@@ -25,14 +26,8 @@ public class GoClusterViz {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            LOGGER.warn(e);
-        } catch (InstantiationException e) {
-            LOGGER.warn(e);
-        } catch (IllegalAccessException e) {
-            LOGGER.warn(e);
-        } catch (UnsupportedLookAndFeelException e) {
-            LOGGER.warn(e);
+        } catch (Exception e) {
+            LOGGER.warn("Initialization error", e);
         }
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("se.lnu.thesis");

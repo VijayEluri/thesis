@@ -1,6 +1,7 @@
 package se.lnu.thesis.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -18,7 +19,7 @@ import java.awt.geom.Point2D;
  */
 public class DrawingUtils {
 
-    public static final Logger LOGGER = Logger.getLogger(DrawingUtils.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(DrawingUtils.class);
 
     /**
      * Draw circle polygon

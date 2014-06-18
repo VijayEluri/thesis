@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ import java.awt.event.ItemListener;
 @Component
 public class MainMenu extends JMenuBar implements ActionListener, ItemListener {
 
-    public static final Logger LOGGER = Logger.getLogger(MainMenu.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MainMenu.class);
 
     public static final String FILE = "File";
     public static final String OPEN_GO_GRAPH = "Open GO graph";

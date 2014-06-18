@@ -3,7 +3,8 @@ package se.lnu.thesis.io.graphml;
 import edu.uci.ics.jung.graph.DelegateTree;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.utils.GraphUtils;
 
 import java.util.Stack;
@@ -15,7 +16,7 @@ import java.util.Stack;
  */
 public class JungTreeYedHandler extends JungYedHandler {
 
-    private static final Logger LOGGER = Logger.getLogger(JungTreeYedHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JungTreeYedHandler.class);
 
     protected void endTagGraph() {
         // add it to the list

@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.paint.controller.GraphController;
 
 import javax.media.opengl.GLAutoDrawable;
@@ -20,7 +21,7 @@ import java.awt.event.MouseMotionListener;
  */
 public class JoglPanelAdapter implements GLEventListener, MouseListener, MouseMotionListener {
 
-    public static final Logger LOGGER = Logger.getLogger(JoglPanelAdapter.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(JoglPanelAdapter.class);
 
     private JFrame frame;
 

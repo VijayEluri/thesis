@@ -2,7 +2,8 @@ package se.lnu.thesis.paint.controller;
 
 import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,7 +30,7 @@ import java.awt.*;
  */
 public abstract class GraphController implements Drawable, Observer, ApplicationListener {
 
-    public static final Logger LOGGER = Logger.getLogger(GraphController.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GraphController.class);
 
     protected MyColor background = PropertiesHolder.getInstance().getColorSchema().getBackground();
 

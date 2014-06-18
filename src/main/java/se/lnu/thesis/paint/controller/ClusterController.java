@@ -32,8 +32,7 @@ public class ClusterController extends GraphController implements Observer {
             RectangularSpiralLayout layout = new RectangularSpiralLayout(graph, root);
             layout.compute();
         } catch (Exception e) {
-            LOGGER.error("Initialization error!");
-            LOGGER.error(e);
+            LOGGER.error("Initialization error!", e);
 
             JOptionPane.showMessageDialog(null, "Incorrect input graph structure!", "Layout computation error", JOptionPane.ERROR_MESSAGE);
 

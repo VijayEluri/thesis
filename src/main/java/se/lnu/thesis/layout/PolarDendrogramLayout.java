@@ -2,7 +2,8 @@ package se.lnu.thesis.layout;
 
 import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.GroupingElement;
 import se.lnu.thesis.element.PolarEdge;
@@ -18,7 +19,7 @@ import static se.lnu.thesis.utils.GraphUtils.isLeaf;
 
 public class PolarDendrogramLayout extends RadialLayout {
 
-    public static final Logger LOGGER = Logger.getLogger(PolarDendrogramLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PolarDendrogramLayout.class);
 
     protected Map<Object, Integer> nodeLevel;
 

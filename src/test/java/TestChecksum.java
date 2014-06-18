@@ -1,7 +1,8 @@
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.utils.FileChecksumUtil;
 
 import java.io.File;
@@ -18,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class TestChecksum {
 
-    public static final Logger LOGGER = Logger.getLogger(TestChecksum.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestChecksum.class);
 
     @Test
     public void crc32() throws URISyntaxException {
@@ -29,7 +30,7 @@ public class TestChecksum {
 
         Assert.assertEquals(73970639L, checksum);
 
-        LOGGER.info(checksum);
+        LOGGER.info("Checksum {}", checksum);
 
     }
 

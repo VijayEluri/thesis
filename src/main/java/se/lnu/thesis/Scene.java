@@ -1,6 +1,7 @@
 package se.lnu.thesis;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -36,7 +37,7 @@ import java.util.Iterator;
 @Service
 public class Scene implements ApplicationListener {
 
-    public static final Logger LOGGER = Logger.getLogger(Scene.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Scene.class);
 
     @Autowired
     private MainWindow mainWindow;

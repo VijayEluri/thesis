@@ -1,7 +1,8 @@
 package se.lnu.thesis.io;
 
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.gml.GmlReader;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class IOFacade {
 
-    public static final Logger LOGGER = Logger.getLogger(IOFacade.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(IOFacade.class);
 
     public MyGraph loadFromYedGraphml(File file) {
         return (MyGraph) loadFromXml(file, new MyGraphYedHandler());
@@ -59,7 +60,7 @@ public class IOFacade {
         try {
             writer.write(graph, new FileOutputStream(file));
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error("Can not write graph to file", e);
         }
     }
 
@@ -69,7 +70,7 @@ public class IOFacade {
         try {
             result = reader.read(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error("Can not read graph file", e);
         }
 
         return result;
@@ -79,7 +80,7 @@ public class IOFacade {
         try {
             return (MyGraph) loadFromGml(new MyGraphGmlReader(), new File(url.toURI()));
         } catch (URISyntaxException e) {
-            LOGGER.error(e);
+            LOGGER.error("Can not read graph file", e);
         }
 
         return null;
@@ -106,7 +107,7 @@ public class IOFacade {
         try {
             return loadFromGml(new GmlReader(), new File(url.toURI()));
         } catch (URISyntaxException e) {
-            LOGGER.error(e);
+            LOGGER.error("Can not read graph file", e);
         }
 
         return null;

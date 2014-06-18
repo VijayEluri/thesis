@@ -3,8 +3,9 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.*;
 
 import java.util.*;
@@ -17,7 +18,7 @@ import java.util.*;
  */
 public class TestGraphElementComparator {
 
-    private static final Logger LOGGER = Logger.getLogger(TestGraphElementComparator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestGraphElementComparator.class);
 
     @Test
     public void compare() {
@@ -50,7 +51,7 @@ public class TestGraphElementComparator {
 
         LOGGER.info("BEFORE SORT:");
         for (AbstractElement element : result) {
-            LOGGER.info(element.getType());
+            LOGGER.info("{}", element.getType());
         }
 
         Collections.sort(result, new Orderable.ElementDrawingOrderComparator());
@@ -68,7 +69,7 @@ public class TestGraphElementComparator {
 
         LOGGER.info("AFTER SORT:");
         for (AbstractElement element : result) {
-            LOGGER.info(element.getType());
+            LOGGER.info("{}", element.getType());
         }
 
 

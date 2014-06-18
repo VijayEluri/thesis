@@ -1,8 +1,9 @@
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.DimensionalContainer;
@@ -23,7 +24,7 @@ import java.util.LinkedList;
  */
 public class TestRectangularSpiralLayout {
 
-    public static final Logger LOGGER = Logger.getLogger(TestRectangularSpiralLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestRectangularSpiralLayout.class);
 
     @Test
     public void positionOverlappings() {

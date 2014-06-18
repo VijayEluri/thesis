@@ -2,7 +2,8 @@ package se.lnu.thesis.element;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
@@ -16,7 +17,7 @@ import java.util.Collection;
  */
 public abstract class AbstractElement implements Element {
 
-    public static final Logger LOGGER = Logger.getLogger(AbstractElement.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractElement.class);
 
     private Integer id;
     private Object object;

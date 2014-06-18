@@ -1,6 +1,7 @@
 package se.lnu.thesis.io.gml;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.utils.Utils;
 
@@ -17,7 +18,7 @@ import java.io.InputStreamReader;
  */
 public class MyGraphGmlReader extends GmlReader {
 
-    public static final Logger LOGGER = Logger.getLogger(MyGraphGmlReader.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MyGraphGmlReader.class);
 
     protected String tagLabel;
 
@@ -47,7 +48,7 @@ public class MyGraphGmlReader extends GmlReader {
             }
 
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.warn("Error parsing graph file", e);
         }
 
 

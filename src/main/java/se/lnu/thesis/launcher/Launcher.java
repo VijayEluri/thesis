@@ -1,7 +1,8 @@
 package se.lnu.thesis.launcher;
 
 import com.beust.jcommander.JCommander;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,7 +27,7 @@ import java.util.List;
 @Service
 public class Launcher implements ApplicationListener {
 
-    public static final Logger LOGGER = Logger.getLogger(Launcher.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
     @Autowired
     private ApplicationEventPublisher publisher;

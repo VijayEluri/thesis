@@ -1,10 +1,11 @@
 import com.google.common.cache.CacheBuilder;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.algorithm.Extractor;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.io.IOFacade;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TestPerfomance {
 
-    public static final Logger LOGGER = Logger.getLogger(TestPerfomance.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestPerfomance.class);
 
     @Test
     @Category(PerfomanceTest.class)

@@ -1,6 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.properties.ColorSchema;
 import se.lnu.thesis.utils.MyColor;
 
@@ -14,7 +15,7 @@ import java.awt.*;
  */
 public class TestMyColor {
 
-    public static final Logger LOGGER = Logger.getLogger(TestMyColor.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TestMyColor.class);
 
     @Test
     public void showAndCompare() {
@@ -23,10 +24,7 @@ public class TestMyColor {
         MyColor color3 = new MyColor(Color.RED.getRGB());
         MyColor color4 = new MyColor(255, 0, 0);
 
-        LOGGER.info(color1);
-        LOGGER.info(color2);
-        LOGGER.info(color3);
-        LOGGER.info(color4);
+        LOGGER.info("{} - {} - {} - {}", color1, color2, color3, color4);
 
         assertEquals(color1, color2);
         assertEquals(color2, color3);

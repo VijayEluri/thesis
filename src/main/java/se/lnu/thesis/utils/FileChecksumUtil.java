@@ -1,6 +1,7 @@
 package se.lnu.thesis.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -18,7 +19,7 @@ import java.util.zip.CRC32;
  */
 public class FileChecksumUtil {
 
-    public static final Logger LOGGER = Logger.getLogger(FileChecksumUtil.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileChecksumUtil.class);
 
     public static long crc32(File file) {
         CRC32 crc32 = new CRC32();
@@ -35,7 +36,7 @@ public class FileChecksumUtil {
 
             io.close();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.warn("Checksum error", e);
         }
 
 

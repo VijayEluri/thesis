@@ -2,7 +2,8 @@ package se.lnu.thesis.layout;
 
 import com.google.common.base.Preconditions;
 import edu.uci.ics.jung.graph.Graph;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lnu.thesis.core.MyGraph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.VertexElement;
@@ -21,7 +22,7 @@ import java.util.Iterator;
  */
 public class UniformDistributionLayout extends AbstractLayout {
 
-    public static final Logger LOGGER = Logger.getLogger(UniformDistributionLayout.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(UniformDistributionLayout.class);
 
     protected Collection nodes;
 

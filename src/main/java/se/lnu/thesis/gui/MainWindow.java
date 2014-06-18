@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -20,7 +21,7 @@ import java.awt.event.AdjustmentListener;
 @org.springframework.stereotype.Component
 public class MainWindow extends JFrame implements ApplicationListener {
 
-    public static final Logger LOGGER = Logger.getLogger(MainWindow.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MainWindow.class);
 
     JScrollBar scrollBar;
 

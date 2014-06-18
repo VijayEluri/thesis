@@ -1,6 +1,7 @@
 package se.lnu.thesis.gui;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.lnu.thesis.Scene;
 import se.lnu.thesis.algorithm.Extractor;
@@ -30,7 +31,7 @@ import java.util.Set;
 @org.springframework.stereotype.Component
 public class GeneListDialog extends JFrame implements Subject {
 
-    public static final Logger LOGGER = Logger.getLogger(GeneListDialog.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GeneListDialog.class);
 
     private MyGraph graph;
 

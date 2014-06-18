@@ -1,7 +1,8 @@
 package se.lnu.thesis.io.graphml;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -14,7 +15,7 @@ import org.xml.sax.SAXException;
  */
 public abstract class AbstractYedHandler extends AbstractHandler {
 
-    private static final Logger LOGGER = Logger.getLogger(JungYedHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JungYedHandler.class);
 
     private static final String TAG_YED_NODE_LABEL = "y:NodeLabel";
 
