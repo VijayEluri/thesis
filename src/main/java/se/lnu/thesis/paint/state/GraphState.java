@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.gl2.GLUT;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.paint.Drawable;
 import se.lnu.thesis.paint.controller.GraphController;

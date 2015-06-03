@@ -1,6 +1,6 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.BufferUtil;
+import com.sun.prism.impl.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;

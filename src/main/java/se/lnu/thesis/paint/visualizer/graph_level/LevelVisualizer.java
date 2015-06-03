@@ -1,6 +1,7 @@
 package se.lnu.thesis.paint.visualizer.graph_level;
 
-import com.sun.opengl.util.gl2.GLUT;
+
+import com.jogamp.opengl.util.gl2.GLUT;
 import se.lnu.thesis.element.DimensionalContainer;
 import se.lnu.thesis.element.Element;
 import se.lnu.thesis.paint.visualizer.AbstractElementVisualizer;

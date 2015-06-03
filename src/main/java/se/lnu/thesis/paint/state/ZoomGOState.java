@@ -1,7 +1,7 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.gl2.GLUT;
+import com.sun.prism.impl.BufferUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Element;

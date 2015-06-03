@@ -128,40 +128,53 @@
         </dependency>
 
         <dependency>
-            <groupId>jogl</groupId>
-            <artifactId>jogl.all</artifactId>
-            <version>2.0-beta10</version>
-            <scope>system</scope>
-            <type>jar</type>
-            <systemPath>${project.basedir}/lib/jogl.all.jar</systemPath>
+            <groupId>org.jogamp.gluegen</groupId>
+            <artifactId>gluegen-rt-main</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jogamp.jogl</groupId>
+            <artifactId>jogl-all-main</artifactId>
+            <version>2.0.2</version>
         </dependency>
 
+        <!--
         <dependency>
-            <groupId>jogl</groupId>
-            <artifactId>newt.all</artifactId>
-            <version>2.0-beta10</version>
-            <scope>system</scope>
-            <type>jar</type>
-            <systemPath>${project.basedir}/lib/newt.all.jar</systemPath>
-        </dependency>
+                    <groupId>jogl</groupId>
+                    <artifactId>jogl.all</artifactId>
+                    <version>2.0-beta10</version>
+                    <scope>system</scope>
+                    <type>jar</type>
+                    <systemPath>${project.basedir}/lib/jogl.all.jar</systemPath>
+                </dependency>
 
-        <dependency>
-            <groupId>jogl</groupId>
-            <artifactId>nativewindow.all</artifactId>
-            <version>2.0-beta10</version>
-            <scope>system</scope>
-            <type>jar</type>
-            <systemPath>${project.basedir}/lib/nativewindow.all.jar</systemPath>
-        </dependency>
+                <dependency>
+                    <groupId>jogl</groupId>
+                    <artifactId>newt.all</artifactId>
+                    <version>2.0-beta10</version>
+                    <scope>system</scope>
+                    <type>jar</type>
+                    <systemPath>${project.basedir}/lib/newt.all.jar</systemPath>
+                </dependency>
 
-        <dependency>
-            <groupId>gluegen-rt</groupId>
-            <artifactId>gluegen-rt</artifactId>
-            <version>2.0-beta07</version>
-            <scope>system</scope>
-            <type>jar</type>
-            <systemPath>${project.basedir}/lib/gluegen-rt.jar</systemPath>
-        </dependency>
+                <dependency>
+                    <groupId>jogl</groupId>
+                    <artifactId>nativewindow.all</artifactId>
+                    <version>2.0-beta10</version>
+                    <scope>system</scope>
+                    <type>jar</type>
+                    <systemPath>${project.basedir}/lib/nativewindow.all.jar</systemPath>
+                </dependency>
+
+                <dependency>
+                    <groupId>gluegen-rt</groupId>
+                    <artifactId>gluegen-rt</artifactId>
+                    <version>2.0-beta07</version>
+                    <scope>system</scope>
+                    <type>jar</type>
+                    <systemPath>${project.basedir}/lib/gluegen-rt.jar</systemPath>
+                </dependency>
+                -->
         <!-- ************************* ************************* ************************* -->
     </dependencies>
 
