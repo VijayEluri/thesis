@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.state;
 
 import com.jogamp.opengl.util.gl2.GLUT;
-import com.sun.prism.impl.BufferUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Element;
@@ -17,6 +16,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.List;
@@ -108,7 +108,7 @@ public class ZoomGOState extends FocusableState {
     protected void focusing(GLAutoDrawable drawable) {
         setGl(drawable);
 
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+        IntBuffer selectBuffer = ByteBuffer.allocate(BUFSIZE * Integer.BYTES).asIntBuffer();
 
         int viewport[] = new int[4];
 

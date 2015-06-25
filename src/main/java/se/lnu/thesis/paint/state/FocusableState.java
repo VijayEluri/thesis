@@ -1,7 +1,6 @@
 package se.lnu.thesis.paint.state;
 
 import com.jogamp.opengl.util.gl2.GLUT;
-import com.sun.prism.impl.BufferUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.lnu.thesis.element.Container;
@@ -14,6 +13,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.geom.Point2D;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 /**
@@ -73,7 +73,7 @@ public abstract class FocusableState extends GraphState {
     protected void focusing(GLAutoDrawable drawable, Container container) {
         GL2 gl = (GL2) drawable.getGL();
 
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+        IntBuffer selectBuffer = ByteBuffer.allocate(BUFSIZE * Integer.BYTES).asIntBuffer();
 
         int viewport[] = new int[4];
 

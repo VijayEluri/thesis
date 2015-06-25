@@ -1,6 +1,5 @@
 package se.lnu.thesis.paint.state;
 
-import com.sun.prism.impl.BufferUtil;
 import edu.uci.ics.jung.graph.Graph;
 import se.lnu.thesis.element.Container;
 import se.lnu.thesis.element.GroupingElement;
@@ -12,6 +11,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 /**
@@ -63,7 +63,7 @@ public class LensState extends NormalClusterState {
     protected void focusing(GLAutoDrawable drawable, Container container) {
         setGl(drawable);
 
-        IntBuffer selectBuffer = BufferUtil.newIntBuffer(BUFSIZE);
+        IntBuffer selectBuffer = ByteBuffer.allocate(BUFSIZE * Integer.BYTES).asIntBuffer();
 
         int viewport[] = new int[4];
 
